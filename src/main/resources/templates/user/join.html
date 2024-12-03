@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content">
+  <div class="container-md">
+    <h1> final Boot Project</h1>
+    <hr>
+    회원가입 페이지 입니다.
+    <form action="/login/join" method="post">
+      <div class="mb-3">
+        <label for="i" class="form-label">ID</label>
+        <input type="text" class="form-control" id="i" name="userId" placeholder="id..."
+               th:value="${kakaoEmail != null ? kakaoEmail : ''}">
+      </div>
+      <div class="mb-3">
+        <label for="p" class="form-label">비밀번호</label>
+        <input type="text" class="form-control" id="p" name="password" placeholder="password...">
+      </div>
+      <div class="mb-3">
+        <label for="n" class="form-label">이름</label>
+        <input type="text" class="form-control" id="n" name="userName" placeholder="password...">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">생년월일</label>
+        <input type="text" class="form-control" name="birthYear" placeholder="birthYear...">
+        <input type="text" class="form-control" name="birthMonth" placeholder="birthMonth...">
+        <input type="text" class="form-control" name="birthDay" placeholder="birthDay...">
+      </div>
+      <button type="submit" class="btn btn-primary">가입하기</button>
+
+    </form>
+  </div>
+</div>
