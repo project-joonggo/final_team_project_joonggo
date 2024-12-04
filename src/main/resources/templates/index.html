@@ -4,8 +4,30 @@
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
+<body>
 <div layout:fragment="content">
   <div class="container-md">
-    <h1> final Boot Project</h1>
+    <div id="map" style="width:500px;height:400px;"></div>
+    <!--    카카오맵 API 로딩 (HTTPS 사용)-->
+    <script type="text/javascript"
+    th:src="@{https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b}"></script>
+
+<!--    <h1>Geolocation API로 현재 위치 가져오기</h1>-->
+<!--    <button onclick="getLocation()">위치 찾기</button>-->
+<!--    <p id="status">위치를 찾지 못했습니다</p>-->
+
+<!--    <script th:src="@{/js/map.js}"></script>-->
+<script>
+  var container = document.getElementById('map');
+       var options = {
+           center: new kakao.maps.LatLng(33.450701, 126.570667),
+           level: 3
+       };
+
+       var map = new kakao.maps.Map(container, options);
+</script>
   </div>
 </div>
+
+</body>
+</html>
