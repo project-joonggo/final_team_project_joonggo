@@ -9,6 +9,7 @@ create table user(
                      birth_day varchar(5),
                      score double default 0,
                      is_del varchar(5) default 'N',
+                     address varchar(256),
                      primary key(user_num)
 );
 

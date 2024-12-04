@@ -18,4 +18,5 @@ public class UserVO {
     private String birthDay;
     private double score;
     private String isDel;
+    private String address;
 }
