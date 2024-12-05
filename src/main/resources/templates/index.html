@@ -7,25 +7,39 @@
 <body>
 <div layout:fragment="content">
   <div class="container-md">
-    <div id="map" style="width:500px;height:400px;"></div>
     <!--    카카오맵 API 로딩 (HTTPS 사용)-->
     <script type="text/javascript"
-    th:src="@{https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b}"></script>
+            th:src="@{https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b}"></script>
 
+    <button onclick="getLocation()">주변 인기 장소 찾기</button>
+    <p id="status">위치를 찾지 못했습니다</p>
 <!--    <h1>Geolocation API로 현재 위치 가져오기</h1>-->
-<!--    <button onclick="getLocation()">위치 찾기</button>-->
-<!--    <p id="status">위치를 찾지 못했습니다</p>-->
+    <div id="map" style="width:500px;height:400px;"></div>
+    <ul id="places"></ul>
 
-<!--    <script th:src="@{/js/map.js}"></script>-->
-<script>
-  var container = document.getElementById('map');
-       var options = {
-           center: new kakao.maps.LatLng(33.450701, 126.570667),
-           level: 3
-       };
+    <script th:src="@{/js/currentLocationMap.js}"></script>
 
-       var map = new kakao.maps.Map(container, options);
-</script>
+    <hr>
+
+    <form th:action="@{/address}" method="post">
+      <input name="address" placeholder="도로명 주소를 입력해주세요."/>
+
+      <button type="submit">입력</button>
+    </form>
+
+    <div th:unless="${weather == null}">
+      <li th:text="'날씨 : ' + ${weather['weather_main']}"></li>
+      <li th:text="'날씨 설명 : ' + ${weather['weather_description']}"></li>
+      <li th:text="'온도 : ' + ${weather['temperature']}"></li>
+      <li th:text="'습도 : ' + ${weather['humidity']}"></li>
+    </div>
+
+    <hr>
+
+    <script>
+
+    </script>
+
   </div>
 </div>
 
