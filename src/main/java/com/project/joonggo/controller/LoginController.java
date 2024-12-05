@@ -3,6 +3,7 @@ package com.project.joonggo.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.joonggo.domain.UserVO;
+import com.project.joonggo.handler.SocialLoginHandler;
 import com.project.joonggo.service.LoginService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +30,8 @@ import java.util.UUID;
 public class LoginController {
     private final LoginService loginService;
 
+    private final SocialLoginHandler socialLoginHandler;
+
     ////////////////////////// 카카오 /////////////////////////////
     private static final String KAKAO_REST_API_KEY = "ea9c0d226405dacbf737edffbc9299a5";
     private static final String KAKAO_AUTHORIZE_URL = "https://kauth.kakao.com/oauth/authorize";
@@ -50,6 +53,7 @@ public class LoginController {
     private static final String GOOGLE_SECRET_KEY = "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";
     private static final String GOOGLE_REDIRECT_URI = "http://localhost:8089/login/google/callback";
     private static final String GOOGLE_AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/v2/auth";
+    private static final String GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 
     @GetMapping("/join")
     public String join(){
@@ -93,8 +97,9 @@ public class LoginController {
         }
 
         if (!userVO.getPassword().equals(loginUser.getPassword())) {
+            // 비밀번호가 틀린 경우
             model.addAttribute("error", "비밀번호가 틀렸습니다.");
-            return "/user/login"; // 다시 로그인 페이지로
+            return "/user/login"; 
         }
 
         // 로그인 성공: 세션에 사용자 정보 저장
@@ -106,13 +111,116 @@ public class LoginController {
     }
 
     ///////////////////////////////Social Login Line////////////////////////////
+    // 액세스 토큰 value 추출
+    public String extractAccessToken(String responseBody, String type){
+        if (type.equals("google")){
+            try {
+                // JSON 파싱
+                ObjectMapper objectMapper = new ObjectMapper();
+                JsonNode jsonNode = objectMapper.readTree(responseBody);
+                return jsonNode.get("access_token").asText();
+            } catch (Exception e) {
+                e.printStackTrace();
+                throw new RuntimeException("Failed to parse access token");
+            }
+        }
+        log.info("===========================액세스 토큰 추출 리스폰스바디값 {}", responseBody);
+        int start = responseBody.indexOf("\"access_token\":\"") + "\"access_token\":\"".length();
+        int end = responseBody.indexOf("\"", start);
+        return responseBody.substring(start, end);
+    }
+
     //////////////////////////
     /* 구글 소셜 로그인 line */
     ////////////////////////
     @GetMapping("/google/callback")
-    public String googleCallback(){
+    public String googleCallback(@RequestParam("code") String authorizeCode, HttpSession session, Model model){
+        log.info("===================구글 인가코드========={}", authorizeCode);
+
+        String accessToken = getGoogleAccessToken(authorizeCode);
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 구글 액세스 토큰 >>>>>>>>>>>>>>>>>> {}", accessToken);
+
+        String googleUserInfo = getGoogleUserInfo(accessToken);
+        log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 구글유저 정보 >>>>>{}", googleUserInfo);
+
+        String googleEmail = parseGoogleUserInfo(googleUserInfo);
+
+        UserVO loginUser = loginService.findUserById(googleEmail);
+
+        if (loginUser != null) {
+            // 회원이 존재하면 로그인 처리
+            session.setAttribute("loginUser", loginUser);
+            log.info("소셜 로그인 성공: {}", loginUser);
+
+        } else {
+            // 회원이 없으면 회원가입 처리
+            model.addAttribute("socialEmail", googleEmail); // 이메일을 모델에 담아 회원가입 페이지로 전달
+            return "/user/join";
+        }
 
         return "redirect:/";
+    }
+
+    public String getGoogleAccessToken(String authorizeCode){
+        // MultiValueMap을 사용하여 요청 파라미터 설정
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("code", authorizeCode);
+        params.add("client_id", GOOGLE_CLIENT_KEY);
+        params.add("client_secret", GOOGLE_SECRET_KEY);
+        params.add("redirect_uri", GOOGLE_REDIRECT_URI);
+        params.add("grant_type", "authorization_code");
+
+        // RestTemplate 설정
+        RestTemplate restTemplate = new RestTemplate();
+
+        // HTTP 헤더 설정
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        // POST 요청 전송
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+        ResponseEntity<String> response = restTemplate.exchange(GOOGLE_TOKEN_URL, HttpMethod.POST, entity, String.class);
+
+        // 응답에서 액세스 토큰 추출
+        String accessToken = null;
+        if (response.getStatusCode() == HttpStatus.OK) {
+            // JSON 응답에서 액세스 토큰을 추출
+            String responseBody = response.getBody();
+            accessToken = extractAccessToken(responseBody, "google");
+        }
+
+        return accessToken;
+    }
+
+    public String getGoogleUserInfo(String accessToken){
+        String userInfoUrl = "https://www.googleapis.com/oauth2/v3/userinfo";
+
+        // 헤더에 액세스 토큰 추가
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "Bearer " + accessToken);
+
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        // API 요청
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.exchange(userInfoUrl, HttpMethod.GET, entity, String.class);
+
+        // 사용자 정보 JSON 반환
+        return response.getBody();
+    }
+
+    public String parseGoogleUserInfo(String googleUserInfo){
+        String googleEmail = null;
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNode jsonNode = objectMapper.readTree(googleUserInfo);
+            googleEmail = jsonNode.get("email").asText(); // email 값 추출
+            log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>> 구글 이메일 >>>>>>>>> {}", googleEmail);
+
+        } catch (Exception e) {
+            log.error("구글 사용자 정보 파싱 실패", e);
+        }
+        return googleEmail;
     }
 
     //////////////////////////
@@ -185,7 +293,7 @@ public class LoginController {
         if (response.getStatusCode() == HttpStatus.OK) {
             // JSON 응답에서 액세스 토큰을 추출
             String responseBody = response.getBody();
-            accessToken = extractKakaoAccessToken(responseBody);
+            accessToken = extractAccessToken(responseBody, "naver");
         }
 
         return accessToken;
@@ -312,18 +420,10 @@ public class LoginController {
         if (response.getStatusCode() == HttpStatus.OK) {
             // JSON 응답에서 액세스 토큰을 추출
             String responseBody = response.getBody();
-            accessToken = extractKakaoAccessToken(responseBody);
+            accessToken = extractAccessToken(responseBody, "kakao");
         }
 
         return accessToken;
-    }
-
-    // 카카오액세스 토큰 추출
-    public String extractKakaoAccessToken(String responseBody){
-        log.info("===========================카카오액세스 토큰 추출 리스폰스바디값 {}", responseBody);
-        int start = responseBody.indexOf("\"access_token\":\"") + "\"access_token\":\"".length();
-        int end = responseBody.indexOf("\"", start);
-        return responseBody.substring(start, end);
     }
 
     // 카카오 액세스토큰의 유효성 검증 메서드
