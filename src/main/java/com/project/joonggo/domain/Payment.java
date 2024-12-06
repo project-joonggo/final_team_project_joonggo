@@ -20,4 +20,5 @@ public class Payment {
     private LocalDateTime paidAt;
     private int refundedAmount;
     private boolean cancelFlag;
+    private String impUid;
 }

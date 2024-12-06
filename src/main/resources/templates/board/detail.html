@@ -11,7 +11,8 @@
   <th:block th:with="boardVO=${boardFileDTO.boardVO}">
   [[${boardFileDTO}]]
 
-    <button>결제하기</button>
+    <button id="paymentBtn">결제하기</button>
+    <button id="cancelBtn">결제 취소</button>
 
 
 
@@ -23,6 +24,7 @@
 
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script th:src="@{/js/buy.js}"></script>
+    <script th:src="@{/js/refund.js}"></script>
 
 
   </th:block>

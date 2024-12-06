@@ -17,9 +17,10 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentMapper paymentMapper;
 
     @Override
-    public boolean savePaymentInfo(String merchantUid, int amount, Long boardId, String productName) {
+    public boolean savePaymentInfo(String impUid,String merchantUid, int amount, Long boardId, String productName) {
 
         Payment payment = new Payment();
+        payment.setImpUid(impUid);
         payment.setMerchantUid(merchantUid);
         payment.setAmount(amount);
         payment.setBoardId(boardId);

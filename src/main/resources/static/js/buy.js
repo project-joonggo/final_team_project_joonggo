@@ -3,7 +3,7 @@ console.log("buy.js in");
 document.addEventListener("DOMContentLoaded", () => {
     IMP.init("imp05450825");
 
-    const button = document.querySelector("button");
+    const paymentBtn = document.getElementById("paymentBtn");
 
     const onClickPay = async () => {
 
@@ -29,7 +29,8 @@ document.addEventListener("DOMContentLoaded", () => {
                                         merchantUid: rsp.merchant_uid,
                                         amount: rsp.paid_amount,
                                         boardId: product.boardVO.boardId,  // 해당 상품 ID
-                                        productName: product.boardVO.boardName
+                                        productName: product.boardVO.boardName,
+                                        impUid : rsp.imp_uid
                                     }),
                                     headers: {
                                         'Content-Type': 'application/json'
@@ -47,7 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-    button.addEventListener("click", onClickPay);
+    paymentBtn.addEventListener("click", onClickPay);
 });
 
 
