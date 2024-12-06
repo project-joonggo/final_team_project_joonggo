@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<body>
+
+<div layout:fragment="content">
+
+  <th:block th:with="boardVO=${boardFileDTO.boardVO}">
+  [[${boardFileDTO}]]
+
+    <button>결제하기</button>
+
+
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      var boardFileDTO = [[${boardFileDTO}]];
+      /*]]>*/
+    </script>
+
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+    <script th:src="@{/js/buy.js}"></script>
+
+
+  </th:block>
+
+
+
+</div>
+
+
+</body>

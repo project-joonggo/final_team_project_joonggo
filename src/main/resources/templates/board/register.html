@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+
+<div layout:fragment="content">
+    <div class="container-md cBox" style="margin-top : 50px;" >
+        <h1 style="color: white;">Product Register Page</h1>
+        <hr>
+        <form action="/board/register" method="post"  enctype="multipart/form-data">
+            <div class="mb-3">
+                <label for="b" class="form-label">상품명</label>
+                <input type="text" class="form-control" id="b" name="boardName" placeholder="상품명">
+            </div>
+            <div class="mb-3">
+                <label for="inputGroupSelect01" class="form-label">카테고리</label>
+                <select class="form-select form-select-sm" id="inputGroupSelect01" name="category" required>
+                    <option value="" disabled selected>Choose...</option> <!-- 기본 옵션, disabled로 선택 불가 -->
+                    <option value="가전제품">가전제품</option>
+                    <option value="의류">의류</option>
+                    <option value="노트북/PC">노트북/PC</option>
+                    <option value="리빙/생활">리빙/생활</option>
+                    <option value="게임">게임</option>
+                    <option value="도서/음반/문구">도서/음반/문구</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="p" class="form-label">판매가격</label>
+                <input type="text" class="form-control" id="p" name="tradePrice" placeholder="판매가격">
+            </div>
+            <div id="smarteditor" class="mb-3">
+                <label for="c" class="form-label">상품내용</label>
+                <textarea class="form-control" id="c" name="content" cols="10" rows="20" placeholder="상품내용"></textarea>
+            </div>
+            <div class="flexBox" style="display: flex; justify-content:end;">
+                <button type="submit" class="btn btn-secondary" id="regBtn">register</button>
+            </div>
+        </form>
+        <script th:src="@{/js/productRegister.js}" charset="UTF-8"></script>
+        <script th:src="@{/smarteditor/js/HuskyEZCreator.js}" charset="UTF-8"></script>
+    </div>
+
+</div>
