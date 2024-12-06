@@ -9,22 +9,26 @@
   <div class="container-md">
     <!--    카카오맵 API 로딩 (HTTPS 사용)-->
     <script type="text/javascript"
-            th:src="@{https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b}"></script>
+            th:src="@{https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b&libraries=services}"></script>
 
-    <button onclick="getLocation()">주변 인기 장소 찾기</button>
-    <p id="status">위치를 찾지 못했습니다</p>
-<!--    <h1>Geolocation API로 현재 위치 가져오기</h1>-->
-    <div id="map" style="width:500px;height:400px;"></div>
-    <ul id="places"></ul>
 
-    <script th:src="@{/js/currentLocationMap.js}"></script>
+<!--      <button onclick="getLocation()">주변 인기 장소 찾기</button>-->
+      <p id="status">위치를 찾지 못했습니다</p>
+  <!--    <h1>Geolocation API로 현재 위치 가져오기</h1>-->
+      <div id="map" style="width:500px;height:400px;"></div>
+      <ul id="places"></ul>
 
-    <hr>
+      <script th:src="@{/js/currentLocationMap.js}"></script>
 
-    <form th:action="@{/address}" method="post">
-      <input name="address" placeholder="도로명 주소를 입력해주세요."/>
+      <hr>
 
-      <button type="submit">입력</button>
+<!--    <form th:action="@{/address}" method="post">-->
+<!--      <input name="address" placeholder="도로명 주소를 입력해주세요."/>-->
+
+<!--      <button type="submit">입력</button>-->
+<!--    </form>-->
+    <form id="addressForm" th:action="@{/address}" method="post" style="display: none;">
+      <input id="addressInput" name="address" type="text" />
     </form>
 
     <div th:unless="${weather == null}">
