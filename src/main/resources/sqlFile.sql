@@ -148,3 +148,6 @@ create table trade(
                       trade_date timestamp,
                       primary key(trade_id)
 );
+-----------------------------------------------------
+--241205 추가
+alter table user add column social_id varchar(256);

@@ -19,4 +19,6 @@ public class UserVO {
     private double score;
     private String isDel;
     private String address;
+    private int signflag;
+    private String socialId;
 }

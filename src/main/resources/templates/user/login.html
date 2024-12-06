@@ -22,8 +22,10 @@
             <div th:if="${error}" class="error" th:text="${error}"></div>
         </form>
         <a href="/login/join">회원가입</a>
-        <a th:href="${kakaoLoginPageUrl}">카카오로 로그인</a>
-        <a th:href="${naverLoginPageUrl}">네이버로 로그인</a>
-        <a th:href="${googleLoginPageUrl}">구글로 로그인</a>
+        <div>
+            <a class="btn btn-danger" th:href="${kakaoLoginPageUrl}">카카오로 로그인</a>
+            <a class="btn btn-danger" th:href="${naverLoginPageUrl}">네이버로 로그인</a>
+            <a class="btn btn-danger" th:href="${googleLoginPageUrl}">구글로 로그인</a>
+        </div>
     </div>
 </div>

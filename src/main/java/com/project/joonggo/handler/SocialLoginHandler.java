@@ -122,18 +122,32 @@ public class SocialLoginHandler {
         return response.getBody();
     }
 
-    public String parseGoogleUserInfo(String googleUserInfo){
-        String googleEmail = null;
+    public Map<String, String> parseGoogleUserInfo(String googleUserInfo){
+        Map<String, String> userInfo = new HashMap<>();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode jsonNode = objectMapper.readTree(googleUserInfo);
-            googleEmail = jsonNode.get("email").asText(); // email 값 추출
-            log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>> 구글 이메일 >>>>>>>>> {}", googleEmail);
+
+            String userId = jsonNode.get("sub").asText();
+            String userName = jsonNode.get("name").asText();
+            String givenName = jsonNode.get("given_name").asText();
+            String familyName = jsonNode.get("family_name").asText();
+            String picture = jsonNode.get("picture").asText();
+            String email = jsonNode.get("email").asText();
+            String emailVerified = jsonNode.get("email_verified").asText();
+
+            userInfo.put("userId", userId);
+            userInfo.put("userName", userName);
+            userInfo.put("givenName", givenName);
+            userInfo.put("familyName", familyName);
+            userInfo.put("picture", picture);
+            userInfo.put("email", email);
+            userInfo.put("emailVerified", emailVerified);
 
         } catch (Exception e) {
-            log.error("구글 사용자 정보 파싱 실패", e);
+            e.printStackTrace();
         }
-        return googleEmail;
+        return userInfo;
     }
 
     //----------------------------naver social login method line------------------------------//
@@ -191,35 +205,39 @@ public class SocialLoginHandler {
         }
     }
 
-    public String parseNaverUserInfo(String responseBody) {
+    public Map<String, String> parseNaverUserInfo(String responseBody) {
+        Map<String, String> userInfo = new HashMap<>();
         try {
             // JSON 파싱
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(responseBody);
-
-            // "response" 노드 추출
             JsonNode responseNode = rootNode.get("response");
 
             // 사용자 정보 추출
             String userId = responseNode.get("id").asText();
             String nickname = responseNode.get("name").asText();
             String email = responseNode.get("email").asText();
-            String birthday = responseNode.get("birthday").asText();
             String birthyear = responseNode.get("birthyear").asText();
+            String[] dateParts = responseNode.get("birthday").asText().split("-");
+            String birthMonth = dateParts[0];
+            String birthDay = dateParts[1];
 
-            // 추출한 정보 출력
-            System.out.println("User ID: " + userId);
-            System.out.println("Name: " + nickname);
-            System.out.println("Email: " + email);
-            System.out.println("Birthday: " + birthyear + "-" + birthday);
+            userInfo.put("userId", userId);
+            userInfo.put("nickname", nickname);
+            userInfo.put("email", email);
+            userInfo.put("birthYear", birthyear);
+            userInfo.put("birthMonth", birthMonth);
+            userInfo.put("birthDay", birthDay);
 
-            // 결과를 Map으로 반환
-            Map<String, String> result = new HashMap<>();
-            result.put("email", email);
-            result.put("birthyear", birthyear);
-            result.put("birthday", birthday);
+            System.out.println("userId: " + userId);
+            System.out.println("nickname: " + nickname);
+            System.out.println("email: " + email);
+            System.out.println("birthYear: " + birthyear);
+            System.out.println("birthMonth: " + birthMonth);
+            System.out.println("birthDay: " + birthDay);
 
-            return "Email: " + email + ", BirthYear: " + birthyear + ", BirthDay: " + birthday;
+            return userInfo;
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -307,7 +325,8 @@ public class SocialLoginHandler {
         }
     }
 
-    public String parseKakaoUserInfo(String responseBody) {
+    public Map<String, String> parseKakaoUserInfo(String responseBody) {
+        Map<String, String> userInfo = new HashMap<>();
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             JsonNode rootNode = objectMapper.readTree(responseBody);
@@ -317,16 +336,18 @@ public class SocialLoginHandler {
             String nickname = rootNode.path("properties").path("nickname").asText();
             String email = rootNode.path("kakao_account").path("email").asText();
 
+            userInfo.put("userId", String.valueOf(userId));
+            userInfo.put("nickname", nickname);
+            userInfo.put("email", email);
+
             // 추출한 정보 출력
             System.out.println("User ID: " + userId);
             System.out.println("Nickname: " + nickname);
             System.out.println("Email: " + email);
-
-            return email;
         } catch (Exception e) {
             e.printStackTrace();
-            return null;
         }
+        return userInfo;
     }
 
 }

@@ -10,10 +10,12 @@
     <hr>
     회원가입 페이지 입니다.
     <form action="/login/join" method="post">
+      <input type="hidden" name="signflag" th:value="${signflag}">
+      <input type="hidden" name="socialId" th:value="${socialUserId}">
       <div class="mb-3">
         <label for="i" class="form-label">ID</label>
         <input type="text" class="form-control" id="i" name="userId" placeholder="id..."
-               th:value="${socialEmail != null ? socialEmail : ''}">
+               th:value="${socialEmail != null ? socialEmail : ''}" th:attr="readonly=${socialEmail != null}">
       </div>
       <div class="mb-3">
         <label for="p" class="form-label">비밀번호</label>
@@ -26,11 +28,11 @@
       <div class="mb-3">
         <label class="form-label">생년월일</label>
         <input type="text" class="form-control" name="birthYear" placeholder="birthYear..."
-               th:value="${birthYear != null ? birthYear : ''}">
+               th:value="${birthYear != null ? birthYear : ''}" th:attr="readonly=${birthYear != null}">
         <input type="text" class="form-control" name="birthMonth" placeholder="birthMonth..."
-               th:value="${month != null ? month : ''}">
+               th:value="${birthMonth != null ? birthMonth : ''}" th:attr="readonly=${birthMonth != null}">
         <input type="text" class="form-control" name="birthDay" placeholder="birthDay..."
-               th:value="${day != null ? day : ''}">
+               th:value="${birthDay != null ? birthDay : ''}" th:attr="readonly=${birthDay != null}">
       </div>
       <div class="mb-3">
         <label for="a" class="form-label">주소</label>

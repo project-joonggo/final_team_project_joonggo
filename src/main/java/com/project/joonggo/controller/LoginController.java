@@ -13,18 +13,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.Map;
+
 @Slf4j
 @RequestMapping("/login/*")
 @RequiredArgsConstructor
 @Controller
 public class LoginController {
     private final LoginService loginService;
-
     private final SocialLoginHandler socialLoginHandler;
+    private static final int SIGN_FLAG_DEFAULT = 0;
+    private static final int SIGN_FLAG_KAKAO = 1;
+    private static final int SIGN_FLAG_NAVER = 2;
+    private static final int SIGN_FLAG_GOOGLE = 3;
 
     //회원가입 페이지 이동
     @GetMapping("/join")
-    public String join(){
+    public String join(Model model){
+        // 기본 유저의 소셜가입구분을 0으로 (0:기본값, 1:카카오, 2:네이버, 3:구글)
+        model.addAttribute("signflag", SIGN_FLAG_DEFAULT);
         return "/user/join";
     }
 
@@ -54,7 +61,7 @@ public class LoginController {
     @PostMapping("/enter")
     public String login(UserVO userVO, HttpSession session, Model model) {
         // DB에서 user_id로 사용자 조회
-        UserVO loginUser = loginService.findUserById(userVO.getUserId());
+        UserVO loginUser = loginService.findUserByIdAndSignFlag(userVO.getUserId(), SIGN_FLAG_DEFAULT);
 
         if (loginUser == null) {
             // 사용자 ID가 없는 경우
@@ -89,9 +96,20 @@ public class LoginController {
         String googleUserInfo = socialLoginHandler.getGoogleUserInfo(accessToken);
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 구글유저 정보 >>>>>{}", googleUserInfo);
 
-        String googleEmail = socialLoginHandler.parseGoogleUserInfo(googleUserInfo);
+        Map<String, String> userInfo = socialLoginHandler.parseGoogleUserInfo(googleUserInfo);
+        String googleId = userInfo.get("userId");
+        String googleName = userInfo.get("userName");
+        String givenName = userInfo.get("givenName");
+        String familyName = userInfo.get("familyName");
+        String picture = userInfo.get("picture");
+        String email = userInfo.get("email");
+        String emailVerified = userInfo.get("emailVerified");
 
-        UserVO loginUser = loginService.findUserById(googleEmail);
+        UserVO loginUser = loginService.findUserByIdAndSignFlag(googleId, SIGN_FLAG_GOOGLE);
+
+        System.out.println("----------------------------"+googleId);
+        System.out.println("----------------------------"+SIGN_FLAG_GOOGLE);
+        System.out.println("----------------------------"+loginUser);
 
         if (loginUser != null) {
             // 회원이 존재하면 로그인 처리
@@ -100,7 +118,9 @@ public class LoginController {
 
         } else {
             // 회원이 없으면 회원가입 처리
-            model.addAttribute("socialEmail", googleEmail); // 이메일을 모델에 담아 회원가입 페이지로 전달
+            model.addAttribute("socialEmail", email);
+            model.addAttribute("signflag", SIGN_FLAG_GOOGLE);
+            model.addAttribute("socialUserId", googleId);
             return "/user/join";
         }
 
@@ -119,21 +139,17 @@ public class LoginController {
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 네이버 액세스 토큰 >>>>>>>>>>>>>>>>>> {}", accessToken);
 
         String naverUserInfo = socialLoginHandler.getNaverUserInfo(accessToken);
-        String parseNaverUserInfoResult =  socialLoginHandler.parseNaverUserInfo(naverUserInfo);
+        Map<String, String> parseNaverUserInfoResult =  socialLoginHandler.parseNaverUserInfo(naverUserInfo);
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 네이버 유저 정보 >>>>>{}", parseNaverUserInfoResult);
 
-        // 이메일로 회원이 존재하는지 확인
-        // DB에서 user_id로 사용자 조회
-        String[] dataParts = parseNaverUserInfoResult.split(",");
-        String naverEmail = dataParts[0].split(":")[1].trim();
-        String birthYear = dataParts[1].split(":")[1].trim();
-        String birthDayRaw = dataParts[2].split(":")[1].trim();
+        String naverId = parseNaverUserInfoResult.get("userId");
+        String nickName = parseNaverUserInfoResult.get("nickname");
+        String email = parseNaverUserInfoResult.get("email");
+        String birthYear = parseNaverUserInfoResult.get("birthYear");
+        String birthMonth = parseNaverUserInfoResult.get("birthMonth");
+        String birthDay = parseNaverUserInfoResult.get("birthDay");
 
-        String[] birthDayParts = birthDayRaw.split("-");
-        String month = birthDayParts[0];
-        String day = birthDayParts[1];
-
-        UserVO loginUser = loginService.findUserById(naverEmail);
+        UserVO loginUser = loginService.findUserByIdAndSignFlag(naverId, SIGN_FLAG_NAVER);
 
         if (loginUser != null) {
             // 회원이 존재하면 로그인 처리
@@ -142,10 +158,12 @@ public class LoginController {
 
         } else {
             // 회원이 없으면 회원가입 처리
-            model.addAttribute("socialEmail", naverEmail);
+            model.addAttribute("socialEmail", email);
+            model.addAttribute("signflag", SIGN_FLAG_NAVER);
+            model.addAttribute("socialUserId", naverId);
             model.addAttribute("birthYear", birthYear);
-            model.addAttribute("month", month);
-            model.addAttribute("day", day);
+            model.addAttribute("birthMonth", birthMonth);
+            model.addAttribute("birthDay", birthDay);
             return "/user/join";
         }
 
@@ -171,11 +189,15 @@ public class LoginController {
         String kakaoUserInfo = socialLoginHandler.getKakaoUserInfo(accessToken);
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 카카오 유저 정보 >>>>>{}", kakaoUserInfo);
 
-        String kakaoEmail = socialLoginHandler.parseKakaoUserInfo(kakaoUserInfo);
+        Map<String, String> userInfo = socialLoginHandler.parseKakaoUserInfo(kakaoUserInfo);
+        log.info("parsekakaoUserInfo>>>>>>>>>>{}", userInfo);
+
+        String kakaoId = userInfo.get("userId");
+        String kakaoEmail = userInfo.get("email");
 
         // 이메일로 회원이 존재하는지 확인
         // DB에서 user_id로 사용자 조회
-        UserVO loginUser = loginService.findUserById(kakaoEmail);
+        UserVO loginUser = loginService.findUserByIdAndSignFlag(kakaoId, SIGN_FLAG_KAKAO);
 
         if (loginUser != null) {
             // 회원이 존재하면 로그인 처리
@@ -184,14 +206,13 @@ public class LoginController {
 
         } else {
             // 회원이 없으면 회원가입 처리
-            model.addAttribute("socialEmail", kakaoEmail); // 이메일을 모델에 담아 회원가입 페이지로 전달
+            model.addAttribute("socialEmail", kakaoEmail);
+            model.addAttribute("signflag", SIGN_FLAG_KAKAO);
+            model.addAttribute("socialUserId", kakaoId);
             return "/user/join";
         }
 
         return "redirect:/";
     }
-
-
-
 
 }
