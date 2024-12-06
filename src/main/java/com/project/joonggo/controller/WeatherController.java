@@ -16,12 +16,21 @@ public class WeatherController {
 
     private final WeatherService weatherService;
 
+//    @Value("${KakaoMap_API_KEY}")
+//    private String KakaoMap_API_KEY;
+
     @GetMapping
     public String home(){
         return "index";
     }
 
-    @PostMapping("/address")
+//    @GetMapping
+//    public String home(Model model) {
+//        model.addAttribute("KakaoMap_API_KEY", KakaoMap_API_KEY);
+//        return "index";
+//    }
+
+    @PostMapping("/")
     public String showWeather(@RequestParam("address") String address, Model model){
         Map<String, String> lanLon = weatherService.returnLanLon(address);
 

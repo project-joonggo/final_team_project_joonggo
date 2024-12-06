@@ -1,6 +1,8 @@
 package com.project.joonggo.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.json.JSONObject;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -14,13 +16,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Service
+@PropertySource("classpath:config.properties")
 public class WeatherService {
+    @Value("${Geocoder_API_KEY}")
+    private String Geocoder_API_KEY;
+
+    @Value("${OpenWeatherMap_API_KEY}")
+    private String OpenWeatherMap_API_KEY;
 
     // 위도와 경도를 Map<String, String> 형태로 반환하는 메서드
     public Map<String, String> returnLanLon(String address){
         Map<String, String> coordinates = new HashMap<>();
-        String apiKey = "F0E6BA82-198F-30A5-B584-DCF1043815FD"; // Geocoder API 2.0에서 발급받은 API Key 작성할 것
+        String apiKey = Geocoder_API_KEY; // Geocoder API 2.0에서 발급받은 API Key 작성할 것
 
         try{
             // 주소 인코딩 (인코딩 X 시 400 에러 발생함)
@@ -66,7 +75,7 @@ public class WeatherService {
 
     // 날씨 정보를 Map<String, String> 형태로 반환하는 메서드
     public Map<String, String> returnWeather(Map<String, String> lanLon){
-        String apiKey = "dd9659905d73395bf303a134470407b7"; // Open Weather Map 날씨 API에서 발급받은 API Key 작성할 것
+        String apiKey = OpenWeatherMap_API_KEY; // Open Weather Map 날씨 API에서 발급받은 API Key 작성할 것
 
         // 넘어온 위도, 경도를 포함한 url
         String apiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + lanLon.get("lat") + "&lon=" + lanLon.get("lon") + "&appid=" + apiKey;
