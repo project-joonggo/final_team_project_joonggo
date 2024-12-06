@@ -151,3 +151,6 @@ create table trade(
 -----------------------------------------------------
 --241205 추가
 alter table user add column social_id varchar(256);
+
+--241206 추가
+alter table user add column phone varchar(50);

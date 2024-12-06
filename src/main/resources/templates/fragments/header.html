@@ -3,7 +3,58 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-
-<div th:fragment="header" >
-    <h5>Header Area</h5>
+<div th:fragment="header" class="container-md py-3" id="header">
+    <div class="d-flex justify-content-between align-items-center">
+        <div id="logoArea">
+            <a href="/" class="d-flex justify-content-center align-items-center">
+            <img src="/img/logo.svg">
+            <span class="logoName">SSeul Tem</span>
+            </a>
+        </div>
+        <div id="searchArea">
+            <img id="searchImg" src="/img/search.svg">
+            <input id="searchBox" placeholder="어떤 상품을 찾으시나요?">
+        </div>
+        <div class="headerBot">
+            <ul class="d-flex justify-content-between align-items-center gap-3">
+                <li>
+                    <a href="/login/page" class="d-flex justify-content-center align-items-center gap-1">
+                        <img src="/img/login.svg">
+                        <span>로그인</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="d-flex justify-content-center align-items-center gap-1">
+                        <img src="/img/sale.svg">
+                        <span>판매</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="d-flex justify-content-center align-items-center gap-1">
+                        <img src="/img/my.svg">
+                        <span>마이</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="" class="d-flex justify-content-center align-items-center gap-1">
+                        <img src="/img/chatting.svg">
+                        <span>채팅</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center">
+        <div id="category">
+            <img src="/img/category.svg">
+            <span>카테고리</span>
+        </div>
+        <nav>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+        </nav>
+    </div>
 </div>

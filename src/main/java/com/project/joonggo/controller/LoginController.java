@@ -1,6 +1,7 @@
 package com.project.joonggo.controller;
 
 import com.project.joonggo.domain.UserVO;
+import com.project.joonggo.handler.PhoneAuthHandler;
 import com.project.joonggo.handler.SocialLoginHandler;
 import com.project.joonggo.service.LoginService;
 import jakarta.servlet.http.HttpSession;
@@ -8,10 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -21,7 +19,9 @@ import java.util.Map;
 @Controller
 public class LoginController {
     private final LoginService loginService;
+    private final PhoneAuthHandler phoneAuthHandler;
     private final SocialLoginHandler socialLoginHandler;
+
     private static final int SIGN_FLAG_DEFAULT = 0;
     private static final int SIGN_FLAG_KAKAO = 1;
     private static final int SIGN_FLAG_NAVER = 2;
@@ -81,6 +81,17 @@ public class LoginController {
 
         // 메인 페이지로 리다이렉트
         return "redirect:/";
+    }
+
+    //휴대폰 인증
+    @ResponseBody
+    @GetMapping("/phoneCheck")
+    // 휴대폰 인증번호
+    public String sendSMS(String phone){ // 휴대폰 문자보내기
+        //난수 생성
+        int ranNum = (int)((Math.random()*(9999-1000+1)) + 1000);
+        phoneAuthHandler.certifiedPhoneNumber(phone, ranNum);
+        return Integer.toString(ranNum);
     }
 
     //////////////////////////

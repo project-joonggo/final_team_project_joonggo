@@ -6,9 +6,7 @@
 
 <div layout:fragment="content">
   <div class="container-md">
-    <h1> final Boot Project</h1>
-    <hr>
-    회원가입 페이지 입니다.
+    <h1>회원가입</h1>
     <form action="/login/join" method="post">
       <input type="hidden" name="signflag" th:value="${signflag}">
       <input type="hidden" name="socialId" th:value="${socialUserId}">
@@ -23,7 +21,7 @@
       </div>
       <div class="mb-3">
         <label for="n" class="form-label">이름</label>
-        <input type="text" class="form-control" id="n" name="userName" placeholder="password...">
+        <input type="text" class="form-control" id="n" name="userName" placeholder="name...">
       </div>
       <div class="mb-3">
         <label class="form-label">생년월일</label>
@@ -35,6 +33,15 @@
                th:value="${birthDay != null ? birthDay : ''}" th:attr="readonly=${birthDay != null}">
       </div>
       <div class="mb-3">
+        <label class="form-label">휴대폰 번호</label>
+        <input type="text" id="phone" name="phone" class="form-control" placeholder="휴대폰 번호(-제외)"><a class="btn btn-success" id="phoneChk">인증</a>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">인증번호</label>
+        <input type="text" id="check" name="check" class="form-control" placeholder="인증번호" disabled><a class="btn btn-success" id="phoneChk2">확인</a>
+      </div>
+      <div id="dup-check"></div>
+      <div class="mb-3">
         <label for="a" class="form-label">주소</label>
         <input type="text" class="form-control" id="a" name="address" placeholder="address...">
       </div>
@@ -42,4 +49,5 @@
 
     </form>
   </div>
+  <script th:src="@{/js/join.js}"></script>
 </div>
