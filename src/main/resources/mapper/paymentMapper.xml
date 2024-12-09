@@ -10,6 +10,10 @@
         VALUES ( #{impUid},#{merchantUid}, #{boardId}, #{amount}, #{productName}, #{paymentStatus}, NOW());
     </insert>
 
-
+    <update id="updatePaymentStatus">
+        UPDATE payment
+        SET cancel_flag = 1, refunded_amount = #{paidAmount}
+        WHERE imp_uid = #{impUid}
+    </update>
 
 </mapper>

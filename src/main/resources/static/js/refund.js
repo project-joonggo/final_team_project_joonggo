@@ -4,9 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const cancelBtn = document.getElementById("cancelBtn"); // 환불 버튼
 
     cancelBtn.addEventListener("click", async () => {
-        const impUid = "결제_고유_ID";  // 예시로 결제 고유 ID
-        const merchantUid = "주문_고유_ID";  // 예시로 주문 고유 ID
-        const cancelAmount = 1000;  // 환불할 금액. 전체 금액 또는 일부 금액
+        const impUid = "BUY1733706451499-673";  // 예시로 결제 고유 ID
+        const merchantUid = "imp_962453126823";  // 예시로 주문 고유 ID
+        const cancelAmount = 100;  // 환불할 금액. 전체 금액 또는 일부 금액
         const product = boardFileDTO;  // 환불 요청 시 상품 정보
 
         try {
@@ -25,6 +25,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
 
             const cancelData = await cancelResponse.json();
+
+            console.log(cancelResponse);
 
             if (cancelData.status === "success") {
                 console.log("결제 취소 성공", cancelData);

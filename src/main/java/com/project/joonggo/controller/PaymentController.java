@@ -4,10 +4,9 @@ package com.project.joonggo.controller;
 import com.project.joonggo.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,6 +22,17 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
+    @Value("${api.key}")
+    private String apiKey;
+
+    @Value("${api.secret}")
+    private String apiSecret;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+
+
     @PostMapping("/success")
     public ResponseEntity<Map<String, String>> handlePaymentSuccess(@RequestBody Map<String, Object> paymentInfo) {
         String impUid = (String) paymentInfo.get("impUid");
@@ -35,7 +45,7 @@ public class PaymentController {
 
         Map<String, String> response = new HashMap<>();
         if (isSaved) {
-            log.info("결제 정보 저장 완료 - Merchant UID: {}, Amount: {}, Board ID: {}, Product Name: {} ,impUid : {} ", impUid , merchantUid, amount, boardId, productName);
+            log.info("결제 정보 저장 완료 - Merchant UID: {}, Amount: {}, Board ID: {}, Product Name: {} ,impUid : {} " ,merchantUid, amount, boardId, productName, impUid);
             response.put("message", "결제 정보 저장 완료");
             response.put("status", "success");
             return ResponseEntity.ok(response);  // 200 OK 응답과 함께 JSON 반환
@@ -46,21 +56,46 @@ public class PaymentController {
         }
     }
 
-    @PostMapping("/verify")
-    public ResponseEntity<Map<String, String>> verifyPayment(@RequestBody Map<String, Object> paymentVerificationInfo) {
-        String impUid = (String) paymentVerificationInfo.get("imp_uid");
-        String merchantUid = (String) paymentVerificationInfo.get("merchant_uid");
-        int paidAmount = (Integer) paymentVerificationInfo.get("amount");
+    @PostMapping("/webhook")
+    public ResponseEntity<Map<String, String>> handleWebhook(@RequestBody Map<String, Object> webhookData) {
+        log.info("Received webhook data: {}", webhookData);
 
-        // 아임포트 API에서 결제 검증을 위한 토큰 발급
-        String accessToken = getAccessToken();
+        String impUid = (String) webhookData.get("imp_uid");
+        String merchantUid = (String) webhookData.get("merchant_uid");
+        String status = (String) webhookData.get("status");
 
-        log.info("accessToken>> {}", accessToken);
+        // 금액을 webhookData에서 직접 가져오지 않고, 아임포트 API에서 조회
+        int paidAmount = getAmountFromImpUid(impUid);
+        log.info(">>> paidAmount {}  >>>> " , paidAmount);
 
-        // 결제 내역 조회
+
+        log.info("impUid >>> {} , merUid >>> {} , status >>> {} " , impUid,merchantUid,status);
+
+        if ("paid".equals(status)) {
+            // 결제 완료 처리
+            boolean isValid = verifyPayment(impUid, paidAmount,merchantUid);
+            if (isValid) {
+                // 결제 성공 처리
+                return ResponseEntity.ok(Map.of("status", "success", "message", "결제 성공"));
+            } else {
+                return ResponseEntity.status(400).body(Map.of("status", "failure", "message", "결제 검증 실패"));
+            }
+        } else if ("cancelled".equals(status)) {
+            // 결제 취소 처리
+            cancelPayment(impUid,merchantUid, paidAmount);
+            return ResponseEntity.ok(Map.of("status", "success", "message", "결제 취소 처리 완료"));
+        } else {
+            return ResponseEntity.status(400).body(Map.of("status", "failure", "message", "알 수 없는 상태"));
+        }
+    }
+
+    // impUid로 결제 금액 조회
+    private int getAmountFromImpUid(String impUid) {
+        // 아임포트 결제 내역 조회
+        String accessToken = getAccessToken();  // 토큰 발급 메소드
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", accessToken);  // API 토큰
+        headers.set("Authorization", accessToken);
 
         String url = "https://api.iamport.kr/payments/" + impUid;
         HttpEntity<String> entity = new HttpEntity<>(headers);
@@ -72,124 +107,214 @@ public class PaymentController {
             Map<String, Object> paymentData = paymentResponse.getBody();
             if (paymentData != null && paymentData.containsKey("response")) {
                 Map<String, Object> response = (Map<String, Object>) paymentData.get("response");
-                int actualPaidAmount = (Integer) response.get("amount");
-
-                // 결제 금액 검증
-                if (actualPaidAmount == paidAmount) {
-                    log.info("결제 검증 성공 - impUid: {}, merchantUid: {}", impUid, merchantUid);
-                    Map<String, String> verificationResponse = new HashMap<>();
-                    verificationResponse.put("message", "결제 검증 성공");
-                    verificationResponse.put("status", "success");
-                    return ResponseEntity.ok(verificationResponse);
-                } else {
-                    log.error("결제 금액 불일치 - 예상 금액: {}, 실제 금액: {}", paidAmount, actualPaidAmount);
-                    Map<String, String> verificationResponse = new HashMap<>();
-                    verificationResponse.put("message", "결제 금액 불일치");
-                    verificationResponse.put("status", "failure");
-                    return ResponseEntity.status(400).body(verificationResponse); // 400 Bad Request
-                }
-            } else {
-                log.error("결제 정보 조회 실패 - impUid: {}", impUid);
-                Map<String, String> verificationResponse = new HashMap<>();
-                verificationResponse.put("message", "결제 정보 조회 실패");
-                verificationResponse.put("status", "failure");
-                return ResponseEntity.status(400).body(verificationResponse);
+                return (Integer) response.get("amount");  // 실제 결제 금액
             }
-        } else {
-            log.error("결제 내역 조회 실패 - impUid: {}", impUid);
-            Map<String, String> verificationResponse = new HashMap<>();
-            verificationResponse.put("message", "결제 내역 조회 실패");
-            verificationResponse.put("status", "failure");
-            return ResponseEntity.status(400).body(verificationResponse);
         }
+        return 0;  // 만약 조회 실패 시, 기본값으로 0 반환
     }
 
-    @PostMapping("/cancel")
-    public ResponseEntity<Map<String, String>> cancelPayment(@RequestBody Map<String, Object> paymentCancelInfo) {
-        String impUid = (String) paymentCancelInfo.get("imp_uid"); // 결제 고유 ID
-        String merchantUid = (String) paymentCancelInfo.get("merchant_uid"); // 주문 고유 ID
-        int cancelAmount = (Integer) paymentCancelInfo.get("amount"); // 환불 금액
 
-        // 아임포트 API에서 결제 취소를 위한 토큰 발급
+    // 아임포트에서 결제 정보를 확인하여 실제 금액과 일치하는지 검증
+    private boolean verifyPayment(String impUid, int paidAmount, String merchantUid) {
+        // 아임포트 API 토큰 발급
         String accessToken = getAccessToken();
 
-        // 결제 취소 요청
+        // 결제 내역 조회
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", accessToken);  // API 토큰
+        headers.set("Authorization", accessToken);
 
-        // 결제 취소 요청을 위한 바디 설정
-        Map<String, Object> body = new HashMap<>();
-        body.put("imp_uid", impUid);
-        body.put("merchant_uid", merchantUid);
-        body.put("amount", cancelAmount); // 환불 금액
-        body.put("reason", "상품 불만족"); // 환불 사유 (필요 시 추가)
+        String url = "https://api.iamport.kr/payments/" + impUid;
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+        // 아임포트 결제 내역 조회
+        ResponseEntity<Map> paymentResponse = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
 
-        // 아임포트 결제 취소 요청
-        ResponseEntity<Map> cancelResponse = restTemplate.exchange(
-                "https://api.iamport.kr/payments/cancel", HttpMethod.POST, entity, Map.class
-        );
+        if (paymentResponse.getStatusCodeValue() == 200) {
+            Map<String, Object> paymentData = paymentResponse.getBody();
+            if (paymentData != null && paymentData.containsKey("response")) {
+                Map<String, Object> response = (Map<String, Object>) paymentData.get("response");
+                int actualPaidAmount = (Integer) response.get("amount");  // 실제 결제된 금액
+                String merchantUidFromApi = (String) response.get("merchant_uid");  // API에서 받은 merchant_uid
 
-        if (cancelResponse.getStatusCodeValue() == 200) {
-            Map<String, Object> responseBody = cancelResponse.getBody();
-            if (responseBody != null && responseBody.containsKey("response")) {
-                // 환불 성공 시
-                Map<String, String> cancelResponseMap = new HashMap<>();
-                cancelResponseMap.put("message", "결제 취소 성공");
-                cancelResponseMap.put("status", "success");
-                return ResponseEntity.ok(cancelResponseMap);
-            } else {
-                // 환불 실패 시
-                Map<String, String> cancelResponseMap = new HashMap<>();
-                cancelResponseMap.put("message", "결제 취소 실패 - 응답 내용 없음");
-                cancelResponseMap.put("status", "failure");
-                return ResponseEntity.status(400).body(cancelResponseMap);
+                // 결제 금액과 주문 정보 확인
+                return paidAmount == actualPaidAmount && merchantUid.equals(merchantUidFromApi);
             }
-        } else {
-            // API 응답 오류 시
-            Map<String, String> cancelResponseMap = new HashMap<>();
-            cancelResponseMap.put("message", "결제 취소 실패 - API 응답 오류");
-            cancelResponseMap.put("status", "failure");
-            return ResponseEntity.status(400).body(cancelResponseMap);
+        }
+        return false;
+    }
+
+    @PostMapping("/refund")
+    public ResponseEntity<Map<String, String>> handleRefund(@RequestBody Map<String, Object> refundInfo) {
+        String impUid = (String) refundInfo.get("impUid");
+        String merchantUid = (String) refundInfo.get("merchantUid");
+        int paidAmount = (Integer) refundInfo.get("paidAmount");
+
+        log.info(">> refund >>> {} , {} , {} " ,impUid,merchantUid,paidAmount);
+
+        try {
+            // 환불 처리
+            boolean isRefunded = cancelPayment(impUid, merchantUid, paidAmount);
+            paymentService.updatePaymentStatus(impUid, paidAmount);
+            if (isRefunded) {
+                log.info("환불 처리 성공 - impUid: {}, merchantUid: {}", impUid, merchantUid);
+
+                String currentStatus = getPaymentStatus(impUid);
+                log.info("현재 결제 상태: {}", currentStatus);
+
+                // 결제 상태가 'cancelled'일 경우에만 웹훅 호출
+                if ("cancelled".equals(currentStatus)) {
+                    Map<String, Object> webhookData = Map.of(
+                            "imp_uid", impUid,
+                            "merchant_uid", merchantUid,
+                            "status", "cancelled"  // 결제 상태를 "cancelled"로 설정
+                    );
+                    ResponseEntity<Map<String, String>> webhookResponse = handleWebhook(webhookData);  // 웹훅 메서드 호출
+                    if (webhookResponse.getStatusCode().is2xxSuccessful()) {
+                        return ResponseEntity.ok(Map.of("status", "success", "message", "환불 처리 및 웹훅 호출 완료"));
+                    } else {
+                        return ResponseEntity.status(500).body(Map.of("status", "failure", "message", "웹훅 호출 실패"));
+                    }
+                } else {
+                    // 결제 상태가 cancelled가 아닐 경우
+                    return ResponseEntity.status(500).body(Map.of("status", "failure", "message", "환불 처리 후 상태가 'cancelled'가 아님"));
+                }
+            } else {
+                return ResponseEntity.status(500).body(Map.of("status", "failure", "message", "환불 처리 실패"));
+            }
+        } catch (Exception e) {
+            log.error("환불 처리 중 오류 발생", e);
+            return ResponseEntity.status(500).body(Map.of("status", "failure", "message", "환불 처리 실패"));
         }
     }
 
+    // 아임포트 결제 취소 API 호출
+    private boolean cancelPayment(String impUid, String merchantUid, int paidAmount) {
+        try {
+            // 아임포트 API 토큰 발급
+            String accessToken = getAccessToken();
 
+            log.info(">>> accessToken > {}", accessToken);
 
+            // 결제 취소 요청
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", accessToken);
+            headers.setContentType(MediaType.APPLICATION_JSON);
 
+            log.info(" caninfo >>> {}, {} ,{} " , impUid,merchantUid,paidAmount);
 
+            // 결제 취소 요청을 위한 바디 설정
+            Map<String, Object> body = new HashMap<>();
+            body.put("imp_uid", impUid);
+            body.put("merchant_uid", merchantUid);
+            body.put("amount", paidAmount);
+            body.put("reason", "상품 불만족");
+
+            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+
+            log.info("Request headers: {}", headers);
+            log.info("Request body: {}", body);
+
+            log.info(">>> ent >>> {}", entity);
+
+            // 결제 취소 요청
+            ResponseEntity<Map> cancelResponse = restTemplate.exchange(
+                    "https://api.iamport.kr/payments/cancel", HttpMethod.POST, entity, Map.class
+            );
+
+            log.info(">>>> cancelResponse >>> {}", cancelResponse);
+
+            if (cancelResponse.getStatusCodeValue() == 200) {
+                // 환불 처리 완료
+                Map<String, Object> responseBody = cancelResponse.getBody();
+                if (responseBody != null && responseBody.containsKey("response")) {
+                    Map<String, Object> response = (Map<String, Object>) responseBody.get("response");
+                    System.out.println("환불 처리 완료: " + response);
+                    return true;
+                }
+            } else {
+                // 환불 실패 처리 (응답 상태 코드가 200이 아니면)
+                System.out.println("환불 처리 실패: " + cancelResponse.getBody());
+            }
+        } catch (Exception e) {
+            // 예외 발생 시 처리
+            e.printStackTrace();
+        }
+        return false;
+    }
     // 아임포트 API 토큰 발급
     private String getAccessToken() {
-        String apiKey = "4726065027433512";
-        String apiSecret = "QnFZhqiZglSppH5JZDbqJdvSpZ3aLXmhLrFx3AkVRLgmV6WQl5IaaEaCiNd1lO4edImhLEdChsHu0Jfh";
+        int retries = 3;
+        while (retries > 0) {
+            try {
+                // 요청 본문 및 헤더 설정
+                HttpHeaders headers = new HttpHeaders();
+                headers.set("Content-Type", "application/json");
 
-        // 토큰 발급을 위한 요청
+                Map<String, String> body = Map.of(
+                        "imp_key", apiKey,
+                        "imp_secret", apiSecret
+                );
+
+                HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
+
+                // 요청 보내기
+                ResponseEntity<Map> response = restTemplate.exchange(
+                        "https://api.iamport.kr/users/getToken", HttpMethod.POST, entity, Map.class
+                );
+                log.info(">>>> responce >> {}" , response);
+
+                // 응답 처리
+                if (response.getStatusCodeValue() == 200) {
+                    Map<String, Object> responseBody = response.getBody();
+                    if (responseBody != null && responseBody.containsKey("response")) {
+                        Map<String, Object> responseObj = (Map<String, Object>) responseBody.get("response");
+                        log.info(">>> 토큰발급됐냐? >>> {}" , responseObj);
+                        return (String) responseObj.get("access_token");
+                    }
+                }
+                log.info("토큰발급 왜 안댐?");
+                throw new RuntimeException("API 토큰 발급 실패");
+
+            } catch (Exception e) {
+                retries--;
+                if (retries == 0) {
+                    throw new RuntimeException("토큰 발급 재시도 실패", e);
+                }
+                try {
+                    Thread.sleep(2000);  // 2초 후 재시도
+                } catch (InterruptedException ie) {
+                    Thread.currentThread().interrupt();
+                }
+            }
+        }
+        return null;
+    }
+
+
+    // 아임포트 결제 상태 확인
+    private String getPaymentStatus(String impUid) {
+        String accessToken = getAccessToken();
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
-        headers.set("Content-Type", "application/json");
+        headers.set("Authorization", accessToken);
 
-        Map<String, String> body = new HashMap<>();
-        body.put("imp_key", apiKey);
-        body.put("imp_secret", apiSecret);
+        String url = "https://api.iamport.kr/payments/" + impUid;
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
-        ResponseEntity<Map> response = restTemplate.exchange("https://api.iamport.kr/users/getToken", HttpMethod.POST, entity, Map.class);
+        // 아임포트 결제 내역 조회
+        ResponseEntity<Map> paymentResponse = restTemplate.exchange(url, HttpMethod.GET, entity, Map.class);
 
-        if (response.getStatusCodeValue() == 200) {
-            Map<String, Object> responseBody = response.getBody();
-
-            // 응답이 null이 아니고 "response" 키가 존재하는지 확인
-            if (responseBody != null && responseBody.containsKey("response")) {
-                Map<String, Object> responseObj = (Map<String, Object>) responseBody.get("response");
-                return (String) responseObj.get("access_token");
-            } else {
-                throw new RuntimeException("API 응답에서 access_token을 찾을 수 없습니다.");
+        if (paymentResponse.getStatusCodeValue() == 200) {
+            Map<String, Object> paymentData = paymentResponse.getBody();
+            if (paymentData != null && paymentData.containsKey("response")) {
+                Map<String, Object> response = (Map<String, Object>) paymentData.get("response");
+                return (String) response.get("status");  // 결제 상태 반환
             }
-        } else {
-            throw new RuntimeException("API 토큰 발급 실패 - 응답 상태: " + response.getStatusCodeValue());
         }
+        return "unknown";  // 상태를 확인할 수 없는 경우
     }
 
 }
+
+

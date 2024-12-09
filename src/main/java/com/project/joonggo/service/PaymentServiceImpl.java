@@ -7,8 +7,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -31,6 +29,8 @@ public class PaymentServiceImpl implements PaymentService {
         return true;
     }
 
-
-
+    @Override
+    public void updatePaymentStatus(String impUid, int paidAmount) {
+        paymentMapper.updatePaymentStatus(impUid, paidAmount);
+    }
 }

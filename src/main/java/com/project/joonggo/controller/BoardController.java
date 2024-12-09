@@ -47,6 +47,8 @@ public class BoardController {
 
         long isOk = boardService.register(boardVO);
 
+        log.info("isOk >>>> {}", isOk);
+
         return (isOk > 0) ? "/index" : "redirect:/board/register";
     }
 
