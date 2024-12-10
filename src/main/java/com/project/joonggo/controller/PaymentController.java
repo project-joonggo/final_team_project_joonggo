@@ -217,6 +217,14 @@ public class PaymentController {
 
             log.info(">>> ent >>> {}", entity);
 
+            try {
+                Thread.sleep(2000);
+               }
+            catch (InterruptedException e)
+               {
+                Thread.currentThread().interrupt();
+              }
+
             // 결제 취소 요청
             ResponseEntity<Map> cancelResponse = restTemplate.exchange(
                     "https://api.iamport.kr/payments/cancel", HttpMethod.POST, entity, Map.class
@@ -227,6 +235,7 @@ public class PaymentController {
             if (cancelResponse.getStatusCodeValue() == 200) {
                 // 환불 처리 완료
                 Map<String, Object> responseBody = cancelResponse.getBody();
+                log.info("responseBody >>> {],", responseBody);
                 if (responseBody != null && responseBody.containsKey("response")) {
                     Map<String, Object> response = (Map<String, Object>) responseBody.get("response");
                     System.out.println("환불 처리 완료: " + response);

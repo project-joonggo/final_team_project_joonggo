@@ -51,8 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
      const onClickRefund = async () => {
-            const impUid = "imp_690395176748";  // 실제 결제에 대한 impUid
-            const merchantUid = "BUY1733735395400-11";  // 실제 결제에 대한 merchantUid
+            const impUid = "imp_036372229219";  // 실제 결제에 대한 impUid
+            const merchantUid = "BUY1733791371723-475";  // 실제 결제에 대한 merchantUid
             const paidAmount = 100;  // 실제 결제 금액 (원래 결제된 금액)
 
             // 환불 요청을 백엔드로 전송
@@ -78,31 +78,3 @@ document.addEventListener("DOMContentLoaded", () => {
     paymentBtn.addEventListener("click", onClickPay);
     cancelBtn.addEventListener("click", onClickRefund);
 });
-
-
-
-//const verifyPayment = async (rsp) => {
-//    try {
-//        const verificationResponse = await fetch('/api/payment/verify', {
-//            method: 'POST',
-//            body: JSON.stringify({
-//                imp_uid: rsp.imp_uid,           // 결제 고유 ID
-//                merchant_uid: rsp.merchant_uid,  // 주문 고유 ID
-//                amount: rsp.paid_amount         // 실제 결제된 금액
-//            }),
-//            headers: {
-//                'Content-Type': 'application/json'
-//            }
-//        });
-//
-//        const verificationData = await verificationResponse.json();
-//
-//        if (verificationData.status === "success") {
-//            console.log("결제 검증 성공", verificationData);
-//        } else {
-//            console.log("결제 검증 실패", verificationData);
-//        }
-//    } catch (error) {
-//        console.error("결제 검증 중 에러 발생", error);
-//    }
-//};
