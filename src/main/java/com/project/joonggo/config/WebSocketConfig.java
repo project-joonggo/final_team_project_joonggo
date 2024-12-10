@@ -11,6 +11,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
+    /* 챗봇 전용 시작 */
+
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/ws").withSockJS();       // 웹 소켓을 사용하기 위해 설정하는 부분
@@ -21,4 +23,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
         registry.setApplicationDestinationPrefixes("/app");     // prefix 설정
         registry.enableSimpleBroker("/topic");                  // topic이라는 주제에 브로커를 설정
     }
+
+    /* 챗봇 전용 끝 */
+
+
 }
