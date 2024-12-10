@@ -34,6 +34,8 @@ dependencies {
 	implementation 'org.apache.tika:tika-parsers:2.4.1'
 	implementation 'net.coobird:thumbnailator:0.4.17'
 	implementation 'net.nurigo:javaSDK:2.2' //휴대폰 문자 인증
+	// Apache HttpClient 의존성 추가
+	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'

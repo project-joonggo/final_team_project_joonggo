@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.joonggo.repository.FileMapper">
+
+    <insert id="fileUpload">
+        <foreach collection="flist" item="file" separator=",">
+            insert into product_file(uuid, save_dir, file_name, file_type, board_id, file_size)
+            values(#{file.uuid}, #{file.saveDir}, #{file.fileName}, #{file.fileType}, #{file.boardId}, #{file.fileSize})
+        </foreach>
+    </insert>
+
+    <update id="setBoardId">
+        update product_file set board_id = #{boardID} where board_id = 0
+    </update>
+
+    <select id="getFileList" resultType="com.project.joonggo.domain.FileVO">
+        select * from product_file where board_id = #{boardId}
+    </select>
+</mapper>
