@@ -15,29 +15,27 @@ create table user(
 
 create table sellbuy_board(
                               board_id bigint auto_increment,
-                              board_name varchar(256),
+                              seller_id bigint not null,
+                              category varchar(256) not null,
+                              board_name varchar(256) not null,
                               trade_flag int default 0,
-                              trade_price int,
-                              board_content varchar(512),
-                              read_count int default 0,
-                              trade_category varchar(256),
+                              trade_price int not null,
+                              board_content text,
                               like_count int default 0,
-                              create_at datetime default now(),
+                              read_count int default 0,
+                              reg_at datetime default now(),
                               is_del varchar(5) default 'N',
-                              user_num bigint,
-                              primary key(board_id)
-);
+                              primary key (board_id));
 
 create table product_file(
                              uuid varchar(256),
-                             board_id bigint,
+                             board_id bigint not null,
                              save_dir varchar(256),
                              file_name varchar(256),
                              file_type int default 0,
                              file_size bigint,
                              reg_at datetime default now(),
-                             primary key(uuid)
-);
+                             primary key(uuid));
 
 create table qa_board(
                          qa_id bigint auto_increment,
@@ -148,6 +146,18 @@ create table trade(
                       trade_date timestamp,
                       primary key(trade_id)
 );
+
+create table payment (
+                         payment_id bigint auto_increment,
+                         merchant_uid varchar(255) not null unique,
+                         board_id bigint not null,
+                         amount int not null,                     -- 결제 금액
+                         product_name varchar(255) not null,      -- 상품 이름
+                         payment_status varchar(50) default 'SUCCESS', -- 결제 상태 (예: SUCCESS, FAILED, CANCELLED)
+                         paid_at datetime default now(),         -- 결제 일시
+                         refunded_amount int default 0,           -- 환불 금액 (환불 시 업데이트)
+                         cancel_flag boolean default false,       -- 결제 취소 여부
+                         primary key (payment_id));
 -----------------------------------------------------
 --241205
 alter table user add column social_id varchar(256);
@@ -163,3 +173,6 @@ ALTER TABLE user
 ADD COLUMN post_code VARCHAR(10) AFTER address_2;
 alter table user add column address_3 varchar(256) after address_2;
 
+--241210
+ALTER TABLE payment ADD COLUMN user_num bigint UNIQUE;
+ALTER TABLE sellbuy_board modify seller_id bigint;

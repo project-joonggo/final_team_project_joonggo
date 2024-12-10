@@ -51,8 +51,8 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
      const onClickRefund = async () => {
-            const impUid = "imp_036372229219";  // 실제 결제에 대한 impUid
-            const merchantUid = "BUY1733791371723-475";  // 실제 결제에 대한 merchantUid
+            const impUid = "imp_747166742327";  // 실제 결제에 대한 impUid
+            const merchantUid = "BUY1733793166795-713";  // 실제 결제에 대한 merchantUid
             const paidAmount = 100;  // 실제 결제 금액 (원래 결제된 금액)
 
             // 환불 요청을 백엔드로 전송
