@@ -32,4 +32,9 @@ public class LoginServiceImpl implements LoginService{
     public UserVO findUserByEmail(String userId, int signFlagDefault) {
         return userMapper.findUserByEmail(userId, signFlagDefault);
     }
+
+    @Override
+    public Long getUsernumByUserId(String userId) {
+        return userMapper.getUsernumByUserId(userId);
+    }
 }

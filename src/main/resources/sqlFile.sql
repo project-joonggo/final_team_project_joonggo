@@ -176,3 +176,5 @@ alter table user add column address_3 varchar(256) after address_2;
 --241210
 ALTER TABLE payment ADD COLUMN user_num bigint UNIQUE;
 ALTER TABLE sellbuy_board modify seller_id bigint;
+ALTER TABLE sellbuy_board MODIFY COLUMN board_content TEXT;
+ALTER TABLE product_file ADD COLUMN file_url VARCHAR(512);

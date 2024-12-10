@@ -18,5 +18,10 @@
         where user_id = #{userId} and signflag = #{signFlagDefault}
         and is_del = 'N'
     </select>
+    <select id="getUsernumByUserId" resultType="Long">
+        SELECT user_num
+        FROM user
+        WHERE user_id = #{userId}
+    </select>
 
 </mapper>

@@ -11,7 +11,18 @@ public interface BoardService {
 
     int fileUpload(List<FileVO> flist);
 
-    List<BoardVO> getList();
+    List<BoardFileDTO> getList();
 
-    BoardFileDTO getDetail(Long boardID);
+    BoardFileDTO getDetail(Long boardId);
+
+    void updateTradeFlag(Long boardId);
+
+    String getUpdateContent(long boardId);
+
+
+    void updateBoardContent(BoardVO boardVO);
+
+    void deleteFileFromDB(String uuid);
+
+    void boardIsDelUpdate(Long boardId);
 }

@@ -1,7 +1,9 @@
 package com.project.joonggo.repository;
 
+import com.project.joonggo.domain.BoardFileDTO;
 import com.project.joonggo.domain.BoardVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -11,7 +13,17 @@ public interface BoardMapper {
 
     long getBoardId(BoardVO boardVO);
 
-    List<BoardVO> getList();
+    List<BoardFileDTO> getList();
 
-    BoardVO getDetail(Long boardID);
+    BoardVO getDetail(Long boardId);
+
+    void updateTradeFlag(Long boardId);
+
+    String getUpdateContent(long boardId);
+
+    void updateBoardContent(BoardVO boardVO);
+
+    void boardIsDelUpdate(Long boardId);
+
+    List<BoardVO> getBoardList();
 }

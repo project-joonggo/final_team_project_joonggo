@@ -13,4 +13,7 @@ public interface FileMapper {
     int setBoardId(long boardId);
 
     List<FileVO> getFileList(Long boardID);
+
+    void deleteFileFromDB(String uuid);
+
 }

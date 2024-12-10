@@ -4,6 +4,7 @@ import com.project.joonggo.domain.Payment;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
 import java.util.Map;
 
 @Mapper
@@ -12,4 +13,6 @@ public interface PaymentMapper {
 
     void updatePaymentStatus(@Param("impUid") String impUid,
                              @Param("paidAmount") int paidAmount);
+
+    List<Payment> getPaymentHistory(Long userNum);
 }

@@ -17,10 +17,9 @@ public class BoardVO {
     private String boardName;
     private int tradeFlag;
     private int tradePrice;
-    private String content;
+    private String boardContent;
     private int likeCount;
     private int readCount;
     private LocalDateTime regAt;
     private String isDel;
-    private String merchantUid;
 }

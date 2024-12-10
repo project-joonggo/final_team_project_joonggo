@@ -6,8 +6,8 @@
 
     <insert id="fileUpload">
         <foreach collection="flist" item="file" separator=",">
-            insert into product_file(uuid, save_dir, file_name, file_type, board_id, file_size)
-            values(#{file.uuid}, #{file.saveDir}, #{file.fileName}, #{file.fileType}, #{file.boardId}, #{file.fileSize})
+            insert into product_file(uuid, save_dir, file_name, file_type, board_id, file_size, file_url)
+            values(#{file.uuid}, #{file.saveDir}, #{file.fileName}, #{file.fileType}, #{file.boardId}, #{file.fileSize}, #{file.fileUrl})
         </foreach>
     </insert>
 
@@ -16,6 +16,13 @@
     </update>
 
     <select id="getFileList" resultType="com.project.joonggo.domain.FileVO">
-        select * from product_file where board_id = #{boardId}
+        select * from product_file where board_id = #{boardId}  order by board_id desc
     </select>
+
+    <update id="deleteFileFromDB">
+        DELETE FROM product_file
+        WHERE uuid = #{uuid}
+    </update>
+
+
 </mapper>
