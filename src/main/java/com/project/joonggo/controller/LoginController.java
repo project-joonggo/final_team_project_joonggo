@@ -61,7 +61,7 @@ public class LoginController {
     @PostMapping("/enter")
     public String login(UserVO userVO, HttpSession session, Model model) {
         // DB에서 user_id로 사용자 조회
-        UserVO loginUser = loginService.findUserByIdAndSignFlag(userVO.getUserId(), SIGN_FLAG_DEFAULT);
+        UserVO loginUser = loginService.findUserByEmail(userVO.getUserId(), SIGN_FLAG_DEFAULT);
 
         if (loginUser == null) {
             // 사용자 ID가 없는 경우

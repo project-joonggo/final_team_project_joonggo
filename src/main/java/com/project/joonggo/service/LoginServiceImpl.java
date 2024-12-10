@@ -27,4 +27,9 @@ public class LoginServiceImpl implements LoginService{
     public UserVO findUserByIdAndSignFlag(String id, int signflag) {
         return userMapper.findUserByIdAndSignFlag(id, signflag);
     }
+
+    @Override
+    public UserVO findUserByEmail(String userId, int signFlagDefault) {
+        return userMapper.findUserByEmail(userId, signFlagDefault);
+    }
 }

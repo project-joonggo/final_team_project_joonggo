@@ -8,4 +8,6 @@ public interface UserMapper {
     int insert(UserVO userVO);
     
     UserVO findUserByIdAndSignFlag(String id, int signflag);
+
+    UserVO findUserByEmail(String userId, int signFlagDefault);
 }
