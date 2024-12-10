@@ -38,5 +38,3 @@ out/
 
 ### API Key ###
 config.properties
-
-com/project/joonggo/handler/SocialLoginHandler.class
