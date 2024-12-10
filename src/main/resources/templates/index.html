@@ -38,6 +38,9 @@
       <li th:text="'온도 : ' + ${weather['temperature']}"></li>
       <li th:text="'습도 : ' + ${weather['humidity']}"></li>
     </div>
+<!--    <div th:if="${weather == null}">-->
+<!--      <p>날씨 정보를 불러올 수 없습니다.</p>-->
+<!--    </div>-->
 
   </div>
   <h3><a th:href="@{/chat/chatting}">chatting test</a></h3>
