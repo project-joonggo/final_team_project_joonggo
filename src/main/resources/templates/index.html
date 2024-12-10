@@ -4,7 +4,6 @@
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
-<body>
 <div layout:fragment="content">
   <div class="container-md">
     <!--    카카오맵 API 로딩 (HTTPS 사용)-->
@@ -41,7 +40,23 @@
     </div>
 
   </div>
-</div>
+  <h3><a th:href="@{/chat/chatting}">chatting test</a></h3>
+  <button type="button" id="openChatBtn">대화방 열기</button>
 
-</body>
-</html>
+<!-- 대화방 사이드바 -->
+<div id="chatSidebar" class="chat-sidebar">
+  <div class="chat-header">
+    <span>대화방</span>
+    <button id="closeChatBtn">&times;</button>
+  </div>
+  <div class="chat-messages">
+    <div class="message">
+      안녕하세요!<br>대화방에 오신 것을 환영합니다.
+    </div>
+  </div>
+  <input type="text" id="chatInput" placeholder="메시지를 입력하세요...">
+  <button id="sendBtn">전송</button>
+
+</div>
+  <script th:src="@{/js/chatside.js}"></script>
+</div>
