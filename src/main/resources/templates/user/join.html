@@ -8,7 +8,7 @@
   <div class="container-md">
     <div id="joinBox">
       <h1>회원 가입</h1>
-      <form action="/login/join" method="post" class="">
+      <form action="/user/join" method="post" class="">
         <table>
           <input type="hidden" name="signflag" th:value="${signflag}">
           <input type="hidden" name="socialId" th:value="${socialUserId}">
@@ -66,28 +66,36 @@
             </tr>
             <tr>
               <th>휴대전화</th>
-              <td class="d-flex justify-content-start">
-                <input type="text" id="phone" name="phone" class="form-control" placeholder="휴대폰 번호(-제외)">
-                <a class="btn btn-success" id="phoneChk">인증</a>
+              <td class="d-flex justify-content-start align-items-center gap-2">
+                <ul>
+                  <li class="d-flex justify-content-start align-items-center gap-2">
+                    <input type="text" id="phone" name="phone" class="form-control" placeholder="휴대폰 번호(-제외)">
+                    <a id="phoneChk" class="d-flex align-items-center">인증번호받기</a>
+                  </li>
+                  <li class="d-flex justify-content-start align-items-center gap-2">
+                    <input type="text" id="check" name="check" class="form-control" placeholder="인증번호" disabled>
+                    <a id="phoneChk2" class="d-flex align-items-center">인증하기</a>
+                  </li>
+                  <li>
+                    <div id="dup-check"></div>
+                  </li>
+                </ul>
               </td>
             </tr>
           </tbody>
 
           <div class="mb-3">
             <label class="form-label">생년월일</label>
-            <input type="text" class="form-control" name="birthYear" placeholder="birthYear..."
+            <input type="text" class="form-control" name="birthYear" placeholder="예: 1990"
                    th:value="${birthYear != null ? birthYear : ''}" th:attr="readonly=${birthYear != null}">
-            <input type="text" class="form-control" name="birthMonth" placeholder="birthMonth..."
+            <input type="text" class="form-control" name="birthMonth" placeholder="예: 04"
                    th:value="${birthMonth != null ? birthMonth : ''}" th:attr="readonly=${birthMonth != null}">
-            <input type="text" class="form-control" name="birthDay" placeholder="birthDay..."
+            <input type="text" class="form-control" name="birthDay" placeholder="예: 15"
                    th:value="${birthDay != null ? birthDay : ''}" th:attr="readonly=${birthDay != null}">
           </div>
 
-          <div class="mb-3">
-            <label class="form-label">인증번호</label>
-            <input type="text" id="check" name="check" class="form-control" placeholder="인증번호" disabled><a class="btn btn-success" id="phoneChk2">확인</a>
-          </div>
-          <div id="dup-check"></div>
+
+
 
         </table>
         <button type="submit" class="btn btn-primary">가입하기</button>

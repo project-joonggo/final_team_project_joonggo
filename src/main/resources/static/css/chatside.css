@@ -1,14 +1,8 @@
 /* 기본 페이지 스타일 */
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-  }
-  
   .content {
     padding: 20px;
   }
-  
+
   button {
     padding: 10px;
     background-color: #4CAF50;
@@ -16,11 +10,11 @@ body {
     border: none;
     cursor: pointer;
   }
-  
+
   button:hover {
     background-color: #45a049;
   }
-  
+
   /* 대화방 사이드바 스타일 */
   .chat-sidebar {
     position: fixed;
@@ -35,32 +29,32 @@ body {
     display: flex;
     flex-direction: column;
   }
-  
+
   .chat-sidebar.active {
     right: 0;
   }
-  
+
   .chat-header {
     display: flex;
     justify-content: space-between;
     font-size: 18px;
     font-weight: bold;
   }
-  
+
   .chat-messages {
     flex-grow: 1;
     margin: 20px 0;
     overflow-y: auto;
     height: calc(100% - 160px);
   }
-  
+
   .message {
     padding: 10px;
     margin-bottom: 10px;
     background-color: #f1f1f1;
     border-radius: 10px;
   }
-  
+
   #chatInput {
     padding: 10px;
     /*width: calc(100% - 22px);*/
@@ -68,7 +62,7 @@ body {
     border-radius: 5px;
     border: 1px solid #ccc;
   }
-  
+
   #sendBtn {
     padding: 10px;
     background-color: #4CAF50;

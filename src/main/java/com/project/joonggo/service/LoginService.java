@@ -8,5 +8,5 @@ public interface LoginService {
 
     UserVO findUserByIdAndSignFlag(String id, int signflag);
 
-    UserVO findUserByEmail(String userId, int signFlagDefault);
+    /*UserVO findUserByEmail(String userId, int signFlagDefault);*/
 }

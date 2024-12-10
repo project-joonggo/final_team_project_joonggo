@@ -17,9 +17,16 @@ public class LoginServiceImpl implements LoginService{
     @Override
     public int insert(UserVO userVO) {
         int isOk = userMapper.insert(userVO);
-/*        if(isOk > 0){
-            userMapper.insertAuthInit(userVO.getEmail());
-        }*/
+        log.info(">>>>>>>>>>>>>>>>>>>>>> userVO : {}", userVO);
+
+
+        if(isOk > 0){
+
+            long userNum = userMapper.getMaxUserNum();
+
+            userMapper.insertAuthInit(userNum);
+            log.info(">>>>>>>>>>>>>>>>>>>>>>>>>insertAUthInit할 유저의 pk{}",userNum);
+        }
         return isOk;
     }
 
@@ -28,8 +35,8 @@ public class LoginServiceImpl implements LoginService{
         return userMapper.findUserByIdAndSignFlag(id, signflag);
     }
 
-    @Override
+/*    @Override
     public UserVO findUserByEmail(String userId, int signFlagDefault) {
         return userMapper.findUserByEmail(userId, signFlagDefault);
-    }
+    }*/
 }

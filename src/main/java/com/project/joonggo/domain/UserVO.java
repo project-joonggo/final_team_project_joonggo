@@ -2,6 +2,8 @@ package com.project.joonggo.domain;
 
 import lombok.*;
 
+import java.util.List;
+
 @Getter
 @Setter
 @ToString
@@ -25,4 +27,6 @@ public class UserVO {
     private int signflag;
     private String socialId;
     private String phone;
+
+    public List<AuthVO> authList;
 }

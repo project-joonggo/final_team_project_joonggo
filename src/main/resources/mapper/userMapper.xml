@@ -2,9 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.joonggo.repository.UserMapper">
-    <insert id="insert">
+    <insert id="insert" keyProperty="userNum">
         insert into user(user_id, password, user_name, birth_year, birth_month, birth_day, address_1, address_2, address_3, post_code, signflag, social_id, phone)
         values(#{userId}, #{password}, #{userName}, #{birthYear}, #{birthMonth}, #{birthDay}, #{address1}, #{address2}, #{address3}, #{postCode}, #{signflag}, #{socialId}, #{phone})
+    </insert>
+    <insert id="insertAuthInit">
+        insert into auth(user_num, auth)
+        values(#{userNum}, 'ROLE_USER')
     </insert>
     <select id="findUserByIdAndSignFlag" parameterType="map" resultType="com.project.joonggo.domain.UserVO">
         select *
@@ -16,6 +20,21 @@
         select *
         from user
         where user_id = #{userId} and signflag = #{signFlagDefault}
+        and is_del = 'N'
+    </select>
+    <select id="getMaxUserNum" resultType="long">
+        SELECT MAX(user_num) FROM user;
+    </select>
+    <select id="selectUserNum" resultType="com.project.joonggo.domain.UserVO">
+        select * from user where user_num = #{userNum}
+    </select>
+    <select id="selectAuths" resultType="com.project.joonggo.domain.AuthVO">
+        select * from auth where user_num = #{userNum}
+    </select>
+    <select id="selectUserByEmailAndDefaultSignFlag" resultType="com.project.joonggo.domain.UserVO">
+        select *
+        from user
+        where user_id = #{username} and signflag = 0
         and is_del = 'N'
     </select>
 

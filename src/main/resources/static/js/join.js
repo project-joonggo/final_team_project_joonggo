@@ -24,7 +24,7 @@ document.getElementById("phoneChk").addEventListener("click", function () {
                     alert("휴대폰 번호가 올바르지 않습니다.");
                 } else {
                     checkInput.disabled = false;
-                    dupCheck.textContent = "인증번호를 입력한 뒤 본인인증을 눌러주십시오.";
+                    dupCheck.textContent = "인증번호를 입력한 뒤 인증하기를 눌러주십시오.";
                     dupCheck.style.color = "red";
                     phoneInput.readOnly = true;
                     authCode = data;
@@ -43,7 +43,7 @@ document.getElementById("phoneChk2").addEventListener("click", function () {
 
     if (authCode.length <= 0) {
         checkInput.disabled = false;
-        dupCheck.textContent = "인증번호를 입력한 뒤 본인인증을 눌러주십시오.";
+        dupCheck.textContent = "인증번호를 입력한 뒤 인증하기를 눌러주십시오.";
         dupCheck.style.color = "red";
     } else if (checkInput.value === authCode) {
         dupCheck.textContent = "인증번호가 일치합니다.";

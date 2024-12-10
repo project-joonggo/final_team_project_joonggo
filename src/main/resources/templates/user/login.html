@@ -13,9 +13,9 @@
         <div id="loginBox">
             <div class="padding-30">
                 <h1 class="font-weight-bold">쓸템에 오신 것을 환영합니다.</h1>
-                <form action="/login/enter" method="post">
+                <form action="/user/login" method="post">
                     <div class="mb-3">
-                        <input type="text" class="form-control" id="i" name="userId" placeholder="아이디">
+                        <input type="text" class="form-control" id="i" name="username" placeholder="아이디">
                     </div>
                     <div class="mb-3">
                         <input type="text" class="form-control" id="p" name="password" placeholder="비밀번호">
@@ -25,7 +25,7 @@
                 </form>
                 <div id="joinBtnArea">
                     <span>계정이 없으신가요? </span>
-                    <a href="/login/join" class="font-weight-bold">회원가입</a>
+                    <a href="/user/join" class="font-weight-bold">회원가입</a>
                 </div>
                 <div id="socialBtn">
                     <div class="hr-sect">또는</div>
