@@ -75,13 +75,6 @@ public class WeatherService {
 
     // 날씨 정보를 Map<String, String> 형태로 반환하는 메서드
     public Map<String, String> returnWeather(Map<String, String> lanLon){
-//        Map<String, String> weather_reload = new HashMap<>();
-//
-//        if (lanLon == null || lanLon.get("lat") == null || lanLon.get("lon") == null) {
-//            // 위도나 경도가 없으면 빈 맵 반환
-//            return weather_reload;
-//        }
-
         String apiKey = OpenWeatherMap_API_KEY; // Open Weather Map 날씨 API에서 발급받은 API Key 작성할 것
 
         // 넘어온 위도, 경도를 포함한 url

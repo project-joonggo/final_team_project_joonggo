@@ -3,6 +3,11 @@
     let geocoder;
 
     function initializeMap() {
+      if (!sessionStorage.getItem('addressSubmitted')) {
+        // addressSubmitted가 없을 경우에만 초기화
+        sessionStorage.removeItem('addressSubmitted'); // sessionStorage 초기화
+      }
+
       // Geocoder 객체 생성
       geocoder = new kakao.maps.services.Geocoder();
   
@@ -64,10 +69,15 @@
                           // 페이지 로드 후 한 번만 자동 제출하도록 설정
                           const addressInput = document.getElementById("addressInput");
                           addressInput.value = depthAddress;
+                          console.log(addressInput.value);
 
+                          // 주소 정보를 sessionStorage에 저장
+                          sessionStorage.setItem('userAddress', depthAddress);
+                          
                           // 'addressForm' 제출 방지 여부 확인
                           if (!sessionStorage.getItem('addressSubmitted')) {
                             const addressForm = document.getElementById("addressForm");
+                            console.log(addressInput.value);
                             addressForm.submit();
 
                             // 제출한 후 sessionStorage에 표시
