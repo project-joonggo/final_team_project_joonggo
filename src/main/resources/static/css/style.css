@@ -50,10 +50,23 @@ a {
     color: inherit;
 }
 
-
 /* 공통 */
+.font-weight-bold{
+    font-weight: bold;
+}
+.padding-30{
+    padding: 30px;
+}
+.padding-top-10{
+    padding-top: 10px;
+}
+.margin-bot-20{
+    margin-bottom: 20px;
+}
+
+/* header */
 #header{
-/*    background-color: beige;*/
+    border-bottom: 1px solid rgba(161, 176, 184, 0.33);
 }
 .logoName{
     font-size: 40px;
@@ -82,7 +95,7 @@ a {
     padding-left: 50px; /* 검색 아이콘 위치를 위한 패딩 */
     border: none;
     border-radius: 10px; /* 둥근 모서리 */
-    background-color: rgba(161, 176, 184, 0.33);
+    background-color: rgba(161, 176, 184, 0.2);
     font-size: 16px;
     color: #757b80; /* 연한 텍스트 색 */
     outline: none; /* 클릭 시 파란 테두리 제거 */
@@ -90,18 +103,18 @@ a {
 #searchBox:focus {
     color: #000; /* 검은색으로 변경 */
 }
-.headerBot img{
+.userMenu img{
     width: 16px;
     height: 16px;
 }
-.headerBot span{
+.userMenu span{
     font-weight: 600;
 }
-.headerBot ul li{
+.userMenu ul li{
     position: relative;
     padding-right: 15px;
 }
-.headerBot ul li:after{
+.userMenu ul li:after{
     position: absolute;
     right: 0; /* 오른쪽 끝에 배치 */
     top: 50%; /* 세로 중앙 정렬 */
@@ -111,7 +124,202 @@ a {
     width: 1px;
     height: 17px;
 }
-/* 마지막 li에서는 :after를 제거 */
-.headerBot ul li:last-child:after {
+.userMenu ul li:last-child:after {
     content: none; /* 마지막 항목에서 :after 제거 */
+}
+#category{
+    background-color: #A0173B;
+    padding: 15px;
+    font-size: 16px;
+    color: #ffffff;
+    font-weight: 600;
+    border-radius: 10px;
+}
+#category svg{
+    width: 16px;
+    height: 16px;
+    fill: #ffffff !important;
+}
+#headerTop{
+    padding: 10px 0;
+}
+#headerBot{
+    padding-top: 10px;
+}
+#headerBot nav{
+    padding-left: 40px;
+    font-size: 18px;
+    color: #A0173B;
+}
+#headerBot nav a{
+    font-weight: normal;
+    position: relative;
+    transition: all 0.3s ease;
+}
+#headerBot nav a:hover{
+    font-weight: bold;
+}
+#headerBot nav a::after{
+    content: ""; /* 가상의 밑줄 생성 */
+    display: block;
+    width: 0; /* 초기 너비는 0 */
+    height: 3px; /* 밑줄 두께 */
+    background-color: #A0173B; /* 밑줄 색상 */
+    position: absolute;
+    bottom: -2rem; /* 텍스트 아래 간격 */
+    left: 0;
+    transition: width 0.3s ease; /* 밑줄 애니메이션 효과 */
+}
+#headerBot nav a:hover::after{
+    width: 100%;
+}
+
+/* footer */
+#footer{
+    font-size: 14px;
+    background-color: rgba(161, 176, 184, 0.15);
+    padding: 2.5rem 0 2.75rem 0;
+    color: #757b80;
+}
+#footer h4{
+    color: black;
+    font-weight: bold;
+    padding-bottom: 20px;
+}
+.footerPipe{
+    background-color: rgba(161, 176, 184, 0.35);
+    width: 2px;
+    height: 14px;
+}
+#contactArea{
+    padding-top: 20px;
+}
+#contactArea h5{
+    padding-right: 15px;
+    font-weight: bold;
+}
+.whiteLine{
+    margin: 20px 0;
+    color: #ffffff;
+}
+.footerBotChild{
+    width: 50%;
+}
+#footerBot .footerBotChild ul {
+    display: flex;
+    flex-wrap: wrap; /* 요소들이 랩되도록 설정 */
+    color: black;
+}
+.footerText{
+    line-height: 22px;
+}
+
+/* login page */
+#loginPageWrap{
+    margin: 30px auto;
+}
+#loginBox {
+    width: 450px;
+    margin: 20px auto;
+    border-radius: 10px;
+    background-color: rgba(241, 198, 184, 0.3);
+}
+#loginBox h1{
+    font-size: 26px;
+    padding-bottom: 30px;
+}
+#loginBtn{
+    background-color: #A0173B;
+    color: #ffffff;
+    width: 100%;
+    margin: 20px 0;
+}
+#joinBtnArea{
+    color: #757b80;
+    text-align: center;
+    padding-bottom: 20px;
+}
+.hr-sect {
+    display: flex;
+    flex-basis: 100%;
+    align-items: center;
+    color: #757b80;
+    font-size: 12px;
+    margin-bottom: 20px;
+}
+.hr-sect::before,
+.hr-sect::after {
+    content: "";
+    flex-grow: 1;
+    background: rgba(161, 176, 184, 0.33);
+    height: 1px;
+    font-size: 0;
+    line-height: 0;
+    margin: 0 16px;
+}
+#socialBtn a{
+    display: block;
+    padding: 10px 0;
+    height: 50px;
+    border-radius: 10px;
+}
+.kakaoBtn{
+    background-color: #FEE500;
+    color:rgb(54, 54, 54);
+    background-image: url(../img/icon_kakao.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    margin-bottom: 10px;
+}
+.naverBtn{
+    background-color: rgb(3, 199, 90);
+    color: aliceblue;
+    background-image: url(../img/icon_naver.png);
+    background-size: 50px;
+    background-repeat: no-repeat;
+    margin-bottom: 10px;
+}
+.googleBtn{
+    background-color: white;
+    color:rgb(54, 54, 54);
+    background-image: url(../img/icon_google.png);
+    background-repeat: no-repeat;
+    background-position: 10px 10px;
+    background-size: 30px;
+
+}
+
+/* join page */
+#joinBox{
+    margin: 30px auto;
+    width: 800px;
+}
+#joinBox h1{
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+}
+#joinBox form{
+    margin: 20px 0;
+}
+#joinBox table{
+    width: 100%;
+}
+#joinBox td span{
+    white-space: nowrap;
+    color: #757b80;
+    font-size: 14px;
+}
+#joinBox td input{
+    width: 312px;
+}
+#addressBtn{
+    border: 1px solid black;
+    height: 38px;
+    border-radius: 0.375rem;
+    padding: 6px 20px;
+    cursor: pointer;
+}
+#address1, #address2, #address3{
+    width: 397px;
 }

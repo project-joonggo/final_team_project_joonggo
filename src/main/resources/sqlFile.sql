@@ -149,8 +149,17 @@ create table trade(
                       primary key(trade_id)
 );
 -----------------------------------------------------
---241205 추가
+--241205
 alter table user add column social_id varchar(256);
 
---241206 추가
+--241206
 alter table user add column phone varchar(50);
+
+--241209
+ALTER TABLE user
+    CHANGE COLUMN address address_1 VARCHAR(256);
+ALTER TABLE user
+    ADD COLUMN address_2 VARCHAR(256) AFTER address_1,
+ADD COLUMN post_code VARCHAR(10) AFTER address_2;
+alter table user add column address_3 varchar(256) after address_2;
+

@@ -6,48 +6,95 @@
 
 <div layout:fragment="content">
   <div class="container-md">
-    <h1>회원가입</h1>
-    <form action="/login/join" method="post">
-      <input type="hidden" name="signflag" th:value="${signflag}">
-      <input type="hidden" name="socialId" th:value="${socialUserId}">
-      <div class="mb-3">
-        <label for="i" class="form-label">ID</label>
-        <input type="text" class="form-control" id="i" name="userId" placeholder="id..."
-               th:value="${socialEmail != null ? socialEmail : ''}" th:attr="readonly=${socialEmail != null}">
-      </div>
-      <div class="mb-3">
-        <label for="p" class="form-label">비밀번호</label>
-        <input type="text" class="form-control" id="p" name="password" placeholder="password...">
-      </div>
-      <div class="mb-3">
-        <label for="n" class="form-label">이름</label>
-        <input type="text" class="form-control" id="n" name="userName" placeholder="name...">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">생년월일</label>
-        <input type="text" class="form-control" name="birthYear" placeholder="birthYear..."
-               th:value="${birthYear != null ? birthYear : ''}" th:attr="readonly=${birthYear != null}">
-        <input type="text" class="form-control" name="birthMonth" placeholder="birthMonth..."
-               th:value="${birthMonth != null ? birthMonth : ''}" th:attr="readonly=${birthMonth != null}">
-        <input type="text" class="form-control" name="birthDay" placeholder="birthDay..."
-               th:value="${birthDay != null ? birthDay : ''}" th:attr="readonly=${birthDay != null}">
-      </div>
-      <div class="mb-3">
-        <label class="form-label">휴대폰 번호</label>
-        <input type="text" id="phone" name="phone" class="form-control" placeholder="휴대폰 번호(-제외)"><a class="btn btn-success" id="phoneChk">인증</a>
-      </div>
-      <div class="mb-3">
-        <label class="form-label">인증번호</label>
-        <input type="text" id="check" name="check" class="form-control" placeholder="인증번호" disabled><a class="btn btn-success" id="phoneChk2">확인</a>
-      </div>
-      <div id="dup-check"></div>
-      <div class="mb-3">
-        <label for="a" class="form-label">주소</label>
-        <input type="text" class="form-control" id="a" name="address" placeholder="address...">
-      </div>
-      <button type="submit" class="btn btn-primary">가입하기</button>
+    <div id="joinBox">
+      <h1>회원 가입</h1>
+      <form action="/login/join" method="post" class="">
+        <table>
+          <input type="hidden" name="signflag" th:value="${signflag}">
+          <input type="hidden" name="socialId" th:value="${socialUserId}">
+          <colgroup>
+            <col style="width:112px;">
+            <col style="width:auto;">
+          </colgroup>
+          <tbody>
+            <tr>
+              <th>아이디(이메일)</th>
+              <td class="d-flex justify-content-start align-items-center gap-2">
+                <input type="text" class="form-control" id="i" name="userId"
+                         th:value="${socialEmail != null ? socialEmail : ''}" th:attr="readonly=${socialEmail != null}">
+                <span>(이메일 형식)</span>
+              </td>
+            </tr>
+            <tr>
+              <th>비밀번호</th>
+              <td class="d-flex justify-content-start align-items-center gap-2">
+                <input type="password" class="form-control" name="password" placeholder="">
+                <span>(영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)</span>
+              </td>
+            </tr>
+            <tr>
+              <th>비밀번호 확인</th>
+              <td class="d-flex justify-content-between align-items-center gap-2">
+                <input type="password" class="form-control" name="passwordCheck" placeholder="">
+              </td>
+            </tr>
+            <tr>
+              <th>이름</th>
+              <td class="d-flex justify-content-between align-items-center gap-2">
+                <input type="text" class="form-control" name="userName">
+              </td>
+            </tr>
+            <tr>
+              <th>주소</th>
+              <td>
+                <ul>
+                  <li class="d-flex justify-content-start align-items-center gap-2">
+                    <input type="text" class="form-control" name="postCode" id="postCode" placeholder="우편번호">
+                    <a id="addressBtn" class="d-flex align-items-center" onclick="searchPostCode()">주소검색</a>
+                  </li>
+                  <li class="d-flex justify-content-between align-items-center gap-2">
+                    <input type="text" class="form-control" name="address1" id="address1" placeholder="기본주소">
+                  </li>
+                  <li class="d-flex justify-content-between align-items-center gap-2">
+                    <input type="text" class="form-control" name="address2" id="address2" placeholder="나머지 주소(선택입력가능)">
+                  </li>
+                  <li class="d-flex justify-content-between align-items-center gap-2">
+                    <input type="text" class="form-control" name="address3" id="address3">
+                  </li>
+                </ul>
+              </td>
+            </tr>
+            <tr>
+              <th>휴대전화</th>
+              <td class="d-flex justify-content-start">
+                <input type="text" id="phone" name="phone" class="form-control" placeholder="휴대폰 번호(-제외)">
+                <a class="btn btn-success" id="phoneChk">인증</a>
+              </td>
+            </tr>
+          </tbody>
 
-    </form>
+          <div class="mb-3">
+            <label class="form-label">생년월일</label>
+            <input type="text" class="form-control" name="birthYear" placeholder="birthYear..."
+                   th:value="${birthYear != null ? birthYear : ''}" th:attr="readonly=${birthYear != null}">
+            <input type="text" class="form-control" name="birthMonth" placeholder="birthMonth..."
+                   th:value="${birthMonth != null ? birthMonth : ''}" th:attr="readonly=${birthMonth != null}">
+            <input type="text" class="form-control" name="birthDay" placeholder="birthDay..."
+                   th:value="${birthDay != null ? birthDay : ''}" th:attr="readonly=${birthDay != null}">
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">인증번호</label>
+            <input type="text" id="check" name="check" class="form-control" placeholder="인증번호" disabled><a class="btn btn-success" id="phoneChk2">확인</a>
+          </div>
+          <div id="dup-check"></div>
+
+        </table>
+        <button type="submit" class="btn btn-primary">가입하기</button>
+
+      </form>
+    </div>
   </div>
   <script th:src="@{/js/join.js}"></script>
+  <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </div>

@@ -18,7 +18,11 @@ public class UserVO {
     private String birthDay;
     private double score;
     private String isDel;
-    private String address;
+    private String address1;
+    private String address2;
+    private String address3;
+    private String postCode;
     private int signflag;
     private String socialId;
+    private String phone;
 }

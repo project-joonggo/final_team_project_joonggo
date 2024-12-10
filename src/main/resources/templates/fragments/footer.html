@@ -2,6 +2,68 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org">
 
-<div th:fragment="footer" class="bg-primary text-white container-md">
-    <h5>Footer Area</h5>
+<div th:fragment="footer" id="footer">
+    <footer class="container-md">
+        <section id="footerTop" class="d-flex justify-content-between">
+            <div>
+                <h4>(주)쓸템 사업자 정보</h4>
+                <ul class="d-flex align-items-start flex-column gap-3">
+                    <li class="d-flex justify-content-start align-items-center gap-2">
+                        <span>(주)쓸템</span>
+                        <div class="footerPipe"></div>
+                        <span>대표자 : SseulTem</span>
+                    </li>
+                    <li>사업자 등록번호 : 987-65-43210</li>
+                    <li>통신판매신고번호 : 제2024-인천이젠-1004호</li>
+                    <li>주소 : 인천 남동구 인주대로 593 엔타스빌딩 12층</li>
+                    <li>대표번호 : 987-654-3210</li>
+                    <li>메일 : sseultem@sseultem.com</li>
+                    <li>호스팅제공자 : 아마존웹서비스</li>
+                </ul>
+                <div id="contactArea" class="d-flex justify-content-start align-items-center">
+                    <h5>Contact</h5>
+                    <ul class="d-flex justify-content-start align-items-center gap-2">
+                        <li><a href="">쓸템 셀러 회원 신청</a></li>
+                        <div class="footerPipe"></div>
+                        <li><a href="">쓸템 광고 문의</a></li>
+                    </ul>
+                </div>
+            </div>
+            <ul class="d-flex justify-content-end gap-3">
+                <li><a href=""><img src="/img/icon_fbook.png"></a></li>
+                <li><a href=""><img src="/img/icon_ytube.png"></a></li>
+                <li><a href=""><img src="/img/icon_insta.png"></a></li>
+                <li><a href=""><img src="/img/icon_twitter.png"></a></li>
+            </ul>
+        </section>
+        <hr class="whiteLine"></hr>
+        <section id="footerBot" class="d-flex justify-content-between">
+            <div class="footerBotChild">
+                <ul class="d-flex justify-content-between margin-bot-20">
+                    <a href=""><div>이용약관</div></a>
+                    <div class="footerPipe"></div>
+                    <a href=""><div class="font-weight-bold">개인정보처리방침</div></a>
+                    <div class="footerPipe"></div>
+                    <a href=""><div>분쟁처리절차</div></a>
+                    <div class="footerPipe"></div>
+                    <a href=""><div>청소년보호정책</div></a>
+                    <div class="footerPipe"></div>
+                    <a href=""><div>사업자정보확인</div></a>
+                    <div class="footerPipe"></div>
+                    <a href=""><div>게시글 수집 및 이용 안내</div></a>
+                    <div class="footerPipe"></div>
+                    <a href="" class="padding-top-10">쓸템 고객센터</a>
+                </ul>
+                <p class="footerText">“쓸템” 상점의 판매상품을 제외한 모든 상품들에 대하여, (주)쓸템은 통신판매중개자로서 거래 당사자가 아니며 판매 회원과 구매 회원 간의 상품거래 정보 및 거래에 관여하지 않고, 어떠한 의무와 책임도 부담하지 않습니다.</p>
+            </div>
+            <div class="footerBotChild d-flex justify-content-end gap-1">
+                <a href="#">
+                    <span class="font-weight-bold">카테고리 리스트</span>
+                    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" class="transition duration-200 ease-in-out transform text-heading rotate-0" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M256 294.1L383 167c9.4-9.4 24.6-9.4 33.9 0s9.3 24.6 0 34L273 345c-9.1 9.1-23.7 9.3-33.1.7L95 201.1c-4.7-4.7-7-10.9-7-17s2.3-12.3 7-17c9.4-9.4 24.6-9.4 33.9 0l127.1 127z"></path>
+                    </svg>
+                </a>
+            </div>
+        </section>
+    </footer>
 </div>

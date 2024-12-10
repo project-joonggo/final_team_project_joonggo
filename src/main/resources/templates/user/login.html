@@ -5,27 +5,35 @@
       layout:decorate="~{layout/layout}">
 
 <div layout:fragment="content">
-    <div class="container-md">
-        <h1> final Boot Project</h1>
-        <hr>
-        로그인 페이지 입니다.
-        <form action="/login/enter" method="post">
-            <div class="mb-3">
-                <label for="i" class="form-label">ID</label>
-                <input type="text" class="form-control" id="i" name="userId" placeholder="id...">
+    <div class="container-md" id="loginPageWrap">
+        <a href="/" class="d-flex justify-content-center align-items-center">
+            <img src="/img/logo.svg">
+            <span class="logoName">SSeul Tem</span>
+        </a>
+        <div id="loginBox">
+            <div class="padding-30">
+                <h1 class="font-weight-bold">쓸템에 오신 것을 환영합니다.</h1>
+                <form action="/login/enter" method="post">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="i" name="userId" placeholder="아이디">
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="p" name="password" placeholder="비밀번호">
+                    </div>
+                    <div th:if="${error}" class="error" th:text="${error}"></div>
+                    <button type="submit" class="btn" id="loginBtn">로그인하기</button>
+                </form>
+                <div id="joinBtnArea">
+                    <span>계정이 없으신가요? </span>
+                    <a href="/login/join" class="font-weight-bold">회원가입</a>
+                </div>
+                <div id="socialBtn">
+                    <div class="hr-sect">또는</div>
+                    <a class="kakaoBtn d-flex align-items-center justify-content-center" th:href="${kakaoLoginPageUrl}">카카오로 로그인</a>
+                    <a class="naverBtn d-flex align-items-center justify-content-center" th:href="${naverLoginPageUrl}">네이버로 로그인</a>
+                    <a class="googleBtn d-flex align-items-center justify-content-center" th:href="${googleLoginPageUrl}">구글로 로그인</a>
+                </div>
             </div>
-            <div class="mb-3">
-                <label for="p" class="form-label">비밀번호</label>
-                <input type="text" class="form-control" id="p" name="password" placeholder="password...">
-            </div>
-            <button type="submit" class="btn btn-primary">로그인하기</button>
-            <div th:if="${error}" class="error" th:text="${error}"></div>
-        </form>
-        <a href="/login/join">회원가입</a>
-        <div>
-            <a class="btn btn-danger" th:href="${kakaoLoginPageUrl}">카카오로 로그인</a>
-            <a class="btn btn-danger" th:href="${naverLoginPageUrl}">네이버로 로그인</a>
-            <a class="btn btn-danger" th:href="${googleLoginPageUrl}">구글로 로그인</a>
         </div>
     </div>
 </div>
