@@ -12,5 +12,11 @@
         where social_id = #{id} and signflag = #{signflag}
         and is_del = 'N'
     </select>
+    <select id="findUserByEmail" parameterType="map" resultType="com.project.joonggo.domain.UserVO">
+        select *
+        from user
+        where user_id = #{userId} and signflag = #{signFlagDefault}
+        and is_del = 'N'
+    </select>
 
 </mapper>
