@@ -40,9 +40,9 @@ public class WeatherController {
         Map<String, String> weather = new HashMap<>();
         log.info("get: 1");
         log.info("address: {}",address);
-//        if(address == null){
-//            address="인천남동구구월동";
-//        }
+        if(address == null){
+            address="인천남동구구월동";
+        }
         log.info("address: {}",address);
         Map<String, String> lanLon = weatherService.returnLanLon(address);
         model.addAttribute("weather", weatherService.returnWeather(lanLon));
