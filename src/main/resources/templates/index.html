@@ -18,8 +18,6 @@
       <div id="map" style="width:500px;height:400px;"></div>
       <ul id="places"></ul>
 
-
-
       <hr>
 
 <!--    <form th:action="@{/}" method="post">-->
@@ -38,14 +36,29 @@
 <!--    </form>-->
 
     <div th:unless="${weather == null}">
+      <li th:text="'아이콘 : ' + ${weather['weather_icon']}"></li>
+      <img th:src="'https://openweathermap.org/img/wn/' + ${weather['weather_icon']} + '@2x.png'" alt="Weather Icon" />
       <li th:text="'날씨 : ' + ${weather['weather_main']}"></li>
       <li th:text="'날씨 설명 : ' + ${weather['weather_description']}"></li>
-      <li th:text="'온도 : ' + ${weather['temperature']}"></li>
-      <li th:text="'습도 : ' + ${weather['humidity']}"></li>
+      <li th:text="'온도 : ' + ${weather['temperature']} + '℃'"></li>
+      <li th:text="'습도 : ' + ${weather['humidity']} + '%'"></li>
     </div>
-<!--    <div th:if="${weather == null}">-->
-<!--      <p>날씨 정보를 불러올 수 없습니다.</p>-->
-<!--    </div>-->
+    <div th:if="${weather == null}">
+      <p>날씨 정보를 불러올 수 없습니다.</p>
+    </div>
+
+    <!-- 로그인 후 이메일, 도로명 주소를 확인-->
+    <!--<div>
+      <div th:if="${#authentication.principal != null}">
+        <p>Email: <span th:text="${#authentication.principal}"></span></p>
+        <p>Street Address: <span th:text="${location.streetAddress}"></span></p>
+      </div>
+
+      <div th:unless="${#authentication.principal != null}">
+        <p>로그인이 안 되어있습니다.</p>
+      </div>
+    </div>-->
+
   </div>
 
   <h3><a th:href="@{/chat/chatting}">chatting test</a></h3>
@@ -67,25 +80,4 @@
 
 </div>
   <script th:src="@{/js/chatside.js}"></script>
-
-<!--  <script>-->
-<!--    // 페이지 로드 시 sessionStorage에 저장된 주소 정보 활용-->
-<!--    window.onload = function () {-->
-<!--        const savedAddress = sessionStorage.getItem('userAddress');-->
-<!--        if (savedAddress) {-->
-<!--            // 서버에 저장된 주소로 날씨 정보 요청-->
-<!--            fetchWeather(savedAddress);-->
-<!--        }-->
-<!--    };-->
-
-<!--    // 서버에 날씨 요청 함수-->
-<!--    function fetchWeather(address) {-->
-<!--        fetch(`/?address=${encodeURIComponent(address)}`)-->
-<!--            .then(response => response.text())-->
-<!--            .then(html => {-->
-<!--                document.body.innerHTML = html; // 받은 HTML로 페이지 갱신-->
-<!--            })-->
-<!--            .catch(error => console.error('Error fetching weather:', error));-->
-<!--    }-->
-<!--  </script>-->
 </div>

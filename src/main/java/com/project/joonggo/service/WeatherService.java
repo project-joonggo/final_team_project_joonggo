@@ -104,6 +104,7 @@ public class WeatherService {
                 // JSON 응답 파싱
                 JSONObject jsonResponse = new JSONObject(response.toString());
 
+                weather.put("weather_icon", jsonResponse.getJSONArray("weather").getJSONObject(0).getString("icon"));
                 weather.put("weather_main", jsonResponse.getJSONArray("weather").getJSONObject(0).getString("main"));
                 weather.put("weather_description", jsonResponse.getJSONArray("weather").getJSONObject(0).getString("description"));
 
@@ -113,7 +114,7 @@ public class WeatherService {
                 weather.put("temperature", String.valueOf(tempCelsius));
 
                 int humidity = jsonResponse.getJSONObject("main").getInt("humidity");
-                weather.put("humidity", Integer.toString(humidity) + "%");
+                weather.put("humidity", Integer.toString(humidity));
             } else {
                 System.out.println("Error: " + conn.getResponseCode());
             }

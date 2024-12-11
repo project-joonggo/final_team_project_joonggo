@@ -41,7 +41,7 @@ public class WeatherController {
         log.info("get: address");
         log.info("address: {}",address);
         if(address == null){
-            address="인천남동구구월동";
+            address="인천 남동구 구월동";
         }
         log.info("address: {}",address);
         Map<String, String> lanLon = weatherService.returnLanLon(address);
@@ -57,4 +57,5 @@ public class WeatherController {
 //        model.addAttribute("weather", weatherService.returnWeather(lanLon));
 //        return "index";
 //    }
+
 }

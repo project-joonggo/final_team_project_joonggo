@@ -57,7 +57,7 @@
                     const region_1depth_name = result[0]?.address?.region_1depth_name;
                     const region_2depth_name = result[0]?.address?.region_2depth_name;
                     const region_3depth_name = result[0]?.address?.region_3depth_name;
-                    const depthAddress = region_1depth_name + region_2depth_name + region_3depth_name;
+                    const depthAddress = region_1depth_name + " " + region_2depth_name + " " + region_3depth_name;
                     
                     // console.log("roadAddress: ", roadAddress);
                     // console.log("result[0]?.address_name: ", result[0]?.address_name);
