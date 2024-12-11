@@ -38,7 +38,7 @@ public class WeatherController {
         // 날씨 정보를 기본적으로 model에 넣어서 전달
         // 예를 들어, 기본적인 날씨 정보나 기본값을 전달할 수 있습니다.
         Map<String, String> weather = new HashMap<>();
-        log.info("get: 1");
+        log.info("get: address");
         log.info("address: {}",address);
         if(address == null){
             address="인천남동구구월동";
