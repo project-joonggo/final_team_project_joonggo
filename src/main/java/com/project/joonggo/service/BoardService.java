@@ -25,4 +25,10 @@ public interface BoardService {
     void deleteFileFromDB(String uuid);
 
     void boardIsDelUpdate(Long boardId);
+
+    void incrementReadCount(Long boardId);
+
+    void decrementWishCount(Long boardId);
+
+    void incrementWishCount(Long boardId);
 }

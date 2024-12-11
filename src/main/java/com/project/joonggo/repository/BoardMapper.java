@@ -26,4 +26,10 @@ public interface BoardMapper {
     void boardIsDelUpdate(Long boardId);
 
     List<BoardVO> getBoardList();
+
+    void incrementReadCount(Long boardId);
+
+    void decrementWishCount(Long boardId);
+
+    void incrementWishCount(Long boardId);
 }

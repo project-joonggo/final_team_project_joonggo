@@ -7,19 +7,7 @@
 <body>
 
 <div layout:fragment="content">
-
    [[${payments}]]
-    <th:block th:with="paymentsJson=${#objects.toJson(payments)}">
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            // Thymeleaf에서 JSON으로 변환된 payments 리스트를 JavaScript 변수에 저장
-            var payments = /*[[${paymentsJson}]]*/;
-            console.log(payments); // 콘솔에 payments 객체를 확인
-            /*]]>*/
-        </script>
-    </th:block>
-
-
     <table>
         <thead>
         <tr>
@@ -30,21 +18,44 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="payment : ${payments}">
-            <td th:text="${payment.paymentId}"></td>
-            <td th:text="${payment.amount}"></td>
-            <td th:text="${payment.paymentDate}"></td>
+        <tr th:each="paymentDTO : ${payments}">
+            <!-- 상품 이미지가 있을 경우 보여주기 -->
             <td>
-                <!-- 환불 버튼 추가 -->
-                <button class="cancelBtn" th:data-impUid="${payment.impUid}"
-                        th:data-merchantUid="${payment.merchantUid}"
-                        th:data-paidAmount="${payment.amount}">
-                    환불
-                </button>
+                <span th:if="${paymentDTO.fileUrl != null}">
+                    <img th:src="@{${paymentDTO.fileUrl}}" alt="상품 이미지" width="100"/>
+                </span>
+                <span th:if="${paymentDTO.fileUrl == null}">이미지가 없습니다.</span>
+            </td>
+            <td th:text="${paymentDTO.payment.paymentId}"></td>
+            <td th:text="${paymentDTO.payment.amount}"></td>
+            <td th:text="${paymentDTO.payment.paidAt}"></td>
+
+            <td>
+            <!-- 환불 버튼 추가 -->
+            <button class="cancelBtn" th:data-impUid="${paymentDTO.payment.impUid}"
+                    th:data-merchantUid="${paymentDTO.payment.merchantUid}"
+                    th:data-paidAmount="${paymentDTO.payment.amount}"
+                    th:data-cancelFlag="${paymentDTO.payment.cancelFlag}">
+                환불
+            </button>
+            <span th:if="${paymentDTO.payment.cancelFlag}" style="color: red; margin-left: 10px; font-weight: bold;">
+                    환불 완료
+                </span>
+            <span th:unless="${paymentDTO.payment.cancelFlag}" style="color: green; margin-left: 10px; font-weight: bold;">
+                    환불 가능
+                </span>
             </td>
         </tr>
         </tbody>
     </table>
+
+    <!-- Thymeleaf를 사용해 payments 데이터를 JavaScript 변수로 직접 전달 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var payments = [[${payments}]];
+        console.log(payments); // 콘솔에 payments 객체를 확인
+        /*]]>*/
+    </script>
 
     <script th:src="@{/js/refund.js}"></script>
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>

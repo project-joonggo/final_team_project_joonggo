@@ -56,4 +56,22 @@
         order by board_id desc
     </select>
 
+    <update id="incrementReadCount">
+        update sellbuy_board
+        set read_count = read_count+1
+        where board_id = #{boardId}
+    </update>
+
+    <update id="incrementWishCount" parameterType="long">
+        UPDATE sellbuy_board
+        SET like_count = like_count + 1
+        WHERE board_id = #{boardId}
+    </update>
+
+    <update id="decrementWishCount" parameterType="long">
+        UPDATE sellbuy_board
+        SET like_count = like_count - 1
+        WHERE board_id = #{boardId}
+    </update>
+
 </mapper>

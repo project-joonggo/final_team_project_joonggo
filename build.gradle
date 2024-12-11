@@ -39,6 +39,7 @@ dependencies {
 	// Apache HttpClient 의존성 추가
 	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 
+
 	// chatbot repo : ChatController
 	implementation 'org.springframework:spring-messaging'
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'

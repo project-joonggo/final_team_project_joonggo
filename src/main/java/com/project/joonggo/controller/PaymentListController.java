@@ -1,6 +1,8 @@
 package com.project.joonggo.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.joonggo.domain.Payment;
+import com.project.joonggo.domain.PaymentDTO;
 import com.project.joonggo.service.LoginService;
 import com.project.joonggo.service.PaymentService;
 import lombok.RequiredArgsConstructor;
@@ -32,10 +34,11 @@ public class PaymentListController {
 
 
         // usernum을 이용해 결제 내역 조회
-        List<Payment> payments = paymentService.getPaymentHistory(userNum);
+        List<PaymentDTO> payments = paymentService.getPaymentHistoryWithImages(userNum);
 
         // 결제 내역을 모델에 추가
         model.addAttribute("payments", payments);
+
 
         // 결제 내역 페이지 반환
         return "/payment/history";

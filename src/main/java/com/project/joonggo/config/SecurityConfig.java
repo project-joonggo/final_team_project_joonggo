@@ -46,6 +46,10 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/")
                 )
+                .headers(headers -> headers
+                        // CSP 설정: frame-ancestors를 사용하여 iframe에 대한 제어
+                        .contentSecurityPolicy(csp -> csp.policyDirectives("frame-ancestors 'self' http://localhost:8088"))
+                )
                 .build();
 
     }

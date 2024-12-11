@@ -11,6 +11,19 @@
   <th:block th:with="boardVO=${boardFileDTO.boardVO}">
   [[${boardFileDTO}]]
 
+    <div>
+      <p>조회수: <span th:text="${boardVO.readCount}">0</span></p>
+      <p>찜수: <span th:text="${boardVO.likeCount}">0</span></p>
+    </div>
+
+    <!-- 찜하기 버튼 상태 설정 -->
+    <button type="button" id="wishBtn"
+            th:data-board-id="${boardVO.boardId}"
+            th:text="${isAlreadyWished != null ? (isAlreadyWished ? '찜 취소' : '찜하기') : '찜하기'}">
+    </button>
+
+
+
     <button id="paymentBtn">결제하기</button>
     <button id="cancelBtn">결제 취소</button>
 
@@ -35,7 +48,6 @@
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script th:src="@{/js/buy.js}"></script>
     <script th:src="@{/js/productBoardDetail.js}"></script>
-<!--    <script th:src="@{/js/refund.js}"></script>-->
 
 
   </th:block>

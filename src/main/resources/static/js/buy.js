@@ -4,7 +4,6 @@ document.addEventListener("DOMContentLoaded", () => {
     IMP.init("imp05450825");
 
     const paymentBtn = document.getElementById("paymentBtn");
-    const cancelBtn = document.getElementById("cancelBtn");
 
     const onClickPay = async () => {
 
@@ -46,6 +45,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 }).then(response => {
                                     return response.json();
                                 }).then(data => {
+                                    if (data.status === "success") {
+                                        // 응답에서 리다이렉트 URL을 받아서 페이지 이동
+                                        window.location.href = data.redirectUrl;  // 리다이렉트 URL로 이동
+                                    } 
                                     console.log("결제 정보 DB에 저장 완료", data);
                                 }).catch(error => {
                                     console.error("결제 정보 DB 저장 실패", error);
@@ -56,31 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     };
 
-     const onClickRefund = async () => {
-            const impUid = "imp_747166742327";  // 실제 결제에 대한 impUid
-            const merchantUid = "BUY1733793166795-713";  // 실제 결제에 대한 merchantUid
-            const paidAmount = 100;  // 실제 결제 금액 (원래 결제된 금액)
-
-            // 환불 요청을 백엔드로 전송
-            fetch('/api/payment/refund', {
-                method: 'POST',
-                body: JSON.stringify({
-                    impUid: impUid,
-                    merchantUid: merchantUid,
-                    paidAmount: paidAmount
-                }),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            }).then(response => response.json())
-              .then(data => {
-                  console.log("환불 처리 결과", data);
-              })
-              .catch(error => {
-                  console.error("환불 처리 실패", error);
-              });
-        };
 
     paymentBtn.addEventListener("click", onClickPay);
-    cancelBtn.addEventListener("click", onClickRefund);
+
 });
