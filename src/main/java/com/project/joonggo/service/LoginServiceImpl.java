@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class LoginServiceImpl implements LoginService{
+public class LoginServiceImpl implements LoginService {
     private final UserMapper userMapper;
 
     @Transactional
@@ -20,12 +20,12 @@ public class LoginServiceImpl implements LoginService{
         log.info(">>>>>>>>>>>>>>>>>>>>>> userVO : {}", userVO);
 
 
-        if(isOk > 0){
+        if (isOk > 0) {
 
             long userNum = userMapper.getMaxUserNum();
 
             userMapper.insertAuthInit(userNum);
-            log.info(">>>>>>>>>>>>>>>>>>>>>>>>>insertAUthInit할 유저의 pk{}",userNum);
+            log.info(">>>>>>>>>>>>>>>>>>>>>>>>>insertAUthInit할 유저의 pk{}", userNum);
         }
         return isOk;
     }
@@ -39,7 +39,6 @@ public class LoginServiceImpl implements LoginService{
     public UserVO findUserByEmail(String userId, int signFlagDefault) {
         return userMapper.findUserByEmail(userId, signFlagDefault);
     }*/
-    }
 
     @Override
     public Long getUsernumByUserId(String userId) {
