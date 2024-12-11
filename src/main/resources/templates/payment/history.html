@@ -8,19 +8,47 @@
 
 <div layout:fragment="content">
 
-    <th:block th:with="">
-        [[${boardFileDTO}]]
-
-        <button id="cancelBtn">결제 취소</button>
-
+   [[${payments}]]
+    <th:block th:with="paymentsJson=${#objects.toJson(payments)}">
         <script th:inline="javascript">
-
+            /*<![CDATA[*/
+            // Thymeleaf에서 JSON으로 변환된 payments 리스트를 JavaScript 변수에 저장
+            var payments = /*[[${paymentsJson}]]*/;
+            console.log(payments); // 콘솔에 payments 객체를 확인
+            /*]]>*/
         </script>
-
-        <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
-        <script th:src="@{/js/refund.js}"></script>
-
     </th:block>
+
+
+    <table>
+        <thead>
+        <tr>
+            <th>결제 ID</th>
+            <th>결제 금액</th>
+            <th>결제 일자</th>
+            <th>환불</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="payment : ${payments}">
+            <td th:text="${payment.paymentId}"></td>
+            <td th:text="${payment.amount}"></td>
+            <td th:text="${payment.paymentDate}"></td>
+            <td>
+                <!-- 환불 버튼 추가 -->
+                <button class="cancelBtn" th:data-impUid="${payment.impUid}"
+                        th:data-merchantUid="${payment.merchantUid}"
+                        th:data-paidAmount="${payment.amount}">
+                    환불
+                </button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <script th:src="@{/js/refund.js}"></script>
+    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+
 
 
 </div>

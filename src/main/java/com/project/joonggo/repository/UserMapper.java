@@ -21,4 +21,8 @@ public interface UserMapper {
     int insertAuthInit(long userNum);
 
     long getMaxUserNum();
+
+//    UserVO findUserByEmail(String userId, int signFlagDefault);
+
+    Long getUsernumByUserId(String userId);
 }

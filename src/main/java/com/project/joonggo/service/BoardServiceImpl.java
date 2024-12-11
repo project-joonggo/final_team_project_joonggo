@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,16 +40,60 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<BoardVO> getList() {
-        return boardMapper.getList();
+    public List<BoardFileDTO> getList() {
+        List<BoardVO> boardList = boardMapper.getBoardList();
+        List<BoardFileDTO> boardFileDTOList = new ArrayList<>();
+        log.info(">>>boardList >> {}",boardList);
+
+        for (BoardVO boardVO : boardList) {
+            // 파일 정보를 가져오고 BoardFileDTO에 넣기
+            log.info(">>> boardVO >>> {} ", boardVO);
+            List<FileVO> files = fileMapper.getFileList(boardVO.getBoardId());
+            log.info(">>> files {}" , files);
+            BoardFileDTO boardFileDTO = new BoardFileDTO(boardVO, files);
+            boardFileDTOList.add(boardFileDTO);
+        }
+
+        return boardFileDTOList;
     }
 
     @Override
-    public BoardFileDTO getDetail(Long boardID) {
+    public BoardFileDTO getDetail(Long boardId) {
 
-        BoardFileDTO boardFileDTO = new BoardFileDTO(boardMapper.getDetail(boardID), fileMapper.getFileList(boardID));
+        BoardFileDTO boardFileDTO = new BoardFileDTO(boardMapper.getDetail(boardId), fileMapper.getFileList(boardId));
 
         return boardFileDTO;
+    }
+
+    @Override
+    public void updateTradeFlag(Long boardId) {
+        boardMapper.updateTradeFlag(boardId);
+    }
+
+    @Override
+    public String getUpdateContent(long boardId) {
+        return boardMapper.getUpdateContent(boardId);
+    }
+
+
+    @Override
+    public void updateBoardContent(BoardVO boardVO) {
+        log.info(">>> bsvimpl boardVO >> {}", boardVO);
+        boardMapper.updateBoardContent(boardVO);
+
+        long boardId = boardVO.getBoardId();
+        log.info(">>> boardId for file update: {}", boardId);
+        fileMapper.setBoardId(boardId);
+    }
+
+    @Override
+    public void deleteFileFromDB(String uuid) {
+        fileMapper.deleteFileFromDB(uuid);
+    }
+
+    @Override
+    public void boardIsDelUpdate(Long boardId) {
+        boardMapper.boardIsDelUpdate(boardId);
     }
 
 

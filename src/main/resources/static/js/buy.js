@@ -11,8 +11,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const merchantUid = "BUY" + new Date().getTime() + "-" + Math.floor(Math.random() * 1000);
         const product = boardFileDTO;
 
-
         console.log(product);
+
+        if (product.boardVO.tradeFlag === 1) {
+            alert("이미 거래가 완료된 게시글입니다. 결제가 불가능합니다.");
+            paymentBtn.disabled = true;  // 결제 버튼 비활성화
+            return;  // 결제 로직을 더 이상 진행하지 않음
+        }
+
 
         IMP.request_pay({
             pg: "html5_inicis",

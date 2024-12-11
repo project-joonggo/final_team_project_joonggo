@@ -16,4 +16,10 @@
         WHERE imp_uid = #{impUid}
     </update>
 
+    <select id="getPaymentHistory" resultType="com.project.joonggo.domain.Payment">
+        SELECT *
+        FROM payment
+        WHERE user_num = #{userNum}
+        ORDER BY paid_at DESC
+    </select>
 </mapper>

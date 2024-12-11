@@ -5,19 +5,55 @@
 <mapper namespace="com.project.joonggo.repository.BoardMapper">
 
     <insert id="register">
-        insert into sellbuy_board(board_name,category,trade_price,board_content)
-        values(#{boardName},#{category},#{tradePrice},#{content});
+        insert into sellbuy_board(board_name,category,trade_price,board_content,seller_id)
+        values(#{boardName},#{category},#{tradePrice},#{boardContent},#{sellerId});
     </insert>
 
     <select id="getBoardId" resultType="long">
         select max(board_id) from sellbuy_board;
     </select>
 
-    <select id="getList" resultType="com.project.joonggo.domain.BoardVO">
-        select * from sellbuy_board order by board_id desc
+    <select id="getList" resultType="com.project.joonggo.domain.BoardFileDTO">
+        select * from sellbuy_board
+        WHERE is_del = 'N'
+        order by board_id desc
     </select>
     <select id="getDetail" resultType="com.project.joonggo.domain.BoardVO">
         select * from sellbuy_board where board_id = #{boardId}
+    </select>
+    <update id="updateTradeFlag">
+        UPDATE sellbuy_board
+        SET trade_flag = 1
+        WHERE board_id = #{boardId}
+        AND trade_flag = 0  <!-- 거래 완료되지 않은 게시글만 업데이트 -->
+    </update>
+
+    <select id="getUpdateContent" resultType="String">
+        SELECT board_content
+        FROM sellbuy_board
+        WHERE board_id = #{boardId}
+    </select>
+
+    <update id="updateBoardContent" parameterType="com.project.joonggo.domain.BoardVO">
+        UPDATE sellbuy_board
+        SET
+        board_name = #{boardName},
+        category = #{category},
+        trade_price = #{tradePrice},
+        board_content = #{boardContent}
+        WHERE board_id = #{boardId}
+    </update>
+
+    <update id="boardIsDelUpdate">
+        UPDATE sellbuy_board
+        SET is_del = 'Y'
+        WHERE board_id = #{boardId}
+    </update>
+
+    <select id="getBoardList" resultType="com.project.joonggo.domain.BoardVO">
+        select * from sellbuy_board
+        WHERE is_del = 'N'
+        order by board_id desc
     </select>
 
 </mapper>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+
+<div layout:fragment="content">
+  <div class="container-md cBox" style="margin-top : 50px;" >
+    <h1 style="color: white;">Product Modify Page</h1>
+    <hr>
+    <form action="/board/update" method="post"  enctype="multipart/form-data" th:with="boardVO=${boardFileDTO.boardVO}">
+      <input type="hidden" th:value="${boardVO.boardId}" name="boardId">
+      <div class="mb-3">
+        <label for="b" class="form-label">상품명</label>
+        <input type="text" class="form-control" id="b" name="boardName" th:value="${boardVO.boardName}">
+      </div>
+      <div class="mb-3">
+        <label for="inputGroupSelect01" class="form-label">카테고리</label>
+        <select class="form-select form-select-sm" id="inputGroupSelect01" name="category" required>
+          <option value="" disabled selected>Choose...</option>
+          <option value="가전제품" th:selected="${boardVO.category == '가전제품'}">가전제품</option>
+          <option value="의류" th:selected="${boardVO.category == '의류'}">의류</option>
+          <option value="노트북/PC" th:selected="${boardVO.category == '노트북/PC'}">노트북/PC</option>
+          <option value="리빙/생활" th:selected="${boardVO.category == '리빙/생활'}">리빙/생활</option>
+          <option value="게임" th:selected="${boardVO.category == '게임'}">게임</option>
+          <option value="도서/음반/문구" th:selected="${boardVO.category == '도서/음반/문구'}">도서/음반/문구</option>
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="p" class="form-label">판매가격</label>
+        <input type="text" class="form-control" id="p" name="tradePrice" th:value="${boardVO.tradePrice}">
+      </div>
+      <div id="smarteditor" class="mb-3">
+        <label for="c" class="form-label">상품내용</label>
+        <textarea class="form-control" id="c" name="boardContent" cols="10" rows="20" placeholder="상품내용" th:text="${boardVO.boardContent}"></textarea>
+      </div>
+      <div class="flexBox" style="display: flex; justify-content:end;">
+        <button type="submit" class="btn btn-secondary" id="regBtn">수정</button>
+      </div>
+    </form>
+    <script th:src="@{/js/productRegister.js}" charset="UTF-8"></script>
+    <script th:src="@{/smarteditor/js/HuskyEZCreator.js}" charset="UTF-8"></script>
+  </div>
+
+</div>

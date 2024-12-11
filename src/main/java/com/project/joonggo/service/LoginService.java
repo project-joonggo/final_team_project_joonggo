@@ -9,4 +9,8 @@ public interface LoginService {
     UserVO findUserByIdAndSignFlag(String id, int signflag);
 
     /*UserVO findUserByEmail(String userId, int signFlagDefault);*/
+
+    Long getUsernumByUserId(String userId);
+
+
 }

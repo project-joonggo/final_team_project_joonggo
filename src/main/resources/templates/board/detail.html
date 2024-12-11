@@ -14,7 +14,8 @@
     <button id="paymentBtn">결제하기</button>
     <button id="cancelBtn">결제 취소</button>
 
-
+    <button type="button" id="modBtn">수정</button>
+    <a th:href="@{/board/delete(boardId=${boardVO.boardId})}"><button type="button" id="delBtn">글삭제</button></a>
 
     <script th:inline="javascript">
       /*<![CDATA[*/
@@ -22,8 +23,18 @@
       /*]]>*/
     </script>
 
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+      var boardId = [[${boardVO.boardId}]];
+      /*]]>*/
+          /*<![CDATA[*/
+      var tradeFlag = [[${boardVO.tradeFlag}]];
+      /*]]>*/
+    </script>
+
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script th:src="@{/js/buy.js}"></script>
+    <script th:src="@{/js/productBoardDetail.js}"></script>
 <!--    <script th:src="@{/js/refund.js}"></script>-->
 
 

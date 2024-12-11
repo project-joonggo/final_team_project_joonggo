@@ -1,6 +1,7 @@
 package com.project.joonggo.controller;
 
 
+import com.project.joonggo.service.BoardService;
 import com.project.joonggo.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class PaymentController {
 
     private final PaymentService paymentService;
+    private final BoardService boardService;
 
     @Value("${api.key}")
     private String apiKey;
@@ -45,6 +47,7 @@ public class PaymentController {
 
         Map<String, String> response = new HashMap<>();
         if (isSaved) {
+            boardService.updateTradeFlag(boardId); // 거래완료시 게시글 상태 업데이트
             log.info("결제 정보 저장 완료 - Merchant UID: {}, Amount: {}, Board ID: {}, Product Name: {} ,impUid : {} " ,merchantUid, amount, boardId, productName, impUid);
             response.put("message", "결제 정보 저장 완료");
             response.put("status", "success");
