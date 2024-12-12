@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.joonggo.repository.ChatCommentMapper">
+
+    <select id="getCommentsByRoomId" resultType="ChatCommentVO">
+        SELECT * FROM chat_comment
+        WHERE room_id = #{roomId}
+        ORDER BY comment_write_date DESC
+    </select>
+<!--  /* resultType="com.project.joonggo.domain.ChatCommentVO "*/  -->
+
+    <insert id="saveChatComment" parameterType="map">
+        INSERT INTO chat_comment(room_id, comment_user_num, comment_content, comment_write_date)
+        VALUES(#{roomId}, #{userNum}, #{messageContent}, NOW())
+    </insert>
+
+</mapper>
