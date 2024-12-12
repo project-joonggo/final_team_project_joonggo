@@ -62,6 +62,11 @@ public class WishController {
             response.put("message", "찜이 등록되었습니다.");
             response.put("newButtonText", "찜 취소");  // 버튼 텍스트 변경
         }
+
+        // 현재 찜 수를 가져와서 응답에 추가
+        int newLikeCount = boardService.getLikeCount(boardId);
+        response.put("newLikeCount", newLikeCount);
+
         return response;  // JSON 응답 반환
     }
 

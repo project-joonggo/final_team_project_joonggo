@@ -158,6 +158,13 @@ create table payment (
                          refunded_amount int default 0,           -- 환불 금액 (환불 시 업데이트)
                          cancel_flag boolean default false,       -- 결제 취소 여부
                          primary key (payment_id));
+
+CREATE TABLE wish_list(
+                         wish_id BIGINT AUTO_INCREMENT,   -- 찜리스트 아이디
+                         user_num BIGINT NOT NULL,        -- 사용자 아이디 (user_num)
+                         board_id BIGINT NOT NULL,        -- 상품 아이디 (board_id)
+                         reg_at datetime default now(),   -- 추가된 시간
+                         primary key(wish_id));
 -----------------------------------------------------
 --241205
 alter table user add column social_id varchar(256);

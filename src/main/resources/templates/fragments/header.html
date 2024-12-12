@@ -11,10 +11,18 @@
                 <span class="logoName">SSeul Tem</span>
             </a>
         </div>
-        <div id="searchArea">
-            <img id="searchImg" src="/img/search.svg">
-            <input id="searchBox" placeholder="어떤 상품을 찾으시나요?">
-        </div>
+        <form action="/board/list" class="d-flex" role="search">
+            <div id="searchArea">
+                <img id="searchImg" src="/img/search.svg" alt="Search Icon">
+                <input id="searchBox" class="form-control me-2" name="keyword" type="search" placeholder="어떤 상품을 찾으시나요?"
+                       aria-label="Search" th:value="${ph != null ? ph.pgvo.keyword : ''}">
+            </div>
+
+            <input type="hidden" name="pageNo" value="1">
+            <!-- ph가 있을 때만 qty 값을 전달 -->
+            <input type="hidden" name="qty" th:if="${ph != null}" th:value="${ph.pgvo.qty}">
+        </form>
+
         <div class="userMenu">
             <ul class="d-flex justify-content-between align-items-center gap-3">
                 <li sec:authorize="!isAuthenticated()">
@@ -59,10 +67,37 @@
                 <span>카테고리</span>
             </div>
         </a>
+
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                카테고리
+            </button>
+
+            <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                <li><a class="dropdown-item" href="/board/list?category=가전제품&pageNo=1">가전제품</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=의류&pageNo=1">의류</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=노트북/PC&pageNo=1">노트북/PC</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=리빙/생활&pageNo=1">리빙/생활</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=게임&pageNo=1">게임</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=도서/음반/문구&pageNo=1">도서/음반/문구</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=뷰티&pageNo=1">뷰티</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=출산/유아동&pageNo=1">출산/유아동</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=모바일/태블릿&pageNo=1">모바일/태블릿</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=카메라/캠코더&pageNo=1">카메라/캠코더</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=가구/인테리어&pageNo=1">가구/인테리어</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=레저/여행&pageNo=1">레저/여행</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=스포츠&pageNo=1">스포츠</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=반려동물/취미&pageNo=1">반려동물/취미</a></li>
+                <li><a class="dropdown-item" href="/board/list?category=중고차&pageNo=1">중고차</a></li>
+            </ul>
+        </div>
+
+
+
         <nav class="d-flex justify-content-between align-items-center gap-4">
             <div><a href="">이벤트</a></div>
             <div><a href="">사기조회</a></div>
-            <div><a href="">시세조회</a></div>
+            <div><a href="/board/price">시세조회</a></div>
             <div><a href="/wish/list">찜한상품</a></div>
             <div><a href="">고객센터</a></div>
         </nav>

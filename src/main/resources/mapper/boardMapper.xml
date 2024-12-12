@@ -16,7 +16,10 @@
     <select id="getList" resultType="com.project.joonggo.domain.BoardFileDTO">
         select * from sellbuy_board
         WHERE is_del = 'N'
+        <include refid="search"/>
+        <include refid="categorySearch"/>
         order by board_id desc
+        limit #{startIndex}, #{qty}
     </select>
     <select id="getDetail" resultType="com.project.joonggo.domain.BoardVO">
         select * from sellbuy_board where board_id = #{boardId}
@@ -53,7 +56,10 @@
     <select id="getBoardList" resultType="com.project.joonggo.domain.BoardVO">
         select * from sellbuy_board
         WHERE is_del = 'N'
+        <include refid="search"/>
+        <include refid="categorySearch"/>
         order by board_id desc
+        LIMIT #{startIndex}, #{qty}
     </select>
 
     <update id="incrementReadCount">
@@ -73,5 +79,35 @@
         SET like_count = like_count - 1
         WHERE board_id = #{boardId}
     </update>
+
+    <select id="getLikeCount" resultType="int">
+        select like_count from sellbuy_board
+        where board_id = ${boardId}
+    </select>
+
+    <select id="getTotal" resultType="int">
+        select count(board_id) from sellbuy_board
+        where is_del = 'N'
+        <include refid="search"/>
+        <include refid="categorySearch"/>
+    </select>
+
+    <sql id="search">
+        <if test="keyword != null and keyword != ''">
+            AND board_name LIKE CONCAT('%', #{keyword}, '%') <!-- 검색어가 포함된 게시글만 검색 -->
+        </if>
+    </sql>
+
+    <sql id="categorySearch">
+        <if test="category != null and category != ''">
+            AND category LIKE CONCAT('%', #{category}, '%') <!-- 카테고리가 일치하는 게시글만 검색 -->
+        </if>
+    </sql>
+
+    <select id="searchPrice" resultType="com.project.joonggo.domain.BoardVO">
+        SELECT * FROM sellbuy_board
+        WHERE board_name LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
 
 </mapper>

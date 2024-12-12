@@ -400,3 +400,21 @@ a {
     background-color: #ddd;
     cursor: not-allowed;
 }
+
+/* 드롭다운 메뉴의 기본 스타일 */
+.dropdown-menu {
+    display: none; /* 기본적으로 숨기기 */
+}
+
+.dropdown:hover .dropdown-menu {
+    display: block; /* 마우스 올리면 메뉴 표시 */
+}
+
+.dropdown-item {
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+}
