@@ -2,6 +2,8 @@ package com.project.joonggo.service;
 
 import com.project.joonggo.domain.UserVO;
 
+import java.util.List;
+
 public interface LoginService {
 
     int insert(UserVO userVO);
@@ -12,5 +14,7 @@ public interface LoginService {
 
     Long getUsernumByUserId(String userId);
 
+    List<UserVO> getList();
 
+    UserVO getUserWithAuthorities(String username);
 }

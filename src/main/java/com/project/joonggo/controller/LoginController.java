@@ -3,10 +3,14 @@ package com.project.joonggo.controller;
 import com.project.joonggo.domain.UserVO;
 import com.project.joonggo.handler.PhoneAuthHandler;
 import com.project.joonggo.handler.SocialLoginHandler;
+import com.project.joonggo.repository.UserMapper;
+import com.project.joonggo.security.AuthUser;
 import com.project.joonggo.service.LoginService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +27,7 @@ public class LoginController {
     private final PasswordEncoder passwordEncoder;
     private final PhoneAuthHandler phoneAuthHandler;
     private final SocialLoginHandler socialLoginHandler;
+    private final UserMapper userMapper;
 
     private static final int SIGN_FLAG_DEFAULT = 0;
     private static final int SIGN_FLAG_KAKAO = 1;
@@ -100,8 +105,17 @@ public class LoginController {
 
         if (loginUser != null) {
             // 회원이 존재하면 로그인 처리
-            session.setAttribute("loginUser", loginUser);
-            log.info("소셜 로그인 성공: {}", loginUser);
+            loginUser.setAuthList(userMapper.selectAuths(loginUser.getUserNum()));  // 권한을 추가하는 부분
+
+            AuthUser authUser = new AuthUser(loginUser);
+
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+            log.info("구글 소셜 로그인 성공 (시큐리티 인증): {}", loginUser);
 
         } else {
             // 회원이 없으면 회원가입 처리
@@ -140,8 +154,17 @@ public class LoginController {
 
         if (loginUser != null) {
             // 회원이 존재하면 로그인 처리
-            session.setAttribute("loginUser", loginUser);
-            log.info("소셜 로그인 성공: {}", loginUser);
+            loginUser.setAuthList(userMapper.selectAuths(loginUser.getUserNum()));  // 권한을 추가하는 부분
+
+            AuthUser authUser = new AuthUser(loginUser);
+
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+            log.info("네이버 소셜 로그인 성공 (시큐리티 인증): {}", loginUser);
 
         } else {
             // 회원이 없으면 회원가입 처리
@@ -188,8 +211,17 @@ public class LoginController {
 
         if (loginUser != null) {
             // 회원이 존재하면 로그인 처리
-            session.setAttribute("loginUser", loginUser);
-            log.info("소셜 로그인 성공: {}", loginUser);
+            loginUser.setAuthList(userMapper.selectAuths(loginUser.getUserNum()));  // 권한을 추가하는 부분
+
+            AuthUser authUser = new AuthUser(loginUser);
+
+            UsernamePasswordAuthenticationToken authenticationToken =
+                    new UsernamePasswordAuthenticationToken(authUser, null, authUser.getAuthorities());
+
+            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+
+            session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
+            log.info("카카오 소셜 로그인 성공 (시큐리티 인증): {}", loginUser);
 
         } else {
             // 회원이 없으면 회원가입 처리

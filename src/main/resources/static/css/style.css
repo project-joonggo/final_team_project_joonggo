@@ -63,6 +63,9 @@ a {
 .margin-bot-20{
     margin-bottom: 20px;
 }
+.margin-top-20{
+    margin-top: 20px;
+}
 
 /* header */
 #header{
@@ -298,12 +301,20 @@ a {
     font-size: 28px;
     text-align: center;
     font-weight: bold;
+    margin: 44px 0 46px 0;
 }
 #joinBox form{
     margin: 20px 0;
 }
 #joinBox table{
     width: 100%;
+    margin-bottom: 50px;
+}
+#joinBox .requiredTable th{
+    width: 120px !important;
+}
+#joinBox th span{
+    font-size: 15px;
 }
 #joinBox td span{
     white-space: nowrap;
@@ -325,4 +336,67 @@ a {
 }
 #address1, #address2, #address3{
     width: 420px !important;
+}
+#joinBox .requiredTitle{
+    border-bottom: 1px solid black;
+    padding-bottom: 10px;
+}
+#joinBox .defaultInfo{
+    font-size: 18px;
+    font-weight: bold;
+}
+#joinBox .requiredSubTitle{
+    font-size: 12px;
+}
+#joinBox .requiredStar{
+    color: #A0173B;
+    font-size: 12px;
+}
+#joinBox .thRequiredStar{
+    padding: 0 4px;
+}
+.birthBox input{
+    width: 113px;
+}
+.birthBox .birthLabel{
+    width: 120px;
+}
+.birthBox span{
+    color: #757b80;
+}
+#joinBox .joinPostBtn{
+    margin: 70px auto;
+    width: 260px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #A0173B;
+    color: white;
+}
+.password-message, .password-check-message {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.875rem;
+    transition: all 0.3s ease;
+}
+
+.password-message {
+    color: #666;
+}
+
+.password-check-message {
+    color: #666;
+}
+
+.password-message.success, .password-check-message.success {
+    color: green !important;
+}
+
+.password-message.error, .password-check-message.error {
+    color: red !important;
+}
+
+#joinPostBtn:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
 }

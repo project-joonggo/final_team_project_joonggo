@@ -1,4 +1,64 @@
-console.log("join.js in~~~~");
+// 회원가입 필드
+const email = document.getElementById('i');
+const userName = document.getElementById('userName');
+const postCode = document.getElementById('postCode');
+const address1 = document.getElementById('address1');
+const address3 = document.getElementById('address3');
+let passwordFinalCheck = false;
+
+const passwordInput = document.getElementById('password');
+const passwordCheckInput = document.getElementById('passwordCheck');
+const passwordCheckMessage = document.getElementById('passwordCheckMessage');
+const passwordMessage = document.getElementById('passwordMessage');
+const joinBtn = document.getElementById('joinPostBtn');
+
+const finalMessage = document.getElementById("finalMessage");
+
+// 비밀번호 정규식 (대소문자/숫자/특수문자 3가지 이상, 8~16자)
+const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
+
+// 비밀번호 입력 시 체크
+passwordInput.addEventListener('input', function() {
+    const password = passwordInput.value;
+
+// 비밀번호 규칙에 맞지 않으면 메시지 표시
+    if (!passwordRegex.test(password)) {
+        passwordMessage.classList.remove('success');
+        passwordMessage.classList.add('error');
+        passwordMessage.textContent = '비밀번호는 영문 대소문자, 숫자, 특수문자 3가지 이상 조합, 8~16자 이내로 작성해주세요.';
+    } else {
+        passwordMessage.classList.remove('error');
+        passwordMessage.classList.add('success');
+        passwordMessage.textContent = '적합한 비밀번호입니다.';
+    }
+
+    // 비밀번호 확인 자동 입력 제거
+    passwordCheckInput.value = '';
+
+    // 비밀번호 확인 체크
+    validatePasswordMatch();
+});
+
+// 비밀번호 확인이 일치하는지 확인
+passwordCheckInput.addEventListener('input', validatePasswordMatch);
+
+function validatePasswordMatch() {
+    const password = passwordInput.value;
+    const passwordCheck = passwordCheckInput.value;
+
+    // 비밀번호 확인이 일치하는지, 비밀번호 정규식이 만족하는지 확인
+    if (password !== passwordCheck || !passwordRegex.test(password)) {
+        passwordCheckMessage.classList.remove('success');
+        passwordCheckMessage.classList.add('error');
+        passwordCheckMessage.textContent = '비밀번호가 일치하지 않거나 규칙을 만족하지 않습니다.';
+        passwordFinalCheck = false;
+    } else {
+        passwordCheckMessage.classList.remove('error');
+        passwordCheckMessage.classList.add('success');
+        passwordCheckMessage.textContent = '비밀번호가 일치합니다.';
+        passwordFinalCheck = true;
+    }
+}
 
 //[ Phone Check Num ]*/
 let authCode = "";
@@ -17,7 +77,7 @@ document.getElementById("phoneChk").addEventListener("click", function () {
         alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
         const pn = phoneInput.value;
 
-        fetch(`/login/phoneCheck?phone=${pn}`, { method: "GET", cache: "no-cache" })
+        fetch(`/user/phoneCheck?phone=${pn}`, { method: "GET", cache: "no-cache" })
             .then((response) => response.text())
             .then((data) => {
                 if (data === "error") {
@@ -107,3 +167,47 @@ function searchPostCode(){
         }
     }).open();
 }
+
+// 회원가입 필드
+
+/*if(email.value === ''){
+    finalMessage.textContent = "아이디(이메일)을 입력해 주세요.";
+} else if (userName.value === ''){
+    finalMessage.textContent = "이름을 입력해 주세요.";
+} else if (postCode.value === ''){
+    finalMessage.textContent = "우편번호를 입력해 주세요.";
+} else if (address1.value === '' || address3.value){
+    finalMessage.textContent = "주소를 입력해 주세요."
+} else if (passwordFinalCheck === false){
+    finalMessage.textContent = "비밀번호를 입력해 주세요.";
+} else if (checkNum === false){
+    finalMessage.textContent = "휴대폰 번호를 인증해 주세요.";
+} else {
+    joinBtn.disabled = false;
+}*/
+
+function validateForm() {
+    // 유효성 검사 로직
+    if (email.value === '') {
+        finalMessage.textContent = "아이디(이메일)을 입력해 주세요.";
+    } else if (userName.value === '') {
+        finalMessage.textContent = "이름을 입력해 주세요.";
+    } else if (postCode.value === '') {
+        finalMessage.textContent = "우편번호를 입력해 주세요.";
+    } else if (address1.value === '' || address3.value === '') {
+        finalMessage.textContent = "주소를 입력해 주세요.";
+    } else if (!passwordFinalCheck) {
+        finalMessage.textContent = "비밀번호를 입력해 주세요.";
+    } else if (!checkNum) {
+        finalMessage.textContent = "휴대폰 번호를 인증해 주세요.";
+    } else {
+        finalMessage.textContent = ''; // 오류 메시지 초기화
+        joinBtn.disabled = false;
+    }
+}
+
+email.addEventListener('input', validateForm);
+userName.addEventListener('input', validateForm);
+postCode.addEventListener('input', validateForm);
+address1.addEventListener('input', validateForm);
+address3.addEventListener('input', validateForm);

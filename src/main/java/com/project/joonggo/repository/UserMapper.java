@@ -25,4 +25,6 @@ public interface UserMapper {
 //    UserVO findUserByEmail(String userId, int signFlagDefault);
 
     Long getUsernumByUserId(String userId);
+
+    List<UserVO> getList();
 }

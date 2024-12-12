@@ -8,46 +8,47 @@
   <div class="container-md">
     <div id="joinBox">
       <h1>회원 가입</h1>
+      <div class="requiredTitle d-flex justify-content-between align-items-center">
+        <span class="defaultInfo">기본정보</span>
+        <span class="requiredSubTitle d-flex gap-1"><strong class="requiredStar">*</strong>필수입력사항</span>
+      </div>
       <form action="/user/join" method="post" class="">
-        <table>
+        <table class="requiredTable">
           <input type="hidden" name="signflag" th:value="${signflag}">
           <input type="hidden" name="socialId" th:value="${socialUserId}">
-          <colgroup>
-            <col style="width:112px;">
-            <col style="width:auto;">
-          </colgroup>
-          <tbody>
-            <tr>
-              <th>아이디(이메일)</th>
+          <tbody class="d-flex flex-column gap-4">
+            <tr class="d-flex justify-content-start align-items-center">
+              <th class="gap-1"><span>아이디(이메일)</span><strong class="requiredStar thRequiredStar">*</strong></th>
               <td class="d-flex justify-content-start align-items-center gap-2">
-                <input type="text" class="form-control" id="i" name="userId"
+                <input type="email" class="form-control" id="i" name="userId"
                          th:value="${socialEmail != null ? socialEmail : ''}" th:attr="readonly=${socialEmail != null}">
                 <span>(이메일 형식)</span>
               </td>
             </tr>
-            <tr>
-              <th>비밀번호</th>
+            <tr class="d-flex justify-content-start align-items-center">
+              <th>비밀번호<strong class="requiredStar">*</strong></th>
               <td class="d-flex justify-content-start align-items-center gap-2">
-                <input type="password" class="form-control" name="password" placeholder="">
-                <span>(영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)</span>
+                <input type="password" id="password" class="form-control" name="password" placeholder="">
+                <span id="passwordMessage" class="password-message">(영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)</span>
               </td>
             </tr>
-            <tr>
-              <th>비밀번호 확인</th>
+            <tr class="d-flex justify-content-start align-items-center">
+              <th>비밀번호 확인<strong class="requiredStar">*</strong></th>
               <td class="d-flex justify-content-between align-items-center gap-2">
-                <input type="password" class="form-control" name="passwordCheck" placeholder="">
+                <input type="password" id="passwordCheck" class="form-control" name="passwordCheck" placeholder="">
+                <span id="passwordCheckMessage" class="password-check-message"></span>
               </td>
             </tr>
-            <tr>
-              <th>이름</th>
+            <tr class="d-flex justify-content-start align-items-center">
+              <th>이름<strong class="requiredStar">*</strong></th>
               <td class="d-flex justify-content-between align-items-center gap-2">
-                <input type="text" class="form-control" name="userName">
+                <input type="text" id="userName" class="form-control" name="userName">
               </td>
             </tr>
-            <tr>
-              <th>주소</th>
+            <tr class="d-flex justify-content-start align-items-center">
+              <th>주소<strong class="requiredStar">*</strong></th>
               <td>
-                <ul>
+                <ul class="d-flex gap-2 flex-column">
                   <li class="d-flex justify-content-start align-items-center gap-2">
                     <input type="text" class="form-control" name="postCode" id="postCode" placeholder="우편번호">
                     <a id="addressBtn" class="d-flex align-items-center" onclick="searchPostCode()">주소검색</a>
@@ -64,10 +65,10 @@
                 </ul>
               </td>
             </tr>
-            <tr>
-              <th>휴대전화</th>
+            <tr class="d-flex justify-content-start align-items-center">
+              <th>휴대전화<strong class="requiredStar">*</strong></th>
               <td class="d-flex justify-content-start align-items-center gap-2">
-                <ul>
+                <ul class="d-flex gap-2 flex-column">
                   <li class="d-flex justify-content-start align-items-center gap-2">
                     <input type="text" id="phone" name="phone" class="form-control" placeholder="휴대폰 번호(-제외)">
                     <a id="phoneChk" class="d-flex align-items-center">인증번호받기</a>
@@ -83,23 +84,24 @@
               </td>
             </tr>
           </tbody>
-
-          <div class="mb-3">
-            <label class="form-label">생년월일</label>
-            <input type="text" class="form-control" name="birthYear" placeholder="예: 1990"
-                   th:value="${birthYear != null ? birthYear : ''}" th:attr="readonly=${birthYear != null}">
-            <input type="text" class="form-control" name="birthMonth" placeholder="예: 04"
-                   th:value="${birthMonth != null ? birthMonth : ''}" th:attr="readonly=${birthMonth != null}">
-            <input type="text" class="form-control" name="birthDay" placeholder="예: 15"
-                   th:value="${birthDay != null ? birthDay : ''}" th:attr="readonly=${birthDay != null}">
-          </div>
-
-
-
-
         </table>
-        <button type="submit" class="btn btn-primary">가입하기</button>
 
+          <div class="requiredTitle d-flex justify-content-start align-items-center">
+            <span class="defaultInfo">추가정보</span>
+          </div>
+          <div class="mb-3 birthBox margin-top-20 d-flex justify-content-start align-items-center">
+            <label class="form-label birthLabel d-flex align-items-center">생년월일</label>
+            <div class="d-flex justify-content-start gap-3 align-items-center">
+              <input type="text" class="form-control" name="birthYear" placeholder="예: 1990"
+                     th:value="${birthYear != null ? birthYear : ''}"><span>년</span>
+              <input type="text" class="form-control" name="birthMonth" placeholder="예: 04"
+                     th:value="${birthMonth != null ? birthMonth : ''}"><span>월</span>
+              <input type="text" class="form-control" name="birthDay" placeholder="예: 15"
+                     th:value="${birthDay != null ? birthDay : ''}"><span>일</span>
+            </div>
+          </div>
+          <div id="finalMessage"></div>
+          <button type="submit" class="btn joinPostBtn d-flex justify-content-center align-items-center disabled">회원가입</button>
       </form>
     </div>
   </div>

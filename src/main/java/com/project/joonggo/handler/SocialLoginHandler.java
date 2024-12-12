@@ -20,7 +20,7 @@ public class SocialLoginHandler {
     private static final String KAKAO_REST_API_KEY = "ea9c0d226405dacbf737edffbc9299a5";
     private static final String KAKAO_AUTHORIZE_URL = "https://kauth.kakao.com/oauth/authorize";
     private static final String KAKAO_TOKEN_URL = "https://kauth.kakao.com/oauth/token";
-    private static final String KAKAO_REDIRECT_URI = "http://localhost:8089/login/kakao/callback";
+    private static final String KAKAO_REDIRECT_URI = "http://localhost:8089/user/kakao/callback";
     private static final String KAKAO_ACCESS_TOKEN_INFO_URL = "https://kapi.kakao.com/v1/user/access_token_info";
     private static final String KAKAO_USER_INFO = "https://kapi.kakao.com/v2/user/me";
 
@@ -29,13 +29,13 @@ public class SocialLoginHandler {
     private static final String NAVER_AUTHORIZE_URL = "https://nid.naver.com/oauth2.0/authorize";
     private static final String NAVER_SECRET_KEY = "IrEnr4vfYK";
     private static final String NAVER_TOKEN_URL = "https://nid.naver.com/oauth2.0/token";
-    private static final String NAVER_REDIRECT_URI = "http://localhost:8089/login/naver/callback";
+    private static final String NAVER_REDIRECT_URI = "http://localhost:8089/user/naver/callback";
     private static final String NAVER_USER_INFO = "https://openapi.naver.com/v1/nid/me";
 
     ///////////////////////// 구글 //////////////////////////////////
     private static final String GOOGLE_CLIENT_KEY = "557670976871-cp3es3jgh5j5675hn083328ng83ugqti.apps.googleusercontent.com";
     private static final String GOOGLE_SECRET_KEY = "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";
-    private static final String GOOGLE_REDIRECT_URI = "http://localhost:8089/login/google/callback";
+    private static final String GOOGLE_REDIRECT_URI = "http://localhost:8089/user/google/callback";
     private static final String GOOGLE_AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/v2/auth";
     private static final String GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token";
 

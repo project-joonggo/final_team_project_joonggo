@@ -17,9 +17,9 @@ public class AuthUser extends User {
     }
 
     public AuthUser(UserVO userVO) {
-        super(userVO.getUserId(), userVO.getPassword(),
+        super(String.valueOf(userVO.getUserNum()), userVO.getPassword(),
                 userVO.getAuthList().stream()
-                        .map(autoVO -> new SimpleGrantedAuthority(autoVO.getAuth()))
+                        .map(authVO -> new SimpleGrantedAuthority(authVO.getAuth()))
                         .collect(Collectors.toList())
         );
         this.userVO = userVO;

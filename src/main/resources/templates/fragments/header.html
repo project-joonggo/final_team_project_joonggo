@@ -17,10 +17,16 @@
         </div>
         <div class="userMenu">
             <ul class="d-flex justify-content-between align-items-center gap-3">
-                <li>
+                <li sec:authorize="!isAuthenticated()">
                     <a href="/user/login" class="d-flex justify-content-center align-items-center gap-1">
                         <img src="/img/login.svg">
                         <span>로그인</span>
+                    </a>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a href="/user/logout" class="d-flex justify-content-center align-items-center gap-1">
+                        <img src="/img/logout.svg">
+                        <span>로그아웃</span>
                     </a>
                 </li>
                 <li>

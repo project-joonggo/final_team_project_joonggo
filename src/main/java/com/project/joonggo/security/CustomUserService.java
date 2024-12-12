@@ -2,11 +2,14 @@ package com.project.joonggo.security;
 
 import com.project.joonggo.domain.UserVO;
 import com.project.joonggo.repository.UserMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
+@Slf4j
 public class CustomUserService implements UserDetailsService {
 
     @Autowired
@@ -27,21 +30,5 @@ public class CustomUserService implements UserDetailsService {
 
         return new AuthUser(userVO);
 
-
-
-/*        long userNum;
-
-        try {
-            // username을 long 타입 userNum으로 변환
-            userNum = Long.parseLong(username);
-        } catch (NumberFormatException e) {
-            throw new UsernameNotFoundException("Invalid username format. Must be numeric.");
-        }
-
-
-        UserVO userVO = userMapper.selectUserNum(userNum);
-        userVO.setAuthList(userMapper.selectAuths(userNum));
-        //UserDetails return
-        return new AuthUser(userVO);*/
     }
 }

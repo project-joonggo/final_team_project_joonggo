@@ -2,6 +2,7 @@ package com.project.joonggo.domain;
 
 import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -28,5 +29,6 @@ public class UserVO {
     private String socialId;
     private String phone;
 
-    public List<AuthVO> authList;
+    public List<AuthVO> authList = new ArrayList<>();
+
 }
