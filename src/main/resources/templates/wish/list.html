@@ -54,13 +54,13 @@
       <div th:id="'paymentModal_' + ${boardFileDTO.boardVO.boardId}" class="modal">
         <div class="modal-content">
           <!-- 닫기 버튼 -->
-          <span class="close" th:data-board-id="${boardFileDTO.boardVO.boardId}">&times;</span>
+          <button class="close" id="close" th:data-board-id="${boardFileDTO.boardVO.boardId}">&times;</button>
           <h2>결제 방법을 선택하세요</h2>
           <button id="tradeBtn">직거래</button>
 
           <!-- 결제 버튼: data-board-id로 boardId를 전달 -->
-          <button type="button" class="pay-btn"
-                  data-board-id="${boardFileDTO.boardVO.boardId}">
+          <button type="button" class="paymentBtn"
+                  th:data-board-id="${boardFileDTO.boardVO.boardId}">
             바로결제
           </button>
         </div>
@@ -78,7 +78,7 @@
 
   <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
   <script th:src="@{/js/wishList.js}"></script>
-<!--  <script th:src="@{/js/wishBuy.js}"></script>-->
+  <script th:src="@{/js/wishBuy.js}"></script>
 
 </div>
 

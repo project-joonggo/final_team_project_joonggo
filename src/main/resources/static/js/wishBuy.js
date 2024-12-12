@@ -4,11 +4,21 @@ document.addEventListener("DOMContentLoaded", () => {
     // IMP 결제 연동 초기화
     IMP.init("imp05450825");
 
-    // 결제 버튼 클릭 시 결제 처리
+
     document.querySelectorAll('.pay-btn').forEach(button => {
         button.addEventListener('click', function() {
             const boardId = button.getAttribute('data-board-id');  // data-board-id에서 boardId 가져오기
-             openPaymentModal(boardId);  // 모달 열기
+            console.log(boardId);
+            openPaymentModal(boardId);  // 모달 열기
+        });
+    });
+
+    // 결제 버튼 클릭 시 결제 처리
+    document.querySelectorAll('.paymentBtn').forEach(button => {
+        button.addEventListener('click', function() {
+            const boardId = button.getAttribute('data-board-id');  // data-board-id에서 boardId 가져오기
+            console.log(boardId);
+            onPaymentBtnClick(boardId);  // 결제
         });
     });
 
@@ -79,6 +89,15 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
+
+
+    document.querySelectorAll('.close').forEach(button => {
+        button.addEventListener('click', function() {
+            const boardId = button.getAttribute('data-board-id');  // data-board-id에서 boardId 가져오기
+            console.log(boardId);
+            closePaymentModal(boardId);  // 모달 닫기
+        });
+    });
 
     // 모달 열기
     function openPaymentModal(boardId) {
