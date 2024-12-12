@@ -96,5 +96,20 @@ public class BoardServiceImpl implements BoardService{
         boardMapper.boardIsDelUpdate(boardId);
     }
 
+    @Override
+    public void incrementReadCount(Long boardId) {
+        boardMapper.incrementReadCount(boardId);
+    }
+
+    @Override
+    public void decrementWishCount(Long boardId) {
+        boardMapper.decrementWishCount(boardId);
+    }
+
+    @Override
+    public void incrementWishCount(Long boardId) {
+        boardMapper.incrementWishCount(boardId);
+    }
+
 
 }

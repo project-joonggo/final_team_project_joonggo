@@ -6,8 +6,8 @@
 
     <!-- 결제 정보 저장 -->
     <insert id="insertPayment">
-        INSERT INTO payment (imp_uid,merchant_uid, board_id, amount, product_name, payment_status, paid_at)
-        VALUES ( #{impUid},#{merchantUid}, #{boardId}, #{amount}, #{productName}, #{paymentStatus}, NOW());
+        INSERT INTO payment (imp_uid,merchant_uid, board_id, amount, product_name, payment_status, paid_at, user_num)
+        VALUES ( #{impUid},#{merchantUid}, #{boardId}, #{amount}, #{productName}, #{paymentStatus}, NOW(), #{userNum});
     </insert>
 
     <update id="updatePaymentStatus">

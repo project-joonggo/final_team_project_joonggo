@@ -18,6 +18,7 @@ function checkEditable(tradeFlag, boardId) {
 document.addEventListener("DOMContentLoaded", function() {
     // 수정 버튼을 찾아 클릭 이벤트 리스너 추가
     const modBtn = document.getElementById('modBtn');
+    const wishBtn = document.getElementById('wishBtn');
 
     if (modBtn) {
         modBtn.addEventListener("click", function(event) {
@@ -26,4 +27,35 @@ document.addEventListener("DOMContentLoaded", function() {
             event.preventDefault();  // 기본 동작 방지
         });
     }
+
+    if (wishBtn) {
+        wishBtn.addEventListener("click", function() {
+            // data-* 속성으로 boardId와 userNum을 가져옵니다.
+            const boardId = wishBtn.getAttribute("data-board-id");
+        
+
+            console.log(boardId);
+
+                // POST 요청으로 찜 추가 또는 취소
+                fetch("/wish/getWish", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        boardId: boardId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                     // 찜 추가/취소 후 알림
+                     alert(data.message);
+                    
+                     // 버튼 텍스트 변경 (예: 찜하기 <-> 찜 취소)
+                     wishBtn.textContent = data.newButtonText;
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        }
+
 });

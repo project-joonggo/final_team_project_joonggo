@@ -7,9 +7,18 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const onClickRefund = async (event) => {
         // 클릭한 버튼에서 결제 정보를 가져오기
+        const button = event.target;
         const impUid = event.target.getAttribute("data-impUid");  // impUid
         const merchantUid = event.target.getAttribute("data-merchantUid");  // merchantUid
         const paidAmount = parseInt(event.target.getAttribute("data-paidAmount"));  // paidAmount
+        const cancelFlag = button.getAttribute("data-cancelFlag");  // cancelFlag 값
+
+
+        // cancelFlag가 1이면 "이미 환불 완료된 상품입니다" 메시지를 띄운다
+          if (cancelFlag === true) {
+            alert("이미 환불 완료된 상품입니다.");
+            return;  // 환불 처리 중단
+        }
 
         // 환불 요청을 백엔드로 전송
         fetch('/api/payment/refund', {
@@ -24,6 +33,10 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }).then(response => response.json())
           .then(data => {
+            if (data.status === "success") {
+                // 환불 성공 후 리다이렉트
+                window.location.href = data.redirectUrl;  // 서버에서 받은 리다이렉트 URL로 이동
+            }
               console.log("환불 처리 결과", data);
           })
           .catch(error => {

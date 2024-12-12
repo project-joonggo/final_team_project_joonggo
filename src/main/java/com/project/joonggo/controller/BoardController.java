@@ -9,6 +9,8 @@ import com.project.joonggo.handler.FileHandler;
 import com.project.joonggo.handler.ImageHandler;
 import com.project.joonggo.service.BoardService;
 import com.project.joonggo.service.LoginService;
+import com.project.joonggo.service.WishService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +38,7 @@ public class BoardController {
     private final BoardService boardService;
     private final FileDeleteHandler fileDeleteHandler;
     private final LoginService loginService;
+    private final WishService wishService;
 
     @Autowired
     private FileHandler fileHandler;
@@ -89,11 +92,33 @@ public class BoardController {
     }
 
     @GetMapping({"/detail","/modify"})
-    public void detail(Model model, @RequestParam("boardId") Long boardId){
+    public void detail(Model model, @RequestParam("boardId") Long boardId, HttpServletRequest request, Principal principal){
+
+        // 현재 요청 URL 확인
+        String requestURI = request.getRequestURI();
+
+        // 'detail' 페이지에서만 조회수를 증가시킴
+        if (requestURI.contains("/detail")) {
+            boardService.incrementReadCount(boardId);  // 조회수 증가
+        }
+
+        // 로그인된 사용자 정보 가져오기
+        String userId = principal != null ? principal.getName() : null;
+        Long userNum = null;
+
+        // 로그인한 사용자만 찜 상태 확인
+        boolean isAlreadyWished = false;
+        if (userId != null) {
+            userNum = loginService.getUsernumByUserId(userId);
+            // 사용자가 찜한 상태인지 확인
+            isAlreadyWished = wishService.isAlreadyWished(userNum, boardId);
+        }
+        log.info(">>>> isAl Wish >> {}" , isAlreadyWished);
 
         BoardFileDTO boardFileDTO = boardService.getDetail(boardId);
 
         model.addAttribute("boardFileDTO", boardFileDTO);
+        model.addAttribute("isAlreadyWished", isAlreadyWished);
 
     }
 

@@ -21,4 +21,5 @@ public class Payment {
     private int refundedAmount;
     private boolean cancelFlag;
     private String impUid;
+    private Long userNum;
 }

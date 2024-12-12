@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<head>
+  <link rel="stylesheet" th:href="@{/css/modal.css}">
+</head>
+
+
+<body>
+
+<div layout:fragment="content">
+
+  <h1>찜한 상품 리스트</h1>
+
+  [[${wishedProducts}]]
+
+  <table>
+    <thead>
+    <tr>
+      <th>상품 사진</th>
+      <th>카테고리</th>
+      <th>상품명 (게시글 제목)</th>
+      <th>상품 가격</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="boardFileDTO : ${wishedProducts}">
+      <td>
+        <img th:if="${boardFileDTO.fileVOList != null and boardFileDTO.fileVOList.size() > 0 and boardFileDTO.fileVOList.get(0).fileUrl != null}"
+             th:src="@{${boardFileDTO.fileVOList.get(0).fileUrl}}"
+             alt="상품사진" width="100">
+      </td>
+      <td th:text="${boardFileDTO.boardVO.category}"></td>
+      <td>
+        <a th:href="@{/board/detail(boardId=${boardFileDTO.boardVO.boardId})}">
+          <span th:text="${boardFileDTO.boardVO.boardName}"></span>
+        </a>
+      </td>
+      <td th:text="${boardFileDTO.boardVO.tradePrice}"></td>
+
+      <td>
+        <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}"
+                class="pay-btn">결제하기</button>
+      </td>
+
+      <td>
+        <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}" class="remove-wish-btn">찜 취소</button>
+      </td>
+
+      <!-- 결제 모달 -->
+      <div th:id="'paymentModal_' + ${boardFileDTO.boardVO.boardId}" class="modal">
+        <div class="modal-content">
+          <!-- 닫기 버튼 -->
+          <button class="close" id="close" th:data-board-id="${boardFileDTO.boardVO.boardId}">&times;</button>
+          <h2>결제 방법을 선택하세요</h2>
+          <button id="tradeBtn">직거래</button>
+
+          <!-- 결제 버튼: data-board-id로 boardId를 전달 -->
+          <button type="button" class="paymentBtn"
+                  th:data-board-id="${boardFileDTO.boardVO.boardId}">
+            바로결제
+          </button>
+        </div>
+      </div>
+    </tr>
+    </tbody>
+  </table>
+
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    var boardFileDTO = [[${wishedProducts}]];
+    /*]]>*/
+  </script>
+
+  <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+  <script th:src="@{/js/wishList.js}"></script>
+  <script th:src="@{/js/wishBuy.js}"></script>
+
+</div>
+
+
+</body>

@@ -178,3 +178,4 @@ ALTER TABLE payment ADD COLUMN user_num bigint UNIQUE;
 ALTER TABLE sellbuy_board modify seller_id bigint;
 ALTER TABLE sellbuy_board MODIFY COLUMN board_content TEXT;
 ALTER TABLE product_file ADD COLUMN file_url VARCHAR(512);
+ALTER TABLE payment DROP INDEX user_num;

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.joonggo.repository.WishMapper">
+
+    <select id="isAlreadyWished" resultType="boolean">
+        SELECT COUNT(1)
+        FROM wish_list
+        WHERE user_num = #{userNum} AND board_id = #{boardId}
+    </select>
+
+    <!-- 찜 취소 -->
+    <delete id="removeFromWishList">
+        DELETE FROM wish_list
+        WHERE user_num = #{userNum} AND board_id = #{boardId}
+    </delete>
+
+    <!-- 찜 등록 -->
+    <insert id="addToWishList">
+        INSERT INTO wish_list (user_num, board_id, reg_at)
+        VALUES (#{userNum}, #{boardId}, NOW())
+    </insert>
+
+    <select id="findBoardIdsByUserNum" resultType="Long">
+        SELECT board_id FROM wish_list WHERE user_num = #{userNum}
+    </select>
+
+
+
+</mapper>

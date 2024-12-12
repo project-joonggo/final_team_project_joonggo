@@ -41,6 +41,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // 시큐리티 oauth2(소셜) 로그인
 
 
+
 	// chatbot repo : ChatController
 	implementation 'org.springframework:spring-messaging'
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'

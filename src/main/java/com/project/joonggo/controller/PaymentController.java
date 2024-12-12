@@ -2,6 +2,7 @@ package com.project.joonggo.controller;
 
 
 import com.project.joonggo.service.BoardService;
+import com.project.joonggo.service.LoginService;
 import com.project.joonggo.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,7 @@ import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,6 +25,7 @@ public class PaymentController {
 
     private final PaymentService paymentService;
     private final BoardService boardService;
+    private final LoginService loginService;
 
     @Value("${api.key}")
     private String apiKey;
@@ -36,21 +39,26 @@ public class PaymentController {
 
 
     @PostMapping("/success")
-    public ResponseEntity<Map<String, String>> handlePaymentSuccess(@RequestBody Map<String, Object> paymentInfo) {
+    public ResponseEntity<Map<String, String>> handlePaymentSuccess(@RequestBody Map<String, Object> paymentInfo, Principal principal) {
         String impUid = (String) paymentInfo.get("impUid");
         String merchantUid = (String) paymentInfo.get("merchantUid");
         int amount = (Integer) paymentInfo.get("amount");
         Long boardId = Long.parseLong(paymentInfo.get("boardId").toString());
         String productName = (String) paymentInfo.get("productName");
 
-        boolean isSaved = paymentService.savePaymentInfo(impUid, merchantUid, amount, boardId, productName);
+        String userId = principal.getName();
+
+        Long userNum = loginService.getUsernumByUserId(userId);
+
+        boolean isSaved = paymentService.savePaymentInfo(impUid, merchantUid, amount, boardId, productName, userNum);
 
         Map<String, String> response = new HashMap<>();
         if (isSaved) {
             boardService.updateTradeFlag(boardId); // 거래완료시 게시글 상태 업데이트
-            log.info("결제 정보 저장 완료 - Merchant UID: {}, Amount: {}, Board ID: {}, Product Name: {} ,impUid : {} " ,merchantUid, amount, boardId, productName, impUid);
+            log.info("결제 정보 저장 완료 - Merchant UID: {}, Amount: {}, Board ID: {}, Product Name: {} ,impUid : {} , userNum : {}" ,merchantUid, amount, boardId, productName, impUid, userNum);
             response.put("message", "결제 정보 저장 완료");
             response.put("status", "success");
+            response.put("redirectUrl","/payment/history");
             return ResponseEntity.ok(response);  // 200 OK 응답과 함께 JSON 반환
         } else {
             response.put("message", "결제 정보 저장 실패");
@@ -174,7 +182,7 @@ public class PaymentController {
                     );
                     ResponseEntity<Map<String, String>> webhookResponse = handleWebhook(webhookData);  // 웹훅 메서드 호출
                     if (webhookResponse.getStatusCode().is2xxSuccessful()) {
-                        return ResponseEntity.ok(Map.of("status", "success", "message", "환불 처리 및 웹훅 호출 완료"));
+                        return ResponseEntity.ok(Map.of("status", "success", "message", "환불 처리 및 웹훅 호출 완료","redirectUrl", "/board/list")); // mypage만들면 거기로가자
                     } else {
                         return ResponseEntity.status(500).body(Map.of("status", "failure", "message", "웹훅 호출 실패"));
                     }
@@ -256,7 +264,7 @@ public class PaymentController {
     }
     // 아임포트 API 토큰 발급
     private String getAccessToken() {
-        int retries = 3;
+        int retries = 5;
         while (retries > 0) {
             try {
                 // 요청 본문 및 헤더 설정
