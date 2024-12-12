@@ -26,7 +26,7 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
     line-height: 1;
-    font-family: "Nanum Gothic", sans-serif;
+    /* font-family: "Nanum Gothic", sans-serif; */
     font-weight: 400;
     font-style: normal;
 }
@@ -65,8 +65,12 @@ a {
 }
 
 /* header */
-#header{
+#header {
     border-bottom: 1px solid rgba(161, 176, 184, 0.33);
+    position: sticky; /* 스티키 위치 지정 */
+    top: 0; /* 페이지 상단에 고정 */
+    z-index: 1000; /* 다른 콘텐츠 위에 표시되도록 설정 */
+    background-color: white; /* 스크롤 시 콘텐츠가 보이지 않도록 배경색 추가 */
 }
 .logoName{
     font-size: 40px;

@@ -23,6 +23,8 @@ public class LocationController {
             String userId = principal.getName();
             String streetAddress = locationService.getStreetAddress(userId);
             model.addAttribute("streetAddress", streetAddress);
+        } else {
+            model.addAttribute("streetAddress", "로그인되지 않았습니다.");
         }
         return "index";
     }
