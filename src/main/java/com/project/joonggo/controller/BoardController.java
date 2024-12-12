@@ -37,7 +37,6 @@ public class BoardController {
 
     private final BoardService boardService;
     private final FileDeleteHandler fileDeleteHandler;
-    private final LoginService loginService;
     private final WishService wishService;
 
     @Autowired
@@ -52,9 +51,9 @@ public class BoardController {
     public String register(@ModelAttribute BoardVO boardVO, Principal principal){
         log.info("boardVO >>> {} ", boardVO);
 
-        String userId = principal.getName();
+        Long userNum = Long.valueOf(principal.getName());
 
-        Long userNum = loginService.getUsernumByUserId(userId);
+        log.info(">>> userNum >> {}", userNum);
 
         boardVO.setSellerId(userNum); // sellerId가 userNum
 
@@ -103,13 +102,14 @@ public class BoardController {
         }
 
         // 로그인된 사용자 정보 가져오기
-        String userId = principal != null ? principal.getName() : null;
-        Long userNum = null;
+
+        Long userNum = principal != null ?  Long.valueOf(principal.getName()) : null;
+
+        log.info(">>> userNum >>> {}", userNum);
 
         // 로그인한 사용자만 찜 상태 확인
         boolean isAlreadyWished = false;
-        if (userId != null) {
-            userNum = loginService.getUsernumByUserId(userId);
+        if (userNum != null) {
             // 사용자가 찜한 상태인지 확인
             isAlreadyWished = wishService.isAlreadyWished(userNum, boardId);
         }

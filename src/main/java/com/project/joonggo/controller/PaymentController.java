@@ -25,7 +25,6 @@ public class PaymentController {
 
     private final PaymentService paymentService;
     private final BoardService boardService;
-    private final LoginService loginService;
 
     @Value("${api.key}")
     private String apiKey;
@@ -46,9 +45,11 @@ public class PaymentController {
         Long boardId = Long.parseLong(paymentInfo.get("boardId").toString());
         String productName = (String) paymentInfo.get("productName");
 
-        String userId = principal.getName();
 
-        Long userNum = loginService.getUsernumByUserId(userId);
+        Long userNum = Long.valueOf(principal.getName());
+
+        log.info(">>> userNum >> {}", userNum);
+
 
         boolean isSaved = paymentService.savePaymentInfo(impUid, merchantUid, amount, boardId, productName, userNum);
 

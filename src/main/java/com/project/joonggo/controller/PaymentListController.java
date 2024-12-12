@@ -21,16 +21,13 @@ import java.util.List;
 @RequestMapping("/payment")
 public class PaymentListController {
     private final PaymentService paymentService;
-    private final LoginService loginService;
 
     @GetMapping("/history")
     public String paymentHistory(Model model, Principal principal) {
-        // 로그인한 사용자의 usernum을 가져오는 방법
-        String userId = principal.getName(); // 로그인된 사용자 아이디
 
-        Long userNum = loginService.getUsernumByUserId(userId);  // userId로 usernum 조회
+        Long userNum = Long.valueOf(principal.getName());
 
-        log.info(">>>> userNum >> {}" , userNum);
+        log.info(">>> userNum >> {}", userNum);
 
 
         // usernum을 이용해 결제 내역 조회

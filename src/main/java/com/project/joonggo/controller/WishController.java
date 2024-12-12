@@ -22,7 +22,6 @@ import java.util.Map;
 @Slf4j
 public class WishController {
     private final WishService wishService;
-    private final LoginService loginService;
     private final BoardService boardService;
 
 
@@ -30,14 +29,15 @@ public class WishController {
     @ResponseBody
     public Map<String, Object> toggleWishList(@RequestBody Map<String, Object> request, Principal principal) {
         // 로그인한 사용자의 userId와 userNum을 가져옴
-        String userId = principal.getName();
-        Long userNum = loginService.getUsernumByUserId(userId);
+        Long userNum = Long.valueOf(principal.getName());
+
+        log.info(">>> userNum >> {}", userNum);
 
         String strBoardId = (String) request.get("boardId");  // String으로 받음
         Long boardId = Long.parseLong(strBoardId);  // String을 Long으로 변환
 
 
-        log.info("boardId >>> {}", boardId);
+        log.info(">> boardId >>> {}", boardId);
 
         // 사용자가 이미 찜한 상품인지 확인
         boolean isAlreadyWished = wishService.isAlreadyWished(userNum, boardId);
@@ -67,8 +67,10 @@ public class WishController {
 
     @GetMapping("/wish/list")
     public String showWishList(Principal principal, Model model) {
-        String userId = principal.getName();
-        Long userNum = loginService.getUsernumByUserId(userId);
+
+        Long userNum = Long.valueOf(principal.getName());
+
+        log.info(">>> userNum >>> {}", userNum);
 
         // 찜한 상품 정보와 이미지 URL을 가져옵니다.
         List<BoardFileDTO> wishedProducts = wishService.getWishedProducts(userNum);
@@ -84,8 +86,10 @@ public class WishController {
     @ResponseBody
     public Map<String, Object> removeFromWishList(@RequestBody Map<String, Object> request, Principal principal) {
         // 로그인한 사용자의 userId와 userNum을 가져옴
-        String userId = principal.getName();
-        Long userNum = loginService.getUsernumByUserId(userId);
+
+        Long userNum = Long.valueOf(principal.getName());
+
+        log.info(">>> userNum >>>> {}", userNum);
 
         String strBoardId = (String) request.get("boardId");  // String으로 받음
         Long boardId = Long.parseLong(strBoardId);  // String을 Long으로 변환
@@ -107,8 +111,6 @@ public class WishController {
 
         return response;  // JSON 응답 반환
     }
-
-
 
 
 }
