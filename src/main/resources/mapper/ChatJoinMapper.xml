@@ -17,7 +17,7 @@
     </insert>
 
     <!-- 채팅방에 참여한 사용자 목록을 가져오기 -->
-    <select id="getUsersInRoom" resultType="ChatJoinVO">
+    <select id="getUsersInRoom" resultType="com.project.joonggo.domain.ChatJoinVO">
         SELECT room_id AS roomId, user_num AS userNum
         FROM chat_join
         WHERE room_id = #{roomId}

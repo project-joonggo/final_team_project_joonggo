@@ -4,7 +4,7 @@
         "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.project.joonggo.repository.ChatRoomMapper">
 
-    <select id="getChatRoomList" resultType="ChatRoomVO">
+    <select id="getChatRoomList" resultType="com.project.joonggo.domain.ChatRoomVO">
         SELECT cr.room_id, cr.room_name, cr.room_status
         FROM chat_room cr
         JOIN chat_join cj ON cr.room_id = cj.room_id
