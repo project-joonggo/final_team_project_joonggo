@@ -17,4 +17,7 @@ public interface LoginService {
     List<UserVO> getList();
 
     UserVO getUserWithAuthorities(String username);
+
+    List<UserVO> findByNameAndEmail(String name, String email);
+
 }

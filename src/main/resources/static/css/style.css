@@ -400,3 +400,9 @@ a {
     background-color: #ddd;
     cursor: not-allowed;
 }
+#findIdAndPwBtn{
+    color: #757b80;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 14px;
+}

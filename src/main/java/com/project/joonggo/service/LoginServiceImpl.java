@@ -67,4 +67,10 @@ public class LoginServiceImpl implements LoginService {
         }
         return userVO;
     }
+
+    @Override
+    public List<UserVO> findByNameAndEmail(String name, String email) {
+        return userMapper.findByNameAndEmail(name, email);
+    }
+
 }

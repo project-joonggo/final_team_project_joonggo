@@ -10,7 +10,7 @@ const passwordInput = document.getElementById('password');
 const passwordCheckInput = document.getElementById('passwordCheck');
 const passwordCheckMessage = document.getElementById('passwordCheckMessage');
 const passwordMessage = document.getElementById('passwordMessage');
-const joinBtn = document.getElementById('joinPostBtn');
+const joinBtn = document.querySelector('.joinPostBtn');
 
 const finalMessage = document.getElementById("finalMessage");
 
@@ -164,6 +164,7 @@ function searchPostCode(){
             document.getElementById("address1").value = addr;
             // 커서를 상세주소 필드로 이동한다.
             document.getElementById("address2").focus();
+            validateForm();
         }
     }).open();
 }
@@ -185,29 +186,43 @@ function searchPostCode(){
 } else {
     joinBtn.disabled = false;
 }*/
-
 function validateForm() {
-    // 유효성 검사 로직
     if (email.value === '') {
         finalMessage.textContent = "아이디(이메일)을 입력해 주세요.";
-    } else if (userName.value === '') {
-        finalMessage.textContent = "이름을 입력해 주세요.";
-    } else if (postCode.value === '') {
-        finalMessage.textContent = "우편번호를 입력해 주세요.";
-    } else if (address1.value === '' || address3.value === '') {
-        finalMessage.textContent = "주소를 입력해 주세요.";
-    } else if (!passwordFinalCheck) {
-        finalMessage.textContent = "비밀번호를 입력해 주세요.";
-    } else if (!checkNum) {
-        finalMessage.textContent = "휴대폰 번호를 인증해 주세요.";
-    } else {
-        finalMessage.textContent = ''; // 오류 메시지 초기화
-        joinBtn.disabled = false;
+        joinBtn.disabled = true; // 비활성화
+        return;
     }
+    if (userName.value === '') {
+        finalMessage.textContent = "이름을 입력해 주세요.";
+        joinBtn.disabled = true;
+        return;
+    }
+    if (address1.value === '' || address3.value === '') {
+        finalMessage.textContent = "주소를 입력해 주세요.";
+        joinBtn.disabled = true;
+        return;
+    }
+    if (!passwordFinalCheck) {
+        finalMessage.textContent = "비밀번호를 입력해 주세요.";
+        joinBtn.disabled = true;
+        return;
+    }
+/*    if (!checkNum) {
+        finalMessage.textContent = "휴대폰 번호를 인증해 주세요.";
+        joinBtn.disabled = true;
+        return;
+    }*/
+
+    // 모든 조건 충족
+    finalMessage.textContent = ''; // 오류 메시지 초기화
+    joinBtn.disabled = false; // 버튼 활성화
 }
 
 email.addEventListener('input', validateForm);
 userName.addEventListener('input', validateForm);
-postCode.addEventListener('input', validateForm);
 address1.addEventListener('input', validateForm);
+address1.addEventListener('change', validateForm); // 자동 입력 감지
 address3.addEventListener('input', validateForm);
+address3.addEventListener('change', validateForm);
+passwordInput.addEventListener('input', validateForm);
+passwordCheckInput.addEventListener('input', validateForm);

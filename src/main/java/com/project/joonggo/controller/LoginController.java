@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -64,6 +65,27 @@ public class LoginController {
         return "/user/login";
     }
 
+    //아이디 찾기
+    @GetMapping("/findId")
+    public String findId(){
+        return "/user/findId";
+    }
+    @PostMapping("/findId")
+    public String findId(@RequestParam("name") String name,
+                         @RequestParam("email") String email,
+                         Model model) {
+        List<UserVO> users = loginService.findByNameAndEmail(name, email);
+
+        if (users.isEmpty()) {
+            model.addAttribute("message", "입력한 정보와 일치하는 아이디를 찾을 수 없습니다.");
+            model.addAttribute("status", "error");
+        } else {
+            model.addAttribute("userList", users);
+            model.addAttribute("status", "success");
+        }
+        return "/user/findIdResult"; // 결과 페이지로 이동
+    }
+
     //휴대폰 인증
     @ResponseBody
     @GetMapping("/phoneCheck")
@@ -71,6 +93,7 @@ public class LoginController {
     public String sendSMS(String phone){ // 휴대폰 문자보내기
         //난수 생성
         int ranNum = (int)((Math.random()*(9999-1000+1)) + 1000);
+        log.info("===========================휴대폰 인증코드=============={}", ranNum);
         phoneAuthHandler.certifiedPhoneNumber(phone, ranNum);
         return Integer.toString(ranNum);
     }
@@ -89,6 +112,7 @@ public class LoginController {
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 구글유저 정보 >>>>>{}", googleUserInfo);
 
         Map<String, String> userInfo = socialLoginHandler.parseGoogleUserInfo(googleUserInfo);
+
         String googleId = userInfo.get("userId");
         String googleName = userInfo.get("userName");
         String givenName = userInfo.get("givenName");

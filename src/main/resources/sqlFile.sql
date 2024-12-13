@@ -159,13 +159,13 @@ create table payment (
                          cancel_flag boolean default false,       -- 결제 취소 여부
                          primary key (payment_id));
 -----------------------------------------------------
---241205
+-- 241205
 alter table user add column social_id varchar(256);
 
---241206
+-- 241206
 alter table user add column phone varchar(50);
 
---241209
+-- 241209
 ALTER TABLE user
     CHANGE COLUMN address address_1 VARCHAR(256);
 ALTER TABLE user
@@ -173,9 +173,20 @@ ALTER TABLE user
 ADD COLUMN post_code VARCHAR(10) AFTER address_2;
 alter table user add column address_3 varchar(256) after address_2;
 
---241210
+-- 241210
 ALTER TABLE payment ADD COLUMN user_num bigint UNIQUE;
 ALTER TABLE sellbuy_board modify seller_id bigint;
 ALTER TABLE sellbuy_board MODIFY COLUMN board_content TEXT;
 ALTER TABLE product_file ADD COLUMN file_url VARCHAR(512);
 ALTER TABLE payment DROP INDEX user_num;
+
+-- 241211
+CREATE TABLE wish_list(
+                          wish_id BIGINT AUTO_INCREMENT,       -- 찜리스트 아이디
+                          user_num BIGINT NOT NULL,                        -- 사용자 아이디 (user_num)
+                          board_id BIGINT NOT NULL,                        -- 상품 아이디 (board_id)
+                          reg_at datetime default now(),   -- 추가된 시간
+                          primary key(wish_id));
+
+-- 241212
+alter table user add column reg_date datetime default now();

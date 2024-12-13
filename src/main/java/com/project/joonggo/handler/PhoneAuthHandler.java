@@ -1,6 +1,7 @@
 package com.project.joonggo.handler;
 import lombok.extern.slf4j.Slf4j;
 import net.nurigo.java_sdk.api.Message;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import net.nurigo.java_sdk.exceptions.CoolsmsException;
 import org.json.simple.JSONObject; // JSONObject의 올바른 import 경로
@@ -9,10 +10,15 @@ import java.util.HashMap;
 @Component
 @Slf4j
 public class PhoneAuthHandler {
-        private static final String SMS_API_KEY = "NCS4A1WELRCQC5L7";
-        private static final String SMS_API_SECRET = "1P1XQAXB4BOGWLOOVJPKTX3ZUGYTFL3P";
+
+        @Value("${sms.api-key}")
+        private String SMS_API_KEY;
+
+        @Value("${sms.api-secret}")
+        private String SMS_API_SECRET;
 
     public void certifiedPhoneNumber(String userPhoneNumber, int randomNumber) {
+
         String api_key = SMS_API_KEY;
         String api_secret = SMS_API_SECRET;
         Message coolsms = new Message(api_key, api_secret);

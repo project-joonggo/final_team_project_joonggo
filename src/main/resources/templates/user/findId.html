@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content">
+  <div class="container-md">
+    <div id="findId">
+      <h2>아이디 찾기</h2>
+      <form action="/user/findId" method="post">
+      <p id="name_view" class="name" style="">
+        <strong id="name_lable">이름</strong>
+        <input id="name" name="name" fw-filter="" fw-label="이름" fw-msg="" class="lostInput" placeholder="" value="" type="text">
+      </p>
+      <p id="email_view" class="email" style="">
+        <strong id="email_lable">이메일로 찾기</strong>
+        <input id="email" name="email" fw-filter="" fw-label="이메일" fw-msg="" class="lostInput" placeholder="" value="" type="text">
+      </p>
+
+        <button type="submit">확인</button>
+      </form>
+
+    </div>
+  </div>
+</div>

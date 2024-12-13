@@ -28,6 +28,7 @@ public class UserVO {
     private int signflag;
     private String socialId;
     private String phone;
+    private String regDate;
 
     public List<AuthVO> authList = new ArrayList<>();
 

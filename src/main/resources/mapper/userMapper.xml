@@ -45,5 +45,10 @@
     <select id="getList" resultType="com.project.joonggo.domain.UserVO">
         select * from user
     </select>
+    <select id="findByNameAndEmail" resultType="com.project.joonggo.domain.UserVO">
+        SELECT *
+        FROM user
+        WHERE user_name = #{name} AND user_id = #{email}
+    </select>
 
 </mapper>
