@@ -53,6 +53,11 @@ document.addEventListener("DOMContentLoaded", function() {
                     
                      // 버튼 텍스트 변경 (예: 찜하기 <-> 찜 취소)
                      wishBtn.textContent = data.newButtonText;
+                    // 찜 수 업데이트 (UI 반영)
+                    const likeCountSpan = document.getElementById('likeCount');
+                    if (likeCountSpan) {
+                        likeCountSpan.textContent = data.newLikeCount;  // 새로운 찜 수 업데이트
+                    }
                 })
                 .catch(error => console.error('Error:', error));
             });

@@ -3,6 +3,7 @@ package com.project.joonggo.service;
 import com.project.joonggo.domain.BoardFileDTO;
 import com.project.joonggo.domain.BoardVO;
 import com.project.joonggo.domain.FileVO;
+import com.project.joonggo.domain.PagingVO;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ public interface BoardService {
 
     int fileUpload(List<FileVO> flist);
 
-    List<BoardFileDTO> getList();
+    List<BoardFileDTO> getList(PagingVO pgvo);
 
     BoardFileDTO getDetail(Long boardId);
 
@@ -31,4 +32,11 @@ public interface BoardService {
     void decrementWishCount(Long boardId);
 
     void incrementWishCount(Long boardId);
+
+    int getLikeCount(Long boardId);
+
+    int getTotal(PagingVO pgvo);
+
+    List<BoardFileDTO> searchPrice(String keyword);
+
 }

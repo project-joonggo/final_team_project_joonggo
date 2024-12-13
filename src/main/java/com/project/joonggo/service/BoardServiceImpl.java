@@ -3,6 +3,7 @@ package com.project.joonggo.service;
 import com.project.joonggo.domain.BoardFileDTO;
 import com.project.joonggo.domain.BoardVO;
 import com.project.joonggo.domain.FileVO;
+import com.project.joonggo.domain.PagingVO;
 import com.project.joonggo.repository.BoardMapper;
 import com.project.joonggo.repository.FileMapper;
 import lombok.RequiredArgsConstructor;
@@ -40,8 +41,8 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<BoardFileDTO> getList() {
-        List<BoardVO> boardList = boardMapper.getBoardList();
+    public List<BoardFileDTO> getList(PagingVO pgvo) {
+        List<BoardVO> boardList = boardMapper.getBoardList(pgvo);
         List<BoardFileDTO> boardFileDTOList = new ArrayList<>();
         log.info(">>>boardList >> {}",boardList);
 
@@ -111,5 +112,29 @@ public class BoardServiceImpl implements BoardService{
         boardMapper.incrementWishCount(boardId);
     }
 
+    @Override
+    public int getLikeCount(Long boardId) {
+        return boardMapper.getLikeCount(boardId);
+    }
+
+    @Override
+    public int getTotal(PagingVO pgvo) {
+        return boardMapper.getTotal(pgvo);
+    }
+
+    @Override
+    public List<BoardFileDTO> searchPrice(String keyword) {
+        List<BoardVO> boardList = boardMapper.searchPrice(keyword);
+
+        List<BoardFileDTO> boardFileDTOList = new ArrayList<>();
+
+        for (BoardVO boardVO : boardList) {
+            List<FileVO> files = fileMapper.getFileList(boardVO.getBoardId());
+            BoardFileDTO boardFileDTO = new BoardFileDTO(boardVO, files);
+            boardFileDTOList.add(boardFileDTO);
+        }
+
+        return boardFileDTOList;
+    }
 
 }

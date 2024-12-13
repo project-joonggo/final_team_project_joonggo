@@ -4,9 +4,11 @@ package com.project.joonggo.controller;
 import com.project.joonggo.domain.BoardFileDTO;
 import com.project.joonggo.domain.BoardVO;
 import com.project.joonggo.domain.FileVO;
+import com.project.joonggo.domain.PagingVO;
 import com.project.joonggo.handler.FileDeleteHandler;
 import com.project.joonggo.handler.FileHandler;
 import com.project.joonggo.handler.ImageHandler;
+import com.project.joonggo.handler.PagingHandler;
 import com.project.joonggo.service.BoardService;
 import com.project.joonggo.service.LoginService;
 import com.project.joonggo.service.WishService;
@@ -21,11 +23,13 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -79,13 +83,23 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String list(Model model){
+    public String list(Model model, PagingVO pgvo, @RequestParam(required = false) String category, @RequestParam(required = false) String keyword){
 
-        List<BoardFileDTO> list = boardService.getList();
+        int totalCount = boardService.getTotal(pgvo);
+
+        PagingHandler ph = new PagingHandler(pgvo,totalCount);
+
+        List<BoardFileDTO> list = boardService.getList(pgvo);
 
         log.info(">>> list >>> {}", list);
+        log.info(">>> ph >>> {}" , ph);
+        log.info(">>> category >> {}" , category);
+        log.info(">>> keyword >>> {}", keyword);
 
         model.addAttribute("list",list);
+        model.addAttribute("ph",ph);
+        model.addAttribute("category", category);
+        model.addAttribute("keyword", keyword);
 
         return "/board/list";
     }
@@ -181,5 +195,85 @@ public class BoardController {
 
         return "redirect:/board/list";
     }
+
+    @GetMapping("/price")
+    public String price(Model model, @RequestParam(required = false) String keyword) {
+
+        // 만약 keyword가 있다면, 해당 keyword로 상품 조회를 실행
+        List<BoardFileDTO> productList = boardService.searchPrice(keyword);
+
+        int averagePrice = 0;
+        int maxPrice = 0;
+        int minPrice = 0;
+
+        // 2. 시세 계산 (평균 가격, 최대 가격, 최소 가격)
+        if (productList != null && !productList.isEmpty()) {
+            int totalPrice = 0;
+            maxPrice = Integer.MIN_VALUE;
+            minPrice = Integer.MAX_VALUE;
+
+            // 가격을 하나씩 확인하면서 계산
+            for (BoardFileDTO  product : productList) {
+                int price = product.getBoardVO().getTradePrice();
+                totalPrice += price;
+
+                if (price > maxPrice) {
+                    maxPrice = price;
+                }
+                if (price < minPrice) {
+                    minPrice = price;
+                }
+            }
+
+            // 평균 계산
+            averagePrice = totalPrice / productList.size();
+        }
+
+        // 3. 최근 등록된 상품 20개 조회
+        List<BoardFileDTO> recentProducts = new ArrayList<>();
+        if (productList != null && !productList.isEmpty()) {
+            // 상품들을 최근 등록일 순으로 정렬
+            productList.sort((p1, p2) -> p2.getBoardVO().getRegAt().compareTo(p1.getBoardVO().getRegAt()));
+
+            // 최근 20개만 추출
+            for (int i = 0; i < Math.min(20, productList.size()); i++) {
+                BoardFileDTO boardFileDTO = productList.get(i);  // BoardFileDTO 객체를 가져옴
+                List<FileVO> files = boardFileDTO.getFileVOList();     // 해당 BoardFileDTO에서 파일 목록을 가져옴
+                String fileUrl = null;
+
+                // 파일이 존재하면 첫 번째 파일 URL을 사용
+                if (files != null && !files.isEmpty()) {
+                    fileUrl = files.get(0).getFileUrl(); // 첫 번째 파일 URL을 추출 (필요시 다르게 처리 가능)
+                }
+
+                // recentProducts 리스트에 BoardFileDTO 추가
+                recentProducts.add(boardFileDTO);
+            }
+        }
+
+        log.info(">>> productList >>> {}", productList);
+        log.info(">>> keyword >>>> {}", keyword);
+        log.info(">>> averagePrice >>> {}", averagePrice);
+        log.info(">>> maxPrice >>> {}", maxPrice);
+        log.info(">>> minPrice >>> {}", minPrice);
+        log.info(">>> recentProducts >>> {}", recentProducts);
+
+        // 가격을 3자리마다 콤마(,)로 구분
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        String formattedAveragePrice = numberFormat.format(averagePrice);
+        String formattedMaxPrice = numberFormat.format(maxPrice);
+        String formattedMinPrice = numberFormat.format(minPrice);
+
+        // 모델에 상품 목록과 검색어 추가
+        model.addAttribute("productList", productList);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("averagePrice", formattedAveragePrice);  // 평균 가격 (포맷팅된 값)
+        model.addAttribute("maxPrice", formattedMaxPrice);          // 최대 가격 (포맷팅된 값)
+        model.addAttribute("minPrice", formattedMinPrice);          // 최소 가격 (포맷팅된 값)
+        model.addAttribute("recentProducts", recentProducts); // 최근 등록된 상품
+
+        return "/board/price";  // 가격 조회 화면으로 리턴
+    }
+
 
 }

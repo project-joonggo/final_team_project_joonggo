@@ -13,7 +13,7 @@
 
     <div>
       <p>조회수: <span th:text="${boardVO.readCount}">0</span></p>
-      <p>찜수: <span th:text="${boardVO.likeCount}">0</span></p>
+      <p>찜수: <span id="likeCount">[[${boardVO.likeCount}]]</span></p>
     </div>
 
     <!-- 찜하기 버튼 상태 설정 -->
