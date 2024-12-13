@@ -6,40 +6,560 @@
 
 <div layout:fragment="content">
   <div class="container-md">
+
+    <!-- 멀티 슬라이드에서는 필요한 js, css 를 링크걸어 사용 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+
+    <!-- 클래스명은 변경하면 안 됨 -->
+    <!-- 이벤트 -->
+    <div id="slide3" class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide"><a href=""><img src="/img/event1.PNG"></a></div>
+        <div class="swiper-slide"><a href=""><img src="/img/event2.PNG"></a></div>
+        <div class="swiper-slide"><a href=""><img src="/img/event3.PNG"></a></div>
+        <div class="swiper-slide"><a href=""><img src="/img/event4.PNG"></a></div>
+        <div class="swiper-slide"><a href=""><img src="/img/event5.PNG"></a></div>
+        <div class="swiper-slide"><a href=""><img src="/img/event6.PNG"></a></div>
+        <div class="swiper-slide"><a href=""><img src="/img/event7.PNG"></a></div>
+        <div class="swiper-slide"><a href=""><img src="/img/event8.PNG"></a></div>
+        <div class="swiper-slide"><a href=""><img src="/img/event9.PNG"></a></div>
+      </div>
+
+      <!-- 네비게이션 -->
+      <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+      <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div><!-- 이전 버튼 -->
+
+      <!-- 페이징 -->
+      <div class="swiper-pagination"></div>
+    </div>
+
+    <!-- 실시간 인기상품 -->
+    <div class="item-theme">실시간 인기상품</div>
+    <div id="slide6_1" class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item1.PNG">
+            <div class="item-title">닌텐도 2ds 레드 판매합니다</div>
+            <div class="item-price">135,000원</div>
+            <div class="item-atc">물금읍 | 16분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item2.PNG">
+            <div class="item-title">닌텐도 일판 하트골드, 소울실버 박스세트 판매합니다</div>
+            <div class="item-price">235,000원</div>
+            <div class="item-atc">물금읍 | 15분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item3.PNG">
+            <div class="item-title">젤다의 전설 왕국의 눈물 나그네 코로그(여행 코르그) 인형</div>
+            <div class="item-price">28,000원</div>
+            <div class="item-atc">6분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item4.PNG">
+            <div class="item-title">피크민 마스코트 구미 키링</div>
+            <div class="item-price">28,000원</div>
+            <div class="item-atc">11시간 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item5.PNG">
+            <div class="item-title">MSI 펄스15 게이밍 노트북 RTX4070</div>
+            <div class="item-price">1,400,000원</div>
+            <div class="item-atc">상도제1동 | 6분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item6.PNG">
+            <div class="item-title">기가바이트 RTX 4070 SUPER AORUS MASTER</div>
+            <div class="item-price">135,000원</div>
+            <div class="item-atc">14분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item7.PNG">
+            <div class="item-title">시마노 로드자전거 105 켈리퍼 세트</div>
+            <div class="item-price">50,000원</div>
+            <div class="item-atc">천호제1동 | 16분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item8.PNG">
+            <div class="item-title">(급처) 블랙캣 로드자전거 정리합니다.(금액완전내림)</div>
+            <div class="item-price">229,000원</div>
+            <div class="item-atc">18분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item9.PNG">
+            <div class="item-title">라이젠 9800X3D 멀티팩 판매합니다.</div>
+            <div class="item-price">860,000원</div>
+            <div class="item-atc">광정동 | 31분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item10.PNG">
+            <div class="item-title">몽클레어 패딩 (66)</div>
+            <div class="item-price">1,300,000원</div>
+            <div class="item-atc">35분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item11.PNG">
+            <div class="item-title">트위터 썬더 울테그라 카본 로드자전거</div>
+            <div class="item-price">750,000원</div>
+            <div class="item-atc">신월5동 | 39분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item12.PNG">
+            <div class="item-title">레고 75974 판매합니다.</div>
+            <div class="item-price">35,000원</div>
+            <div class="item-atc">방배4동 | 6일 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item13.PNG">
+            <div class="item-title">삼성 옙 MP3 YP-Q2 4GB 화이트 작동 굿</div>
+            <div class="item-price">70,000원</div>
+            <div class="item-atc">13시간 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item14.PNG">
+            <div class="item-title">삼성식기건조기</div>
+            <div class="item-price">50,000원</div>
+            <div class="item-atc">안양1동 | 4일 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item15.PNG">
+            <div class="item-title">아이폰 13프로 128기가</div>
+            <div class="item-price">440,000원</div>
+            <div class="item-atc">정관읍 | 16분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item16.PNG">
+            <div class="item-title">몽클레어 클루니 블랙 3사이즈</div>
+            <div class="item-price">1,800,000원</div>
+            <div class="item-atc">18분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item17.PNG">
+            <div class="item-title">아식스 오니츠카 타이거 255</div>
+            <div class="item-price">55,000원</div>
+            <div class="item-atc">당산제2동 | 21분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item18.PNG">
+            <div class="item-title">갤럭시 워치 7 wifi 40mm 그린</div>
+            <div class="item-price">199,000원</div>
+            <div class="item-atc">태평2동 | 26분 전</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div>
+      <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div>
+
+      <div class="swiper-pagination"></div>
+    </div>
+
+    <!-- 방금 등록된 상품 -->
+    <div class="item-theme">방금 등록된 상품</div>
+    <div id="slide6_2" class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item1.PNG">
+            <div class="item-title">닌텐도 2ds 레드 판매합니다</div>
+            <div class="item-price">135,000원</div>
+            <div class="item-atc">물금읍 | 16분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item2.PNG">
+            <div class="item-title">닌텐도 일판 하트골드, 소울실버 박스세트 판매합니다</div>
+            <div class="item-price">235,000원</div>
+            <div class="item-atc">물금읍 | 15분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item3.PNG">
+            <div class="item-title">젤다의 전설 왕국의 눈물 나그네 코로그(여행 코르그) 인형</div>
+            <div class="item-price">28,000원</div>
+            <div class="item-atc">6분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item4.PNG">
+            <div class="item-title">피크민 마스코트 구미 키링</div>
+            <div class="item-price">28,000원</div>
+            <div class="item-atc">11시간 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item5.PNG">
+            <div class="item-title">MSI 펄스15 게이밍 노트북 RTX4070</div>
+            <div class="item-price">1,400,000원</div>
+            <div class="item-atc">상도제1동 | 6분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item6.PNG">
+            <div class="item-title">기가바이트 RTX 4070 SUPER AORUS MASTER</div>
+            <div class="item-price">135,000원</div>
+            <div class="item-atc">14분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item7.PNG">
+            <div class="item-title">시마노 로드자전거 105 켈리퍼 세트</div>
+            <div class="item-price">50,000원</div>
+            <div class="item-atc">천호제1동 | 16분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item8.PNG">
+            <div class="item-title">(급처) 블랙캣 로드자전거 정리합니다.(금액완전내림)</div>
+            <div class="item-price">229,000원</div>
+            <div class="item-atc">18분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item9.PNG">
+            <div class="item-title">라이젠 9800X3D 멀티팩 판매합니다.</div>
+            <div class="item-price">860,000원</div>
+            <div class="item-atc">광정동 | 31분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item10.PNG">
+            <div class="item-title">몽클레어 패딩 (66)</div>
+            <div class="item-price">1,300,000원</div>
+            <div class="item-atc">35분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item11.PNG">
+            <div class="item-title">트위터 썬더 울테그라 카본 로드자전거</div>
+            <div class="item-price">750,000원</div>
+            <div class="item-atc">신월5동 | 39분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item12.PNG">
+            <div class="item-title">레고 75974 판매합니다.</div>
+            <div class="item-price">35,000원</div>
+            <div class="item-atc">방배4동 | 6일 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item13.PNG">
+            <div class="item-title">삼성 옙 MP3 YP-Q2 4GB 화이트 작동 굿</div>
+            <div class="item-price">70,000원</div>
+            <div class="item-atc">13시간 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item14.PNG">
+            <div class="item-title">삼성식기건조기</div>
+            <div class="item-price">50,000원</div>
+            <div class="item-atc">안양1동 | 4일 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item15.PNG">
+            <div class="item-title">아이폰 13프로 128기가</div>
+            <div class="item-price">440,000원</div>
+            <div class="item-atc">정관읍 | 16분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item16.PNG">
+            <div class="item-title">몽클레어 클루니 블랙 3사이즈</div>
+            <div class="item-price">1,800,000원</div>
+            <div class="item-atc">18분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item17.PNG">
+            <div class="item-title">아식스 오니츠카 타이거 255</div>
+            <div class="item-price">55,000원</div>
+            <div class="item-atc">당산제2동 | 21분 전</div>
+          </a>
+        </div>
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item18.PNG">
+            <div class="item-title">갤럭시 워치 7 wifi 40mm 그린</div>
+            <div class="item-price">199,000원</div>
+            <div class="item-atc">태평2동 | 26분 전</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div>
+      <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div>
+
+      <div class="swiper-pagination"></div>
+    </div>
+
+      <!-- 당신을 위한 추천상품! -->
+      <div class="item-theme">당신을 위한 추천상품!</div>
+      <div id="slide6_3" class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item1.PNG">
+              <div class="item-title">닌텐도 2ds 레드 판매합니다</div>
+              <div class="item-price">135,000원</div>
+              <div class="item-atc">물금읍 | 16분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item2.PNG">
+              <div class="item-title">닌텐도 일판 하트골드, 소울실버 박스세트 판매합니다</div>
+              <div class="item-price">235,000원</div>
+              <div class="item-atc">물금읍 | 15분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item3.PNG">
+              <div class="item-title">젤다의 전설 왕국의 눈물 나그네 코로그(여행 코르그) 인형</div>
+              <div class="item-price">28,000원</div>
+              <div class="item-atc">6분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item4.PNG">
+              <div class="item-title">피크민 마스코트 구미 키링</div>
+              <div class="item-price">28,000원</div>
+              <div class="item-atc">11시간 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item5.PNG">
+              <div class="item-title">MSI 펄스15 게이밍 노트북 RTX4070</div>
+              <div class="item-price">1,400,000원</div>
+              <div class="item-atc">상도제1동 | 6분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item6.PNG">
+              <div class="item-title">기가바이트 RTX 4070 SUPER AORUS MASTER</div>
+              <div class="item-price">135,000원</div>
+              <div class="item-atc">14분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item7.PNG">
+              <div class="item-title">시마노 로드자전거 105 켈리퍼 세트</div>
+              <div class="item-price">50,000원</div>
+              <div class="item-atc">천호제1동 | 16분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item8.PNG">
+              <div class="item-title">(급처) 블랙캣 로드자전거 정리합니다.(금액완전내림)</div>
+              <div class="item-price">229,000원</div>
+              <div class="item-atc">18분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item9.PNG">
+              <div class="item-title">라이젠 9800X3D 멀티팩 판매합니다.</div>
+              <div class="item-price">860,000원</div>
+              <div class="item-atc">광정동 | 31분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item10.PNG">
+              <div class="item-title">몽클레어 패딩 (66)</div>
+              <div class="item-price">1,300,000원</div>
+              <div class="item-atc">35분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item11.PNG">
+              <div class="item-title">트위터 썬더 울테그라 카본 로드자전거</div>
+              <div class="item-price">750,000원</div>
+              <div class="item-atc">신월5동 | 39분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item12.PNG">
+              <div class="item-title">레고 75974 판매합니다.</div>
+              <div class="item-price">35,000원</div>
+              <div class="item-atc">방배4동 | 6일 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item13.PNG">
+              <div class="item-title">삼성 옙 MP3 YP-Q2 4GB 화이트 작동 굿</div>
+              <div class="item-price">70,000원</div>
+              <div class="item-atc">13시간 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item14.PNG">
+              <div class="item-title">삼성식기건조기</div>
+              <div class="item-price">50,000원</div>
+              <div class="item-atc">안양1동 | 4일 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item15.PNG">
+              <div class="item-title">아이폰 13프로 128기가</div>
+              <div class="item-price">440,000원</div>
+              <div class="item-atc">정관읍 | 16분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item16.PNG">
+              <div class="item-title">몽클레어 클루니 블랙 3사이즈</div>
+              <div class="item-price">1,800,000원</div>
+              <div class="item-atc">18분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item17.PNG">
+              <div class="item-title">아식스 오니츠카 타이거 255</div>
+              <div class="item-price">55,000원</div>
+              <div class="item-atc">당산제2동 | 21분 전</div>
+            </a>
+          </div>
+          <div class="swiper-slide">
+            <a href="">
+              <img src="/img/item18.PNG">
+              <div class="item-title">갤럭시 워치 7 wifi 40mm 그린</div>
+              <div class="item-price">199,000원</div>
+              <div class="item-atc">태평2동 | 26분 전</div>
+            </a>
+          </div>
+        </div>
+
+        <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div>
+        <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div>
+
+      <div class="swiper-pagination"></div>
+    </div>
+
+    <script th:src="@{/js/main.js}"></script>
+
     <!--    카카오맵 API 로딩 (HTTPS 사용)-->
     <script type="text/javascript"
             th:src="@{'https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b&libraries=services'}"></script>
-    <!-- KakaoMap_API_KEY는 JS에서 불러와서 사용하기 까다로움(구글링, gpt를 통해서 방법을 찾아서 사용해도 에러 발생)
-    그렇기에 사용하다가 나중에 API_KEY 재발급 받기!!!!!!! -->
+    <!-- KakaoMap_API_KEY는 JS에 불러와서 사용하기 까다로움(구글링, gpt를 통해서 방법을 찾아서 사용해도 다른 문제점 발생)
+    또한 KakaoMap_API_KEY는 git에서 막지 않기에 보안에 문제가 생기는 key는 아님 -->
 
-<!--      <button onclick="getLocation()">주변 인기 장소 찾기</button>-->
-      <p id="status">위치를 찾지 못했습니다</p>
-  <!--    <h1>Geolocation API로 현재 위치 가져오기</h1>-->
-      <div id="map" style="width:500px;height:400px;"></div>
-      <ul id="places"></ul>
+    <!--      <button onclick="getLocation()">주변 인기 장소 찾기</button>-->
+    <p id="status">위치를 찾지 못했습니다</p>
+    <!--    <h1>Geolocation API로 현재 위치 가져오기</h1>-->
+    <div id="map" style="width:500px;height:400px;"></div>
+    <ul id="places"></ul>
 
-      <script th:src="@{/js/currentLocationMap.js}"></script>
+    <hr>
 
-      <hr>
+    <!--    <form th:action="@{/}" method="post">-->
+    <!--      <input name="address" placeholder="도로명 주소를 입력해주세요."/>-->
 
-<!--    <form th:action="@{/}" method="post">-->
-<!--      <input name="address" placeholder="도로명 주소를 입력해주세요."/>-->
+    <!--      <button type="submit">입력</button>-->
+    <!--    </form>-->
 
-<!--      <button type="submit">입력</button>-->
-<!--    </form>-->
-
-    <form id="addressForm" th:action="@{/}" method="post" style="display: none;">
+    <form id="addressForm" th:action="@{/}" method="get" style="display: none;">
       <input id="addressInput" name="address" type="text" />
     </form>
 
+    <script th:src="@{/js/currentLocationMap.js}"></script>
+    <!--    <form id="addressForm" th:action="@{/}" method="post" style="display: none;">-->
+    <!--      <input id="addressInput" name="address" type="text" />-->
+    <!--    </form>-->
+
     <div th:unless="${weather == null}">
+      <li th:text="'아이콘 : ' + ${weather['weather_icon']}"></li>
+      <img th:src="'https://openweathermap.org/img/wn/' + ${weather['weather_icon']} + '@2x.png'" alt="Weather Icon" />
       <li th:text="'날씨 : ' + ${weather['weather_main']}"></li>
       <li th:text="'날씨 설명 : ' + ${weather['weather_description']}"></li>
-      <li th:text="'온도 : ' + ${weather['temperature']}"></li>
-      <li th:text="'습도 : ' + ${weather['humidity']}"></li>
+      <li th:text="'온도 : ' + ${weather['temperature']} + '℃'"></li>
+      <li th:text="'습도 : ' + ${weather['humidity']} + '%'"></li>
+    </div>
+    <div th:if="${weather == null}">
+      <p>날씨 정보를 불러올 수 없습니다.</p>
     </div>
 
+    <!-- 로그인 후 이메일, 도로명 주소를 확인-->
+    <div>
+      <div th:if="${#authentication != null and #authentication.principal != null}">
+        <p>Email: <span th:text="${#authentication.principal}"></span></p>
+        <p>Street Address: <span th:text="${location.streetAddress}"></span></p>
+      </div>
+
+      <div th:unless="${#authentication != null and #authentication.principal != null}">
+        <p>로그인이 안 되어있습니다.</p>
+      </div>
+    </div>
   </div>
+
   <h3><a th:href="@{/chat/chatting}">chatting test</a></h3>
   <button type="button" id="openChatBtn">대화방 열기</button>
 
