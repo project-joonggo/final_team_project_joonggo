@@ -2,7 +2,7 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layout}">
+      layout:decorate="~{layout/layout}" xmlns:sec="http://www.w3.org/1999/xhtml">
 
 <div layout:fragment="content">
   <div class="container-md">
@@ -504,6 +504,61 @@
       <div class="swiper-pagination"></div>
     </div>
 
+    <!-- 테스트 -->
+    <!--<div class="item-theme">테스트</div>
+    <div id="slide6_test" class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide">
+          <a href="">
+            <img src="/img/item1.PNG">
+            <div class="item-title">닌텐도 2ds 레드 판매합니다</div>
+            <div class="item-price">135,000원</div>
+            <div class="item-atc">물금읍 | 16분 전</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div>
+      <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div>
+
+      <div class="swiper-pagination"></div>
+    </div>-->
+
+    <!--<tr th:each="boardFileDTO : ${list}">
+          <td>
+            &lt;!&ndash; 파일이 있을 경우 첫 번째 파일의 이미지 출력 &ndash;&gt;
+            <img th:if="${boardFileDTO.fileVOList != null and boardFileDTO.fileVOList.size() > 0 and boardFileDTO.fileVOList.get(0).fileUrl != null}"
+                 th:src="@{${boardFileDTO.fileVOList.get(0).fileUrl}}" alt="상품사진" width="100">
+          </td>
+          <td th:text="${boardFileDTO.boardVO.category}"></td>
+          <td>
+            <a th:href="@{/board/detail(boardId=${boardFileDTO.boardVO.boardId})}">
+              <span th:text="${boardFileDTO.boardVO.boardName}"></span>
+            </a>
+          </td>
+          <td th:text="${boardFileDTO.boardVO.tradePrice}"></td>
+        </tr>-->
+
+    <!--<div class="item-theme">테스트</div>
+    <div id="slide6_test" class="swiper-container">
+      <div class="swiper-wrapper">
+        <div class="swiper-slide" th:each="boardFileDTO : ${list}">
+          <a th:href="@{/board/detail(boardId=${boardFileDTO.boardVO.boardId})}">
+            <img th:if="${boardFileDTO.fileVOList != null and boardFileDTO.fileVOList.size() > 0 and boardFileDTO.fileVOList.get(0).fileUrl != null}"
+                 th:src="@{${boardFileDTO.fileVOList.get(0).fileUrl}}" alt="상품사진">
+            <div class="item-title" th:text="${boardFileDTO.boardVO.boardName}"></div>
+            <div class="item-price" th:text="${boardFileDTO.boardVO.tradePrice}">원</div>
+            <div class="item-atc">물금읍 | 16분 전</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div>
+      <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div>
+
+      <div class="swiper-pagination"></div>
+    </div>-->
+
     <script th:src="@{/js/main.js}"></script>
 
     <!--    카카오맵 API 로딩 (HTTPS 사용)-->
@@ -535,29 +590,30 @@
     <!--      <input id="addressInput" name="address" type="text" />-->
     <!--    </form>-->
 
-    <div th:unless="${weather == null}">
-      <li th:text="'아이콘 : ' + ${weather['weather_icon']}"></li>
-      <img th:src="'https://openweathermap.org/img/wn/' + ${weather['weather_icon']} + '@2x.png'" alt="Weather Icon" />
-      <li th:text="'날씨 : ' + ${weather['weather_main']}"></li>
-      <li th:text="'날씨 설명 : ' + ${weather['weather_description']}"></li>
-      <li th:text="'온도 : ' + ${weather['temperature']} + '℃'"></li>
-      <li th:text="'습도 : ' + ${weather['humidity']} + '%'"></li>
-    </div>
-    <div th:if="${weather == null}">
-      <p>날씨 정보를 불러올 수 없습니다.</p>
-    </div>
-
-    <!-- 로그인 후 이메일, 도로명 주소를 확인-->
-    <div>
-      <div th:if="${#authentication != null and #authentication.principal != null}">
-        <p>Email: <span th:text="${#authentication.principal}"></span></p>
-        <p>Street Address: <span th:text="${location.streetAddress}"></span></p>
+    <div sec:authorize="isAuthenticated()">
+      <div th:unless="${weather == null}">
+        <li th:text="'아이콘 : ' + ${weather['weather_icon']}"></li>
+        <img th:src="'https://openweathermap.org/img/wn/' + ${weather['weather_icon']} + '@2x.png'" alt="Weather Icon" />
+        <li th:text="'날씨 : ' + ${weather['weather_main']}"></li>
+        <li th:text="'날씨 설명 : ' + ${weather['weather_description']}"></li>
+        <li th:text="'온도 : ' + ${weather['temperature']} + '℃'"></li>
+        <li th:text="'습도 : ' + ${weather['humidity']} + '%'"></li>
       </div>
-
-      <div th:unless="${#authentication != null and #authentication.principal != null}">
-        <p>로그인이 안 되어있습니다.</p>
+      <div th:if="${weather == null}">
+        <p>날씨 정보를 불러올 수 없습니다.</p>
       </div>
     </div>
+
+    <div sec:authorize="isAuthenticated()">
+      <p>Email:
+        <span th:if="${#authentication != null and #authentication.principal != null}"
+              th:text="${#authentication.principal}"></span>
+      </p>
+      <p>Street Address:
+        <span th:text="${streetAddress ?: '주소를 가져올 수 없습니다'}"></span>
+      </p>
+    </div>
+
   </div>
 
   <h3><a th:href="@{/chat/chatting}">chatting test</a></h3>

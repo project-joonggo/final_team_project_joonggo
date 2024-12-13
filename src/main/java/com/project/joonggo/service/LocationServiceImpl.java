@@ -12,7 +12,7 @@ public class LocationServiceImpl implements LocationService{
     private final LocationMapper locationMapper;
 
     @Override
-    public String getStreetAddress(String userId) {
-        return locationMapper.getStreetAddress(userId);
+    public String getStreetAddress(int userNum) {
+        return locationMapper.getStreetAddress(userNum);
     }
 }
