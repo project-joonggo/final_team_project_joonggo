@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.joonggo.repository.NotificationMapper">
+
+    <insert id="insertNotification" parameterType="com.project.joonggo.domain.NotificationVO">
+        INSERT INTO notifications (user_id, message, status, created_at)
+        VALUES (#{userId}, #{message}, #{status}, NOW())
+    </insert>
+
+
+
+
+</mapper>

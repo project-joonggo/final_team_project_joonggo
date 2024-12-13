@@ -3,6 +3,7 @@ package com.project.joonggo.controller;
 
 import com.project.joonggo.service.BoardService;
 import com.project.joonggo.service.LoginService;
+import com.project.joonggo.service.NotificationService;
 import com.project.joonggo.service.PaymentService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class PaymentController {
 
     private final PaymentService paymentService;
     private final BoardService boardService;
+    private final NotificationService notificationService;
 
     @Value("${api.key}")
     private String apiKey;
@@ -57,6 +59,13 @@ public class PaymentController {
         if (isSaved) {
             boardService.updateTradeFlag(boardId); // 거래완료시 게시글 상태 업데이트
             log.info("결제 정보 저장 완료 - Merchant UID: {}, Amount: {}, Board ID: {}, Product Name: {} ,impUid : {} , userNum : {}" ,merchantUid, amount, boardId, productName, impUid, userNum);
+
+            // 판매자에게 알림 보내기
+            Long sellerId = boardService.getSellerIdByBoardId(boardId);  // 상품의 판매자 ID를 가져옵니다.
+            String notificationMessage = "귀하의 상품 '" + productName + "'이(가) 판매되었습니다!";
+            notificationService.saveNotification(sellerId, notificationMessage);  // 판매자에게 알림 전송
+
+
             response.put("message", "결제 정보 저장 완료");
             response.put("status", "success");
             response.put("redirectUrl","/payment/history");

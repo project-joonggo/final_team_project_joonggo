@@ -39,4 +39,5 @@ public interface BoardService {
 
     List<BoardFileDTO> searchPrice(String keyword);
 
+    Long getSellerIdByBoardId(Long boardId);
 }

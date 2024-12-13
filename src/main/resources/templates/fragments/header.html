@@ -55,9 +55,21 @@
                         <span>채팅</span>
                     </a>
                 </li>
+                <!-- 알림 아이콘 -->
+                <li id="notification-icon" onmouseover="showNotifications()" onmouseout="hideNotifications()">
+                    <img src="/img/notification.png" alt="알림 아이콘">
+                    <span id="notification-badge" class="badge bg-danger" style="display: none;">0</span>
+                    <span>알림</span>
+                </li>
             </ul>
         </div>
     </div>
+
+    <!-- 알림 리스트 (마우스 호버 시 표시) -->
+    <div id="notification-list" style="display: none; position: absolute; background-color: #fff; border: 1px solid #ccc; width: 250px;">
+        <!-- 알림 항목이 여기에 동적으로 추가됩니다 -->
+    </div>
+
     <div class="d-flex justify-content-start align-items-center" id="headerBot">
         <a href="">
             <div id="category" class="d-flex justify-content-between align-items-center gap-2">
@@ -102,4 +114,7 @@
             <div><a href="">고객센터</a></div>
         </nav>
     </div>
+
+    <script th:src="@{/js/notification.js}"></script>
+
 </div>

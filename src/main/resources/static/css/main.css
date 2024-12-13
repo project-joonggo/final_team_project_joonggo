@@ -71,17 +71,16 @@ body {
     background-color: #CE4E6A;
 }
 /* 기본 화살표 안 보이게 처리 */
-.swiper-button-next {
-    background: url(/godiva/img/common/next.png) no-repeat;
+.swiper-button-next,
+.swiper-button-prev {
+    background: none; /* 배경 이미지 제거 */
 }
 
-.swiper-button-prev {
-    background: url(/godiva/img/common/prev.png) no-repeat;
-}
 .swiper-button-next::after,
 .swiper-button-prev::after {
-    display: none;
+    display: none; /* 텍스트나 화살표를 보이지 않게 함 */
 }
+
 /* 기본 스타일 */
 .swiper-button-next, .swiper-button-prev {
     position: absolute;

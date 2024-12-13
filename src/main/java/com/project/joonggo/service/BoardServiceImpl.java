@@ -137,4 +137,9 @@ public class BoardServiceImpl implements BoardService{
         return boardFileDTOList;
     }
 
+    @Override
+    public Long getSellerIdByBoardId(Long boardId) {
+        return boardMapper.getSellerIdByBoardId(boardId);
+    }
+
 }
