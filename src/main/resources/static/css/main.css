@@ -87,10 +87,10 @@ body {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    width: 40px; /* 동그라미의 크기 */
-    height: 40px; /* 동그라미의 크기 */
-    border-radius: 50%; /* 동그라미 모양 */
-    background-color: #A9A9A9; /* 회색 배경 */
+    width: 40px;
+    height: 40px; 
+    border-radius: 50%;
+    background-color: #A9A9A9;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -105,9 +105,18 @@ body {
 .swiper-button-next {
     right: 10px;
 }
-
 .swiper-button-prev {
     left: 10px;
+}
+.swiper-button-next:hover{
+    background-color: #CE4E6A;
+}
+.swiper-button-prev:hover{
+    background-color: #CE4E6A;
+}
+.swiper-button-next .slide-button, .swiper-button-prev .slide-button {
+    width: 52px !important;
+    height: 52px !important;
 }
 /* 상품 */
 .item-theme{

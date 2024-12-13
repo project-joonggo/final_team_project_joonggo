@@ -29,8 +29,8 @@
       </div>
 
       <!-- 네비게이션 -->
-      <div class="swiper-button-next"><img src="/img/next.svg"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
-      <div class="swiper-button-prev"><img src="/img/prev.svg"></div><!-- 이전 버튼 -->
+      <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+      <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div><!-- 이전 버튼 -->
 
       <!-- 페이징 -->
       <div class="swiper-pagination"></div>
@@ -186,8 +186,8 @@
         </div>
       </div>
 
-      <div class="swiper-button-next"><img src="/img/next.svg"></div>
-      <div class="swiper-button-prev"><img src="/img/prev.svg"></div>
+      <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div>
+      <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div>
 
       <div class="swiper-pagination"></div>
     </div>
@@ -342,8 +342,8 @@
         </div>
       </div>
 
-      <div class="swiper-button-next"><img src="/img/next.svg"></div>
-      <div class="swiper-button-prev"><img src="/img/prev.svg"></div>
+      <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div>
+      <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div>
 
       <div class="swiper-pagination"></div>
     </div>
@@ -498,8 +498,8 @@
           </div>
         </div>
 
-        <div class="swiper-button-next"><img src="/img/next.svg"></div>
-        <div class="swiper-button-prev"><img src="/img/prev.svg"></div>
+        <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div>
+        <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div>
 
       <div class="swiper-pagination"></div>
     </div>
@@ -509,31 +509,31 @@
     <!--    카카오맵 API 로딩 (HTTPS 사용)-->
     <script type="text/javascript"
             th:src="@{'https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b&libraries=services'}"></script>
-    <!-- KakaoMap_API_KEY는 JS에서 불러와서 사용하기 까다로움(구글링, gpt를 통해서 방법을 찾아서 사용해도 에러 발생)
-    그렇기에 사용하다가 나중에 API_KEY 재발급 받기!!!!!!! -->
+    <!-- KakaoMap_API_KEY는 JS에 불러와서 사용하기 까다로움(구글링, gpt를 통해서 방법을 찾아서 사용해도 다른 문제점 발생)
+    또한 KakaoMap_API_KEY는 git에서 막지 않기에 보안에 문제가 생기는 key는 아님 -->
 
-<!--      <button onclick="getLocation()">주변 인기 장소 찾기</button>-->
-      <p id="status">위치를 찾지 못했습니다</p>
-  <!--    <h1>Geolocation API로 현재 위치 가져오기</h1>-->
-      <div id="map" style="width:500px;height:400px;"></div>
-      <ul id="places"></ul>
+    <!--      <button onclick="getLocation()">주변 인기 장소 찾기</button>-->
+    <p id="status">위치를 찾지 못했습니다</p>
+    <!--    <h1>Geolocation API로 현재 위치 가져오기</h1>-->
+    <div id="map" style="width:500px;height:400px;"></div>
+    <ul id="places"></ul>
 
-      <hr>
+    <hr>
 
-<!--    <form th:action="@{/}" method="post">-->
-<!--      <input name="address" placeholder="도로명 주소를 입력해주세요."/>-->
+    <!--    <form th:action="@{/}" method="post">-->
+    <!--      <input name="address" placeholder="도로명 주소를 입력해주세요."/>-->
 
-<!--      <button type="submit">입력</button>-->
-<!--    </form>-->
+    <!--      <button type="submit">입력</button>-->
+    <!--    </form>-->
 
     <form id="addressForm" th:action="@{/}" method="get" style="display: none;">
       <input id="addressInput" name="address" type="text" />
     </form>
 
     <script th:src="@{/js/currentLocationMap.js}"></script>
-<!--    <form id="addressForm" th:action="@{/}" method="post" style="display: none;">-->
-<!--      <input id="addressInput" name="address" type="text" />-->
-<!--    </form>-->
+    <!--    <form id="addressForm" th:action="@{/}" method="post" style="display: none;">-->
+    <!--      <input id="addressInput" name="address" type="text" />-->
+    <!--    </form>-->
 
     <div th:unless="${weather == null}">
       <li th:text="'아이콘 : ' + ${weather['weather_icon']}"></li>
@@ -558,7 +558,6 @@
         <p>로그인이 안 되어있습니다.</p>
       </div>
     </div>
-
   </div>
 
   <h3><a th:href="@{/chat/chatting}">chatting test</a></h3>
