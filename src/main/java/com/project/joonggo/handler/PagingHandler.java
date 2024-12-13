@@ -23,6 +23,15 @@ public class PagingHandler {
         this.pgvo = pgvo;
         this.totalCount = totalCount;
 
+        if (totalCount == 0) {
+            this.startPage = 1;
+            this.endPage = 1;
+            this.realEndPage = 1; // 실제 끝 페이지를 1로 설정
+            this.prev = false;
+            this.next = false;
+            return; // 더 이상 진행하지 않고 종료
+        }
+
         this.endPage = (int)Math.ceil(pgvo.getPageNo() / (double)pgvo.getQty()) * 10;
         this.startPage = endPage - (pgvo.getQty()-1);
 
