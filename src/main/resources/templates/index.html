@@ -548,16 +548,16 @@
     </div>
 
     <!-- 로그인 후 이메일, 도로명 주소를 확인-->
-    <div>
-      <div th:if="${#authentication != null and #authentication.principal != null}">
-        <p>Email: <span th:text="${#authentication.principal}"></span></p>
-        <p>Street Address: <span th:text="${location.streetAddress}"></span></p>
-      </div>
+<!--    <div>-->
+<!--      <div th:if="${#authentication != null and #authentication.principal != null}">-->
+<!--        <p>Email: <span th:text="${#authentication.principal}"></span></p>-->
+<!--        <p>Street Address: <span th:text="${location.streetAddress}"></span></p>-->
+<!--      </div>-->
 
-      <div th:unless="${#authentication != null and #authentication.principal != null}">
-        <p>로그인이 안 되어있습니다.</p>
-      </div>
-    </div>
+<!--      <div th:unless="${#authentication != null and #authentication.principal != null}">-->
+<!--        <p>로그인이 안 되어있습니다.</p>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 
   <h3><a th:href="@{/chat/chatting}">chatting test</a></h3>
