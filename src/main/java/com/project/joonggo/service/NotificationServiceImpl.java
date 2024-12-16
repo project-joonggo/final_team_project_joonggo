@@ -5,21 +5,24 @@ import com.project.joonggo.domain.NotificationVO;
 import com.project.joonggo.repository.NotificationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
 
-
     private final NotificationMapper notificationMapper;
-    private final SimpMessagingTemplate messagingTemplate;
+
+    private final SimpMessagingTemplate messagingTemplate;  // SimpMessagingTemplate 주입
 
 
     // 알림을 DB에 저장하는 메서드
-    public void saveNotification(Long userId, String message) {
+    public void saveNotification(Long userId, String message, Long boardId) {
         NotificationVO notification = new NotificationVO();
         notification.setUserId(userId);
         notification.setMessage(message);
@@ -31,15 +34,29 @@ public class NotificationServiceImpl implements NotificationService {
         // 알림 DB에 저장
         notificationMapper.insertNotification(notification);
 
-        // 웹소켓을 통해 알림을 실시간으로 전송
-        sendNotificationToUser(userId, message);
+//        // DB 저장 후, 웹소켓을 통해 알림을 실시간으로 전송
+        sendNotificationToUser(userId, message, boardId);  // 웹소켓을 통해 메시지를 전송
+
+        log.info(">>> message >>>>> {} ", message);
     }
 
-    // 특정 사용자에게 웹소켓 알림을 보내는 메서드
-    public void sendNotificationToUser(Long userId, String message) {
-        String destination = "/user/" + userId + "/queue/notifications";  // 사용자의 큐로 알림 전송
-        log.info("Sending to destination: {}", destination);
-        messagingTemplate.convertAndSend(destination, message);
+    @Override
+    public List<NotificationVO> getNotifications(Long userNum) {
+        return notificationMapper.getNotifications(userNum);
+    }
+
+    public void sendNotificationToUser(Long userId, String message, Long boardId) {
+        String boardUrl = "/board/detail?boardId=" + boardId;  // 게시글 페이지 URL 생성
+
+        // 메시지에 HTML 링크 추가
+        String htmlMessage = "<a href=\"" + boardUrl + "\" target=\"_blank\">" + message + "</a>";
+
+        log.info("Sending to user:/user/{}/queue/notifications", userId);
+        log.info("message >>>>> {} ", htmlMessage);
+
+        // HTML 메시지를 그대로 JSON 형식으로 전송
+        messagingTemplate.convertAndSendToUser(userId.toString(), "/queue/notifications",
+                "{\"message\": \"" + htmlMessage + "\"}");
     }
 
 }

@@ -36,7 +36,7 @@ public class SecurityConfig {
                                         "/comment/list/**", "/smarteditor/**", "/user/kakao/**", "/user/google/**",
                                         "/user/naver/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult").permitAll()
     /*                    .requestMatchers("/**").permitAll()*/
-                                .requestMatchers("/ws/**", "/notifications/**").permitAll() // WebSocket 경로 허용
+                                .requestMatchers("/ws/**", "/notifications/**","/notice/**").permitAll() // WebSocket 경로 허용
                                 .requestMatchers("/user/list").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
@@ -54,7 +54,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/user/logout")
-                        .invalidateHttpSession(true)
+                        .invalidateHttpSession(false)
                         .deleteCookies("JSESSIONID")
                         .logoutSuccessUrl("/")
                 )
@@ -64,6 +64,7 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS) // 세션을 항상 생성하도록 설정
+                        .sessionFixation().none() // 세션 고정 방어를 하지 않음
                 )
                 .build();
 

@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", () => {
                                 }).then(data => {
                                     if (data.status === "success") {
                                         // 응답에서 리다이렉트 URL을 받아서 페이지 이동
-                                        window.location.href = data.redirectUrl;  // 리다이렉트 URL로 이동
+                                        // window.location.href = data.redirectUrl;  // 리다이렉트 URL로 이동
                                     } 
                                     console.log("결제 정보 DB에 저장 완료", data);
                                 }).catch(error => {

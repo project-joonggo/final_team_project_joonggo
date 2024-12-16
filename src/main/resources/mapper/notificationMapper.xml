@@ -9,6 +9,11 @@
         VALUES (#{userId}, #{message}, #{status}, NOW())
     </insert>
 
+    <select id="getNotifications" resultType="com.project.joonggo.domain.NotificationVO">
+        SELECT * FROM notifications
+        WHERE user_id = #{userId} AND status = 'UNREAD'
+    </select>
+
 
 
 
