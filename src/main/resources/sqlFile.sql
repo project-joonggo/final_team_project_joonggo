@@ -81,18 +81,31 @@ create table locate(
                        primary key(locate_id)
 );
 
-create table chat_join(
-                          user_num bigint,
-                          room_id bigint
+create table chat_room(
+                         room_id bigint auto_increment,
+						 user_num int not null,
+                         room_name varchar(256) not null,
+                         room_status varchar(5) default 'Y',
+                         primary key(room_id)
+                         -- foreign key(user_num) references user(user_num)
 );
 
-create table chatroom(
-                         room_id bigint auto_increment,
-                         comment_id int,
-                         comment_user_id int,
-                         chat_comment varchar(512),
-                         comment_write_date datetime default now(),
-                         primary key(room_id)
+create table chat_join(
+                          room_id bigint not null,
+                          user_num bigint not null
+						  -- foreign key(room_id) references chat_room(room_id),
+                          -- foreign key(user_num) references user(user_num)
+ );
+
+create table chat_comment(
+						comment_id int auto_increment,
+                        room_id int not null,
+                        comment_user_num int not null,
+                        comment_content varchar(512),
+                        comment_write_date datetime default now(),
+                        primary key(comment_id)
+                        -- foreign key(room_id) references chat_room(room_id)
+                        -- foreign key(comment_user_num) references user(user_num)
 );
 
 create table reviewlist(

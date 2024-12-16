@@ -5,9 +5,9 @@
 <mapper namespace="com.project.joonggo.repository.ChatRoomMapper">
 
     <select id="getChatRoomList" resultType="com.project.joonggo.domain.ChatRoomVO">
-        SELECT cr.room_id, cr.room_name, cr.room_status
+        SELECT cj.room_id, cr.user_num, cr.room_name, cr.room_status
         FROM chat_room cr
-        JOIN chat_join cj ON cr.room_id = cj.room_id
+        INNER JOIN chat_join cj ON cr.room_id = cj.room_id
         WHERE cj.user_num = #{userNum}
         AND cr.room_status = 'Y'
     </select>

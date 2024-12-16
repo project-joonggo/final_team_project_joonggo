@@ -6,6 +6,11 @@
 
 <div layout:fragment="content">
   <div class="container-md">
+    <h3>[[${#authentication.getPrincipal()}]]</h3>
+    <hr>
+
+
+  <br>
     <!--    카카오맵 API 로딩 (HTTPS 사용)-->
     <script type="text/javascript"
             th:src="@{'https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b&libraries=services'}"></script>
@@ -41,6 +46,7 @@
 
   </div>
   <h3><a th:href="@{/chat/chatting}">chatting test</a></h3>
+<!--  <h3><a th:href="@{/chat/chatRoomList(userNum=${#authentication.getPrincipal().userVO.userNum})}">chatting Room test</a></h3>-->
   <button type="button" id="openChatBtn">대화방 열기</button>
 
 <!-- 대화방 사이드바 -->
@@ -59,4 +65,5 @@
 
 </div>
   <script th:src="@{/js/chatside.js}"></script>
+
 </div>

@@ -89,6 +89,8 @@ public class LoginController {
         log.info(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> 구글유저 정보 >>>>>{}", googleUserInfo);
 
         Map<String, String> userInfo = socialLoginHandler.parseGoogleUserInfo(googleUserInfo);
+        log.info("1111 userinfo > {}", userInfo);
+
         String googleId = userInfo.get("userId");
         String googleName = userInfo.get("userName");
         String givenName = userInfo.get("givenName");

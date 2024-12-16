@@ -11,5 +11,5 @@ public class ChatRoomVO {
     private int roomId;
     private int userNum;
     private String roomName;
-    private String roomState;
+    private String roomStatus;
 }

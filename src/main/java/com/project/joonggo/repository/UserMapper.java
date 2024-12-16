@@ -3,6 +3,7 @@ package com.project.joonggo.repository;
 import com.project.joonggo.domain.UserVO;
 import com.project.joonggo.domain.AuthVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -10,7 +11,7 @@ import java.util.List;
 public interface UserMapper {
     int insert(UserVO userVO);
     
-    UserVO findUserByIdAndSignFlag(String id, int signflag);
+    UserVO findUserByIdAndSignFlag(@Param("id") String id, @Param("signflag") int signflag);
 
     UserVO selectUserNum(long userNum);
 

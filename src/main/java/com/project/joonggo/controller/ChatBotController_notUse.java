@@ -6,6 +6,8 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
@@ -23,21 +25,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Date;
 
+@PropertySource("classpath:chatbot.properties")
 @Slf4j
 @Controller
 @RequiredArgsConstructor            //
 @RequestMapping("/chat/*")          // 안쓰면 template/chat 폴더 내 파일 불러오기 요청 안됨
 public class ChatBotController_notUse {
 
-    //  chatbot api
-    //  APIGW Invokeurl
-    //  https://7tk1vpas45.apigw.ntruss.com/custom/v1/16386/18f423687ad5e19fcf88aead17118568d0de03ad02b17caf35ed69ca6a6ad9eb
+    @Value("${secretKey}")
+    private static String secretKey;
 
-    //  Secret Key
-    //  TVFYT1l0VXZIQkFERnFnaGZTaERJblBQdWxUTWVyR1Q=
-
-    private static String secretkey = "TVFYT1l0VXZIQkFERnFnaGZTaERJblBQdWxUTWVyR1Q=";
-    private static String apiUrl = "https://7tk1vpas45.apigw.ntruss.com/custom/v1/16386/18f423687ad5e19fcf88aead17118568d0de03ad02b17caf35ed69ca6a6ad9eb/";
+    @Value("${apiUrl}")
+    private static String apiUrl ;
 
     // bubbles => content, description => details
 
@@ -47,7 +46,7 @@ public class ChatBotController_notUse {
         URL url = new URL(apiUrl);
 
         String message = getReqMessage(chatMessage);
-        String encodeBase64String = makeSignature(message, secretkey);
+        String encodeBase64String = makeSignature(message, secretKey);
 
         // api서버 접속 (서버 -> 서버 통신)
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
@@ -163,9 +162,6 @@ public class ChatBotController_notUse {
         return requestBody;
     }
 
-    @GetMapping("/chatting")
-    public String enterchat() {
-        return "/chat/chatting";
-    }
+
 
 }

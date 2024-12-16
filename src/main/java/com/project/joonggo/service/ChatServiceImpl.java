@@ -6,22 +6,18 @@ import com.project.joonggo.domain.ChatRoomVO;
 import com.project.joonggo.repository.ChatCommentMapper;
 import com.project.joonggo.repository.ChatJoinMapper;
 import com.project.joonggo.repository.ChatRoomMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ChatServiceImpl implements ChatService {
 
     private final ChatRoomMapper chatRoomMapper;
     private final ChatJoinMapper chatJoinMapper;
     private final ChatCommentMapper chatCommentMapper;
-
-    public ChatServiceImpl(ChatRoomMapper chatRoomMapper, ChatJoinMapper chatJoinMapper, ChatCommentMapper chatCommentMapper) {
-        this.chatRoomMapper = chatRoomMapper;
-        this.chatJoinMapper = chatJoinMapper;
-        this.chatCommentMapper = chatCommentMapper;
-    }
 
     @Override
     public List<ChatRoomVO> getChatRoomList(int userNum) {

@@ -41,8 +41,9 @@
                         <span>마이</span>
                     </a>
                 </li>
-                <li>
-                    <a href="" class="d-flex justify-content-center align-items-center gap-1">
+                <li sec:authorize="isAuthenticated()">
+                    <a th:href="@{/chat/chatRoomList(userNum=${#authentication.getPrincipal().userVO.userNum})}"
+                       class="d-flex justify-content-center align-items-center gap-1">
                         <img src="/img/chatting.svg">
                         <span>채팅</span>
                     </a>
