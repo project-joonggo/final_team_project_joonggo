@@ -6,26 +6,27 @@
 
 <div layout:fragment="content">
 
-  <!-- Chat Room List Section -->
-  <div id="chatRoomList">
-    <h2>Chat Room List</h2>
-<!--    userNum : [[${#authentication.getPrincipal().userVO.userNum}]]-->
-    <ul id="roomList">
-      <li th:each="room : ${chatRoomList}"
-          th:text="${room.roomName}"
-          th:data-room-id="${room.roomId}"
-          style="cursor: pointer;">
-      </li>
-    </ul>
-  </div>
+  <div class="chat-container">
+    <!-- Left Side: Chat Room List Section -->
+    <div id="chatRoomList" class="chat-room-list">
+      <h2>Chat Room List</h2>
+      <ul id="roomList">
+        <li th:each="room : ${chatRoomList}"
+            th:text="${room.roomName}"
+            th:data-room-id="${room.roomId}"
+            class="room-list-item">
+        </li>
+      </ul>
+    </div>
 
-  <!-- Chat Room Section -->
-  <div id="chatRoom" style="display: none;">
-    <h2 id="roomTitle" th:text="${roomName}">Chat Room</h2>
-    <div id="chatMessages"></div>
-    <div>
-      <input type="text" id="messageInput" placeholder="Type your message...">
-      <button id="sendButton">Send</button>
+    <!-- Right Side: Chat Room Section -->
+    <div id="chatRoom" class="chat-room">
+      <h2 id="roomTitle" th:text="${roomName}">Chat Room</h2>
+      <div id="chatMessages" class="chat-messages"></div>
+      <div class="message-input-container">
+        <input type="text" id="messageInput" placeholder="Type your message...">
+        <button id="sendButton">Send</button>
+      </div>
     </div>
   </div>
 

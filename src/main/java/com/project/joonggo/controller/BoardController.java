@@ -81,7 +81,7 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String list(Model model, PagingVO pgvo, @RequestParam(required = false) String category, @RequestParam(required = false) String keyword){
+    public String list(Model model, PagingVO pgvo, @RequestParam(value = "category",required = false) String category, @RequestParam(value = "keyword", required = false) String keyword){
 
         int totalCount = boardService.getTotal(pgvo);
 
