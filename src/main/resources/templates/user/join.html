@@ -22,7 +22,13 @@
               <td class="d-flex justify-content-start align-items-center gap-2">
                 <input type="email" class="form-control" id="i" name="userId"
                          th:value="${socialEmail != null ? socialEmail : ''}" th:attr="readonly=${socialEmail != null}">
-                <span>(이메일 형식)</span>
+                <a id="emailChk" class="d-flex align-items-center">인증번호 받기</a>
+                <div>
+                  <label for="checkEmail">인증번호</label>
+                  <input type="text" id="checkEmail" name="checkEmail" class="form-control" placeholder="인증번호" disabled>
+                  <a id="emailChk2" class="d-flex align-items-center">인증하기</a>
+                  <span id="emailCheckMessage" style="color:red;"></span>
+                </div>
               </td>
             </tr>
             <tr class="d-flex justify-content-start align-items-center">

@@ -1,10 +1,7 @@
 package com.project.joonggo.controller;
 
 
-import com.project.joonggo.domain.BoardFileDTO;
-import com.project.joonggo.domain.BoardVO;
-import com.project.joonggo.domain.FileVO;
-import com.project.joonggo.domain.PagingVO;
+import com.project.joonggo.domain.*;
 import com.project.joonggo.handler.FileDeleteHandler;
 import com.project.joonggo.handler.FileHandler;
 import com.project.joonggo.handler.ImageHandler;
@@ -42,6 +39,7 @@ public class BoardController {
     private final BoardService boardService;
     private final FileDeleteHandler fileDeleteHandler;
     private final WishService wishService;
+    private final LoginService loginService;
 
     @Autowired
     private FileHandler fileHandler;
@@ -131,9 +129,12 @@ public class BoardController {
 
         BoardFileDTO boardFileDTO = boardService.getDetail(boardId);
 
+        // 신고 사유 목록 전달
+        List<ReasonVO> reasonList = boardService.getReasonList();
+
         model.addAttribute("boardFileDTO", boardFileDTO);
         model.addAttribute("isAlreadyWished", isAlreadyWished);
-
+        model.addAttribute("reasonList", reasonList);
     }
 
 
@@ -275,5 +276,24 @@ public class BoardController {
         return "/board/price";  // 가격 조회 화면으로 리턴
     }
 
+    @PostMapping("/report")
+    public String report(@RequestParam("reasonId") Long reasonId,
+                         @RequestParam("sellerId") Long sellerId,
+                         @RequestParam("boardId") Long boardId) {
+        ReportVO reportVO = new ReportVO();
+        reportVO.setReportCompId(reasonId);  // 신고 사유
+        reportVO.setUserNum(sellerId);  // 신고 당할 사람
+        reportVO.setBoardId(boardId);
+        boardService.saveReport(reportVO);
+
+        return "redirect:/board/detail?boardId=" + boardId;  // 신고 후, 게시글 상세 페이지로 리다이렉트
+    }
+
+    @GetMapping("/fraud")
+    public String fraud(Model model){
+        List<UserVO> userList = loginService.getList();
+        model.addAttribute("userList", userList);
+        return "/board/fraud";
+    }
 
 }

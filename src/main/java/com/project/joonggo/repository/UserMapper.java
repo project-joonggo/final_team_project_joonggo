@@ -30,4 +30,9 @@ public interface UserMapper {
     List<UserVO> getList();
 
     List<UserVO> findByNameAndEmail(@Param("name") String name, @Param("email") String email);
+
+    void upScore(Long userNum);
+    void downScore(Long userNum);
+
+    void updatePassword(String userId);
 }

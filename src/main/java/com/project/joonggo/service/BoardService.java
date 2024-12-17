@@ -1,9 +1,6 @@
 package com.project.joonggo.service;
 
-import com.project.joonggo.domain.BoardFileDTO;
-import com.project.joonggo.domain.BoardVO;
-import com.project.joonggo.domain.FileVO;
-import com.project.joonggo.domain.PagingVO;
+import com.project.joonggo.domain.*;
 
 import java.util.List;
 
@@ -39,4 +36,13 @@ public interface BoardService {
 
     List<BoardFileDTO> searchPrice(String keyword);
 
+    List<ReasonVO> getReasonList();
+
+    void saveReport(ReportVO reportVO);
+
+    int getReportTotal(PagingVO pgvo);
+
+    List<ReportVO> getReportList(PagingVO pgvo);
+
+    void updateReportStatus(Long reportId, String status);
 }

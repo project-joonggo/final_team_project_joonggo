@@ -39,7 +39,7 @@ dependencies {
 	// Apache HttpClient 의존성 추가
 	implementation 'org.apache.httpcomponents:httpclient:4.5.13'
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client' // 시큐리티 oauth2(소셜) 로그인
-
+	implementation 'org.springframework.boot:spring-boot-starter-mail' // 이메일 인증
 
 
 	// chatbot repo : ChatController

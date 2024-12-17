@@ -60,6 +60,61 @@ function validatePasswordMatch() {
     }
 }
 
+///////////이메일 인증 line////////////////
+// 이메일 인증 버튼 클릭 이벤트
+document.getElementById("emailChk").addEventListener("click", function () {
+    const emailInput = document.getElementById("i");
+    const checkInput = document.getElementById("checkEmail");
+    const dupCheck = document.getElementById("emailCheckMessage");
+
+    const email = emailInput.value;
+
+    alert("인증번호 발송이 완료되었습니다.\n이메일에서 인증번호를 확인해 주세요.");
+
+    // 이메일 인증번호 발송 요청
+    fetch(`/user/mailSend?email=${email}`, { method: "POST", cache: "no-cache" })
+        .then((response) => response.text())
+        .then((data) => {
+            if (data === "error") {
+                alert("이메일 발송에 실패했습니다. 다시 시도해주세요.");
+            } else {
+                // 이메일 발송 성공 후
+                checkInput.disabled = false;  // 인증번호 입력칸 활성화
+                dupCheck.textContent = "인증번호를 입력한 뒤 인증하기를 눌러주세요.";  // 안내 메시지 표시
+                dupCheck.style.color = "red";  // 안내 메시지 색상 변경
+                emailInput.readOnly = true;  // 이메일 입력칸은 더 이상 수정 불가
+                authEmailCode = data;  // 인증번호를 저장
+            }
+        })
+        .catch((error) => {
+            console.error("Error:", error);
+        });
+});
+
+// 이메일 인증번호 확인 버튼 클릭 이벤트
+document.getElementById("emailChk2").addEventListener("click", function () {
+    const checkInput = document.getElementById("checkEmail");
+    const dupCheck = document.getElementById("emailCheckMessage");
+
+    if (authEmailCode.length <= 0) {
+        checkInput.disabled = false;
+        dupCheck.textContent = "인증번호를 입력한 뒤 인증하기를 눌러주세요.";
+        dupCheck.style.color = "red";
+    } else if (checkInput.value === authEmailCode) {
+        dupCheck.textContent = "인증번호가 일치합니다.";
+        dupCheck.style.color = "green";
+        checkInput.disabled = true;
+        emailCheckNum = true;
+    } else {
+        dupCheck.textContent = "인증번호가 일치하지 않습니다. 다시 확인해주세요.";
+        dupCheck.style.color = "red";
+        checkInput.focus();
+        emailCheckNum = false;
+        return;
+    }
+});
+
+///////////////핸드폰 인증 line
 //[ Phone Check Num ]*/
 let authCode = "";
 let checkNum = false;
@@ -96,7 +151,7 @@ document.getElementById("phoneChk").addEventListener("click", function () {
     }
 });
 
-// 인증번호 확인 버튼 클릭 이벤트
+// 핸드폰 인증번호 확인 버튼 클릭 이벤트
 document.getElementById("phoneChk2").addEventListener("click", function () {
     const checkInput = document.getElementById("check");
     const dupCheck = document.getElementById("dup-check");
@@ -171,21 +226,6 @@ function searchPostCode(){
 
 // 회원가입 필드
 
-/*if(email.value === ''){
-    finalMessage.textContent = "아이디(이메일)을 입력해 주세요.";
-} else if (userName.value === ''){
-    finalMessage.textContent = "이름을 입력해 주세요.";
-} else if (postCode.value === ''){
-    finalMessage.textContent = "우편번호를 입력해 주세요.";
-} else if (address1.value === '' || address3.value){
-    finalMessage.textContent = "주소를 입력해 주세요."
-} else if (passwordFinalCheck === false){
-    finalMessage.textContent = "비밀번호를 입력해 주세요.";
-} else if (checkNum === false){
-    finalMessage.textContent = "휴대폰 번호를 인증해 주세요.";
-} else {
-    joinBtn.disabled = false;
-}*/
 function validateForm() {
     if (email.value === '') {
         finalMessage.textContent = "아이디(이메일)을 입력해 주세요.";

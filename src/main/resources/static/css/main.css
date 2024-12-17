@@ -71,12 +71,9 @@ body {
     background-color: #CE4E6A;
 }
 /* 기본 화살표 안 보이게 처리 */
-.swiper-button-next {
-    background: url(/godiva/img/common/next.png) no-repeat;
-}
-
-.swiper-button-prev {
-    background: url(/godiva/img/common/prev.png) no-repeat;
+.swiper-button-next,
+.swiper-button-prev{
+    background: none;
 }
 .swiper-button-next::after,
 .swiper-button-prev::after {

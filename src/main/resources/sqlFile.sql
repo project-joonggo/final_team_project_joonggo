@@ -37,6 +37,18 @@ create table product_file(
                              reg_at datetime default now(),
                              primary key(uuid));
 
+create table reasonlist(
+                           comp_id bigint auto_increment,
+                           comp_content varchar(50),
+                           primary key(comp_id)
+);
+
+create table reportlist(
+                           report_num bigint auto_increment,
+                           report_comp_id int,
+                           report_date datetime default now(),
+                           primary key(report_num)
+);
 create table qa_board(
                          qa_id bigint auto_increment,
                          qa_name varchar(256),
@@ -99,20 +111,6 @@ create table reviewlist(
                            review_id bigint auto_increment,
                            user_num bigint,
                            primary key(review_id)
-);
-
-
-create table resonlist(
-                          comp_id bigint auto_increment,
-                          comp_content varchar(50),
-                          primary key(comp_id)
-);
-
-create table reportlist(
-                           report_num bigint auto_increment,
-                           report_comp_id int,
-                           report_date datetime default now(),
-                           primary key(report_num)
 );
 
 create table notifications(
@@ -197,3 +195,21 @@ CREATE TABLE wish_list(
 
 -- 241212
 alter table user add column reg_date datetime default now();
+
+-- 241213
+ALTER TABLE user
+    MODIFY score DOUBLE DEFAULT 50;
+INSERT INTO reasonlist (comp_content) VALUES
+                                         ('허위 매물 의심'),
+                                         ('가격 사기'),
+                                         ('불법/금지 품목 거래'),
+                                         ('욕설/비방 및 부적절한 내용'),
+                                         ('사진/정보 도용 의심'),
+                                         ('거래 불이행'),
+                                         ('중복 게시물/스팸'),
+                                         ('거래와 무관한 게시글');
+alter table reportlist add column user_num bigint;
+alter table reportlist add column status enum('pending', 'confirmed', 'canceled') default 'pending';
+alter table reportlist add column board_id bigint;
+
+-- 관리자 권한 주기 INSERT INTO auth (user_num, auth) VALUES (50, 'ROLE_ADMIN');

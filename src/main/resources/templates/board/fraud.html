@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+<div layout:fragment="content">
+    <div class="container-md" id="fraudWrap">
+        <h1>사기꾼 조회</h1>
+
+        <!-- 테이블 시작 -->
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">유저 번호</th>
+                <th scope="col">아이디</th>
+                <th scope="col">이름</th>
+                <th scope="col">점수</th>
+                <th scope="col">전화번호</th>
+                <th scope="col">주소</th>
+                <th scope="col">가입일</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- userVO 리스트 출력 -->
+            <tr th:each="user : ${userList}">
+                <td th:text="${user.userNum}"></td>
+                <td th:text="${user.userId}"></td>
+                <td th:text="${user.userName}"></td>
+                <td th:text="${user.score}"></td>
+                <td th:text="${user.phone}"></td>
+                <td th:text="${user.address1}"></td>
+                <td th:text="${user.regDate}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <!-- 테이블 끝 -->
+    </div>
+</div>

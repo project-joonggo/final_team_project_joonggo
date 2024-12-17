@@ -1,14 +1,20 @@
 package com.project.joonggo.controller;
 
+import com.project.joonggo.domain.PagingVO;
 import com.project.joonggo.domain.UserVO;
+import com.project.joonggo.handler.MailAuthHandler;
+import com.project.joonggo.handler.PagingHandler;
 import com.project.joonggo.handler.PhoneAuthHandler;
 import com.project.joonggo.handler.SocialLoginHandler;
 import com.project.joonggo.repository.UserMapper;
 import com.project.joonggo.security.AuthUser;
+import com.project.joonggo.service.BoardService;
 import com.project.joonggo.service.LoginService;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,15 +31,19 @@ import java.util.Map;
 @Controller
 public class LoginController {
     private final LoginService loginService;
+    private final BoardService boardService;
     private final PasswordEncoder passwordEncoder;
     private final PhoneAuthHandler phoneAuthHandler;
     private final SocialLoginHandler socialLoginHandler;
     private final UserMapper userMapper;
+    private final MailAuthHandler mailAuthHandler;
 
     private static final int SIGN_FLAG_DEFAULT = 0;
     private static final int SIGN_FLAG_KAKAO = 1;
     private static final int SIGN_FLAG_NAVER = 2;
     private static final int SIGN_FLAG_GOOGLE = 3;
+
+    private int mailAuthNumber;
 
     //회원가입 페이지 이동
     @GetMapping("/join")
@@ -86,6 +96,18 @@ public class LoginController {
         return "/user/findIdResult"; // 결과 페이지로 이동
     }
 
+    //비밀번호 찾기
+    @GetMapping("/findPassword")
+    public String findPassword(){
+        return "/user/findPassword";
+    }
+    //비밀번호 재설정
+    @PostMapping("/updatePassword")
+    public String updatePassword(@RequestParam("userId") String userId){
+        loginService.updatePassword(userId);
+        return "/user/login";
+    }
+
     //휴대폰 인증
     @ResponseBody
     @GetMapping("/phoneCheck")
@@ -96,6 +118,53 @@ public class LoginController {
         log.info("===========================휴대폰 인증코드=============={}", ranNum);
         phoneAuthHandler.certifiedPhoneNumber(phone, ranNum);
         return Integer.toString(ranNum);
+    }
+
+    //이메일 인증
+    // 인증 이메일 전송
+    @PostMapping("/mailSend")
+    public ResponseEntity<String> sendEmailAuth(@RequestParam String email) {
+        try {
+            // 인증번호 생성
+            int authCode = mailAuthHandler.sendMail(email);
+            return ResponseEntity.ok(String.valueOf(authCode)); // 생성된 인증번호를 문자열로 반환
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error"); // 에러 메시지
+        }
+    }
+    // 이메일 인증번호 일치여부 확인
+    @GetMapping("/mailCheck")
+    public ResponseEntity<Boolean> checkEmailAuth(@RequestParam String userNumber) {
+        log.info("받은 인증번호: {}", userNumber); // 로그로 확인
+        log.info("저장된 인증번호: {}", mailAuthNumber); // 로그로 확인
+        boolean isMatch = userNumber.equals(String.valueOf(mailAuthNumber));
+        return ResponseEntity.ok(isMatch);
+    }
+
+    //////////////////////////
+    /* 관리자 페이지 line */
+    ////////////////////////
+    // 관리자 페이지 이동
+    @GetMapping("/admin")
+    public String admin(){
+        return "/user/admin";
+    }
+    // 신고관리 페이지
+    @GetMapping("/reportList")
+    public String list(Model model, PagingVO pgvo){
+        int totalCount = boardService.getReportTotal(pgvo);
+        PagingHandler ph = new PagingHandler(pgvo, totalCount);
+        model.addAttribute("list", boardService.getReportList(pgvo));
+        model.addAttribute("ph", ph);
+        return "/user/reportList";
+    }
+    // 신고상태 업데이트
+    @PostMapping("/admin/updateReportStatus")
+    public ResponseEntity<String> updateReportStatus(@RequestBody Map<String, Object> payload) {
+        Long reportId = Long.valueOf(payload.get("reportId").toString());
+        String status = payload.get("status").toString();
+        boardService.updateReportStatus(reportId, status);
+        return ResponseEntity.ok("Status updated successfully.");
     }
 
     //////////////////////////

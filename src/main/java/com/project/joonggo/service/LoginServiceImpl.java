@@ -73,4 +73,9 @@ public class LoginServiceImpl implements LoginService {
         return userMapper.findByNameAndEmail(name, email);
     }
 
+    @Override
+    public void updatePassword(String userId) {
+        userMapper.updatePassword(userId);
+    }
+
 }

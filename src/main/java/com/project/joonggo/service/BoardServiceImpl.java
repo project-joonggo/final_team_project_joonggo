@@ -1,14 +1,14 @@
 package com.project.joonggo.service;
 
-import com.project.joonggo.domain.BoardFileDTO;
-import com.project.joonggo.domain.BoardVO;
-import com.project.joonggo.domain.FileVO;
-import com.project.joonggo.domain.PagingVO;
+import com.project.joonggo.domain.*;
 import com.project.joonggo.repository.BoardMapper;
 import com.project.joonggo.repository.FileMapper;
+import com.project.joonggo.repository.ReportMapper;
+import com.project.joonggo.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,8 @@ import java.util.List;
 public class BoardServiceImpl implements BoardService{
     private final BoardMapper boardMapper;
     private final FileMapper fileMapper;
+    private final ReportMapper reportMapper;
+    private final UserMapper userMapper;
 
     @Override
     public long register(BoardVO boardVO) {
@@ -135,6 +137,52 @@ public class BoardServiceImpl implements BoardService{
         }
 
         return boardFileDTOList;
+    }
+
+    @Override
+    public List<ReasonVO> getReasonList() {
+        return reportMapper.getReasonList();
+    }
+
+    @Override
+    public void saveReport(ReportVO reportVO) {
+        reportMapper.insertReport(reportVO);
+    }
+
+    @Override
+    public int getReportTotal(PagingVO pgvo) {
+        return reportMapper.getTotalCount(pgvo);
+    }
+
+    @Override
+    public List<ReportVO> getReportList(PagingVO pgvo) {
+        List<ReportVO> reportList = reportMapper.getList(pgvo);
+        // 각 보고서에 대해 신고 사유를 추가
+        for (ReportVO reportVO : reportList) {
+            String compContent = reportMapper.getCompContentByCompId(reportVO.getReportCompId());
+            reportVO.setCompContent(compContent);
+        }
+
+        return reportList;
+    }
+
+    @Override
+    @Transactional
+    public void updateReportStatus(Long reportId, String status) {
+        String currentStatus = reportMapper.getStatusByReportId(reportId);
+
+        reportMapper.updateStatus(reportId, status);
+        String newStatus = reportMapper.getStatusByReportId(reportId);
+
+        Long userNum = reportMapper.getUserNumByReportId(reportId);
+
+        if ("confirmed".equals(currentStatus) && !"confirmed".equals(newStatus)) {
+            // CONFIRMED → PENDING or CANCELED: 점수 복구 (+1)
+            userMapper.upScore(userNum);  // 점수 증가
+        } else if (!"confirmed".equals(currentStatus) && "confirmed".equals(newStatus)) {
+            // PENDING or CANCELED → CONFIRMED: 점수 감소 (-1)
+            userMapper.downScore(userNum);  // 점수 감소
+        }
     }
 
 }

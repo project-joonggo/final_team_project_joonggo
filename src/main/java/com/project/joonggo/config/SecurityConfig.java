@@ -34,7 +34,9 @@ public class SecurityConfig {
                                         "/", "/js/**", "/img/**", "/css/**", "/dist/**", "/upload/**",
                                         "/index", "/user/join", "/user/login", "/board/list", "/board/detail/**",
                                         "/comment/list/**", "/smarteditor/**", "/user/kakao/**", "/user/google/**",
-                                        "/user/naver/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult").permitAll()
+                                        "/user/naver/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult",
+                                        "/user/mailSend", "/user/mailCheck", "/board/report", "/board/fraud",
+                                        "/user/findPassword").permitAll()
     /*                    .requestMatchers("/**").permitAll()*/
                                 .requestMatchers("/user/list").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()

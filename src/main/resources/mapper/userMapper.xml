@@ -48,7 +48,12 @@
     <select id="findByNameAndEmail" resultType="com.project.joonggo.domain.UserVO">
         SELECT *
         FROM user
-        WHERE user_name = #{name} AND user_id = #{email}
+        WHERE user_name = #{name} AND user_id = #{email} and signflag = 0;
     </select>
-
+    <update id="upScore">
+        UPDATE user SET score = score + 1 WHERE user_num = #{userNum}
+    </update>
+    <update id="downScore">
+        UPDATE user SET score = score - 1 WHERE user_num = #{userNum}
+    </update>
 </mapper>

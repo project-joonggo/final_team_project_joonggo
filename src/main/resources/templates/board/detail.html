@@ -29,6 +29,42 @@
 
     <button type="button" id="modBtn">수정</button>
     <a th:href="@{/board/delete(boardId=${boardVO.boardId})}"><button type="button" id="delBtn">글삭제</button></a>
+    <button href="#" data-bs-toggle="modal" data-bs-target="#reportModal">
+      신고
+    </button>
+    <form id="reportForm" action="/board/report" method="post">
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reportModalLabel">신고 사유 선택</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+             <div class="modal-body">
+              <div class="mb-3">
+                <label for="reasonSelect" class="form-label">신고 사유</label>
+                <select id="reasonSelect" class="form-select" name="reasonId" required>
+                  <option value="">신고 사유를 선택하세요</option>
+                  <option th:each="reason : ${reasonList}"
+                          th:value="${reason.compId}"
+                          th:text="${reason.compContent}">
+                  </option>
+                </select>
+              </div>
+              <!-- sellerId (신고 당할 사람), 게시글 번호(리다이렉트용) -->
+              <input type="hidden" name="sellerId" th:value="${boardVO.sellerId}">
+              <input type="hidden" name="boardId" th:value="${boardVO.boardId}">
+              </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button type="submit" class="btn btn-danger" id="submitReport">신고하기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    </form>
+
+
 
     <script th:inline="javascript">
       /*<![CDATA[*/

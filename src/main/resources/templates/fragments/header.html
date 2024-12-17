@@ -92,14 +92,13 @@
             </ul>
         </div>
 
-
-
         <nav class="d-flex justify-content-between align-items-center gap-4">
             <div><a href="">이벤트</a></div>
-            <div><a href="">사기조회</a></div>
+            <div><a href="/board/fraud">사기조회</a></div>
             <div><a href="/board/price">시세조회</a></div>
             <div><a href="/wish/list">찜한상품</a></div>
             <div><a href="">고객센터</a></div>
+            <div><a href="/user/admin" sec:authorize="hasRole('ROLE_ADMIN')">관리자</a></div>
         </nav>
     </div>
 </div>
