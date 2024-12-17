@@ -109,5 +109,8 @@
         WHERE board_name LIKE CONCAT('%', #{keyword}, '%')
     </select>
 
+    <select id="getSellerIdByBoardId" resultType="long">
+        select seller_id from sellbuy_board where board_id = ${boardId}
+    </select>
 
 </mapper>

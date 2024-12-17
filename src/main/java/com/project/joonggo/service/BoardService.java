@@ -45,4 +45,6 @@ public interface BoardService {
     List<ReportVO> getReportList(PagingVO pgvo);
 
     void updateReportStatus(Long reportId, String status);
+
+    Long getSellerIdByBoardId(Long boardId);
 }

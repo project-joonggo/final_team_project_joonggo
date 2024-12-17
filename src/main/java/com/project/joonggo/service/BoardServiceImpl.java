@@ -140,6 +140,11 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public Long getSellerIdByBoardId(Long boardId) {
+        return boardMapper.getSellerIdByBoardId(boardId);
+    }
+
+    @Override
     public List<ReasonVO> getReasonList() {
         return reportMapper.getReasonList();
     }
