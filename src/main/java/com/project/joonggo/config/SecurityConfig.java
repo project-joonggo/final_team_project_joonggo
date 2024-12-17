@@ -43,7 +43,8 @@ public class SecurityConfig {
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .loginPage("/user/login")
-                        .defaultSuccessUrl("/board/list")
+                        .defaultSuccessUrl("/")
+//                        .defaultSuccessUrl("/board/list")
                         .permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2

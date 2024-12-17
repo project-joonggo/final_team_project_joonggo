@@ -36,13 +36,6 @@ body {
 	height:320px;
     margin-bottom: 70px;
 }
-
-/* test */
-#slide6_3{
-	height:320px;
-    margin-bottom: 70px;
-}
-
 .swiper-slide {
 	text-align:center;
 	display:flex; /* 내용을 중앙정렬 하기위해 flex 사용 */
@@ -69,13 +62,6 @@ body {
     width: 185px;
     height: 185px;
 }
-
-/* test */
-#slide6_test img {
-    width: 185px;
-    height: 185px;
-}
-
 .swiper-slide>a>div{
     width: 185px;
     text-align: left;

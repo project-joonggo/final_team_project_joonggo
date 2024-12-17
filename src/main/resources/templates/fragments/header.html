@@ -92,14 +92,90 @@
             </ul>
         </div>
 
-
-
         <nav class="d-flex justify-content-between align-items-center gap-4">
             <div><a href="">이벤트</a></div>
             <div><a href="">사기조회</a></div>
             <div><a href="/board/price">시세조회</a></div>
             <div><a href="/wish/list">찜한상품</a></div>
             <div><a href="">고객센터</a></div>
+            <div class="weather-container d-flex align-items-center gap-3 ms-auto">
+                <!-- 비로그인 시 현재 위치 띄우기 -->
+                <div sec:authorize="isAnonymous()" class="address-bold" id="currentAddress"></div>
+                <!-- 로그인 시 주소 위치 띄우기 -->
+                <div sec:authorize="isAuthenticated()" class="address-bold" id="parsedAddress"></div>
+
+                <form id="addressForm" th:action="@{/}" method="get" style="display: none;">
+                    <input id="addressInput" name="address" type="text"/>
+                </form>
+
+                <div sec:authorize="isAnonymous()" id="currentWeatherIcon"></div>
+                <div sec:authorize="isAnonymous()" class="weather-tmp" id="currentTemperature"></div>
+
+                <div sec:authorize="isAuthenticated()" id="weatherIcon"></div>
+                <div sec:authorize="isAuthenticated()" class="weather-tmp" id="temperature"></div>
+            </div>
         </nav>
+
+        <div sec:authorize="isAnonymous()">
+            <script th:inline="javascript">
+                var currentAddress = '';
+                var currentWeatherIcon = [[${weather != null ? weather['weather_icon'] : ''}]];
+                var currentTemperature = [[${weather != null ? weather['temperature'] : ''}]];
+                console.log("weatherIcon1: ", currentWeatherIcon);
+                console.log("temperature1: ", currentTemperature);
+
+                if(!currentAddress){
+                    currentAddress = sessionStorage.getItem('userCurrentAddress') || '';
+                }
+                if (!currentWeatherIcon) {
+                    currentWeatherIcon = sessionStorage.getItem('userCurrentWeatherIcon') || '';
+                }
+                if (!currentTemperature) {
+                    currentTemperature = sessionStorage.getItem('userCurrentTemperature') || '';
+                }
+                console.log("Address: ", currentAddress);
+                console.log("weatherIcon: ", currentWeatherIcon);
+                console.log("temperature: ", currentTemperature);
+
+                document.getElementById("currentAddress").innerText = currentAddress;
+                var iconUrl = 'https://openweathermap.org/img/wn/' + currentWeatherIcon + '@2x.png';
+                console.log("iconUrl: ", iconUrl);
+                document.getElementById("currentWeatherIcon").innerHTML = '<img src="' + iconUrl + '" alt="Weather Icon"/>';
+                document.getElementById("currentTemperature").innerText = currentTemperature + '℃';
+            </script>
+        </div>
+
+        <div sec:authorize="isAuthenticated()">
+            <script th:inline="javascript">
+               // 서버에서 전달된 location.parsedAddress가 null이 아닌 경우 사용
+               var parsedAddress = [[${location != null ? location.parsedAddress : ''}]];
+               var weatherIcon = [[${weather != null ? weather['weather_icon'] : ''}]];
+               var temperature = [[${weather != null ? weather['temperature'] : ''}]];
+               console.log("weatherIcon1: ", weatherIcon);
+               console.log("temperature1: ", temperature);
+
+               // 만약 parsedAddress가 빈 문자열이라면 sessionStorage에서 값을 가져옵니다.
+               if (!parsedAddress) {
+                   parsedAddress = sessionStorage.getItem('userParsedAddress') || ''; // sessionStorage에서 가져오거나, 없으면 빈 문자열
+               }
+               if (!weatherIcon) {
+                   weatherIcon = sessionStorage.getItem('userWeatherIcon') || '';
+               }
+               if (!temperature) {
+                   temperature = sessionStorage.getItem('userTemperature') || '';
+               }
+               console.log("weatherIcon: ", weatherIcon);
+               console.log("temperature: ", temperature);
+
+               document.getElementById("parsedAddress").innerText = parsedAddress;
+               var iconUrl = 'https://openweathermap.org/img/wn/' + weatherIcon + '@2x.png';
+               console.log("iconUrl: ", iconUrl);
+               document.getElementById("weatherIcon").innerHTML = '<img src="' + iconUrl + '" alt="Weather Icon"/>';
+               document.getElementById("temperature").innerText = temperature + '℃';
+            </script>
+
+            <script th:src="@{/js/weather.js}"></script>
+        </div>
+
     </div>
 </div>
