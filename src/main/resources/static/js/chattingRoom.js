@@ -1,15 +1,15 @@
-let socket = null;
-let stompClient = null;
+let chatSocket = null;
+let chatStompClient = null;
 let currentRoomId = null;
 
 // WebSocket 연결
 function connectWebSocket() {
-    socket = new SockJS('/ws/chat');
-    stompClient = Stomp.over(socket);
+    chatSocket = new SockJS('/ws/chat');
+    chatStompClient = Stomp.over(chatSocket);
 
-    stompClient.connect({}, function (frame) {
+    chatStompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-        stompClient.subscribe(`/topic/chat/${currentRoomId}`, function (message) {
+        chatStompClient.subscribe(`/topic/chat/${currentRoomId}`, function (message) {
             const receivedMessage = JSON.parse(message.body);
             displayMessage(receivedMessage);
         });

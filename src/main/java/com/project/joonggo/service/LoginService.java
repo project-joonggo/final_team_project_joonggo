@@ -21,4 +21,6 @@ public interface LoginService {
     List<UserVO> findByNameAndEmail(String name, String email);
 
     void updatePassword(String userId);
+
+    Long getAdminId();
 }

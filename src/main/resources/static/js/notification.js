@@ -3,21 +3,19 @@ var stompClient = Stomp.over(socket);
 var userId = null;
 
 let notifications = []; // 알림을 저장하는 배열
+let dbNotificationsCount = 0; // DB에서 받은 알림 수
+let websocketNotificationsCount = 0; // 웹소켓으로 받은 알림 수
 let unreadCount = 0; // 읽지 않은 알림 수
 
 
-// 페이지 로드 시 초기 알림을 서버에서 가져오기
-window.onload = function() {
-    fetchNotifications();
-};
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
+    fetchNotifications(); // 페이지가 로드될 때마다 알림 가져오기
+    
     // 알림 버튼 클릭 시 알림 리스트 토글
     document.getElementById("notification-icon").addEventListener("click", function() {
         toggleNotifications(); // 알림 리스트 보이기/숨기기
     });
 });
-
 
 stompClient.connect({}, function (frame) {
     console.log('Connected: ' + frame);
@@ -36,7 +34,9 @@ stompClient.connect({}, function (frame) {
         console.log('Received message:', message);
         if (message.body) {
             console.log('Message body:', message.body);
-            handleNotification(message.body);
+            const data = JSON.parse(message.body); // 서버에서 JSON으로 보낸다고 가정
+            handleNotification(data.message, data.url, data.notificationId, true);  // 알림 처리
+
         } else {
             console.log('Message body is empty or undefined');
         }
@@ -55,24 +55,25 @@ stompClient.onclose = function() {
 
 
 
-function handleNotification(message) {
+function handleNotification(message,url,notificationId,isWebsocket) {
     console.log('Handling notification:', message);
+    console.log("url: ",url);
+    console.log("notificationId: ",notificationId);
 
-    // 메시지 그대로 삽입 (HTML로 처리)
     const notificationList = document.getElementById("notification-list");
-
-    // 알림 항목 추가
     const newNotification = document.createElement("li");
     newNotification.classList.add("notification-item");
     newNotification.setAttribute("data-status", "unread"); // 상태를 '읽지 않음'으로 설정
+    newNotification.setAttribute("data-id", notificationId); // notificationId를 data-id 속성에 저장
 
     // HTML 메시지를 그대로 삽입
-    newNotification.innerHTML = message; // HTML 메시지를 삽입
-
+    const htmlMessage = `<a href="${url}" target="_blank">${message}</a>`; // 게시글 링크와 메시지 결합
+    newNotification.innerHTML = htmlMessage; // HTML 메시지 삽입
 
      // 알림 클릭 시 읽음 처리 및 URL로 이동
      newNotification.addEventListener("click", function() {
-        markAsRead(newNotification);
+        const notificationId = newNotification.getAttribute("data-id"); // 클릭한 알림의 ID 가져오기
+        markAsRead(newNotification,notificationId);
         // 링크를 클릭하면 해당 URL로 이동
         const link = newNotification.querySelector("a");
         if (link) {
@@ -83,8 +84,14 @@ function handleNotification(message) {
     notificationList.appendChild(newNotification);
 
     // 알림 배지 업데이트 (읽지 않은 알림 개수)
-    unreadCount++;
+
+     // 웹소켓 알림일 경우에만 카운트 증가
+     if (isWebsocket) {
+        websocketNotificationsCount++;  // 웹소켓 알림 카운트 증가
+    }
+    unreadCount++;  // 읽지 않은 알림 수 증가
     updateNotificationBadge();
+    hideNoNotificationsMessage();
 }
 
 
@@ -110,9 +117,24 @@ function toggleNotifications() {
     }
 }
 
-function markAsRead(notificationElement) {
+function markAsRead(notificationElement, notificationId) {
     notificationElement.setAttribute("data-status", "read"); // 상태를 '읽음'으로 변경
     notificationElement.style.fontStyle = "italic";  // 읽은 알림을 구분하기 위한 스타일 (선택 사항)
+
+    // 서버에 읽음 상태로 변경 요청
+    fetch(`/notice/read/${notificationId}`, {
+        method: 'POST'
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log("Notification marked as read successfully");
+        } else {
+            console.error("Failed to mark notification as read");
+        }
+    })
+    .catch(error => {
+        console.error("Error marking notification as read:", error);
+    });
 
     // 읽은 알림 수 감소
     unreadCount--;
@@ -121,16 +143,31 @@ function markAsRead(notificationElement) {
 
 // "새로운 알림이 없습니다." 메시지 표시
 function showNoNotificationsMessage() {
-    const notificationList = document.getElementById("notification-list");
-    
-    // "새로운 알림이 없습니다." 메시지 항목 추가
-    const noNotificationMessage = document.createElement("li");
-    noNotificationMessage.classList.add("notification-item");
-    noNotificationMessage.textContent = "새로운 알림이 없습니다.";
-    
-    notificationList.appendChild(noNotificationMessage);
+
+    if (dbNotificationsCount === 0 && websocketNotificationsCount === 0) {
+        
+        const notificationList = document.getElementById("notification-list");
+        
+        // "새로운 알림이 없습니다." 메시지 항목 추가
+        const noNotificationMessage = document.createElement("li");
+        noNotificationMessage.classList.add("notification-item");
+        noNotificationMessage.textContent = "새로운 알림이 없습니다.";
+        
+        notificationList.appendChild(noNotificationMessage);
+    }
 }
 
+// "새로운 알림이 없습니다." 메시지 숨기기
+function hideNoNotificationsMessage() {
+    // DB에서 알림이 없고, 웹소켓 알림을 받은 경우 메시지를 숨김
+    if (dbNotificationsCount === 0 && websocketNotificationsCount > 0) {
+        const notificationList = document.getElementById("notification-list");
+        const noNotificationMessage = notificationList.querySelector(".notification-item");
+        if (noNotificationMessage) {
+            noNotificationMessage.remove(); // 메시지를 숨김
+        }
+    }
+}
 
 
 // 초기 알림을 서버에서 가져오기
@@ -141,10 +178,11 @@ function fetchNotifications() {
         .then(data => {
             console.log("Initial notifications:", data);
             notifications = data;  // 받은 알림 데이터를 저장
-            if (notifications.length === 0) {
+            dbNotificationsCount = notifications.length; 
+            if (dbNotificationsCount === 0) {
                 showNoNotificationsMessage(); // 알림이 없으면 "새로운 알림이 없습니다." 메시지 표시
             } else {
-                notifications.forEach(notification => handleNotification(notification.message)); // 각 알림을 화면에 표시
+                notifications.forEach(notification => handleNotification(notification.message, notification.url, notification.notificationId, false)); // 각 알림을 화면에 표시
             }
         })
         .catch(error => {

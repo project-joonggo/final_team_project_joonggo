@@ -1,5 +1,7 @@
 package com.project.joonggo.controller;
 
+import com.project.joonggo.domain.BoardFileDTO;
+import com.project.joonggo.service.BoardService;
 import com.project.joonggo.service.WeatherService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -18,6 +21,7 @@ import java.util.Map;
 public class WeatherController {
 
     private final WeatherService weatherService;
+    private final BoardService boardService;
 
 //    @Value("${KakaoMap_API_KEY}")
 //    private String KakaoMap_API_KEY;
@@ -46,6 +50,27 @@ public class WeatherController {
         log.info("address: {}",address);
         Map<String, String> lanLon = weatherService.returnLanLon(address);
         model.addAttribute("weather", weatherService.returnWeather(lanLon));
+
+
+        // 1. 최근 등록된 상품 18개
+        List<BoardFileDTO> recentProducts = boardService.getRecentProducts();
+
+        // 2. 실시간 인기 상품 18개 (조회 수 기준)
+        List<BoardFileDTO> popularProducts = boardService.getPopularProducts();
+
+        // 3. 추천 상품 18개 (좋아요 수 기준)
+        List<BoardFileDTO> recommendedProducts = boardService.getRecommendedProducts();
+
+        log.info(">>>> {}, {} , {} >> " , recentProducts,popularProducts,recommendedProducts);
+
+        // 모델에 데이터 추가
+        model.addAttribute("recentProducts", recentProducts);
+        model.addAttribute("popularProducts", popularProducts);
+        model.addAttribute("recommendedProducts", recommendedProducts);
+
+
+
+
         return "index";
     }
 

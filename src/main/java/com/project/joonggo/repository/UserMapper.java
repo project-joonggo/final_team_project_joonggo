@@ -35,4 +35,6 @@ public interface UserMapper {
     void downScore(Long userNum);
 
     void updatePassword(String userId);
+
+    Long getAdminId();
 }

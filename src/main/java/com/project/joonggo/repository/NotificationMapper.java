@@ -10,4 +10,10 @@ public interface NotificationMapper {
     void insertNotification(NotificationVO notification);
 
     List<NotificationVO> getNotifications(Long userNum);
+
+    NotificationVO getNotificationById(Long notificationId);
+
+    void updateNotificationStatus(NotificationVO notification);
+
+    Long getNotificationId();
 }

@@ -113,4 +113,27 @@
         select seller_id from sellbuy_board where board_id = ${boardId}
     </select>
 
+    <select id="getRecentProducts" resultType="com.project.joonggo.domain.BoardVO">
+        SELECT * FROM sellbuy_board
+        WHERE is_del = 'N'
+        ORDER BY reg_at DESC
+        LIMIT 18;
+    </select>
+
+    <select id="getRecommendedProducts" resultType="com.project.joonggo.domain.BoardVO">
+        SELECT * FROM sellbuy_board
+        WHERE is_del = 'N'
+        ORDER BY like_count DESC
+        LIMIT 18;
+    </select>
+
+    <select id="getPopularProducts" resultType="com.project.joonggo.domain.BoardVO">
+        SELECT *
+        FROM sellbuy_board
+        WHERE is_del = 'N'
+<!--        AND reg_at >= NOW() - INTERVAL 2 HOUR-->
+        ORDER BY read_count DESC
+        LIMIT 18;
+    </select>
+
 </mapper>

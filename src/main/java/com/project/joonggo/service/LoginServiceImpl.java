@@ -78,4 +78,9 @@ public class LoginServiceImpl implements LoginService {
         userMapper.updatePassword(userId);
     }
 
+    @Override
+    public Long getAdminId() {
+        return userMapper.getAdminId();
+    }
+
 }
