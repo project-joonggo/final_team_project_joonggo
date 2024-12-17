@@ -17,12 +17,11 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS();  // WebSocket 엔드포인트 등록
+        registry.addEndpoint("/ws/chat").withSockJS();  // WebSocket 엔드포인트 등록
 
 
         registry.addEndpoint("/notifications").withSockJS();  // 알림용 WebSocket 엔드포인트
     }
-
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {

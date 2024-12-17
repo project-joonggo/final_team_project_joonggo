@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.joonggo.repository.ChatJoinMapper">
+    <!-- 채팅방에 사용자가 참여했는지 여부 확인 -->
+    <select id="isUserInRoom" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM chat_join
+        WHERE room_id = #{roomId} AND user_num = #{userNum}
+    </select>
+
+    <!-- 채팅방에 사용자를 추가 (입장) -->
+    <insert id="addUserToRoom">
+        INSERT INTO chat_join (room_id, user_num)
+        VALUES (#{roomId}, #{userNum})
+    </insert>
+
+    <!-- 채팅방에 참여한 사용자 목록을 가져오기 -->
+    <select id="getUsersInRoom" resultType="com.project.joonggo.domain.ChatJoinVO">
+        SELECT room_id AS roomId, user_num AS userNum
+        FROM chat_join
+        WHERE room_id = #{roomId}
+    </select>
+    <!--  /* resultType="com.project.joonggo.domain.ChatCommentVO "*/  -->
+</mapper>

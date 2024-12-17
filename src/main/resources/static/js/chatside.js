@@ -1,7 +1,6 @@
-console.log("chatside js conn");
+//console.log("chatside js conn");
 
 // 대화방 요소와 버튼을 찾기
-
 
 const openChatBtn = document.getElementById("openChatBtn");
 const closeChatBtn = document.getElementById("closeChatBtn");
@@ -9,11 +8,11 @@ const chatSidebar = document.getElementById("chatSidebar");
 const sendBtn = document.getElementById("sendBtn");
 const chatInput = document.getElementById("chatInput");
 
-console.log(openChatBtn);
-console.log(closeChatBtn);
-console.log(chatSidebar);
-console.log(sendBtn);
-console.log(chatInput);
+// console.log(openChatBtn);
+// console.log(closeChatBtn);
+// console.log(chatSidebar);
+// console.log(sendBtn);
+// console.log(chatInput);
 
 // 대화방 열기 버튼 클릭 시
 openChatBtn.onclick = function() {

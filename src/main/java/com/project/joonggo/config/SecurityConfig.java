@@ -34,7 +34,7 @@ public class SecurityConfig {
                                         "/", "/js/**", "/img/**", "/css/**", "/dist/**", "/upload/**",
                                         "/index", "/user/join", "/user/login", "/board/list", "/board/detail/**",
                                         "/comment/list/**", "/smarteditor/**", "/user/kakao/**", "/user/google/**",
-                                        "/user/naver/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult",
+                                        "/user/naver/**","/chat/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult",
                                         "/user/mailSend", "/user/mailCheck", "/board/report", "/board/fraud",
                                         "/user/findPassword").permitAll()
     /*                    .requestMatchers("/**").permitAll()*/
@@ -66,7 +66,6 @@ public class SecurityConfig {
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS) // 세션을 항상 생성하도록 설정
-                        .sessionFixation().none() // 세션 고정 방어를 하지 않음
                 )
                 .build();
 

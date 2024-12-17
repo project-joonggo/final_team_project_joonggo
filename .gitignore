@@ -39,3 +39,4 @@ out/
 ### API Key ###
 config.properties
 application-payment.properties
+chatbot.properties

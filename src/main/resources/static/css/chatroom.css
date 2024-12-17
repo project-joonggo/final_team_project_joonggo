@@ -1,0 +1,57 @@
+/*
+body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f9;
+    }
+    #chatRoomList, #chatRoom {
+        max-width: 800px;
+        margin: 20px auto;
+        padding: 10px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .chat-message {
+        border-bottom: 1px solid #ddd;
+        padding: 5px 0;
+    }
+    #messageInput {
+        width: calc(100% - 110px);
+        padding: 10px;
+        margin: 10px 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    #sendButton {
+        padding: 10px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }*/
+    body {
+          display: flex;
+          flex-direction: row;
+      }
+
+      #chatRoomList {
+          width: 30%;
+          border-right: 1px solid #ddd;
+          padding-right: 20px;
+      }
+
+      #chatRoom {
+          width: 70%;
+          display: none; /* 기본적으로 숨김 */
+          padding-left: 20px;
+      }
+
+      #chatMessages {
+          height: 300px;
+          overflow-y: auto;
+          border: 1px solid #ddd;
+          padding: 10px;
+      }
