@@ -7,13 +7,12 @@
     <select id="getCommentsByRoomId" resultType="com.project.joonggo.domain.ChatCommentVO">
         SELECT * FROM chat_comment
         WHERE room_id = #{roomId}
-        ORDER BY comment_write_date DESC
+        ORDER BY comment_write_date
     </select>
-<!--  /* resultType="com.project.joonggo.domain.ChatCommentVO "*/  -->
 
-    <insert id="saveChatComment" parameterType="map">
+    <insert id="saveChatComment" parameterType="com.project.joonggo.domain.ChatCommentVO">
         INSERT INTO chat_comment(room_id, comment_user_num, comment_content, comment_write_date)
-        VALUES(#{roomId}, #{userNum}, #{messageContent}, NOW())
+        VALUES(#{roomId}, #{commentUserNum}, #{commentContent}, NOW())
     </insert>
 
 </mapper>

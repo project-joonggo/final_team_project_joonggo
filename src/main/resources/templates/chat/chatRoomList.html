@@ -9,8 +9,8 @@
   <!-- Chat Room List Section -->
   <div id="chatRoomList">
     <h2>Chat Room List</h2>
+<!--    userNum : [[${#authentication.getPrincipal().userVO.userNum}]]-->
     <ul id="roomList">
-      <!-- Thymeleaf will populate room list dynamically -->
       <li th:each="room : ${chatRoomList}"
           th:text="${room.roomName}"
           th:data-room-id="${room.roomId}"
@@ -20,18 +20,18 @@
   </div>
 
   <!-- Chat Room Section -->
-  <div id="chatRoom">
+  <div id="chatRoom" style="display: none;">
     <h2 id="roomTitle" th:text="${roomName}">Chat Room</h2>
-    <div id="chatMessages">
-      <!-- Messages will be loaded dynamically -->
-      <div th:each="comment : ${comments}"
-           class="chat-message"
-           th:text="${comment.commentUserNum + ': ' + comment.commentContent}"></div>
-    </div>
+    <div id="chatMessages"></div>
     <div>
       <input type="text" id="messageInput" placeholder="Type your message...">
       <button id="sendButton">Send</button>
     </div>
   </div>
 
+  <script th:inline="javascript">
+    const userNum = [[${userNum}]];
+  </script>
+
+  <script th:src="@{/js/chattingRoom.js}"></script>
 </div>

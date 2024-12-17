@@ -1,75 +1,14 @@
-//const userNum = 1; // Example: User ID
-//let currentRoomId = null;
-//
-//// Fetch chat room list
-//async function fetchChatRoomList() {
-//    const response = await fetch(`/chat/roomList?userNum=${userNum}`);
-//    const rooms = await response.json();
-//    const roomList = document.getElementById('roomList');
-//    roomList.innerHTML = '';
-//
-//    rooms.forEach(room => {
-//        const li = document.createElement('li');
-//        li.textContent = room.roomName;
-//        li.style.cursor = 'pointer';
-//        li.addEventListener('click', () => enterChatRoom(room.roomId, room.roomName));
-//        roomList.appendChild(li);
-//    });
-//}
-//
-//// Enter chat room
-//async function enterChatRoom(roomId, roomName) {
-//    currentRoomId = roomId;
-//    document.getElementById('chatRoomList').style.display = 'none';
-//    document.getElementById('chatRoom').style.display = 'block';
-//    document.getElementById('roomTitle').textContent = roomName;
-//
-//    const response = await fetch(`/chat/enterRoom?roomId=${roomId}&userNum=${userNum}`);
-//    const comments = await response.json();
-//    const chatMessages = document.getElementById('chatMessages');
-//    chatMessages.innerHTML = '';
-//
-//    comments.forEach(comment => {
-//        const div = document.createElement('div');
-//        div.className = 'chat-message';
-//        div.textContent = `${comment.commentUserNum}: ${comment.commentContent}`;
-//        chatMessages.appendChild(div);
-//    });
-//}
-//
-//// Send message
-//document.getElementById('sendButton').addEventListener('click', async () => {
-//    const messageInput = document.getElementById('messageInput');
-//    const messageContent = messageInput.value;
-//    if (!messageContent.trim()) return;
-//
-//    await fetch('/chat/sendMessage', {
-//        method: 'POST',
-//        headers: {
-//            'Content-Type': 'application/x-www-form-urlencoded',
-//        },
-//        body: `roomId=${currentRoomId}&userNum=${userNum}&messageContent=${messageContent}`,
-//    });
-//
-//    messageInput.value = '';
-//    await enterChatRoom(currentRoomId, document.getElementById('roomTitle').textContent);
-//});
-//
-//// Initial fetch
-//fetchChatRoomList();
-
 let socket = null;
 let stompClient = null;
+let currentRoomId = null;
 
+// WebSocket 연결
 function connectWebSocket() {
-    // SockJS와 STOMP를 사용한 WebSocket 연결
-    socket = new SockJS('/ws-chat'); // 백엔드 WebSocket 엔드포인트
+    socket = new SockJS('/ws/chat');
     stompClient = Stomp.over(socket);
 
     stompClient.connect({}, function (frame) {
         console.log('Connected: ' + frame);
-
-        // 특정 채팅방의 메시지 구독
         stompClient.subscribe(`/topic/chat/${currentRoomId}`, function (message) {
             const receivedMessage = JSON.parse(message.body);
             displayMessage(receivedMessage);
@@ -77,60 +16,75 @@ function connectWebSocket() {
     });
 }
 
-// 메시지 표시 함수
+// 메시지 표시
 function displayMessage(message) {
     const chatMessages = document.getElementById('chatMessages');
     const div = document.createElement('div');
     div.className = 'chat-message';
+    // 실질적으로 나오는 값 : 1 : test message
     div.textContent = `${message.commentUserNum}: ${message.commentContent}`;
     chatMessages.appendChild(div);
-    chatMessages.scrollTop = chatMessages.scrollHeight; // 최신 메시지로 스크롤
+    chatMessages.scrollTop = chatMessages.scrollHeight;
 }
 
-// 메시지 전송 수정
-document.getElementById('sendButton').addEventListener('click', async () => {
+// 채팅방 목록 클릭 이벤트
+document.getElementById('roomList').addEventListener('click', async function(event) {
+    const roomListItem = event.target.closest('li');
+    if (roomListItem) {
+        const roomId = roomListItem.getAttribute('data-room-id');
+        const roomName = roomListItem.textContent;
+
+        try {
+            const response = await fetch(`/chat/enterRoom?roomId=${roomId}&userNum=${userNum}`);
+            const commentList = await response.json();
+
+            const chatMessages = document.getElementById('chatMessages');
+            chatMessages.innerHTML = '';
+
+            commentList.forEach(comment => {
+                displayMessage(comment);
+            });
+
+            document.getElementById('chatRoomList').style.display = 'none';
+            document.getElementById('chatRoom').style.display = 'block';
+            document.getElementById('roomTitle').textContent = roomName;
+
+            currentRoomId = parseInt(roomId);
+            if (stompClient) {
+                stompClient.disconnect();
+            }
+            connectWebSocket();
+
+        } catch (error) {
+            console.error('Error:', error);
+            alert('채팅방을 불러오는 중 오류가 발생했습니다.');
+        }
+    }
+});
+
+// 메시지 전송
+document.getElementById('sendButton').addEventListener('click', () => {
     const messageInput = document.getElementById('messageInput');
     const messageContent = messageInput.value;
     if (!messageContent.trim()) return;
 
-    // WebSocket을 통해 메시지 전송
-    if (stompClient && stompClient.connected) {
-        stompClient.send("/app/chat/sendMessage", {}, JSON.stringify({
-            roomId: currentRoomId,
-            userNum: userNum,
-            messageContent: messageContent
-        }));
+    const messageData = {
+        roomId: currentRoomId,
+        commentUserNum: userNum,
+        commentContent: messageContent
+    };
 
+    console.log('Sending message:', messageData);
+
+    if (stompClient && stompClient.connected) {
+        stompClient.send("/app/chat/sendMessage", {}, JSON.stringify(messageData));
         messageInput.value = '';
     }
 });
 
-// 채팅방 입장 시 WebSocket 연결
-async function enterChatRoom(roomId, roomName) {
-    currentRoomId = roomId;
-    document.getElementById('chatRoomList').style.display = 'none';
-    document.getElementById('chatRoom').style.display = 'block';
-    document.getElementById('roomTitle').textContent = roomName;
-
-    // 기존 메시지 불러오기
-    const response = await fetch(`/chat/enterRoom?roomId=${roomId}&userNum=${userNum}`);
-    const comments = await response.json();
-    const chatMessages = document.getElementById('chatMessages');
-    chatMessages.innerHTML = '';
-
-    comments.forEach(comment => {
-        const div = document.createElement('div');
-        div.className = 'chat-message';
-        div.textContent = `${comment.commentUserNum}: ${comment.commentContent}`;
-        chatMessages.appendChild(div);
-    });
-
-    // WebSocket 연결 (이전 연결 닫기 후 새로 연결)
-    if (stompClient) {
-        stompClient.disconnect();
+// Enter 키로 메시지 전송
+document.getElementById('messageInput').addEventListener('keypress', (event) => {
+    if (event.key === 'Enter') {
+        document.getElementById('sendButton').click();
     }
-    connectWebSocket();
-}
-
-// 초기 로드 시
-fetchChatRoomList();
+});

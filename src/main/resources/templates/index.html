@@ -2,13 +2,17 @@
 <html lang="en"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layout}">
+      layout:decorate="~{layout/layout}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <div layout:fragment="content">
   <div class="container-md">
     <h3>[[${#authentication.getPrincipal()}]]</h3>
     <hr>
-
+    <h3 sec:authorize="isAuthenticated()">
+      [[${#authentication.getPrincipal().userVO}]]<br>
+      [[${#authentication.getPrincipal().userVO.userNum}]]
+    </h3>
 
   <br>
     <!--    카카오맵 API 로딩 (HTTPS 사용)-->
