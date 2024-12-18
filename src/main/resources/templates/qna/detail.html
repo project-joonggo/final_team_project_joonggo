@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<div layout:fragment="content">
+
+  <div class="container-md cBox">
+
+    [[${qnaFileDTO}]]
+
+    <th:block th:with="qnaVO=${qnaFileDTO.qnaVO}">
+      <div class="mb-3">
+        <label for="q" class="form-label">문의제목</label>
+        <input type="text" class="form-control" id="q" name="qnaName" th:value="${qnaVO.qnaName}" readonly="readonly">
+      </div>
+      <div class="mb-3">
+        <label for="cate" class="form-label">문의 카테고리</label>
+        <input type="text" class="form-control" id="cate" name="category" th:value="${qnaVO.category}" readonly="readonly">
+      </div>
+      <div class="mb-3">
+        <label for="c" class="form-label">문의내용</label>
+        <div class="form-control" id="c" name="qnaContent"
+             readonly="readonly" th:utext="${qnaVO.qnaContent}"></div>
+      </div>
+
+      <!-- 어드민만 보이는 list로가는 버튼을 추가할까? -->
+
+      <a th:href="@{/qna/modify(qnaId=${qnaVO.qnaId})}"><button type="button" id="modBtn" class="btn btn-primary">문의수정</button></a>
+      <a th:href="@{/qna/delete(qnaId=${qnaVO.qnaId})}"><button type="button" id="delBtn" class="btn btn-danger">문의삭제</button></a>
+    </th:block>
+
+
+    <!--/* 답변 라인 */-->
+    <th:block sec:authorize="isAuthenticated()">
+      <div class="answer">
+			<span id="answerWriter">관리자</span>
+        <textarea id="answerText" placeholder="답변을 남겨주세요"></textarea>
+        <div class="abtn">
+          <button type="button" class="btn btn-success" id="asAddBtn">등록</button>
+        </div>
+      </div>
+    </th:block>
+
+    <ul class="list-group list-group-flush" id="asListArea">
+      <li class="list-group-item">
+        <div class="ms-2 me-auto">
+          <div class="fw-bold">writer</div>
+          Content
+        </div>
+        <span class="badge text-bg-primary rounded-pill">regDate</span>
+      </li>
+    </ul>
+
+    <!--/* Modal */-->
+    <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="cmtWriterMod">Writer</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <input type="text" class="form-control" id="cmtTextMod">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" id="cmtModBtn" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+    <script th:inline="javascript">
+      let qnaVal = [[${qnaFileDTO.qnaVO.qnaId}]]
+      console.log(qnaVal);
+
+      let userVal = [[${qnaFileDTO.qnaVO.userId}]]
+      console.log(userVal);
+    </script>
+
+    <th:block sec:authorize="isAuthenticated()">
+      <script th:inline="javascript">
+
+         var userRoles = [[${#authentication.principal.userVO.authList}]];
+         var rolesArray = userRoles.map(function(role) {
+            return role.auth;
+          });
+
+         var isAdmin = rolesArray.includes('ROLE_ADMIN');
+         console.log("Is Admin: " + isAdmin);
+      </script>
+    </th:block>
+
+
+    <script th:src="@{/js/qnaDetail.js}" charset="UTF-8"></script>
+
+    <script>
+      spreadAnswer(qnaVal);
+    </script>
+
+  </div>
+</div>

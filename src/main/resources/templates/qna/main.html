@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+
+<div layout:fragment="content">
+
+
+  <div class="container-md">
+  <!-- 큰 제목 -->
+  <p style="font-size: 36px; text-align: center;">안녕하세요, 무엇을 도와드릴까요?</p>
+
+  <!-- 자주 묻는 질문 -->
+    <p style="font-size : 24px">자주 묻는 질문</p>
+    <ul>
+      <li><a href="/faq/1">Q1: 서비스 가입 방법은 무엇인가요?</a></li>
+      <li><a href="/faq/2">Q2: 비밀번호를 잊어버렸을 때 어떻게 하나요?</a></li>
+      <li><a href="/faq/3">Q3: 결제 방법은 무엇이 있나요?</a></li>
+      <li><a href="/faq/4">Q4: 배송은 얼마나 걸리나요?</a></li>
+      <li><a href="/faq/5">Q5: 계정을 삭제하고 싶어요.</a></li>
+    </ul>
+
+  <!-- 운영 정책 -->
+    <p style="font-size : 24px">운영 정책</p>
+    <ul>
+      <li><a href="/policy/1">올바른 (쓸템) 사용법</a></li>
+      <li><a href="/policy/2">불법 ・ 유해 콘텐츠와 거래금지물품</a></li>
+      <li><a href="/policy/3">범죄 및 유해 행위</a></li>
+      <li><a href="/policy/4">이용자에게 불쾌감을 유발하는 콘텐츠</a></li>
+      <li><a href="/policy/5">권리 및 사생활 보호</a></li>
+      <li><a href="/policy/6">서비스 이용 제한</a></li>
+    </ul>
+
+  <!-- 도움말 -->
+    <span>도움이 필요하신가요?</span>
+   <a href="/qna/register"><button type="button" class="btn btn-secondary">문의하기</button></a>
+
+  </div>
+
+</div>

@@ -335,12 +335,17 @@
     		sUploadURL;
     	
 //    	sUploadURL= '/board/multiFileUpload'; 	//upload URL
+        var parentUrl = window.opener.location.href;
+        console.log(parentUrl);
+
 
     	   // 현재 페이지의 URL을 기반으로 업로드 경로를 동적으로 설정
-            if (window.location.pathname.includes("/qna")) {
-                sUploadURL = '/qna/multiFileUpload';  // QnA 게시판 경로
+            if (parentUrl.includes("qna")) {
+               console.log("Parent URL contains 'qna'");
+               sUploadURL = '/qna/multiFileUpload';  // QnA 게시판 경로
             } else {
-                sUploadURL = '/board/multiFileUpload';  // 기본 게시판 경로
+               console.log("Parent URL does not contain 'qna'");
+               sUploadURL = '/board/multiFileUpload';  // 기본 게시판 경로
             }
 
     	//파일을 하나씩 보내고, 결과를 받음.
@@ -646,7 +651,7 @@
     
 	window.onload = function(){
   		checkDragAndDropAPI();
-  		
+
   		if(bSupportDragAndDropAPI){
   			$Element("pop_container2").hide();
   			$Element("pop_container").show();

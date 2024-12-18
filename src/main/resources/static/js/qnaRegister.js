@@ -1,9 +1,7 @@
-console.log("product Reg js in ");
-
-var formTypeValue = document.getElementById('formType').value;
-console.log(formTypeValue);
+console.log("qnd Reg js in ");
 
 let oEditors = []
+
 
 smartEditor = function() {
     console.log("Naver SmartEditor")
@@ -27,12 +25,10 @@ document.getElementById("regBtn").addEventListener("click", () =>{
 
      // SmartEditor에서 내용을 가져옴
      let content = oEditors.getById("c").getIR(); // 에디터의 HTML 내용 가져오기
-     let title = document.getElementById("t").value; // 제목 가져오기
-     let writer = document.getElementById("w").value; // 작성자가져오기
+     let title = document.getElementById("q").value; // 제목 가져오기
 
      console.log("제목:", title);      // title 값 확인
      console.log("내용:", content);    // content 값 확인
-     console.log("작성자:", writer);   // writer 값 확인
 
      if (content == '') {
         alert("내용을 입력해주세요.");
@@ -43,7 +39,6 @@ document.getElementById("regBtn").addEventListener("click", () =>{
         let formData = new FormData();
         formData.append("title", title);
         formData.append("content", content);
-        formData.append("writer", writer);
 
         registerPostToServer(formData).then(result => {
             if(result){
@@ -58,7 +53,7 @@ document.getElementById("regBtn").addEventListener("click", () =>{
 
 async function registerPostToServer(formData) {
     try {
-        const url = "/board/register";  // 요청 URL
+        const url = "/qna/register";  // 요청 URL
         const config = {
             method: "POST",  // HTTP 메서드
             headers: {
@@ -90,4 +85,3 @@ async function registerPostToServer(formData) {
         alert("서버와의 연결에 문제가 발생했습니다.");
     }
 }
-

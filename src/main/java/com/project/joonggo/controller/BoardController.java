@@ -66,7 +66,7 @@ public class BoardController {
 
         log.info("isOk >>>> {}", isOk);
 
-        return (isOk > 0) ? "/index" : "redirect:/board/register";
+        return (isOk > 0) ? "redirect:/" : "redirect:/board/register";
     }
 
     @PostMapping("/multiFileUpload")

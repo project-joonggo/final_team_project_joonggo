@@ -5,14 +5,26 @@ if (!nhn.husky) nhn.husky = {};
  * @fileOverview This file contains application creation helper function, which would load up an HTML(Skin) file and then execute a specified create function.
  * @name HuskyEZCreator.js
  */
+
+ var formTypeValue = document.getElementById('formType').value;
+ console.log(formTypeValue);
+
 nhn.husky.EZCreator = new (function(){
 	this.nBlockerCount = 0;
 
 	this.createInIFrame = function(htOptions){
+
+	    console.log(htOptions.sSkinURI);
+
+	    var sSkinURI = htOptions.sSkinURI + '?formType=' + encodeURIComponent(formTypeValue);
+
+        console.log(sSkinURI);
+
+
 		if(arguments.length == 1){
 			var oAppRef = htOptions.oAppRef;
 			var elPlaceHolder = htOptions.elPlaceHolder;
-			var sSkinURI = htOptions.sSkinURI;
+			sSkinURI = htOptions.sSkinURI;
 			var fCreator = htOptions.fCreator;
 			var fOnAppLoad = htOptions.fOnAppLoad;
 			var bUseBlocker = htOptions.bUseBlocker;
@@ -101,7 +113,12 @@ nhn.husky.EZCreator = new (function(){
 		});
 //		window.STime = new Date();
 		elIFrame.src = sSkinURI;
-		this.elIFrame = elIFrame;
+//		this.elIFrame = elIFrame;
+        // iframe이 로드되면, 부모 페이지에서 iframe으로 postMessage를 통해 formType 값을 전달
+        elIFrame.onload = function() {
+            // iframe으로 formType 값을 전달
+            elIFrame.contentWindow.postMessage({ formType: formTypeValue }, '*');
+        };
 	};
 	
 	this.showBlocker = function(){

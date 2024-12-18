@@ -189,3 +189,4 @@ function fetchNotifications() {
             console.error("Error fetching notifications:", error);
         });
 }
+
