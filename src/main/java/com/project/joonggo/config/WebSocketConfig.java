@@ -17,7 +17,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws/chat").withSockJS();  // WebSocket 엔드포인트 등록
+        registry.addEndpoint("/ws/chat")
+//                .setAllowedOrigins("*")     // 필요할 경우에만 설정. 일단 추가. 나중에 주석처리합시다.
+                .withSockJS();  // WebSocket 엔드포인트 등록
 
 
         registry.addEndpoint("/notifications").withSockJS();  // 알림용 WebSocket 엔드포인트
@@ -25,8 +27,8 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
-        registry.setApplicationDestinationPrefixes("/app");     // prefix 설정
         registry.enableSimpleBroker("/queue", "/topic", "/user");  // 큐와 토픽 경로 처리
+        registry.setApplicationDestinationPrefixes("/app");     // prefix 설정
     }
 
     /* 챗봇 전용 끝 */

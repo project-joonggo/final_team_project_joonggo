@@ -11,5 +11,11 @@
         WHERE cj.user_num = #{userNum}
         AND cr.room_status = 'Y'
     </select>
-    <!--  /* resultType="com.project.joonggo.domain.ChatCommentVO "*/  -->
+
+    <!--  채팅방 생성  -->
+    <insert id="createChatRoom" parameterType="com.project.joonggo.domain.ChatRoomVO"
+            useGeneratedKeys="true" keyProperty="roomId">
+        INSERT INTO chat_room (user_num, room_name)
+        VALUES (#{userNum}, #{roomName})
+    </insert>
 </mapper>

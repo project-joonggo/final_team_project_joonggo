@@ -17,4 +17,6 @@ public interface ChatJoinMapper {
 
     // 채팅방에 참여한 사용자 목록을 가져오기
     List<ChatJoinVO> getUsersInRoom(int roomId);
+
+    void joinChatRoom(ChatJoinVO chatJoinVO);
 }

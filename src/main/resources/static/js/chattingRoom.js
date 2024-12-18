@@ -1,19 +1,35 @@
-let socket = null;
-let stompClient = null;
+let chatSocket = null;
+let chatStompClient = null;
 let currentRoomId = null;
 
 // WebSocket 연결
 function connectWebSocket() {
-    socket = new SockJS('/ws/chat');
-    stompClient = Stomp.over(socket);
+    try {
+            chatSocket = new SockJS('/ws/chat');
+            chatStompClient = Stomp.over(chatSocket);
 
-    stompClient.connect({}, function (frame) {
-        console.log('Connected: ' + frame);
-        stompClient.subscribe(`/topic/chat/${currentRoomId}`, function (message) {
-            const receivedMessage = JSON.parse(message.body);
-            displayMessage(receivedMessage);
-        });
-    });
+            // debug 로그 비활성화
+            chatStompClient.debug = null;
+
+            chatStompClient.connect(
+                {},  // 헤더 객체
+                function(frame) {  // 성공 콜백
+                    console.log('Connected: ' + frame);
+                    if(currentRoomId) {
+                        chatStompClient.subscribe(`/topic/chat/${currentRoomId}`, function(message) {
+                            const receivedMessage = JSON.parse(message.body);
+                            displayMessage(receivedMessage);
+                        });
+                    }
+                },
+                function(error) {  // 에러 콜백
+                    console.error('STOMP connection error:', error);
+                    setTimeout(connectWebSocket, 3000); // 3초 후 재연결 시도
+                }
+            );
+        } catch (error) {
+            console.error('WebSocket connection error:', error);
+        }
 }
 
 // 메시지 표시
@@ -21,7 +37,13 @@ function displayMessage(message) {
     const chatMessages = document.getElementById('chatMessages');
     const div = document.createElement('div');
     div.className = 'chat-message';
-    // 실질적으로 나오는 값 : 1 : test message
+
+    if (message.commentUserNum === userNum) {
+            div.className += ' sent-message';
+    } else {
+        div.className += ' received-message';
+    }
+
     div.textContent = `${message.commentUserNum}: ${message.commentContent}`;
     chatMessages.appendChild(div);
     chatMessages.scrollTop = chatMessages.scrollHeight;
@@ -45,14 +67,16 @@ document.getElementById('roomList').addEventListener('click', async function(eve
                 displayMessage(comment);
             });
 
-            document.getElementById('chatRoomList').style.display = 'none';
+//            document.getElementById('chatRoomList').style.display = 'none';
             document.getElementById('chatRoom').style.display = 'block';
             document.getElementById('roomTitle').textContent = roomName;
 
             currentRoomId = parseInt(roomId);
-            if (stompClient) {
-                stompClient.disconnect();
+            if (chatStompClient) {
+                console.log('Disconnecting from previous room');
+                chatStompClient.disconnect();
             }
+            console.log('Connecting to new room:', roomId);
             connectWebSocket();
 
         } catch (error) {
@@ -76,9 +100,13 @@ document.getElementById('sendButton').addEventListener('click', () => {
 
     console.log('Sending message:', messageData);
 
-    if (stompClient && stompClient.connected) {
-        stompClient.send("/app/chat/sendMessage", {}, JSON.stringify(messageData));
+    if (chatStompClient && chatStompClient.connected) {
+        console.log('StompClient status:', chatStompClient.connected);  // 로그 추가
+        chatStompClient.send("/app/chat/sendMessage", {}, JSON.stringify(messageData));
         messageInput.value = '';
+    } else {
+              console.log('chatStompClient not connected, reconnecting...');  // 로그 추가
+              connectWebSocket();  // 연결이 끊어진 경우 재연결 시도
     }
 });
 

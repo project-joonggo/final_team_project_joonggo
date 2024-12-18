@@ -9,4 +9,6 @@ import java.util.List;
 @Mapper
 public interface ChatRoomMapper {
     List<ChatRoomVO> getChatRoomList(@Param("userNum") int userNum);
+
+    void createChatRoom(ChatRoomVO chatRoomVO);
 }

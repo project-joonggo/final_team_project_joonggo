@@ -22,5 +22,10 @@
         FROM chat_join
         WHERE room_id = #{roomId}
     </select>
-    <!--  /* resultType="com.project.joonggo.domain.ChatCommentVO "*/  -->
+
+    <!--  채팅방 join  -->
+    <insert id="joinChatRoom" parameterType="com.project.joonggo.domain.ChatJoinVO">
+        INSERT INTO chat_join (room_id, user_num)
+        VALUES (#{roomId}, #{userNum})
+    </insert>
 </mapper>

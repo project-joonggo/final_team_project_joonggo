@@ -7,10 +7,10 @@
 <body>
 
 <div layout:fragment="content">
-
+  [[${#authentication.getPrincipal().userVO}]]
+  <hr>
   <th:block th:with="boardVO=${boardFileDTO.boardVO}">
   [[${boardFileDTO}]]
-
     <div>
       <p>조회수: <span th:text="${boardVO.readCount}">0</span></p>
       <p>찜수: <span id="likeCount">[[${boardVO.likeCount}]]</span></p>
@@ -21,8 +21,6 @@
             th:data-board-id="${boardVO.boardId}"
             th:text="${isAlreadyWished != null ? (isAlreadyWished ? '찜 취소' : '찜하기') : '찜하기'}">
     </button>
-
-
 
     <button id="paymentBtn">결제하기</button>
     <button id="cancelBtn">결제 취소</button>

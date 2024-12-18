@@ -47,6 +47,17 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    public ChatRoomVO createChatRoom(ChatRoomVO chatRoomVO) {
+        chatRoomMapper.createChatRoom(chatRoomVO);
+        return chatRoomVO;
+    }
+
+    @Override
+    public void joinChatRoom(ChatJoinVO chatJoinVO) {
+        chatJoinMapper.joinChatRoom(chatJoinVO);
+    }
+
+    @Override
     public boolean isUserInRoom(int roomId, int userNum) {
         return chatJoinMapper.isUserInRoom(roomId, userNum);
     }
