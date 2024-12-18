@@ -236,7 +236,7 @@ alter table reportlist add column board_id bigint;
 
 
 -- 241227
-ALTER TABLE notificaions
+ALTER TABLE notifications
 ADD COLUMN move_id bigint;
 
 ALTER TABLE notifications

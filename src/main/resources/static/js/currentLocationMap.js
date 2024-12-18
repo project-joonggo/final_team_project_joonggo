@@ -58,6 +58,7 @@ function getLocation() {
                 // console.log("주소: ", address);
 
                   if (depthAddress) {
+                    
                       console.log("도로명 주소: ", depthAddress);
 
                       // 페이지 로드 후 한 번만 자동 제출하도록 설정
@@ -68,7 +69,6 @@ function getLocation() {
                       if (!sessionStorage.getItem('addressSubmitted')) {
                         const addressForm = document.getElementById("addressForm");
                         addressForm.submit();
-
                         // 제출한 후 sessionStorage에 표시
                         sessionStorage.setItem('addressSubmitted', 'true');
                       }

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+
+<div layout:fragment="content">
+    <div class="container-md">
+        <link rel="stylesheet" th:href="@{/css/roulette.css}">
+
+        <div class="roulette-container">
+            <div class="roulette-box">
+                <div><span class="roulette-semiBold">매일매일</span> 찾아오는</div>
+                <div><span class="roulette-bold">행</span><span class="roulette-semiBold">운</span>의 <span class="roulette-semiBold">룰</span><span class="roulette-bold">렛</span></div>
+                <canvas width="380" height='380'></canvas>
+                <button onclick="rotate()">룰렛 돌리기</button>
+            </div>
+        </div>
+
+        <script th:src="@{/js/roulette.js}"></script>
+    </div>
+</div>

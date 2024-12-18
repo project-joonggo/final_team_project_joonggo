@@ -206,6 +206,11 @@ a {
 .map-hidden{
     visibility: hidden;
 }
+.address-input{
+    width: 1px;
+    font-size: 1px;
+    visibility: hidden;
+}
 
 /* footer */
 #footer{

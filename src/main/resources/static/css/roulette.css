@@ -1,0 +1,76 @@
+.roulette-container {
+  /* background: #f9f9f9; */
+  background-image: url('/img/rouletteBackground.svg');
+  background-size: cover;  
+  background-position: center; 
+  background-repeat: no-repeat;
+  display: flex;
+  justify-content: center; 
+  align-items: center; 
+  height: 85vh;
+  border-radius: 20px;
+  margin: 55px 0 80px 0; 
+}
+
+.roulette-container canvas {
+  transition: 2s;
+  pointer-events: none;
+  margin-top: 40px;
+}
+
+.roulette-container button {
+  background: #F26879;
+  margin-top: 1rem;
+  padding: .8rem 1.8rem;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: 700;
+  border-radius: 10px;
+  transition: .2s;
+  cursor: pointer;
+}
+
+.roulette-container div{
+  font-size: 44px;
+  font-weight: 500;
+  color: #CE4E6A;
+}
+
+.roulette-semiBold{
+  font-size: 52px;
+  font-weight: 600;
+  color: #A0173B;
+}
+
+.roulette-bold{
+  font-size: 60px;
+  font-weight: 700;
+  color: #A0173B;
+}
+
+.roulette-container button:hover {
+  background: #CE4E6A;
+  color: #f9f9f9;
+}
+
+.roulette-container .roulette-box {
+  width: 380px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  /* position: relative; */
+  justify-content: center;
+}
+
+.roulette-container .roulette-box::before {
+  content: "";
+  /* position: absolute; */
+  width: 10px;
+  height: 50px;
+  border-radius: 5px;
+  background: #000;
+  top: -50px;
+  left: 50%;
+  transform: translate(-50%, 360%);
+  z-index: 22;
+}
