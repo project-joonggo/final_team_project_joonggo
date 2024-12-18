@@ -176,6 +176,13 @@ CREATE TABLE wish_list(
                          board_id BIGINT NOT NULL,        -- 상품 아이디 (board_id)
                          reg_at datetime default now(),   -- 추가된 시간
                          primary key(wish_id));
+CREATE TABLE notifications (
+                        notification_id BIGINT AUTO_INCREMENT PRIMARY KEY,  -- PK 이름을 notification_id로 변경
+                        user_id BIGINT NOT NULL,
+                        message VARCHAR(255) NOT NULL,
+                        status VARCHAR(20) DEFAULT 'UNREAD',  -- 읽음 상태 (읽음, 안읽음)
+                        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                          );
 -----------------------------------------------------
 -- 241205
 alter table user add column social_id varchar(256);
@@ -226,3 +233,11 @@ alter table reportlist add column status enum('pending', 'confirmed', 'canceled'
 alter table reportlist add column board_id bigint;
 
 -- 관리자 권한 주기 INSERT INTO auth (user_num, auth) VALUES (50, 'ROLE_ADMIN');
+
+
+-- 241227
+ALTER TABLE notificaions
+ADD COLUMN move_id bigint;
+
+ALTER TABLE notifications
+ADD COLUMN type VARCHAR(50) NOT NULL DEFAULT 'DEFAULT';

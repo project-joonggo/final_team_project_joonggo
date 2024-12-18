@@ -56,6 +56,9 @@
     <update id="downScore">
         UPDATE user SET score = score - 1 WHERE user_num = #{userNum}
     </update>
+    <select id="getAdminId" resultType="Long">
+        select user_num from auth where auth = 'ROLE_ADMIN';
+    </select>
     <update id="updatePassword">
         update user set password = #{encodedPassword} where user_id = #{userId} and signflag = 0;
     </update>

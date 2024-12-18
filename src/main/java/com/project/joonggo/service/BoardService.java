@@ -47,4 +47,10 @@ public interface BoardService {
     void updateReportStatus(Long reportId, String status);
 
     Long getSellerIdByBoardId(Long boardId);
+
+    List<BoardFileDTO> getRecentProducts();
+
+    List<BoardFileDTO> getRecommendedProducts();
+
+    List<BoardFileDTO> getPopularProducts();
 }

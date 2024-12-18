@@ -8,6 +8,7 @@ import com.project.joonggo.handler.ImageHandler;
 import com.project.joonggo.handler.PagingHandler;
 import com.project.joonggo.service.BoardService;
 import com.project.joonggo.service.LoginService;
+import com.project.joonggo.service.NotificationService;
 import com.project.joonggo.service.WishService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,7 @@ public class BoardController {
     private final FileDeleteHandler fileDeleteHandler;
     private final WishService wishService;
     private final LoginService loginService;
+    private final NotificationService notificationService;
 
     @Autowired
     private FileHandler fileHandler;
@@ -126,7 +128,7 @@ public class BoardController {
             // 사용자가 찜한 상태인지 확인
             isAlreadyWished = wishService.isAlreadyWished(userNum, boardId);
         }
-        log.info(">>>> isAl Wish >> {}" , isAlreadyWished);
+        log.info(">>>> isAlreadyWished >> {}" , isAlreadyWished);
 
         BoardFileDTO boardFileDTO = boardService.getDetail(boardId);
 
@@ -286,6 +288,14 @@ public class BoardController {
         reportVO.setUserNum(sellerId);  // 신고 당할 사람
         reportVO.setBoardId(boardId);
         boardService.saveReport(reportVO);
+
+        Long adminId = loginService.getAdminId();
+
+        // 알림 메시지 생성
+        String notificationMessage = "새로운 신고가 접수되었습니다. 신고된 게시글 번호: " + boardId;
+
+        // 알림을 관리자에게 보내기
+        notificationService.saveNotification(adminId, notificationMessage, boardId, "REPORT");
 
         return "redirect:/board/detail?boardId=" + boardId;  // 신고 후, 게시글 상세 페이지로 리다이렉트
     }

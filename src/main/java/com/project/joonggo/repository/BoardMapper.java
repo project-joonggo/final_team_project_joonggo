@@ -41,4 +41,10 @@ public interface BoardMapper {
     List<BoardVO> searchPrice(String keyword);
 
     Long getSellerIdByBoardId(Long boardId);
+
+    List<BoardVO> getRecentProducts();
+
+    List<BoardVO> getRecommendedProducts();
+
+    List<BoardVO> getPopularProducts();
 }

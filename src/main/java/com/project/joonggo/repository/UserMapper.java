@@ -35,6 +35,8 @@ public interface UserMapper {
     void upScore(Long userNum);
     void downScore(Long userNum);
 
+    Long getAdminId();
+
     void updatePassword(@Param("userId") String userId, @Param("encodedPassword") String encodedPassword);
 
     void modify(UserVO userVO);

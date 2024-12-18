@@ -95,4 +95,9 @@ public class LoginServiceImpl implements LoginService {
     }
 
 
+    @Override
+    public Long getAdminId() {
+        return userMapper.getAdminId();
+    }
+
 }

@@ -16,5 +16,8 @@ public class NotificationVO {
     private String message;       // 알림 메시지
     private String status;        // 읽음 상태 (READ, UNREAD)
     private LocalDateTime createdAt;  // 알림 생성 시간
+    private String url;  // URL 추가
+    private Long moveId;
+    private String type;  // 'type' 추가
 
 }

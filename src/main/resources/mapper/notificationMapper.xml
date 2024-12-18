@@ -5,8 +5,8 @@
 <mapper namespace="com.project.joonggo.repository.NotificationMapper">
 
     <insert id="insertNotification" parameterType="com.project.joonggo.domain.NotificationVO">
-        INSERT INTO notifications (user_id, message, status, created_at)
-        VALUES (#{userId}, #{message}, #{status}, NOW())
+        INSERT INTO notifications (user_id, message, status, created_at, move_id, type)
+        VALUES (#{userId}, #{message}, #{status}, NOW(), #{moveId}, #{type})
     </insert>
 
     <select id="getNotifications" resultType="com.project.joonggo.domain.NotificationVO">
@@ -14,7 +14,22 @@
         WHERE user_id = #{userId} AND status = 'UNREAD'
     </select>
 
+    <!-- 알림 ID로 알림 조회 -->
+    <select id="getNotificationById" resultType="com.project.joonggo.domain.NotificationVO">
+        SELECT *
+        FROM notifications
+        WHERE notification_id = #{notificationId}
+    </select>
 
+    <!-- 알림 상태 업데이트 -->
+    <update id="updateNotificationStatus">
+        UPDATE notifications
+        SET status = #{status}
+        WHERE notification_id = #{notificationId}
+    </update>
 
+    <select id="getNotificationId" resultType="Long">
+        select MAX(notification_id) from notifications
+    </select>
 
 </mapper>

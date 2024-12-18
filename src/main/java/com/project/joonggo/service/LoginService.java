@@ -28,4 +28,6 @@ public interface LoginService {
     void delete(long userNum);
 
     List<Map<String, Object>> searchFraudUsers(String keyword);
+
+    Long getAdminId();
 }

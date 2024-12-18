@@ -145,6 +145,61 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
+    public List<BoardFileDTO> getRecentProducts() {
+
+        List<BoardVO> boardList = boardMapper.getRecentProducts();
+        List<BoardFileDTO> boardFileDTOList = new ArrayList<>();
+        log.info(">>>getRecentProducts >>>> {}",  boardList);
+
+        for (BoardVO boardVO : boardList) {
+            // 파일 정보를 가져오고 BoardFileDTO에 넣기
+            log.info(">>> boardVO >>>>> {} ", boardVO);
+            List<FileVO> files = fileMapper.getFileList(boardVO.getBoardId());
+            log.info(">>> files {}" , files);
+            BoardFileDTO boardFileDTO = new BoardFileDTO(boardVO, files);
+            boardFileDTOList.add(boardFileDTO);
+        }
+
+        return boardFileDTOList;
+    }
+
+    @Override
+    public List<BoardFileDTO> getRecommendedProducts() {
+        List<BoardVO> boardList = boardMapper.getRecommendedProducts();
+        List<BoardFileDTO> boardFileDTOList = new ArrayList<>();
+        log.info(">>>getRecommendedProducts >>>> {}",  boardList);
+
+        for (BoardVO boardVO : boardList) {
+            // 파일 정보를 가져오고 BoardFileDTO에 넣기
+            log.info(">>> boardVO >>>>> {} ", boardVO);
+            List<FileVO> files = fileMapper.getFileList(boardVO.getBoardId());
+            log.info(">>> files {}" , files);
+            BoardFileDTO boardFileDTO = new BoardFileDTO(boardVO, files);
+            boardFileDTOList.add(boardFileDTO);
+        }
+
+        return boardFileDTOList;
+    }
+
+    @Override
+    public List<BoardFileDTO> getPopularProducts() {
+        List<BoardVO> boardList = boardMapper.getPopularProducts();
+        List<BoardFileDTO> boardFileDTOList = new ArrayList<>();
+        log.info(">>>getPopularProducts >>>> {}",  boardList);
+
+        for (BoardVO boardVO : boardList) {
+            // 파일 정보를 가져오고 BoardFileDTO에 넣기
+            log.info(">>> boardVO >>>>> {} ", boardVO);
+            List<FileVO> files = fileMapper.getFileList(boardVO.getBoardId());
+            log.info(">>> files {}" , files);
+            BoardFileDTO boardFileDTO = new BoardFileDTO(boardVO, files);
+            boardFileDTOList.add(boardFileDTO);
+        }
+
+        return boardFileDTOList;
+    }
+
+    @Override
     public List<ReasonVO> getReasonList() {
         return reportMapper.getReasonList();
     }

@@ -334,8 +334,15 @@
     	var tempFile,
     		sUploadURL;
     	
-    	sUploadURL= '/board/multiFileUpload'; 	//upload URL
-    	
+//    	sUploadURL= '/board/multiFileUpload'; 	//upload URL
+
+    	   // 현재 페이지의 URL을 기반으로 업로드 경로를 동적으로 설정
+            if (window.location.pathname.includes("/qna")) {
+                sUploadURL = '/qna/multiFileUpload';  // QnA 게시판 경로
+            } else {
+                sUploadURL = '/board/multiFileUpload';  // 기본 게시판 경로
+            }
+
     	//파일을 하나씩 보내고, 결과를 받음.
     	for(var j=0, k=0; j < nImageInfoCnt; j++) {
     		tempFile = htImageInfo['img'+j];

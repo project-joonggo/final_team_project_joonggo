@@ -64,7 +64,7 @@ public class PaymentController {
             // 판매자에게 알림 보내기
             Long sellerId = boardService.getSellerIdByBoardId(boardId);  // 상품의 판매자 ID를 가져옵니다.
             String notificationMessage = "귀하의 상품 '" + productName + "'이(가) 판매되었습니다!";
-            notificationService.saveNotification(sellerId, notificationMessage, boardId);  // 판매자에게 알림 전송
+            notificationService.saveNotification(sellerId, notificationMessage, boardId, "SALE");  // 판매자에게 알림 전송
 
 
             response.put("message", "결제 정보 저장 완료");
