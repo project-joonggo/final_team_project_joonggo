@@ -25,6 +25,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -290,9 +291,16 @@ public class BoardController {
     }
 
     @GetMapping("/fraud")
-    public String fraud(Model model){
-        List<UserVO> userList = loginService.getList();
-        model.addAttribute("userList", userList);
+    public String fraud(Model model,
+                        @RequestParam(value = "keyword", required = false) String keyword){
+
+        List<Map<String, Object>> fraudUserList = null;
+
+        if (keyword != null && !keyword.trim().isEmpty()) {
+            fraudUserList = loginService.searchFraudUsers(keyword);
+        }
+
+        model.addAttribute("fraudUserList", fraudUserList);
         return "/board/fraud";
     }
 

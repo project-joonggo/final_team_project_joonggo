@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content">
+    <div class="container-md">
+        <div id="modifyUser">
+            <h2>내 정보 수정</h2>
+            <form action="/user/modify" method="post">
+                <div class="col">
+                    <div class="card border-dark mb-3" style="max-width: 540px;" th:with="auth=${#authentication.getPrincipal()}">
+                        <div class="row g-0">
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <input type="hidden" name="userNum" id="userNum" th:value="${auth.userVO.userNum }">
+                                    <h5 class="card-title">
+                                        <input type="text" name="userName" class="form-control" th:value="${auth.userVO.userName }">
+                                        <input type="text" name="password" class="form-control" placeholder="새 비밀번호">
+                                        <input type="text" name="birthYear" class="form-control" th:value="${auth.userVO.birthYear }">
+                                        <input type="text" name="birthMonth" class="form-control" th:value="${auth.userVO.birthMonth }">
+                                        <input type="text" name="birthDay" class="form-control" th:value="${auth.userVO.birthDay }">
+                                        <input type="text" name="address1" class="form-control" th:value="${auth.userVO.address1 }">
+                                        <input type="text" name="address2" class="form-control" th:value="${auth.userVO.address2 }">
+                                        <input type="text" name="address3" class="form-control" th:value="${auth.userVO.address3 }">
+                                        <input type="text" name="postCode" class="form-control" th:value="${auth.userVO.postCode }">
+                                        <input type="text" name="phone" class="form-control" th:value="${auth.userVO.phone }">
+                                        <button>
+                                            인증번호 받기
+                                        </button>
+                                        <input type="text">
+                                        <button>
+                                            인증확인
+                                        </button>
+                                    </h5>
+                                    <p class="card-text">[[${auth.userVO.userId }]] ([[${auth.userVO.regDate }]]) </p>
+                                    <span class="badge rounded-pill text-bg-success" th:each="auths:${auth.userVO.authList}">[[${auths.auth }]]</span>
+                                    <button type="submit" class="btn btn-primary btn-sm">수정</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>

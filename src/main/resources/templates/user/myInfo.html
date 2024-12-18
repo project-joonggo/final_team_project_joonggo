@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content">
+  <div class="container-md">
+    <div id="myInfo">
+      <h2>마이페이지</h2>
+      <div class="card border-dark mb-3" style="max-width: 540px;" th:with="auth=${#authentication.getPrincipal()}">
+
+        [[${auth}]]
+        <br><br>
+        [[${auth.userVO}]]
+      </div>
+
+      <a href="/payment/history" class="btn btn-danger">거래내역</a>
+      <a href="/user/modify" class="btn btn-danger">내정보수정</a>
+      <a href="/user/delete" class="btn btn-danger" onclick="return confirm('정말 탈퇴하시겠습니까?')">회원탈퇴</a>
+
+    </div>
+  </div>
+</div>

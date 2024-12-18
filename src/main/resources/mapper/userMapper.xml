@@ -56,4 +56,50 @@
     <update id="downScore">
         UPDATE user SET score = score - 1 WHERE user_num = #{userNum}
     </update>
+    <update id="updatePassword">
+        update user set password = #{encodedPassword} where user_id = #{userId} and signflag = 0;
+    </update>
+    <update id="modify">
+        update user set
+        password = #{password},
+        user_name = #{userName},
+        birth_year = #{birthYear},
+        birth_month = #{birthMonth},
+        birth_day = #{birthDay},
+        address_1 = #{address1},
+        address_2 = #{address2},
+        address_3 = #{address3},
+        post_code = #{postCode},
+        phone = #{phone}
+        where user_num = #{userNum}
+    </update>
+    <update id="delete">
+        update user set
+        is_del = 'Y'
+        where user_num = #{userNum}
+    </update>
+    <select id="searchFraudUsers" parameterType="string" resultType="map">
+        SELECT
+        u.user_num AS userNum,
+        u.user_name AS userName,
+        u.user_id AS userId,
+        u.phone AS phone,
+        COUNT(r.report_num) AS fraudCount,
+        rl.comp_content AS reasonName,
+        COUNT(rl.comp_content) AS reasonCount
+        FROM user u
+        JOIN reportlist r ON u.user_num = r.user_num
+        JOIN reasonlist rl ON r.report_comp_id = rl.comp_id
+        WHERE r.status = 'confirmed'
+        AND (
+        u.user_name LIKE CONCAT('%', #{keyword}, '%')
+        OR u.user_id LIKE CONCAT('%', #{keyword}, '%')
+        OR u.phone LIKE CONCAT('%', #{keyword}, '%')
+        OR u.address_1 LIKE CONCAT('%', #{keyword}, '%')
+        OR u.address_2 LIKE CONCAT('%', #{keyword}, '%')
+        OR u.address_3 LIKE CONCAT('%', #{keyword}, '%')
+        )
+        GROUP BY u.user_num, rl.comp_content
+        ORDER BY fraudCount DESC;
+    </select>
 </mapper>

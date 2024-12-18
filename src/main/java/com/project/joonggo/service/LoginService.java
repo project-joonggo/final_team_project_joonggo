@@ -3,6 +3,7 @@ package com.project.joonggo.service;
 import com.project.joonggo.domain.UserVO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface LoginService {
 
@@ -20,5 +21,11 @@ public interface LoginService {
 
     List<UserVO> findByNameAndEmail(String name, String email);
 
-    void updatePassword(String userId);
+    void updatePassword(String userId, String encodedPassword);
+
+    void modify(UserVO userVO);
+
+    void delete(long userNum);
+
+    List<Map<String, Object>> searchFraudUsers(String keyword);
 }

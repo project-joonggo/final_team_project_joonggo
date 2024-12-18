@@ -97,7 +97,7 @@ a {
     opacity: 0.3;
 }
 #searchBox {
-    width: 700px;
+    width: 600px;
     height: 48px;
     padding-left: 50px; /* 검색 아이콘 위치를 위한 패딩 */
     border: none;
@@ -331,7 +331,7 @@ a {
 #joinBox input::placeholder{
     color: rgba(117, 123, 128, 0.49);
 }
-#addressBtn, #phoneChk, #phoneChk2{
+#addressBtn, #phoneChk, #phoneChk2, #emailChk, #emailChk2{
     border: 1px solid black;
     height: 38px;
     border-radius: 0.375rem;

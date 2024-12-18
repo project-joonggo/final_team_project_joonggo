@@ -5,10 +5,50 @@
       layout:decorate="~{layout/layout}">
 <div layout:fragment="content">
     <div class="container-md" id="fraudWrap">
-        <h1>사기꾼 조회</h1>
+        <h1>안전하고 편리한 중고거래 서비스</h1>
+        <hr>
+        <h2>통합 사기조회</h2>
+        <h3>사기 피해사례를 조회할 수 있어요.</h3>
+        <form action="/board/fraud" method="get" class="d-flex" role="search">
+            <div id="searchArea">
+                <img id="searchImg" src="/img/search.svg" alt="Search Icon">
+                <input id="searchBox" class="form-control me-2" name="keyword" type="search" placeholder="이름, 이메일, 휴대폰번호, 주소 입력"
+                       aria-label="Search">
+            </div>
+        </form>
 
-        <!-- 테이블 시작 -->
-        <table class="table table-striped">
+        <!-- 검색 결과 -->
+        <div th:if="${fraudUserList != null and not #lists.isEmpty(fraudUserList)}">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>이름</th>
+                    <th>이메일</th>
+                    <th>전화번호</th>
+                    <th>총 사기 횟수</th>
+                    <th>사기 사유</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${fraudUserList}">
+                    <td th:text="${user.userName}"></td>
+                    <td th:text="${user.userId}"></td>
+                    <td th:text="${user.phone}"></td>
+                    <td th:text="${user.fraudCount}"></td>
+                    <td>
+                        <span th:text="${user.reasonName} + ' (' + ${user.reasonCount} + '회)'"></span>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div th:if="${fraudUserList == null or #lists.isEmpty(fraudUserList)}">
+            <p>검색된 사기 이력이 없습니다.</p>
+        </div>
+
+
+<!--/*        <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col">유저 번호</th>
@@ -21,7 +61,6 @@
             </tr>
             </thead>
             <tbody>
-            <!-- userVO 리스트 출력 -->
             <tr th:each="user : ${userList}">
                 <td th:text="${user.userNum}"></td>
                 <td th:text="${user.userId}"></td>
@@ -32,7 +71,6 @@
                 <td th:text="${user.regDate}"></td>
             </tr>
             </tbody>
-        </table>
-        <!-- 테이블 끝 -->
+        </table> */-->
     </div>
 </div>

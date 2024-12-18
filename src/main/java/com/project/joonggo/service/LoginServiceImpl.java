@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -74,8 +75,24 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public void updatePassword(String userId) {
-        userMapper.updatePassword(userId);
+    public void updatePassword(String userId, String encodedPassword) {
+        userMapper.updatePassword(userId, encodedPassword);
     }
+
+    @Override
+    public void modify(UserVO userVO) {
+        userMapper.modify(userVO);
+    }
+
+    @Override
+    public void delete(long userNum) {
+        userMapper.delete(userNum);
+    }
+
+    @Override
+    public List<Map<String, Object>> searchFraudUsers(String keyword) {
+        return userMapper.searchFraudUsers(keyword);
+    }
+
 
 }

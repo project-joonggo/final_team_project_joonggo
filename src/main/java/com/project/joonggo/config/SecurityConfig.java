@@ -36,7 +36,7 @@ public class SecurityConfig {
                                         "/comment/list/**", "/smarteditor/**", "/user/kakao/**", "/user/google/**",
                                         "/user/naver/**","/chat/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult",
                                         "/user/mailSend", "/user/mailCheck", "/board/report", "/board/fraud",
-                                        "/user/findPassword").permitAll()
+                                        "/user/findPassword", "/user/updatePassword").permitAll()
     /*                    .requestMatchers("/**").permitAll()*/
                                 .requestMatchers("/ws/**", "/notifications/**","/notice/**").permitAll() // WebSocket 경로 허용
                                 .requestMatchers("/user/list").hasAnyRole("ADMIN")
@@ -46,7 +46,7 @@ public class SecurityConfig {
                         .usernameParameter("username")
                         .passwordParameter("password")
                         .loginPage("/user/login")
-                        .defaultSuccessUrl("/board/list")
+                        .defaultSuccessUrl("/")
                         .permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2

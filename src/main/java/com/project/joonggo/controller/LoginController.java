@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -103,9 +104,11 @@ public class LoginController {
     }
     //비밀번호 재설정
     @PostMapping("/updatePassword")
-    public String updatePassword(@RequestParam("userId") String userId){
-        loginService.updatePassword(userId);
-        return "/user/login";
+    public String updatePassword(@RequestParam("userId") String userId,
+    @RequestParam("newPassword") String newPassword){
+        String encodedPassword = passwordEncoder.encode(newPassword);
+        loginService.updatePassword(userId, encodedPassword);
+        return "redirect:/user/login";
     }
 
     //휴대폰 인증
@@ -139,6 +142,30 @@ public class LoginController {
         log.info("저장된 인증번호: {}", mailAuthNumber); // 로그로 확인
         boolean isMatch = userNumber.equals(String.valueOf(mailAuthNumber));
         return ResponseEntity.ok(isMatch);
+    }
+
+    //마이 페이지
+    @GetMapping("/myInfo")
+    public String myInfo(){
+        return "/user/myInfo";
+    }
+    @GetMapping("/modify")
+    public String modify(){
+        return "/user/modify";
+    }
+    //내정보 수정
+    @PostMapping("/modify")
+    public String modify(UserVO userVO){
+        userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
+        loginService.modify(userVO);
+        return "redirect:/user/logout";
+    }
+    //회원 탈퇴
+    @GetMapping("/delete")
+    public String delete(Principal principal){
+        long userNum = Long.parseLong(principal.getName()); // 문자열을 long으로 변환
+        loginService.delete(userNum); // 수정된 서비스 호출
+        return "redirect:/user/logout";
     }
 
     //////////////////////////
