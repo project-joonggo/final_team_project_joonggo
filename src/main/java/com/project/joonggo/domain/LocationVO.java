@@ -9,4 +9,5 @@ import lombok.*;
 @NoArgsConstructor
 public class LocationVO {
     private String streetAddress;
+    private String parsedAddress;
 }

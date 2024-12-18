@@ -135,6 +135,7 @@ a {
     content: none; /* 마지막 항목에서 :after 제거 */
 }
 #category{
+    width: 110px;
     background-color: #A0173B;
     padding: 15px;
     font-size: 16px;
@@ -154,6 +155,7 @@ a {
     padding-top: 10px;
 }
 #headerBot nav{
+    width: 1280px;
     padding-left: 40px;
     font-size: 18px;
     color: #A0173B;
@@ -179,6 +181,30 @@ a {
 }
 #headerBot nav a:hover::after{
     width: 100%;
+}
+
+/* header - address & weather */
+.weather-container {
+    display: flex;
+    align-items: center; /* 세로 정렬 */
+    gap: 10px; /* 요소 간 간격 */
+    margin-left: auto; /* 오른쪽 끝으로 정렬 */
+    height: 50px;
+}
+.address-bold{
+    color: #212529;
+    font-size: 27px;
+    font-weight: 700;
+}
+.weather-icon{
+    width: 80px;
+    height: 80px;
+}
+.weather-tmp{
+    color: #212529;
+}
+.map-hidden{
+    visibility: hidden;
 }
 
 /* footer */

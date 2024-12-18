@@ -109,7 +109,7 @@ public class WeatherService {
                 weather.put("weather_description", jsonResponse.getJSONArray("weather").getJSONObject(0).getString("description"));
 
                 BigDecimal temp = jsonResponse.getJSONObject("main").getBigDecimal("temp");
-                BigDecimal tempCelsius = BigDecimal.valueOf(temp.doubleValue() - 273.15).setScale(2, RoundingMode.HALF_UP); // 소수점 둘째 자리에서 반올림
+                BigDecimal tempCelsius = BigDecimal.valueOf(temp.doubleValue() - 273.15).setScale(0, RoundingMode.HALF_UP);
 
                 weather.put("temperature", String.valueOf(tempCelsius));
 

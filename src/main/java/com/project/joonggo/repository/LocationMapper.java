@@ -4,5 +4,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface LocationMapper {
-    String getStreetAddress(String userId);
+    String getStreetAddress(int userNum);
 }
