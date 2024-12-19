@@ -85,5 +85,10 @@ public class QnaServiceImpl implements QnaService{
         return qnaMapper.getMaxQnaId();
     }
 
+    @Override
+    public List<QnaVO> getMyList(Long userNum) {
+        return qnaMapper.getMyList(userNum);
+    }
+
 
 }

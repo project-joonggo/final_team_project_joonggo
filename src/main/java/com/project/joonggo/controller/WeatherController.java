@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
+import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -97,7 +98,6 @@ public class WeatherController {
         model.addAttribute("weather", weatherService.returnWeather(lanLon));
 
 
-
         // 1. 최근 등록된 상품 18개
         List<BoardFileDTO> recentProducts = boardService.getRecentProducts();
 
@@ -109,11 +109,11 @@ public class WeatherController {
 
         log.info(">>>> {}, {} , {} >> " , recentProducts,popularProducts,recommendedProducts);
 
+
         // 모델에 데이터 추가
         model.addAttribute("recentProducts", recentProducts);
         model.addAttribute("popularProducts", popularProducts);
         model.addAttribute("recommendedProducts", recommendedProducts);
-
 
 
 

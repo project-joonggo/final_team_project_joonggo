@@ -98,6 +98,17 @@ public class QnaController {
         return "/qna/list";
     }
 
+    @GetMapping("/my")
+    public String getMy(Model model, Principal principal){
+
+        Long userNum = Long.valueOf(principal.getName());
+
+        List<QnaVO> list = qnaService.getMyList(userNum);
+        model.addAttribute("list",list);
+
+        return "/qna/my";
+    }
+
     @GetMapping({"/detail","/modify"})
     public void detail(Model model, @RequestParam("qnaId") Long qnaId, HttpServletRequest request, Principal principal){
 

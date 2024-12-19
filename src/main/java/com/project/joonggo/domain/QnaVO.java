@@ -18,4 +18,5 @@ public class QnaVO {
     private String qnaContent; // qna_content
     private LocalDateTime regAt;        // reg_at
     private String isDel;      // is_del
+    private int answerCount;
 }

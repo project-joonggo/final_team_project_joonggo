@@ -42,10 +42,10 @@
     <div id="slide6_1" class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide" th:each="product : ${popularProducts}">
-          <a th:href="@{/board/detail?boardId=${product.boardVO.boardId}}">
+          <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
             <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
             <div class="item-title" th:text="${product.boardVO.boardName}"></div>
-            <div class="item-price" th:text="${product.boardVO.tradePrice}"></div>
+            <div class="item-price" th:text="${product.boardVO.formattedPrice}"></div>
             <div class="item-atc" th:text="${product.boardVO.regAt}"></div>
           </a>
         </div>
@@ -62,10 +62,10 @@
     <div id="slide6_2" class="swiper-container">
       <div class="swiper-wrapper">
         <div class="swiper-slide" th:each="product : ${recentProducts}">
-          <a th:href="@{/board/detail?boardId=${product.boardVO.boardId}}">
+          <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
             <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
             <div class="item-title" th:text="${product.boardVO.boardName}"></div>
-            <div class="item-price" th:text="${product.boardVO.tradePrice}"></div>
+            <div class="item-price" th:text="${product.boardVO.formattedPrice}"></div>
             <div class="item-atc" th:text="${product.boardVO.regAt}"></div>
           </a>
         </div>
@@ -82,10 +82,10 @@
       <div id="slide6_3" class="swiper-container">
         <div class="swiper-wrapper">
           <div class="swiper-slide" th:each="product : ${recommendedProducts}">
-            <a th:href="@{/board/detail?boardId=${product.boardVO.boardId}}">
+            <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
               <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
               <div class="item-title" th:text="${product.boardVO.boardName}"></div>
-              <div class="item-price" th:text="${product.boardVO.tradePrice}"></div>
+              <div class="item-price" th:text="${product.boardVO.formattedPrice}"></div>
               <div class="item-atc" th:text="${product.boardVO.regAt}"></div>
             </a>
           </div>

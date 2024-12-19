@@ -3,6 +3,7 @@ package com.project.joonggo.service;
 
 import com.project.joonggo.domain.AnswerVO;
 import com.project.joonggo.repository.AnswerMapper;
+import com.project.joonggo.repository.QnaMapper;
 import com.project.joonggo.repository.ReplyMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +17,15 @@ import java.util.List;
 public class AnswerServiceImpl implements AnswerService{
     private final AnswerMapper answerMapper;
     private final ReplyMapper replyMapper;
+    private final QnaMapper qnaMapper;
 
     @Override
     public int post(AnswerVO answerVO) {
+
+        log.info(">>>> answerVO >>> {}" , answerVO);
+
+        qnaMapper.updateAnswerCount(answerVO.getQnaId());
+
         return answerMapper.post(answerVO);
     }
 

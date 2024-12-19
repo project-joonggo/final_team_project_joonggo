@@ -27,4 +27,6 @@ public interface QnaService {
     Long getUserId(Long qnaId);
 
     Long getMaxQnaId();
+
+    List<QnaVO> getMyList(Long userNum);
 }

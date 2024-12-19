@@ -293,3 +293,6 @@ create table giftcon(
     end_date datetime,
     primary key(giftcon_id)
 );
+
+ALTER TABLE qna_board
+ADD COLUMN answer_count INT DEFAULT 0;

@@ -9,7 +9,7 @@
 
   <div class="container-md cBox">
 
-  [[${list}]]
+    [[${list}]]
     <table>
       <thead>
       <tr>
@@ -31,7 +31,7 @@
           <span th:if="${qnaVO.answerCount > 0}">답변완료</span>
           <span th:if="${qnaVO.answerCount == 0}">답변대기</span>
         </td>
-        <td th:text="${qnaVO.regAt}"></td>
+        <td th:text="${qnaVO.regAt}"></td> <!-- 수정해야해 -->
       </tr>
       </tbody>
     </table>

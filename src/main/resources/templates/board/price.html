@@ -37,7 +37,7 @@
         <div class="product-list">
             <!-- 최근 등록된 상품 20개 순회 -->
             <div th:each="product : ${recentProducts}" class="product-item">
-
+                <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
                 <!-- 상품 이미지 -->
                 <div class="product-image">
                     <img th:if="${product.fileVOList != null and !product.fileVOList.isEmpty()}"
@@ -55,6 +55,7 @@
                     <!-- 상품 등록일 -->
                     <p th:text="'등록일: ' + ${product.boardVO.regAt}"></p>
                 </div>
+                </a>
             </div>
         </div>
     </div>
