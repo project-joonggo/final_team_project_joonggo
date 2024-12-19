@@ -53,4 +53,8 @@ public interface BoardService {
     List<BoardFileDTO> getRecommendedProducts();
 
     List<BoardFileDTO> getPopularProducts();
+
+    int getMyTotal(PagingVO pgvo, long userNum);
+
+    List<BoardFileDTO> getMyList(PagingVO pgvo, long userNum);
 }

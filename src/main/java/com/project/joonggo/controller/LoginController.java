@@ -1,5 +1,6 @@
 package com.project.joonggo.controller;
 
+import com.project.joonggo.domain.BoardFileDTO;
 import com.project.joonggo.domain.PagingVO;
 import com.project.joonggo.domain.UserVO;
 import com.project.joonggo.handler.MailAuthHandler;
@@ -146,7 +147,15 @@ public class LoginController {
 
     //마이 페이지
     @GetMapping("/myInfo")
-    public String myInfo(){
+    public String myInfo(Model model, PagingVO pgvo, Principal principal){
+        int totalCount = boardService.getMyTotal(pgvo, Long.parseLong(principal.getName()));
+        PagingHandler ph = new PagingHandler(pgvo,totalCount);
+
+        List<BoardFileDTO> list = boardService.getMyList(pgvo, Long.parseLong(principal.getName()));
+
+        model.addAttribute("list", list);
+        model.addAttribute("ph", ph);
+
         return "/user/myInfo";
     }
     @GetMapping("/modify")

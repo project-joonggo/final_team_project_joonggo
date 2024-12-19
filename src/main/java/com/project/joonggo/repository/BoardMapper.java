@@ -47,4 +47,9 @@ public interface BoardMapper {
     List<BoardVO> getRecommendedProducts();
 
     List<BoardVO> getPopularProducts();
+
+    int getMyTotal(PagingVO pgvo, long userNum);
+
+    List<BoardVO> getMyBoardList(@Param("pgvo") PagingVO pgvo,
+                                 @Param("userNum") long userNum);
 }

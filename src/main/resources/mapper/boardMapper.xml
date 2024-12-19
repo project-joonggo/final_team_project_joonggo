@@ -136,4 +136,28 @@
         LIMIT 18;
     </select>
 
+    <select id="getMyTotal" resultType="int">
+        select count(board_id) from sellbuy_board
+        where is_del = 'N'
+        and seller_id = #{userNum}
+    </select>
+
+    <select id="getMyList" resultType="com.project.joonggo.domain.BoardFileDTO">
+        select * from sellbuy_board
+        WHERE is_del = 'N'
+        and seller_id = #{userNum}
+        order by board_id desc
+        limit #{pgvo.startIndex}, #{pgvo.qty}
+    </select>
+
+    <select id="getMyBoardList" resultType="com.project.joonggo.domain.BoardVO">
+        select * from sellbuy_board
+        WHERE is_del = 'N'
+        and seller_id = #{userNum}
+        order by board_id desc
+        limit #{pgvo.startIndex}, #{pgvo.qty}
+    </select>
+
+
+
 </mapper>

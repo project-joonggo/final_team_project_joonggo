@@ -245,4 +245,23 @@ public class BoardServiceImpl implements BoardService{
         }
     }
 
+    @Override
+    public int getMyTotal(PagingVO pgvo, long userNum) {
+        return boardMapper.getMyTotal(pgvo, userNum);
+    }
+
+    @Override
+    public List<BoardFileDTO> getMyList(PagingVO pgvo, long userNum) {
+        List<BoardVO> boardList = boardMapper.getMyBoardList(pgvo, userNum);
+        List<BoardFileDTO> boardFileDTOList = new ArrayList<>();
+
+        for (BoardVO boardVO : boardList) {
+            List<FileVO> files = fileMapper.getFileList(boardVO.getBoardId());
+            BoardFileDTO boardFileDTO = new BoardFileDTO(boardVO, files);
+            boardFileDTOList.add(boardFileDTO);
+        }
+
+        return boardFileDTOList;
+    }
+
 }

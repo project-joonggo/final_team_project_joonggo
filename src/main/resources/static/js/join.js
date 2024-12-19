@@ -77,6 +77,7 @@ document.getElementById("emailChk").addEventListener("click", function () {
         .then((data) => {
             if (data === "error") {
                 alert("이메일 발송에 실패했습니다. 다시 시도해주세요.");
+                emailInput.readOnly = false;
             } else {
                 // 이메일 발송 성공 후
                 checkInput.disabled = false;  // 인증번호 입력칸 활성화
@@ -88,6 +89,7 @@ document.getElementById("emailChk").addEventListener("click", function () {
         })
         .catch((error) => {
             console.error("Error:", error);
+            emailInput.readOnly = false;
         });
 });
 
@@ -247,11 +249,11 @@ function validateForm() {
         joinBtn.disabled = true;
         return;
     }
-/*    if (!checkNum) {
+    if (!checkNum) {
         finalMessage.textContent = "휴대폰 번호를 인증해 주세요.";
         joinBtn.disabled = true;
         return;
-    }*/
+    }
 
     // 모든 조건 충족
     finalMessage.textContent = ''; // 오류 메시지 초기화
@@ -266,3 +268,4 @@ address3.addEventListener('input', validateForm);
 address3.addEventListener('change', validateForm);
 passwordInput.addEventListener('input', validateForm);
 passwordCheckInput.addEventListener('input', validateForm);
+document.getElementById('phoneChk2').addEventListener('click', validateForm);
