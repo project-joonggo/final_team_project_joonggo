@@ -3,9 +3,10 @@ package com.project.joonggo.controller;
 
 import com.project.joonggo.domain.*;
 import com.project.joonggo.handler.FileDeleteHandler;
-import com.project.joonggo.handler.FileHandler;
 import com.project.joonggo.handler.ImageHandler;
 import com.project.joonggo.handler.QnaFileHandler;
+import com.project.joonggo.service.LoginService;
+import com.project.joonggo.service.NotificationService;
 import com.project.joonggo.service.QnaService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,8 @@ public class QnaController {
     private final QnaFileHandler qnaFileHandler;
     private final ImageHandler imageHandler;
     private final FileDeleteHandler fileDeleteHandler;
+    private final LoginService loginService;
+    private final NotificationService notificationService;
 
 
     @GetMapping("/main")
@@ -56,6 +59,17 @@ public class QnaController {
         long isOk = qnaService.register(qnaVO);
 
         log.info("isOk >>>> {}", isOk);
+
+        Long qnaId = qnaService.getMaxQnaId();
+
+        Long adminId = loginService.getAdminId();
+
+        // 알림 메시지 생성
+        String notificationMessage = "새로운 질문이 접수되었습니다. " + qnaVO.getCategory() + " 관련 답변을 남겨주세요." ;
+
+        // 알림을 관리자에게 보내기
+        notificationService.saveNotification(adminId, notificationMessage, qnaId, "QUESTION");
+
 
         return (isOk > 0) ? "/qna/main" : "redirect:/qna/register";
     }

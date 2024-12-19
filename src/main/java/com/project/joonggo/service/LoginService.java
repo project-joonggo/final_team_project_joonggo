@@ -30,4 +30,6 @@ public interface LoginService {
     List<Map<String, Object>> searchFraudUsers(String keyword);
 
     Long getAdminId();
+
+    String getUserName(long userNum);
 }

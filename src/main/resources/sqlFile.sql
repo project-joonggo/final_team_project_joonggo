@@ -211,6 +211,7 @@ CREATE TABLE qna_file (
                      );
  CREATE TABLE reply (
                          reply_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         writer_name varchar(255),
                          ano BIGINT, -- 부모 답변 번호 (answer 테이블의 ano)
                          user_num BIGINT, -- 대댓글 작성자 번호 (user 테이블의 user_num)
                          reply TEXT,           -- 대댓글 내용

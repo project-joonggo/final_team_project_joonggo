@@ -75,5 +75,15 @@ public class QnaServiceImpl implements QnaService{
         qnaMapper.qnaIsDelUpdate(qnaId);
     }
 
+    @Override
+    public Long getUserId(Long qnaId) {
+        return qnaMapper.getUserId(qnaId);
+    }
+
+    @Override
+    public Long getMaxQnaId() {
+        return qnaMapper.getMaxQnaId();
+    }
+
 
 }

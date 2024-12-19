@@ -23,4 +23,8 @@ public interface QnaService {
     void updateQnaContent(QnaVO qnaVO);
 
     void qnaIsDelUpdate(Long qnaId);
+
+    Long getUserId(Long qnaId);
+
+    Long getMaxQnaId();
 }

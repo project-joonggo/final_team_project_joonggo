@@ -35,7 +35,7 @@
 
 
     <!--/* 답변 라인 */-->
-    <th:block sec:authorize="isAuthenticated()">
+    <th:block sec:authorize="hasRole('ROLE_ADMIN')">
       <div class="answer">
 			<span id="answerWriter">관리자</span>
         <textarea id="answerText" placeholder="답변을 남겨주세요"></textarea>
@@ -60,15 +60,15 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h1 class="modal-title fs-5" id="cmtWriterMod">Writer</h1>
+            <h1 class="modal-title fs-5" id="asWriterMod">관리자</h1>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <input type="text" class="form-control" id="cmtTextMod">
+            <input type="text" class="form-control" id="asTextMod">
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" id="cmtModBtn" class="btn btn-primary">Save changes</button>
+            <button type="button" id="asModBtn" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
@@ -81,7 +81,7 @@
       let qnaVal = [[${qnaFileDTO.qnaVO.qnaId}]]
       console.log(qnaVal);
 
-      let userVal = [[${qnaFileDTO.qnaVO.userId}]]
+      let userVal = [[${#authentication.principal.userVO.userNum}]];
       console.log(userVal);
     </script>
 
@@ -95,6 +95,12 @@
 
          var isAdmin = rolesArray.includes('ROLE_ADMIN');
          console.log("Is Admin: " + isAdmin);
+
+         // 권한에 따라 writer 설정
+         let writerName = rolesArray.includes('ROLE_ADMIN') ? '관리자' : [[${#authentication.principal.userVO.userName}]];
+
+         console.log("Writer: " + writerName);  // writer 값 확인
+
       </script>
     </th:block>
 

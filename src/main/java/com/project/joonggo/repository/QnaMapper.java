@@ -18,4 +18,8 @@ public interface QnaMapper {
     void updateQnaContent(QnaVO qnaVO);
 
     void qnaIsDelUpdate(Long qnaId);
+
+    Long getUserId(Long qnaId);
+
+    Long getMaxQnaId();
 }

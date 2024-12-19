@@ -30,7 +30,7 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setMoveId(boardId);
         notification.setType(type);  // 타입을 파라미터로 받아서 설정
 
-        log.info(" >>> userId , msg , boardId, type>> > {}, {} , {}, {} " , userId,message,boardId, type);
+        log.info(" >>> userId , msg , moveId, type>> > {}, {} , {}, {} " , userId,message,boardId, type);
         log.info(">>> notification >> {}", notification);
 
         // 알림 DB에 저장
@@ -59,7 +59,14 @@ public class NotificationServiceImpl implements NotificationService {
                 targetUrl = "/board/detail?boardId=" + notification.getMoveId();  // 구매 관련 알림
             } else if ("REPORT".equals(notification.getType())) {
                 targetUrl = "/user/reportList";  // 신고 관련 알림
+            } else if ("ANSWER".equals(notification.getType())){
+                targetUrl = "/qna/detail?qnaId=" + notification.getMoveId();
+            } else if ("QUESTION".equals(notification.getType())){
+                targetUrl = "/qna/detail?qnaId=" + notification.getMoveId();
+            } else if ("REPLY".equals(notification.getType())){
+                targetUrl = "/qna/detail?qnaId=" + notification.getMoveId();
             }
+
             notification.setUrl(targetUrl);  // URL을 notification 객체에 설정
         }
 
@@ -85,6 +92,12 @@ public class NotificationServiceImpl implements NotificationService {
             targetUrl = "/board/detail?boardId=" + boardId;  // 구매 관련 알림은 /board/detail로 이동
         } else if ("REPORT".equals(type)) {
             targetUrl = "/user/reportList";  // 신고 관련 알림은 /user/reportList로 이동
+        } else if ("ANSWER".equals(type)){
+            targetUrl = "/qna/detail?qnaId=" + boardId;
+        } else if ("QUESTION".equals(type)){
+            targetUrl = "/qna/detail?qnaId=" + boardId;
+        } else if ("REPLY".equals(type)){
+            targetUrl = "/qna/detail?qnaId=" + boardId;
         }
 
         // 메시지에 HTML 링크 추가

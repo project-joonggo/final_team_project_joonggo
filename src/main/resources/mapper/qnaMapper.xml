@@ -38,5 +38,13 @@
         where qna_id = #{qnaId}
     </update>
 
+    <select id="getUserId" resultType="Long">
+        select user_id from qna_board where qna_id = #{qnaId}
+    </select>
+
+    <select id="getMaxQnaId" resultType="Long">
+        select MAX(qna_id) from qna_board
+    </select>
+
 
 </mapper>
