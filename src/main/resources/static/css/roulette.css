@@ -31,13 +31,13 @@
 }
 
 .roulette-container div{
-  font-size: 44px;
+  font-size: 48px;
   font-weight: 500;
   color: #CE4E6A;
 }
 
 .roulette-semiBold{
-  font-size: 52px;
+  font-size: 56px;
   font-weight: 600;
   color: #A0173B;
 }
@@ -71,6 +71,6 @@
   background: #000;
   top: -50px;
   left: 50%;
-  transform: translate(-50%, 360%);
+  transform: translate(-1%, 380%);
   z-index: 22;
 }

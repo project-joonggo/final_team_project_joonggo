@@ -2,11 +2,16 @@ const $c = document.querySelector("canvas");
 const ctx = $c.getContext(`2d`);
 
 
+// const product = [
+//   "당첨1", '꽝', "꽝", "당첨2", "꽝", "꽝", '당첨3', "꽝", "꽝",
+// ];
 const product = [
-  "떡볶이", '돈가스', "초밥", "피자", "냉면", "치킨", '족발', "피자", "삼겹살",
+  "당첨1", '꽝', "당첨2", "꽝", '당첨3', "꽝"
 ];
 
-const colors = ["#dc0936", "#e6471d", "#f7a416", "#efe61f ", "#60b236", "#209b6c", "#169ed8", "#3f297e", "#87207b", "#be107f", "#e7167b"];
+// const colors = ["#dc0936", "#e6471d", "#f7a416", "#efe61f ", "#60b236", "#209b6c", "#169ed8", "#3f297e", "#87207b", "#be107f", "#e7167b"];
+const colors = ["#dc0936", "#e6471d", "#f7a416", "#efe61f ", "#60b236", "#209b6c", "#169ed8", "#3f297e"];
+// const colors = ["#FFFFFF", "#dc0936", "#FFFFFF", "#efe61f", "#FFFFFF", "#169ed8", "#be107f", "#e7167b"];
 
 const newMake = () => {
     const [cw, ch] = [$c.width / 2, $c.height / 2];
@@ -21,14 +26,22 @@ const newMake = () => {
       ctx.closePath();
     }
 
-    ctx.fillStyle = "#fff";
-    ctx.font = "18px Pretendard";
+    // ctx.beginPath();
+    // ctx.strokeStyle = "#000";
+    // ctx.lineWidth = 5; 
+    // ctx.arc(cw, ch, cw, 0, Math.PI * 2);
+    // ctx.stroke();
+    // ctx.closePath();
+
+
+    ctx.fillStyle = "#000";
+    ctx.font = "24px Pretendard Variable";
     ctx.textAlign = "center";
 
     for (let i = 0; i < product.length; i++) {
       const angle = (arc * i) + (arc / 2);
 
-      ctx.save()  ;
+      ctx.save();
 
       ctx.translate(
         cw + Math.cos(angle) * (cw - 50),
@@ -58,8 +71,14 @@ const rotate = () => {
     
     $c.style.transform = `rotate(-${rotate}deg)`;
     $c.style.transition = `2s`;
-    
-    setTimeout(() => alert(`오늘의 야식은?! ${product[ran]} 어떠신가요?`), 2000);
+
+    setTimeout(() => {
+      if (product[ran] === "꽝") {
+        alert(`${product[ran]}! 아쉽지만 다음 기회에...`);
+      } else {
+        alert(`${product[ran]} 축하드립니다!`);
+      }
+    }, 2000);
   }, 1);
 };
 
