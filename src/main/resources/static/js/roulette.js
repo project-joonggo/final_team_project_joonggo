@@ -59,27 +59,40 @@ const newMake = () => {
 }
 
 const rotate = () => {
-  $c.style.transform = `initial`;
-  $c.style.transition = `initial`;
-  
-  setTimeout(() => {
-    
-    const ran = Math.floor(Math.random() * product.length);
-
-    const arc = 360 / product.length;
-    const rotate = (ran * arc) + 3600 + (arc * 3) - (arc/4);
-    
-    $c.style.transform = `rotate(-${rotate}deg)`;
-    $c.style.transition = `2s`;
+    $c.style.transform = `initial`;
+    $c.style.transition = `initial`;
 
     setTimeout(() => {
-      if (product[ran] === "꽝") {
-        alert(`${product[ran]}! 아쉽지만 다음 기회에...`);
-      } else {
-        alert(`${product[ran]} 축하드립니다!`);
-      }
-    }, 2000);
-  }, 1);
+        const ran = Math.floor(Math.random() * product.length);
+        const arc = 360 / product.length;
+        const rotate = (ran * arc) + 3600 + (arc * 3) - (arc / 4);
+
+        $c.style.transform = `rotate(-${rotate}deg)`;
+        $c.style.transition = `2s`;
+
+        setTimeout(() => {
+            const result = product[ran];
+            alert(result === "꽝" ? `${result}! 아쉽지만 다음 기회에...` : `${result} 축하드립니다!`);
+
+            // 서버로 결과 전송
+            fetch("/event/roulette", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({ result }), // 결과 전송
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.success) {
+                        console.log("DB 기록 성공:", data.message);
+                    } else {
+                        console.error("DB 기록 실패:", data.error);
+                    }
+                })
+                .catch((err) => console.error("서버 오류:", err));
+        }, 2000);
+    }, 1);
 };
 
 newMake();

@@ -241,3 +241,20 @@ ADD COLUMN move_id bigint;
 
 ALTER TABLE notifications
 ADD COLUMN type VARCHAR(50) NOT NULL DEFAULT 'DEFAULT';
+
+-- 241219
+create table event(
+                      event_id bigint auto_increment,
+                      user_num bigint,
+                      type varchar(20),
+                      reg_at datetime default now(),
+                      primary key(event_id)
+);
+create table giftcon(
+    giftcon_id bigint auto_increment,
+    giftcon_name varchar(256),
+    user_num bigint,
+    reg_at datetime default now(),
+    end_date datetime,
+    primary key(giftcon_id)
+);

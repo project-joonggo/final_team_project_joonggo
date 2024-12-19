@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.joonggo.repository.EventMapper">
+    <insert id="insertParticipation" parameterType="com.project.joonggo.domain.EventVO">
+        INSERT INTO event (user_num, type)
+        VALUES (#{userNum}, #{type});
+    </insert>
+    <insert id="insertGiftcon" parameterType="com.project.joonggo.domain.GiftconVO">
+        INSERT INTO giftcon (user_num)
+        VALUES (#{userNum});
+    </insert>
+    <select id="checkTodayRoulette" resultType="int" parameterType="com.project.joonggo.domain.EventVO">
+        SELECT COUNT(*)
+        FROM event
+        WHERE user_num = #{userNum}
+        AND DATE(reg_time) = CURDATE();
+    </select>
+</mapper>

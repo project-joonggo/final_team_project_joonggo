@@ -1,6 +1,5 @@
 package com.project.joonggo.service;
 
-import com.project.joonggo.domain.AuthVO;
 import com.project.joonggo.domain.UserVO;
 import com.project.joonggo.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
