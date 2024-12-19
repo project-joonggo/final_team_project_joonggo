@@ -15,6 +15,8 @@
         <label for="b" class="form-label">상품명</label>
         <input type="text" class="form-control" id="b" name="boardName" th:value="${boardVO.boardName}">
       </div>
+      <!-- boardFormType 이라는 hidden input 추가 -->
+      <input type="hidden" id="formType" value="board">
       <div class="mb-3">
         <label for="inputGroupSelect01" class="form-label">카테고리</label>
         <select class="form-select form-select-sm" id="inputGroupSelect01" name="category" required>

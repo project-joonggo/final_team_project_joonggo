@@ -44,4 +44,6 @@ public interface UserMapper {
     void delete(long userNum);
 
     List<Map<String, Object>> searchFraudUsers(String keyword);
+
+    String getUserName(long userNum);
 }

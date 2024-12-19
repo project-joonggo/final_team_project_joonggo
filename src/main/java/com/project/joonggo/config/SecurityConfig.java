@@ -36,8 +36,8 @@ public class SecurityConfig {
                                         "/comment/list/**", "/smarteditor/**", "/user/kakao/**", "/user/google/**",
                                         "/user/naver/**","/chat/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult",
                                         "/user/mailSend", "/user/mailCheck", "/board/report", "/board/fraud",
-                                        "/user/findPassword", "/user/updatePassword").permitAll()
-/*                        .requestMatchers("/**").permitAll()*/
+                                        "/user/findPassword", "/user/updatePassword","/qna/**","/answer/**").permitAll()
+    /*                    .requestMatchers("/**").permitAll()*/
                                 .requestMatchers("/ws/**", "/notifications/**","/notice/**").permitAll() // WebSocket 경로 허용
                                 .requestMatchers("/user/list").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()

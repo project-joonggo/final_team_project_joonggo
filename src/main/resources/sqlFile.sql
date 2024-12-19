@@ -183,6 +183,41 @@ CREATE TABLE notifications (
                         status VARCHAR(20) DEFAULT 'UNREAD',  -- 읽음 상태 (읽음, 안읽음)
                         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
                           );
+CREATE TABLE qna_board (
+                            qna_id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+                            user_id BIGINT DEFAULT NULL,
+                            category VARCHAR(256) NOT NULL,
+                            qna_name VARCHAR(256) NOT NULL,
+                            qna_content TEXT,
+                            reg_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                            is_del VARCHAR(5) DEFAULT 'N'
+                        );
+CREATE TABLE qna_file (
+                        uuid VARCHAR(256) NOT NULL PRIMARY KEY,
+                        qna_id BIGINT NOT NULL,
+                        save_dir VARCHAR(256) DEFAULT NULL,
+                        file_name VARCHAR(256) DEFAULT NULL,
+                        file_type INT DEFAULT 0,
+                        file_size BIGINT DEFAULT NULL,
+                        reg_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+                        file_url VARCHAR(512) DEFAULT NULL
+                    );
+ CREATE TABLE answer (
+                         ano BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         qna_id BIGINT, -- 질문 번호 (qna 테이블의 ID)
+                         user_num BIGINT, -- 사용자 번호 (user 테이블의 ID)
+                         answer TEXT,         -- 답변 내용
+                         reg_at DATETIME DEFAULT NOW()     -- 답변 등록 시간
+                     );
+ CREATE TABLE reply (
+                         reply_id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                         writer_name varchar(255),
+                         ano BIGINT, -- 부모 답변 번호 (answer 테이블의 ano)
+                         user_num BIGINT, -- 대댓글 작성자 번호 (user 테이블의 user_num)
+                         reply TEXT,           -- 대댓글 내용
+                         reg_at DATETIME DEFAULT NOW()     -- 대댓글 등록 시간
+                     );
+
 -----------------------------------------------------
 -- 241205
 alter table user add column social_id varchar(256);

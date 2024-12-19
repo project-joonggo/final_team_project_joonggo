@@ -7,13 +7,15 @@
 
 <div layout:fragment="content">
     <div class="container-md cBox" style="margin-top : 50px;" >
-        <h1 style="color: white;">Product Register Page</h1>
+        <h1>Product Register Page</h1>
         <hr>
         <form action="/board/register" method="post"  enctype="multipart/form-data">
             <div class="mb-3">
                 <label for="b" class="form-label">상품명</label>
                 <input type="text" class="form-control" id="b" name="boardName" placeholder="상품명">
             </div>
+            <!-- boardFormType 이라는 hidden input 추가 -->
+            <input type="hidden" id="formType" value="board">
             <div class="mb-3">
                 <label for="inputGroupSelect01" class="form-label">카테고리</label>
                 <select class="form-select form-select-sm" id="inputGroupSelect01" name="category" required>

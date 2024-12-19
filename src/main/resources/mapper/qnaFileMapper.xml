@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.joonggo.repository.QnaFileMapper">
+
+    <insert id="fileUpload">
+        <foreach collection="flist" item="file" separator=",">
+            insert into qna_file(uuid, save_dir, file_name, file_type, qna_id, file_size, file_url)
+            values(#{file.uuid}, #{file.saveDir}, #{file.fileName}, #{file.fileType}, 0, #{file.fileSize}, #{file.fileUrl})
+        </foreach>
+    </insert>
+
+    <update id="setQnaId">
+        update qna_file set qna_id = #{qnaId} where qna_id = 0
+    </update>
+
+    <select id="getList" resultType="com.project.joonggo.domain.QnaVO">
+        select * from qna_board  WHERE is_del = 'N' order by qna_id desc
+    </select>
+
+    <select id="getFileList" resultType="com.project.joonggo.domain.QnaFileVO">
+        select * from qna_file where qna_id = ${qnaId}
+    </select>
+
+    <update id="deleteFileFromDB">
+        DELETE FROM qna_file
+        WHERE uuid = #{uuid}
+    </update>
+
+
+</mapper>

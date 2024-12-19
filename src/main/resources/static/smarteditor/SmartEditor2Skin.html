@@ -9,11 +9,36 @@
 <style type="text/css">
 	body { margin: 10px; }
 </style>
+
+<script>
+		window.onload = function() {
+
+			window.addEventListener("message", function(event) {
+				// 부모 페이지에서 보내는 메시지가 formType을 포함하고 있는지 확인
+				if (event.data && event.data.formType) {
+					var formType = event.data.formType;  // formType 값을 추출
+					console.log("Received formType:", formType);  // 확인을 위해 출력
+
+					var currentUrl = new URL(window.location.href);  // 현재 URL을 가져옵니다.
+					currentUrl.searchParams.set('formType', formType);  // formType 파라미터 추가
+
+					// URL을 변경 (브라우저 주소 표시줄에만 영향을 미침)
+					window.history.pushState({}, '', currentUrl.href);
+
+					console.log("Updated URL with formType:", currentUrl.href);
+
+				}
+			}, false);
+
+        };
+</script>
+
 <script type="text/javascript" src="./js/lib/jindo2.all.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/lib/jindo_component.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/SE2M_Configuration.js" charset="utf-8"></script>	<!-- 설정 파일 -->
 <script type="text/javascript" src="./js/SE2BasicCreator.js" charset="utf-8"></script>
 <script type="text/javascript" src="./js/smarteditor2.min.js" charset="utf-8"></script>
+
 
 <!-- 사진첨부샘플  --> 
 <script type="text/javascript" src="./sample/js/plugin/hp_SE2M_AttachQuickPhoto.js" charset="utf-8"></script>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+
+<div layout:fragment="content">
+
+  <div class="container-md cBox">
+
+  [[${list}]]
+    <table>
+      <thead>
+      <tr>
+        <th>문의명</th>
+        <th>문의 카테고리</th>
+        <th>답변여부</th>
+        <th>답변날짜</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="qnaVO : ${list}">
+        <td>
+          <a th:href="@{/qna/detail(qnaId=${qnaVO.qnaId})}">
+            <span th:text="${qnaVO.qnaName}"></span>
+          </a>
+        </td>
+        <td th:text="${qnaVO.category}"></td>
+        <td>
+        추가예정
+        </td>
+        <td th:text="${qnaVO.regAt}"></td> <!-- 수정해야해 -->
+      </tr>
+      </tbody>
+    </table>
+
+
+  </div>
+</div>

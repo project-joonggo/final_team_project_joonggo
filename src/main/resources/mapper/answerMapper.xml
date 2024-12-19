@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.joonggo.repository.AnswerMapper">
+
+    <insert id="post">
+        insert into answer(qna_id, user_num, answer)
+        values(#{qnaId},#{userNum},#{answer})
+    </insert>
+
+    <select id="getAsList" resultType="com.project.joonggo.domain.AnswerVO">
+        select * from answer where qna_id = #{qnaId}
+        order by ano desc
+    </select>
+
+    <update id="modify">
+        update answer set answer = #{answer}
+        where ano = #{ano}
+    </update>
+
+    <delete id="delete">
+        delete from answer where ano = #{ano}
+    </delete>
+
+    <select id="getQnaId" resultType="Long">
+        select qna_id from answer where ano = #{ano}
+    </select>
+
+
+</mapper>
