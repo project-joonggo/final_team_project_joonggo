@@ -10,30 +10,38 @@
 
 
 <div layout:fragment="content">
-
     <div class="container-md">
-
         <!-- 상품명 검색 부분 -->
-        <h1>상품 시세 조회</h1>
-        <form action="/board/price" class="d-flex" role="search">
-            <div id="searchArea">
-                <img id="searchImg" src="/img/search.svg" alt="Search Icon">
-                <input id="searchBox" class="form-control me-2" name="keyword" type="search" placeholder="어떤 상품을 찾으시나요?"
-                       aria-label="Search"  th:value="${keyword != null ? keyword : ''}">
-            </div>
+        <div class="price-container">
+            <div class="price-title">시세 조회</div>
+            <div class="price-subTitle">원하시는 상품이 얼마에 거래되고 있는지 알아보세요</div>
+            <!--class="d-flex"-->
+            <form action="/board/price" role="search">
+                <div class="price-searchBar">
+                    <!--class="form-control me-2"-->
+<!--                    <img src="/img/search.svg" alt="Search Icon" class="price-searchIcon">-->
+                    <!--aria-label="Search"-->
+                    <input name="keyword" type="search" placeholder="어떤 시세 정보가 궁금하세요?" class="price-searchBox" th:value="${keyword != null ? keyword : ''}">
+                </div>
+            </form>
+        </div>
 
-        </form>
+        <div class="product-title">최근 등록된 상품</div>
+
+        <hr>
+
+        <div class="product-subTitle">최근 등록된 상품의 가격을 비교해봤어요</div>
 
         <!-- 시세 정보 표시 부분 -->
-        <div>
-            <h3>시세 정보</h3>
-            <p>평균 가격: <span th:text="${averagePrice}"></span></p>
-            <p>최대 가격: <span th:text="${maxPrice}"></span></p>
-            <p>최소 가격: <span th:text="${minPrice}"></span></p>
+        <div class="product-priceContainer">
+            <div class="product-priceBox"><span class="product-priceName">평균 가격</span><span th:text="${averagePrice} + '원'" class="product-price"></span></div>
+            <div class="product-divider"></div>
+            <div class="product-priceBox"><span class="product-priceName">최대 가격</span><span th:text="${maxPrice} + '원'" class="product-price"></span></div>
+            <div class="product-divider"></div>
+            <div class="product-priceBox"><span class="product-priceName">최소 가격</span><span th:text="${minPrice} + '원'" class="product-price"></span></div>
         </div>
 
         <!-- 검색된 상품 리스트 부분 -->
-        <p style="font-size : 40px; padding: 20px;"> 최근 등록된 상품 (20개)</p>
         <div class="product-list">
             <!-- 최근 등록된 상품 20개 순회 -->
             <div th:each="product : ${recentProducts}" class="product-item">
@@ -44,21 +52,19 @@
                          th:src="@{${product.fileVOList[0].fileUrl}}" alt="상품 이미지" />
                 </div>
 
-                <!-- 상품 정보 -->
-                <div class="product-details">
-                    <!-- 상품 제목 -->
-                    <h4 th:text="${product.boardVO.boardName}"></h4>
+                <!-- 상품 제목 -->
+                <div th:text="${product.boardVO.boardName}" class="item-title"></div>
 
-                    <!-- 상품 가격 -->
-                    <p th:text="'가격: ' + ${product.boardVO.tradePrice} + '원'"></p>
+                <!-- 상품 가격 -->
+                <div th:text="'가격: ' + ${product.boardVO.tradePrice} + '원'" class="item-price"></div>
 
-                    <!-- 상품 등록일 -->
-                    <p th:text="'등록일: ' + ${product.boardVO.regAt}"></p>
-                </div>
+                <!-- 상품 등록일 -->
+                <div th:text="'등록일: ' + ${product.boardVO.regAt}" class="item-atc"></div>
+
             </div>
         </div>
     </div>
 
-
+    <hr style="visibility: hidden; margin-bottom: 120px;">
 
 </div>

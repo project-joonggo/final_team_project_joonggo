@@ -2,16 +2,15 @@ const $c = document.querySelector("canvas");
 const ctx = $c.getContext(`2d`);
 
 
-// const product = [
-//   "당첨1", '꽝', "꽝", "당첨2", "꽝", "꽝", '당첨3', "꽝", "꽝",
-// ];
 const product = [
-  "당첨1", '꽝', "당첨2", "꽝", '당첨3', "꽝"
+  "당첨1", '꽝', "꽝", "당첨2", "꽝", "꽝", '당첨3', "꽝", "꽝",
 ];
+// const product = [
+//   "당첨1", '꽝', "당첨2", "꽝", '당첨3', "꽝"
+// ];
 
-// const colors = ["#dc0936", "#e6471d", "#f7a416", "#efe61f ", "#60b236", "#209b6c", "#169ed8", "#3f297e", "#87207b", "#be107f", "#e7167b"];
-const colors = ["#dc0936", "#e6471d", "#f7a416", "#efe61f ", "#60b236", "#209b6c", "#169ed8", "#3f297e"];
-// const colors = ["#FFFFFF", "#dc0936", "#FFFFFF", "#efe61f", "#FFFFFF", "#169ed8", "#be107f", "#e7167b"];
+const colors = ["#dc0936", "#e6471d", "#f7a416", "#efe61f ", "#60b236", "#209b6c", "#169ed8", "#3f297e", "#87207b", "#be107f", "#e7167b"];
+// const colors = ["#dc0936", "#e6471d", "#f7a416", "#efe61f ", "#60b236", "#209b6c", "#169ed8", "#3f297e"];
 
 const newMake = () => {
     const [cw, ch] = [$c.width / 2, $c.height / 2];
@@ -34,7 +33,7 @@ const newMake = () => {
     // ctx.closePath();
 
 
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = "#fff";
     ctx.font = "24px Pretendard Variable";
     ctx.textAlign = "center";
 
@@ -65,7 +64,6 @@ const rotate = () => {
   setTimeout(() => {
     
     const ran = Math.floor(Math.random() * product.length);
-
     const arc = 360 / product.length;
     const rotate = (ran * arc) + 3600 + (arc * 3) - (arc/4);
     
@@ -78,6 +76,9 @@ const rotate = () => {
       } else {
         alert(`${product[ran]} 축하드립니다!`);
       }
+
+      // 서버로 데이터 전송 부분을 제거하고 콘솔에 출력만 하기
+      console.log("선택된 항목:", product[ran]);
     }, 2000);
   }, 1);
 };
