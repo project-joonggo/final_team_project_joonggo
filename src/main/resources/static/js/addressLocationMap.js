@@ -32,8 +32,10 @@
 
           // 정상적으로 검색이 완료됐으면 
             if (status === kakao.maps.services.Status.OK) {
-              // header 출력용 sessionStorage
-              sessionStorage.setItem('userStreetAddress', streetAddress);
+              // // header 출력용 sessionStorage
+              // if (!sessionStorage.getItem('userStreetAddress') || sessionStorage.getItem('userStreetAddress') === 'null') {
+                sessionStorage.setItem('userStreetAddress', streetAddress); 
+              // }
               sessionStorage.setItem('userParsedAddress', parsedAddress);
               // 날씨 정보를 sessionStorage에 저장
               sessionStorage.setItem('userWeatherIcon', weatherIcon);

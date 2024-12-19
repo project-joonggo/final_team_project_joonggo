@@ -101,7 +101,7 @@
         </div>
 
         <nav class="d-flex justify-content-between align-items-center gap-4">
-            <div><a href="">이벤트</a></div>
+            <div><a href="/event/list">이벤트</a></div>
             <div><a href="/board/fraud">사기조회</a></div>
             <div><a href="/board/price">시세조회</a></div>
             <div><a href="/wish/list">찜한상품</a></div>
@@ -113,7 +113,7 @@
                 <!-- 로그인 시 주소 위치 띄우기 -->
                 <div sec:authorize="isAuthenticated()" class="address-bold" id="parsedAddress"></div>
 
-                <form id="addressForm" th:action="@{/}" method="get" style="display: none;">
+                <form id="addressForm" th:action="@{/}" method="get" class="address-input">
                     <input id="addressInput" name="address" type="text"/>
                 </form>
 
