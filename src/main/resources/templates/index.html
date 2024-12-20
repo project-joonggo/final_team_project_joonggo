@@ -45,7 +45,7 @@
           <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
             <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
             <div class="item-title" th:text="${product.boardVO.boardName}"></div>
-            <div class="item-price" th:text="${product.boardVO.formattedPrice}"></div>
+            <div class="item-price" th:text="${product.boardVO.formattedPrice} + '원'"></div>
             <div class="item-atc" th:text="${product.boardVO.regAt}"></div>
           </a>
         </div>
@@ -65,7 +65,7 @@
           <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
             <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
             <div class="item-title" th:text="${product.boardVO.boardName}"></div>
-            <div class="item-price" th:text="${product.boardVO.formattedPrice}"></div>
+            <div class="item-price" th:text="${product.boardVO.formattedPrice} + '원'"></div>
             <div class="item-atc" th:text="${product.boardVO.regAt}"></div>
           </a>
         </div>
@@ -85,7 +85,7 @@
             <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
               <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
               <div class="item-title" th:text="${product.boardVO.boardName}"></div>
-              <div class="item-price" th:text="${product.boardVO.formattedPrice}"></div>
+              <div class="item-price" th:text="${product.boardVO.formattedPrice} + '원'"></div>
               <div class="item-atc" th:text="${product.boardVO.regAt}"></div>
             </a>
           </div>
