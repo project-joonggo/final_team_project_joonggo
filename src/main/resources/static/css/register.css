@@ -1,0 +1,98 @@
+.register-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 60px;
+}
+.register-area {
+    margin-bottom: 30px; /* 입력 창 그룹 간 여백 */
+}
+
+.register-name {
+    display: block; /* label을 블록 요소로 설정 */
+    margin-bottom: 16px; /* input 위에 여백 */
+    font-size: 14px; /* label 크기 조정 */
+    font-weight: 500;
+}
+
+.register-input {
+    width: 728px; /* 입력 창 너비 */
+    height: 48px; /* 입력 창 높이 */
+    padding: 8px 20px; /* 상하 8px, 좌우 20px */
+    font-size: 16px; /* 입력 텍스트 크기 */
+    border: 1px solid #ccc; /* 테두리 추가 */
+    border-radius: 4px; /* 둥근 모서리 */
+    box-sizing: border-box; /* padding 포함한 크기 설정 */
+}
+
+#smarteditor textarea {
+    width: 727px; /* 부모 컨테이너의 너비를 기준으로 설정 */
+    max-width: 728px; /* 최대 너비 설정 (필요 시) */
+}
+
+.register-notes{
+    margin-bottom: 40px;
+    font-size: 18px;
+    color: #A3A3A3;
+}
+
+.register-bold{
+    font-weight: 500;
+}
+
+/* test */
+.selectBox {
+    position: relative;
+    width: 150px;
+    height: 35px;
+    border-radius: 4px;
+    border: 2px solid #ccc;
+  }
+
+  .selectBox .select {
+    width: inherit;
+    height: inherit;
+    background: transparent;
+    border: 0 none;
+    outline: 0 none;
+    padding: 0 5px;
+    position: relative;
+    z-index: 3; 
+  }
+
+  .selectBox .select option {
+    background: #fff;
+    color: #000;
+    padding: 3px 0;
+    font-size: 16px;
+  }
+
+  .selectBox .select option:hover {
+    background: #F26879;
+  }
+
+  .selectBox .icoArrow {
+    position: absolute; 
+    top: 0; 
+    right: 0; 
+    z-index: 1; 
+    width: 35px; 
+    height: 33px;
+    border-left: 2px solid #ccc;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .select-icon {
+    width: 50%;
+    right: 100px;         /* 원하는 위치로 조정 */
+    top: 50%;            /* 중앙 배치 */
+  }
+
+  .selectBox .select:focus + .select-icon {
+    transform: rotate(180deg);
+}
+
+  /* .selectBox .select:focus + .icoArrow img {
+    transform: rotate(180deg);
+  } */

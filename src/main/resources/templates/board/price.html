@@ -5,7 +5,7 @@
       layout:decorate="~{layout/layout}">
 
 <head>
-    <link rel="stylesheet" th:href="@{/css/price-search.css}">
+    <link rel="stylesheet" th:href="@{/css/price.css}">
 </head>
 
 
@@ -19,7 +19,7 @@
             <form action="/board/price" role="search">
                 <div class="price-searchBar">
                     <!--class="form-control me-2"-->
-<!--                    <img src="/img/search.svg" alt="Search Icon" class="price-searchIcon">-->
+                    <!--<img src="/img/search.svg" alt="Search Icon" class="price-searchIcon">-->
                     <!--aria-label="Search"-->
                     <input name="keyword" type="search" placeholder="어떤 시세 정보가 궁금하세요?" class="price-searchBox" th:value="${keyword != null ? keyword : ''}">
                 </div>
@@ -67,4 +67,5 @@
 
     <hr style="visibility: hidden; margin-bottom: 120px;">
 
+    <script th:src="@{/js/price.js}"></script>
 </div>
