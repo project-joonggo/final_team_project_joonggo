@@ -19,7 +19,7 @@ const newMake = () => {
         ctx.closePath();
     }
 
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = "#fff";
     ctx.font = "24px Pretendard Variable";
     ctx.textAlign = "center";
 

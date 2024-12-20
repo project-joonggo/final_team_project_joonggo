@@ -6,19 +6,29 @@
 
 
 <div layout:fragment="content">
-    <div class="container-md cBox" style="margin-top : 50px;" >
-        <h1>Product Register Page</h1>
-        <hr>
-        <form action="/board/register" method="post"  enctype="multipart/form-data">
-            <div class="mb-3">
-                <label for="b" class="form-label">상품명</label>
-                <input type="text" class="form-control" id="b" name="boardName" placeholder="상품명">
+<link rel="stylesheet" th:href="@{/css/register.css}">
+    <!--class="container-md cBox"-->
+    <!--style="margin-top : 30px;" -->
+    <div class="register-container">
+        <form action="/board/register" method="post" enctype="multipart/form-data">
+
+            <!--class="mb-3"-->
+            <div class="register-area">
+                <!--class="form-label"-->
+                <label for="b" class="register-name">상품명</label>
+                <!--class="form-control"-->
+                <input type="text" id="b" name="boardName" class="register-input" placeholder="상품명">
             </div>
+
             <!-- boardFormType 이라는 hidden input 추가 -->
             <input type="hidden" id="formType" value="board">
-            <div class="mb-3">
-                <label for="inputGroupSelect01" class="form-label">카테고리</label>
-                <select class="form-select form-select-sm" id="inputGroupSelect01" name="category" required>
+
+            <!--class="mb-3"-->
+            <div class="register-area">
+                <!--class="form-label"-->
+                <label for="inputGroupSelect01" class="register-name">카테고리</label>
+                <!--class="form-select form-select-sm"-->
+                <select id="inputGroupSelect01" name="category" required>
                     <option value="" disabled selected>Choose...</option> <!-- 기본 옵션, disabled로 선택 불가 -->
                     <option value="가전제품">가전제품</option>
                     <option value="의류">의류</option>
@@ -37,17 +47,57 @@
                     <option value="중고차">중고차</option>
                 </select>
             </div>
-            <div class="mb-3">
-                <label for="p" class="form-label">판매가격</label>
-                <input type="text" class="form-control" id="p" name="tradePrice" placeholder="판매가격">
+
+            <!-- test -->
+<!--            <div class="selectBox">-->
+<!--                <select name="fruits" class="select">-->
+<!--                    <option disabled selected>fruits 🍊</option>-->
+<!--                    <option value="apple">apple</option>-->
+<!--                    <option value="orange">orange</option>-->
+<!--                    <option value="grape">grape</option>-->
+<!--                    <option value="melon">melon</option>-->
+<!--                </select>-->
+<!--                <span class="icoArrow"><img src="/img/drop-down.svg" class="select-icon"></span>-->
+<!--            </div>-->
+
+            <!--class="mb-3"-->
+            <div class="register-area">
+                <!--class="form-label"-->
+                <label for="p" class="register-name">판매가격</label>
+                <!-- class="form-control" -->
+                <input type="text" id="p" name="tradePrice" class="register-input" placeholder="판매가격">
             </div>
-            <div id="smarteditor" class="mb-3">
-                <label for="c" class="form-label">상품내용</label>
-                <textarea class="form-control" id="c" name="boardContent" cols="10" rows="20" placeholder="상품내용"></textarea>
+
+            <!--class="mb-3"-->
+            <div id="smarteditor" class="register-area">
+                <!--class="form-label"-->
+                <label for="c" class="register-name">상품내용</label>
+                <!--class="form-control"-->
+                <!-- cols="10" rows="20"-->
+                <textarea id="c" name="boardContent" rows="30"></textarea>
             </div>
-            <div class="flexBox" style="display: flex; justify-content:end;">
-                <button type="submit" class="btn btn-secondary" id="regBtn">register</button>
+
+            <div class="register-notes">
+                <div class="register-bold">등록 시 참고사항</div>
+                <br>
+                <div>- 상품명(브랜드)</div>
+                <div>- 구매 시기</div>
+                <div>- 사용 여부</div>
+                <div>- 상품 상태</div>
+                <div>- 선호 거래 방법</div>
+                <div>- 배송비 포함 여부</div>
+                <div class="register-bold">* 실제 촬영한 사진과 함께 상세 정보를 입력해주세요.</div>
+                <div class="register-bold">* 카카오톡 아이디 첨부 시 게시물 삭제 및 이용제재 처리될 수 있어요.</div>
+                <div class="register-bold">안전하고 건전한 거래환경을 위해 과학기술정보통신부, 한국인터넷진흥원, 쓸템이 함께합니다.</div>
             </div>
+
+            <!-- class="flexBox" -->
+            <!--style="display: flex; justify-content:end;"-->
+            <div class="register-area">
+                <!-- class="btn btn-secondary" -->
+                <button type="submit" id="regBtn">register</button>
+            </div>
+
         </form>
         <script th:src="@{/js/productRegister.js}" charset="UTF-8"></script>
         <script th:src="@{/smarteditor/js/HuskyEZCreator.js}" charset="UTF-8"></script>
