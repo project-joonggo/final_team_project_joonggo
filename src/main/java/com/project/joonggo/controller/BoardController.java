@@ -53,6 +53,7 @@ public class BoardController {
 
 
     @PostMapping("/register")
+    @ResponseBody
     public String register(@ModelAttribute BoardVO boardVO, Principal principal){
         log.info("boardVO >>> {} ", boardVO);
 
@@ -66,7 +67,7 @@ public class BoardController {
 
         log.info("isOk >>>> {}", isOk);
 
-        return (isOk > 0) ? "redirect:/" : "redirect:/board/register";
+        return (isOk > 0) ? "1" : "0";
     }
 
     @PostMapping("/multiFileUpload")
@@ -250,8 +251,10 @@ public class BoardController {
                     fileUrl = files.get(0).getFileUrl(); // 첫 번째 파일 URL을 추출 (필요시 다르게 처리 가능)
                 }
 
-                // recentProducts 리스트에 BoardFileDTO 추가
-                recentProducts.add(boardFileDTO);
+                // 이미지가 있는 상품만 recentProducts 리스트에 추가
+                if (fileUrl != null && !fileUrl.isEmpty()) {
+                    recentProducts.add(boardFileDTO);
+                }
             }
         }
 

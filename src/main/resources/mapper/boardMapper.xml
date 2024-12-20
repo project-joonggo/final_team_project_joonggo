@@ -116,6 +116,7 @@
     <select id="getRecentProducts" resultType="com.project.joonggo.domain.BoardVO">
         SELECT * FROM sellbuy_board
         WHERE is_del = 'N'
+        AND board_content LIKE '%&lt;img%'
         ORDER BY reg_at DESC
         LIMIT 18;
     </select>
@@ -123,6 +124,7 @@
     <select id="getRecommendedProducts" resultType="com.project.joonggo.domain.BoardVO">
         SELECT * FROM sellbuy_board
         WHERE is_del = 'N'
+        AND board_content LIKE '%&lt;img%'
         ORDER BY like_count DESC
         LIMIT 18;
     </select>
@@ -131,7 +133,7 @@
         SELECT *
         FROM sellbuy_board
         WHERE is_del = 'N'
-<!--        AND reg_at >= NOW() - INTERVAL 2 HOUR-->
+        AND board_content LIKE '%&lt;img%'
         ORDER BY read_count DESC
         LIMIT 18;
     </select>

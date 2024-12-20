@@ -30,7 +30,7 @@ public class BoardServiceImpl implements BoardService{
         if(isOk > 0) {
             long boardId = boardMapper.getBoardId(boardVO);
             log.info(">>> boardID>> {}", boardId);
-            isOk = fileMapper.setBoardId(boardId);
+            fileMapper.setBoardId(boardId);
         }
         return isOk;
     }

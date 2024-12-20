@@ -47,6 +47,7 @@ public class QnaController {
     }
 
     @PostMapping("/register")
+    @ResponseBody
     public String register(@ModelAttribute QnaVO qnaVO , Principal principal){
         log.info("qnaVO >>> {} ", qnaVO);
 
@@ -71,7 +72,7 @@ public class QnaController {
         notificationService.saveNotification(adminId, notificationMessage, qnaId, "QUESTION");
 
 
-        return (isOk > 0) ? "/qna/main" : "redirect:/qna/register";
+        return (isOk > 0) ? "1" : "0";
     }
 
     @PostMapping("/multiFileUpload")

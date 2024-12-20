@@ -14,7 +14,10 @@ smartEditor = function() {
         fCreator: "createSEditor2"
 
     })
+
 }
+
+
 
 document.addEventListener('DOMContentLoaded', function() {
     smartEditor();
@@ -51,8 +54,20 @@ document.getElementById("regBtn").addEventListener("click", (event) =>{
         return;
     }
 
+    if (category === '') {
+        alert("카테고리를 선택해주세요.");
+        document.getElementById("inputGroupSelect01").focus(); // 제목 필드로 포커스 이동
+        return;
+    }
 
-     if (boardContent == '') {
+       // HTML에서 &nbsp;를 공백으로 변환하고, 텍스트로 변환하여 trim()
+       let tempDiv = document.createElement("div");
+       tempDiv.innerHTML = boardContent; // HTML을 DOM으로 파싱
+       let textContent = tempDiv.textContent || tempDiv.innerText; // 텍스트로 변환
+
+       let cleanedContent = textContent.replace(/\s+/g, ' ').trim(); // 공백 처리 후 trim()
+
+     if (cleanedContent.trim() === '') {
         alert("내용을 입력해주세요.");
         oEditors.getById["c"].exec("FOCUS"); // 에디터로 포커스 이동
         return;
@@ -65,7 +80,7 @@ document.getElementById("regBtn").addEventListener("click", (event) =>{
         formData.append("category", category); // 카테고리 값 추가
 
         registerPostToServer(formData).then(result => {
-            if(result){
+            if(result === "1"){
                 alert("글을 등록하였습니다.");
             } else {
                 alert("게시글 등록 실패");
@@ -89,15 +104,14 @@ async function registerPostToServer(formData) {
         // 응답 처리
         if (resp.ok) {  // 2xx 범위 응답이 올 때
             console.log('Success');
-            alert('글작성 완료.');
             window.location.href = "/"; // 등록 후 리다이렉트
         } else {
             console.log(resp);
             alert('오류가 발생하였습니다.');
         }
 
-        // 응답 내용 읽기 (예: JSON 데이터)
-        const result = await resp.json(); // 응답이 JSON이라면 `resp.json()` 사용
+        // 응답 내용 읽기
+        const result = await resp.text(); 
         console.log(result);
         return result;
 
