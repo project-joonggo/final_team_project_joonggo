@@ -363,4 +363,27 @@ public class LoginController {
         return "redirect:/";
     }
 
+    @GetMapping("/list")
+    public String fraud(Model model, PagingVO pgvo,
+                        @RequestParam(value = "keyword", required = false) String keyword){
+
+        int totalCount = loginService.getTotal(pgvo);
+
+        PagingHandler ph = new PagingHandler(pgvo,totalCount);
+
+        List<UserVO> userList = loginService.getUserList(pgvo);
+
+        log.info(">>> UserList >>> {}", userList);
+        log.info(">>> ph >>> {}" , ph);
+        log.info(">>> keyword >>> {}", keyword);
+
+        model.addAttribute("userList", userList);
+        model.addAttribute("ph",ph);
+        model.addAttribute("keyword", keyword);
+
+        return "/user/list";
+    }
+
+
+
 }

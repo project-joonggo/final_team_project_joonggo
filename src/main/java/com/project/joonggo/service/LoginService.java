@@ -1,5 +1,6 @@
 package com.project.joonggo.service;
 
+import com.project.joonggo.domain.PagingVO;
 import com.project.joonggo.domain.UserVO;
 
 import java.util.List;
@@ -32,4 +33,8 @@ public interface LoginService {
     Long getAdminId();
 
     String getUserName(long userNum);
+
+    int getTotal(PagingVO pgvo);
+
+    List<UserVO> getUserList(PagingVO pgvo);
 }

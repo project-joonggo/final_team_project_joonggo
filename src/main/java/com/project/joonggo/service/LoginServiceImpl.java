@@ -1,5 +1,6 @@
 package com.project.joonggo.service;
 
+import com.project.joonggo.domain.PagingVO;
 import com.project.joonggo.domain.UserVO;
 import com.project.joonggo.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
@@ -102,6 +103,16 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public String getUserName(long userNum) {
         return userMapper.getUserName(userNum);
+    }
+
+    @Override
+    public int getTotal(PagingVO pgvo) {
+        return userMapper.getTotal(pgvo);
+    }
+
+    @Override
+    public List<UserVO> getUserList(PagingVO pgvo) {
+        return userMapper.getUserList(pgvo);
     }
 
 }
