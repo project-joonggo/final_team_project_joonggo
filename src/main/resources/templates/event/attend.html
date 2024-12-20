@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<div layout:fragment="content">
+    <div class="container-md" id="attend">
+        <h2>출석체크 이벤트</h2>
+        <div class="attend-container">
+            <div class="node-grid">
+                <!-- 각 노드 -->
+                <div class="node" data-index="1">출석</div>
+                <div class="node" data-index="2">출석</div>
+                <div class="node gift" data-index="5">기프티콘</div>
+                <!-- ... -->
+                <div class="node gift" data-index="30">기프티콘</div>
+            </div>
+        </div>
+    </div>
+    <script>
+        const NODES_TOTAL = 30;
+        const GIFT_INTERVAL = 5;
+
+        // 참여 여부를 서버에서 확인
+        const checkParticipation = async () => {
+            try {
+                const response = await fetch("/event/checkAttend");
+                const data = await response.json();
+                return data.alreadyParticipated;
+            } catch (error) {
+                console.error("참여 여부 확인 실패:", error);
+                return false; // 실패 시 기본값은 "참여 가능"
+            }
+        };
+
+        // 출석체크한 개수 가져오기
+        const getCompletedAttendance = async () => {
+            try {
+                const response = await fetch("/event/attendCount", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+
+                const data = await response.json();
+                return data.attendCount; // attendCount 값을 반환
+            } catch (error) {
+                console.error("출석 정보 가져오기 실패:", error);
+                return 0; // 실패 시 기본값은 0
+            }
+        };
+
+        const generateAttendanceNodes = async () => {
+            const container = document.querySelector('.attend-container .node-grid');
+            container.innerHTML = '';
+
+            const completedCount = await getCompletedAttendance(); // 이미 완료된 출석 횟수 가져오기
+
+            for (let i = 1; i <= NODES_TOTAL; i++) {
+                const node = document.createElement('div');
+                node.classList.add('node');
+                node.dataset.index = i; // 데이터 인덱스 추가
+
+                if (i % GIFT_INTERVAL === 0) {
+                    node.classList.add('gift');
+                    node.textContent = '기프티콘';
+                } else {
+                    node.textContent = `출석`; // 출석 일수 표시
+                }
+
+                // 이미 출석 완료한 도장은 'completed' 클래스 추가
+                if (i <= completedCount) {
+                    node.classList.add('completed');
+                }
+
+                container.appendChild(node);
+            }
+        };
+
+        // 출석체크 시작 함수
+        const startAttendanceCheck = async (index) => {
+            const alreadyParticipated = await checkParticipation();
+
+            if (alreadyParticipated) {
+                alert("하루에 한 번만 출석할 수 있습니다.");
+                return; // 이미 출석한 경우 더 이상 진행하지 않음
+            }
+
+            markAttendance(index); // 출석 체크
+        };
+
+        // 출석 처리하는 함수
+        const markAttendance = async (index) => {
+            const target = document.querySelector(`[data-index="${index}"]`);
+            target.classList.add('completed');
+            alert("출석 완료!");
+
+            // 서버로 출석 체크 결과 전송
+            fetch('/event/attend', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ index }),
+            })
+                .then((res) => res.json())
+                .then((data) => {
+                    if (data.gift) {
+                        alert("🎉 기프티콘 지급 완료!");
+                    }
+                })
+                .catch((err) => console.error("서버 오류:", err));
+        };
+
+        // 클릭 이벤트 리스너
+        document.querySelector('.attend-container .node-grid').addEventListener('click', (e) => {
+            const target = e.target;
+
+            if (target.classList.contains('node') && !target.classList.contains('completed')) {
+                const index = target.dataset.index;
+                startAttendanceCheck(index); // 출석 시작
+            }
+        });
+
+        const init = async () => {
+            const completedCount = await getCompletedAttendance(); // 완료된 출석 수 가져오기
+            generateAttendanceNodes(completedCount); // 노드 생성 및 완료된 출석 표시
+        };
+
+        init();
+
+    </script>
+</div>

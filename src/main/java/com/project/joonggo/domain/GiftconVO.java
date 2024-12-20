@@ -14,7 +14,7 @@ public class GiftconVO {
     private String giftconName;
     private long userNum;
     private String regAt;
-    private String endDate = String.valueOf(LocalDateTime.now().plusMonths(1));
+    private String endDate;
 }
 
 
