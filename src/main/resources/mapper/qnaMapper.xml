@@ -46,5 +46,15 @@
         select MAX(qna_id) from qna_board
     </select>
 
+    <select id="getMyList" resultType="com.project.joonggo.domain.QnaVO">
+        select * from qna_board
+        WHERE is_del = 'N' AND user_id = #{userNum}
+        order by qna_id desc
+    </select>
+
+    <update id="updateAnswerCount">
+        update qna_board set answer_count = answer_count + 1
+        where qna_id = #{qnaId}
+    </update>
 
 </mapper>

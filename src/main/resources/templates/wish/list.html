@@ -44,7 +44,7 @@
 
       <td>
         <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}"
-                class="pay-btn">결제하기</button>
+                class="pay-btn" th:disabled="${boardFileDTO.boardVO.tradeFlag == 1}" th:text="${boardFileDTO.boardVO.tradeFlag == 1 ? '이미 거래완료된 상품입니다' : '결제하기'}" >결제하기</button>
       </td>
 
       <td>

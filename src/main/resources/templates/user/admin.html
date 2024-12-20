@@ -4,11 +4,46 @@
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
+<head>
+  <link rel="stylesheet" th:href="@{/css/admin.css}">
+</head>
+
 <div layout:fragment="content">
   <div class="container-md" id="userListWrap">
-    관리자 페이지
-    <a href="/user/reportList" class="btn btn-success">신고 리스트</a>
+        <!-- 좌측 사이드 메뉴 -->
+        <div class="sideMenu">
+          <h2 class="sideTitle font-weight-bold">관리자 페이지</h2>
 
+          <h3 class="font-weight-bold">유저 관리</h3>
+          <ul>
+            <li><a href="javascript:void(0)" class="side-menu-link" data-url="/user/userList">유저 리스트</a></li>
+          </ul>
 
-  </div>
+          <h3 class="font-weight-bold">신고 관리</h3>
+          <ul>
+            <li><a href="javascript:void(0)" class="side-menu-link" data-url="/user/reportList">신고 리스트</a></li>
+          </ul>
+
+          <h3 class="font-weight-bold">문의 관리</h3>
+          <ul>
+            <li><a href="javascript:void(0)" class="side-menu-link" data-url="/qna/list">문의 리스트</a></li>
+          </ul>
+        </div>
+
+        <!-- 우측 메인 콘텐츠 영역 -->
+        <div class="mainContent" id="adminMainContent">
+          <div class="mainContentHeader">
+            <h2>관리자 페이지에 오신 것을 환영합니다.</h2>
+          </div>
+          <div id="contentArea">
+            <!-- 각 페이지별 데이터가 여기에 표시됨 -->
+            <div>메인 콘텐츠 영역입니다. 메뉴를 클릭하면 여기에 리스트가 표시됩니다.</div>
+          </div>
+        </div>
+      </div>
+  <script th:src="@{/js/adminPage.js}"></script>
+  <script th:src="@{/js/reportList.js}"></script>
+
 </div>
+
+

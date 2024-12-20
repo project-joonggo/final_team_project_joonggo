@@ -18,4 +18,5 @@ public interface QnaFileMapper {
     List<QnaFileVO> getFileList(Long qnaId);
 
     void deleteFileFromDB(String uuid);
+
 }

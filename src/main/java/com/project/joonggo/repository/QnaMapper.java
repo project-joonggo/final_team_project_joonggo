@@ -5,6 +5,8 @@ import com.project.joonggo.domain.BoardVO;
 import com.project.joonggo.domain.QnaVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface QnaMapper {
     long register(QnaVO qnaVO);
@@ -22,4 +24,8 @@ public interface QnaMapper {
     Long getUserId(Long qnaId);
 
     Long getMaxQnaId();
+
+    List<QnaVO> getMyList(Long userNum);
+
+    void updateAnswerCount(Long qnaId);
 }

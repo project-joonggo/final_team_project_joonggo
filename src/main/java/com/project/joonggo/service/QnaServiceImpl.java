@@ -25,8 +25,9 @@ public class QnaServiceImpl implements QnaService{
         if(isOk > 0) {
             long qnaId = qnaMapper.getQnaId(qnaVO);
             log.info(">>> qnaId>> {}", qnaId);
-            isOk = qnaFileMapper.setQnaId(qnaId);
+            qnaFileMapper.setQnaId(qnaId);
         }
+
         return isOk;
 
     }
@@ -83,6 +84,11 @@ public class QnaServiceImpl implements QnaService{
     @Override
     public Long getMaxQnaId() {
         return qnaMapper.getMaxQnaId();
+    }
+
+    @Override
+    public List<QnaVO> getMyList(Long userNum) {
+        return qnaMapper.getMyList(userNum);
     }
 
 

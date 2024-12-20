@@ -13,7 +13,13 @@ document.addEventListener('DOMContentLoaded', function () {
     
     // 알림 버튼 클릭 시 알림 리스트 토글
     document.getElementById("notification-icon").addEventListener("click", function() {
-        toggleNotifications(); // 알림 리스트 보이기/숨기기
+        console.log(userId);
+        if (!userId) {  // 로그인 상태 확인
+            // 로그인하지 않았다면 로그인 페이지로 리디렉션
+            window.location.href = "/user/login";
+        } else {
+            toggleNotifications(); // 알림 리스트 보이기/숨기기
+        }
     });
 });
 
