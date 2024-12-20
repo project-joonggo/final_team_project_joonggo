@@ -11,8 +11,37 @@
     </select>
 
     <insert id="saveChatComment" parameterType="com.project.joonggo.domain.ChatCommentVO">
-        INSERT INTO chat_comment(room_id, comment_user_num, comment_content, comment_write_date)
-        VALUES(#{roomId}, #{commentUserNum}, #{commentContent}, NOW())
+        INSERT INTO chat_comment(room_id, comment_user_num, comment_content, comment_write_date, is_read)
+        VALUES(#{roomId}, #{commentUserNum}, #{commentContent}, NOW(), 0)
     </insert>
 
+    <insert id="saveChatCommentEnterUser" parameterType="com.project.joonggo.domain.ChatCommentVO">
+        INSERT INTO chat_comment(room_id, comment_user_num, comment_content, comment_write_date, is_read)
+        VALUES(#{roomId}, #{commentUserNum}, #{commentContent}, NOW(), 1)
+    </insert>
+
+    <select id="countUnreadMessages" resultType="int">
+        SELECT COUNT(*)
+        FROM chat_comment
+        WHERE room_id = #{roomId}
+        AND comment_user_num != #{userNum}
+        AND is_read = 0
+    </select>
+
+    <!-- 전체 읽지 않은 메시지 수 조회 -->
+    <select id="countTotalUnreadMessages" resultType="int">
+        SELECT COUNT(*)
+        FROM chat_comment
+        WHERE comment_user_num != #{userNum}
+        AND is_read = 0
+    </select>
+
+    <!-- 채팅방 메시지 읽음 처리 -->
+    <update id="updateReadStatus">
+        UPDATE chat_comment
+        SET is_read = 1
+        WHERE room_id = #{roomId}
+        AND comment_user_num != #{userNum}
+        AND is_read = 0
+    </update>
 </mapper>

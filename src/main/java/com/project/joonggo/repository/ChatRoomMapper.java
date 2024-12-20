@@ -11,4 +11,6 @@ public interface ChatRoomMapper {
     List<ChatRoomVO> getChatRoomList(@Param("userNum") int userNum);
 
     void createChatRoom(ChatRoomVO chatRoomVO);
+
+    ChatRoomVO findExistingRoom(@Param("sellerId") int sellerId, @Param("roomName") String roomName);
 }

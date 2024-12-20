@@ -28,4 +28,11 @@
         INSERT INTO chat_join (room_id, user_num)
         VALUES (#{roomId}, #{userNum})
     </insert>
+
+    <select id="getReceiverUserNum" resultType="int">
+        SELECT user_num
+        FROM chat_join
+        WHERE room_id = #{roomId} AND user_num != #{userNum}
+        LIMIT 1
+    </select>
 </mapper>

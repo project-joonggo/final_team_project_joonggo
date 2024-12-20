@@ -12,6 +12,13 @@
         AND cr.room_status = 'Y'
     </select>
 
+    <!--  채팅방 중복확인 체크. 있으면 기존 채팅방으로 이동. 없으면 createChatRoom 처리  -->
+    <select id="findExistingRoom" resultType="com.project.joonggo.domain.ChatRoomVO">
+        SELECT * FROM chat_room
+        WHERE user_num = #{sellerId}
+        AND room_name = #{roomName}
+    </select>
+
     <!--  채팅방 생성  -->
     <insert id="createChatRoom" parameterType="com.project.joonggo.domain.ChatRoomVO"
             useGeneratedKeys="true" keyProperty="roomId">

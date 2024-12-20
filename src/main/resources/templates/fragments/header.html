@@ -50,10 +50,13 @@
                     </a>
                 </li>
                 <li sec:authorize="isAuthenticated()">
-                    <a th:href="@{/chat/chatRoomList(userNum=${#authentication.getPrincipal().userVO.userNum})}"
+                    <a th:with="userNum=${#authentication.getPrincipal().userVO.userNum}"
+                       th:href="@{/chat/chatRoomList(userNum=${userNum})}"
+                       th:data-user-num="${userNum}"
                        class="d-flex justify-content-center align-items-center gap-1">
                         <img src="/img/chatting.svg">
                         <span>채팅</span>
+                        <span id="headerUnreadBadge" class="badge" style="display: none;">0</span>
                     </a>
                 </li>
                 <!-- 알림 아이콘 -->
@@ -192,8 +195,9 @@
             </script>
 
             <script th:src="@{/js/weather.js}"></script>
+
         </div>
 
     </div>
-
+    <script th:src="@{/js/headerChatCnt.js}"></script>
 </div>

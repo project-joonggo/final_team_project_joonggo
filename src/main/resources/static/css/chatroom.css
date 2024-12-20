@@ -91,3 +91,29 @@
 #sendButton:hover {
   background-color: #0056b3;
 }
+/* 채팅방 안읽은 채팅 count */
+.badge {
+    background-color: #ff4444;  /* 빨간색 배경 */
+    color: white;              /* 흰색 텍스트 */
+    padding: 2px 6px;          /* 내부 여백 */
+    border-radius: 50%;        /* 원형 모양 */
+    font-size: 12px;           /* 글자 크기 */
+    margin-left: 5px;          /* 왼쪽 마진 */
+    min-width: 16px;           /* 최소 너비 */
+    text-align: center;        /* 텍스트 중앙 정렬 */
+    display: inline-block;     /* 인라인 블록 요소로 표시 */
+}
+
+/* 채팅방 목록의 badge */
+.room-list-item .badge {
+    position: relative;
+    float: right;             /* 오른쪽 정렬 */
+    margin-right: 10px;       /* 오른쪽 마진 */
+}
+
+/* 헤더의 badge */
+#headerUnreadBadge {
+    position: absolute;
+    top: -8px;               /* 위치 조정 */
+    right: -8px;             /* 위치 조정 */
+}

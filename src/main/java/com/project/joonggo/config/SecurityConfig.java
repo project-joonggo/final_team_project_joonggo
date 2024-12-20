@@ -34,13 +34,20 @@ public class SecurityConfig {
                                         "/", "/js/**", "/img/**", "/css/**", "/dist/**", "/upload/**",
                                         "/index", "/user/join", "/user/login", "/board/list", "/board/detail/**",
                                         "/comment/list/**", "/smarteditor/**", "/user/kakao/**", "/user/google/**",
-                                        "/user/naver/**","/chat/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult",
+                                        "/user/naver/**","/chat/**", "/chat/unread/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult",
                                         "/user/mailSend", "/user/mailCheck", "/board/report", "/board/fraud",
                                         "/user/findPassword", "/user/updatePassword").permitAll()
-    /*                    .requestMatchers("/**").permitAll()*/
                                 .requestMatchers("/ws/**", "/notifications/**","/notice/**").permitAll() // WebSocket 경로 허용
+                                .requestMatchers("/chat/unread/**").authenticated()
                                 .requestMatchers("/user/list").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()
+                )
+                .exceptionHandling(exception -> exception
+                        .accessDeniedHandler((request, response, accessDeniedException) -> {
+                            if (!response.isCommitted()) {
+                                response.sendRedirect("/user/login");
+                            }
+                        })
                 )
                 .formLogin(login -> login
                         .usernameParameter("username")
@@ -85,8 +92,4 @@ public class SecurityConfig {
     public OAuth2UserService oAuth2UserService() {
         return new DefaultOAuth2UserService();
     }
-
-
-
-
 }
