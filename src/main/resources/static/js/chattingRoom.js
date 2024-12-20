@@ -70,6 +70,9 @@ function connectWebSocket() {
 
 // 메시지 표시
 function displayMessage(message) {
+
+    console.log(message);
+
     const chatMessages = document.getElementById('chatMessages');
     const div = document.createElement('div');
     div.className = 'chat-message';
@@ -80,7 +83,7 @@ function displayMessage(message) {
         div.className += ' received-message';
     }
 
-    div.textContent = `${message.commentUserNum}: ${message.commentContent}`;
+    div.textContent = `${message.commentUserNum} : ${message.commentContent}`;
     chatMessages.appendChild(div);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
