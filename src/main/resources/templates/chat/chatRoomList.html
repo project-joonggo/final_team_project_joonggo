@@ -11,10 +11,10 @@
     <div id="chatRoomList" class="chat-room-list">
       <h2>Chat Room List</h2>
       <ul id="roomList">
-        <li th:each="room : ${chatRoomList}"
-            th:text="${room.roomName}"
-            th:data-room-id="${room.roomId}"
-            class="room-list-item">
+        <li th:each="room : ${chatRoomList}" class="room-list-item" th:data-room-id="${room.roomId}">
+          <span th:text="${room.roomName}"></span>
+          <span class="badge" th:text="${unreadCounts.get(room.roomId) > 0 ? unreadCounts.get(room.roomId) : ''}"
+                th:style="${unreadCounts.get(room.roomId) > 0 ? 'display: inline' : 'display: none'}"></span>
         </li>
       </ul>
     </div>
@@ -33,6 +33,16 @@
   <script th:inline="javascript">
     const userNum = [[${userNum}]];
   </script>
-
+  <!-- chatRoom.js : 채팅방 리스트 및 chatSocket 연결. 안읽은 채팅 여부 확인(회원별, 채팅방별) 해서 span 태그로 숫자 띄우는 기능 추가예정 (241218) -->
   <script th:src="@{/js/chattingRoom.js}"></script>
+  <script th:inline="javascript">
+    const totalUnreadCount = [[${totalUnreadCount}]];
+
+    // 헤더의 배지 업데이트
+    const headerBadge = document.getElementById('headerUnreadBadge');
+    if (headerBadge) {
+        headerBadge.textContent = totalUnreadCount > 0 ? totalUnreadCount : '';
+        headerBadge.style.display = totalUnreadCount > 0 ? 'inline' : 'none';
+    }
+  </script>
 </div>

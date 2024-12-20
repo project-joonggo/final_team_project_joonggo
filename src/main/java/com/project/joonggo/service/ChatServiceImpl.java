@@ -30,12 +30,23 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void saveChatComment(int roomId, int userNum, String messageContent) {
+    public void saveChatComment(int roomId, int userNum, String commentContent) {
         ChatCommentVO chatCommentVO = new ChatCommentVO();
         chatCommentVO.setRoomId(roomId);
         chatCommentVO.setCommentUserNum(userNum);
-        chatCommentVO.setCommentContent(messageContent);
+        chatCommentVO.setCommentContent(commentContent);
+
         chatCommentMapper.saveChatComment(chatCommentVO);
+    }
+
+    @Override
+    public void saveChatCommentEnterUser(int roomId, int userNum, String commentContent) {
+        ChatCommentVO chatCommentVO = new ChatCommentVO();
+        chatCommentVO.setRoomId(roomId);
+        chatCommentVO.setCommentUserNum(userNum);
+        chatCommentVO.setCommentContent(commentContent);
+
+        chatCommentMapper.saveChatCommentEnterUser(chatCommentVO);
     }
 
     @Override
@@ -58,7 +69,36 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
+    public ChatRoomVO findExistingRoom(int sellerId, String roomName) {
+        return chatRoomMapper.findExistingRoom(sellerId, roomName);
+    }
+
+    @Override
     public boolean isUserInRoom(int roomId, int userNum) {
         return chatJoinMapper.isUserInRoom(roomId, userNum);
     }
+
+    // 특정 채팅방의 읽지 않은 메시지 수 조회
+    @Override
+    public int getUnreadCount(int roomId, int userNum) {
+        return chatCommentMapper.countUnreadMessages(roomId, userNum);
+    }
+
+    // 전체 읽지 않은 메시지 수 조회
+    @Override
+    public int getTotalUnreadCount(int userNum) {
+        return chatCommentMapper.countTotalUnreadMessages(userNum);
+    }
+
+    // 채팅방 메시지 읽음 처리
+    @Override
+    public void markAsRead(int roomId, int userNum) {
+        chatCommentMapper.updateReadStatus(roomId, userNum);
+    }
+
+    @Override
+    public int getReceiverUserNum(int roomId, int userNum) {
+        return chatJoinMapper.getReceiverUserNum(roomId, userNum);
+    }
+
 }

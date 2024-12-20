@@ -19,4 +19,6 @@ public interface ChatJoinMapper {
     List<ChatJoinVO> getUsersInRoom(int roomId);
 
     void joinChatRoom(ChatJoinVO chatJoinVO);
+
+    int getReceiverUserNum(@Param("roomId") int roomId, @Param("userNum") int commentUserNum);
 }
