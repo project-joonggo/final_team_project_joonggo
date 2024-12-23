@@ -40,9 +40,9 @@ public interface BoardService {
 
     void saveReport(ReportVO reportVO);
 
-    int getReportTotal(PagingVO pgvo);
+    int getReportTotal(PagingVO pgvo, Integer reportCompId);
 
-    List<ReportVO> getReportList(PagingVO pgvo);
+    List<ReportVO> getReportList(PagingVO pgvo, Integer reportCompId);
 
     void updateReportStatus(Long reportId, String status);
 
@@ -57,4 +57,5 @@ public interface BoardService {
     int getMyTotal(PagingVO pgvo, long userNum);
 
     List<BoardFileDTO> getMyList(PagingVO pgvo, long userNum);
+
 }

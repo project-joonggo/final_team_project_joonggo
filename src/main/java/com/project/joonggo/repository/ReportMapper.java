@@ -25,4 +25,9 @@ public interface ReportMapper {
     Long getUserNumByReportId(Long reportId);
 
     String getCompContentByCompId(long reportCompId);
+
+    int getFilteredReportTotal(@Param("pgvo") PagingVO pgvo, @Param("reportCompId") Integer reportCompId);
+
+    List<ReportVO> getFilteredListByCompId(@Param("pgvo") PagingVO pgvo, @Param("reportCompId") Integer reportCompId);
+
 }

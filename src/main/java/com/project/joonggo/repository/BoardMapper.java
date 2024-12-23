@@ -52,4 +52,5 @@ public interface BoardMapper {
 
     List<BoardVO> getMyBoardList(@Param("pgvo") PagingVO pgvo,
                                  @Param("userNum") long userNum);
+
 }

@@ -40,8 +40,13 @@ public class QnaServiceImpl implements QnaService{
     }
 
     @Override
-    public List<QnaVO> getList() {
-        return qnaFileMapper.getList();
+    public List<QnaVO> getList(PagingVO pgvo, String pending) {
+        // "true"이면 답변대기 중인 항목만 가져오고, "false"이면 전체 가져옴
+        if ("true".equals(pending)) {
+            return qnaMapper.getListPending(pgvo);  // 답변대기 필터링
+        } else {
+            return qnaMapper.getList(pgvo);  // 전체 리스트 가져오기
+        }
     }
 
     @Override
@@ -89,6 +94,17 @@ public class QnaServiceImpl implements QnaService{
     @Override
     public List<QnaVO> getMyList(Long userNum) {
         return qnaMapper.getMyList(userNum);
+    }
+
+    @Override
+    public int getTotal(PagingVO pgvo, String pending) {
+        if ("true".equals(pending)) {
+            // 답변대기 중인 항목만 필터링하여 카운트
+            return qnaMapper.countPending(pgvo);
+        } else {
+            // 전체 카운트
+            return qnaMapper.getTotal(pgvo);
+        }
     }
 
 

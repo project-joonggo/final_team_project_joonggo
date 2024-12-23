@@ -187,13 +187,24 @@ public class LoginController {
     }
     // 신고관리 페이지
     @GetMapping("/reportList")
-    public String list(Model model, PagingVO pgvo){
-        int totalCount = boardService.getReportTotal(pgvo);
+    public String list(Model model, PagingVO pgvo, @RequestParam(required = false) Integer reportCompId){
+        int totalCount = boardService.getReportTotal(pgvo, reportCompId);
         PagingHandler ph = new PagingHandler(pgvo, totalCount);
-        model.addAttribute("list", boardService.getReportList(pgvo));
+        model.addAttribute("list", boardService.getReportList(pgvo, reportCompId));
         model.addAttribute("ph", ph);
+
+
+
+        model.addAttribute("selectedCategory", reportCompId);
+        // 신고 사유 목록을 가져와서 드롭다운에 추가할 수 있도록
+        model.addAttribute("reasonList", boardService.getReasonList());
+
+
+        log.info("reasonList >>>> {} ", boardService.getReasonList());
+
         return "/user/reportList";
     }
+
     // 신고상태 업데이트
     @PostMapping("/admin/updateReportStatus")
     public ResponseEntity<String> updateReportStatus(@RequestBody Map<String, Object> payload) {
@@ -382,6 +393,14 @@ public class LoginController {
         model.addAttribute("keyword", keyword);
 
         return "/user/list";
+    }
+
+
+    // 사용자 추방
+    @GetMapping("/user/ban")
+    public String banUser(long userNum) {
+        loginService.banUser(userNum);  // 서비스에서 추방 로직 호출
+        return "redirect:/user/list";  // 추방 후 사용자 목록으로 리다이렉트
     }
 
 

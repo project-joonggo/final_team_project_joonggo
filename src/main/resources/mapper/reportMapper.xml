@@ -9,14 +9,38 @@
         INSERT INTO reportlist (report_comp_id, user_num, board_id)
         VALUES (#{reportCompId}, #{userNum}, #{boardId})
     </insert>
+
+    <select id="getFilteredListByCompId" resultType="com.project.joonggo.domain.ReportVO">
+        select * from reportlist
+        <where>
+            <if test="reportCompId != null">
+                AND report_comp_id = #{reportCompId}
+            </if>
+            <!-- 기타 필터링 조건이 있으면 여기에 추가 -->
+        </where>
+        order by report_num desc
+        limit #{pgvo.startIndex}, #{pgvo.qty}
+    </select>
+
     <select id="getList" resultType="com.project.joonggo.domain.ReportVO">
         select * from reportlist
         order by report_num desc
         limit #{startIndex}, #{qty}
     </select>
+
+    <select id="getFilteredReportTotal" resultType="int">
+        select count(report_num) from reportlist
+        <where>
+            <if test="reportCompId != null">
+                AND report_comp_id = #{reportCompId}
+            </if>
+        </where>
+    </select>
+
     <select id="getTotalCount" resultType="int">
         select count(report_num) from reportlist
     </select>
+
     <update id="updateStatus">
         UPDATE reportlist SET status = #{status} WHERE report_num = #{reportId}
     </update>
@@ -31,5 +55,6 @@
         FROM reasonlist
         WHERE comp_id = #{compId}
     </select>
+
 
 </mapper>

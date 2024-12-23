@@ -2,6 +2,7 @@ package com.project.joonggo.repository;
 
 
 import com.project.joonggo.domain.BoardVO;
+import com.project.joonggo.domain.PagingVO;
 import com.project.joonggo.domain.QnaVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -28,4 +29,12 @@ public interface QnaMapper {
     List<QnaVO> getMyList(Long userNum);
 
     void updateAnswerCount(Long qnaId);
+
+    int getTotal(PagingVO pgvo);
+
+    List<QnaVO> getList(PagingVO pgvo);
+
+    List<QnaVO> getListPending(PagingVO pgvo);
+
+    int countPending(PagingVO pgvo);
 }

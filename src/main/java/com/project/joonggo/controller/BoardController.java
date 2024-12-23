@@ -2,10 +2,7 @@ package com.project.joonggo.controller;
 
 
 import com.project.joonggo.domain.*;
-import com.project.joonggo.handler.FileDeleteHandler;
-import com.project.joonggo.handler.FileHandler;
-import com.project.joonggo.handler.ImageHandler;
-import com.project.joonggo.handler.PagingHandler;
+import com.project.joonggo.handler.*;
 import com.project.joonggo.service.BoardService;
 import com.project.joonggo.service.LoginService;
 import com.project.joonggo.service.NotificationService;
@@ -23,6 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.security.Principal;
 import java.text.NumberFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +41,7 @@ public class BoardController {
     private final WishService wishService;
     private final LoginService loginService;
     private final NotificationService notificationService;
+
 
     @Autowired
     private FileHandler fileHandler;
@@ -312,6 +311,8 @@ public class BoardController {
         if (keyword != null && !keyword.trim().isEmpty()) {
             fraudUserList = loginService.searchFraudUsers(keyword);
         }
+
+        log.info(">>>>> fraudUserList > >> {}" , fraudUserList);
 
         model.addAttribute("fraudUserList", fraudUserList);
         return "/board/fraud";

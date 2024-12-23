@@ -4,6 +4,7 @@ package com.project.joonggo.controller;
 import com.project.joonggo.domain.*;
 import com.project.joonggo.handler.FileDeleteHandler;
 import com.project.joonggo.handler.ImageHandler;
+import com.project.joonggo.handler.PagingHandler;
 import com.project.joonggo.handler.QnaFileHandler;
 import com.project.joonggo.service.LoginService;
 import com.project.joonggo.service.NotificationService;
@@ -90,11 +91,20 @@ public class QnaController {
     }
 
     @GetMapping("/list")
-    public String getList(Model model){
+    public String getList(Model model, PagingVO pgvo, @RequestParam(value = "pending", defaultValue = "false") String pending){
 
-        List<QnaVO> list = qnaService.getList();
+        int totalCount = qnaService.getTotal(pgvo, pending);
+
+        PagingHandler ph = new PagingHandler(pgvo,totalCount);
+
+        List<QnaVO> list = qnaService.getList(pgvo, pending);
+
+        log.info(">>> list >>> {}", list);
+        log.info(">>> ph >>> {}" , ph);
 
         model.addAttribute("list", list);
+        model.addAttribute("ph",ph);
+        model.addAttribute("pending", pending);
 
         return "/qna/list";
     }

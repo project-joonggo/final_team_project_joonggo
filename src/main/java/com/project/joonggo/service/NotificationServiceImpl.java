@@ -2,13 +2,16 @@ package com.project.joonggo.service;
 
 
 import com.project.joonggo.domain.NotificationVO;
+import com.project.joonggo.handler.TimeHandler;
 import com.project.joonggo.repository.NotificationMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,6 +22,9 @@ public class NotificationServiceImpl implements NotificationService {
     private final NotificationMapper notificationMapper;
 
     private final SimpMessagingTemplate messagingTemplate;  // SimpMessagingTemplate 주입
+
+    @Autowired
+    private TimeHandler timeHandler;
 
 
     // 알림을 DB에 저장하는 메서드
@@ -37,13 +43,20 @@ public class NotificationServiceImpl implements NotificationService {
         notificationMapper.insertNotification(notification);
 
         Long notificationId = notificationMapper.getNotificationId();
+        LocalDateTime createAt = notificationMapper.getNotificationCreateAt();
 
         log.info(" >>>>> notificationsId >>>>> {} ", notificationId);
 
-//        // DB 저장 후, 웹소켓을 통해 알림을 실시간으로 전송
-        sendNotificationToUser(userId, message, boardId, notificationId, type);  // 웹소켓을 통해 메시지를 전송
+        // TimeHandler를 사용하여 생성 시간과 현재 시간의 차이를 계산
+        String timeAgo = TimeHandler.getTimeAgo(createAt.toString());
 
-        log.info(">>> message >>>>> {} ", message);
+        // 알림 메시지에 시간 차이 추가
+        String messageWithTime = message + "(" + timeAgo + ")";
+
+//        // DB 저장 후, 웹소켓을 통해 알림을 실시간으로 전송
+        sendNotificationToUser(userId, messageWithTime, boardId, notificationId, type);  // 웹소켓을 통해 메시지를 전송
+
+        log.info(">>> message >>>>> {} ", messageWithTime);
     }
 
     @Override
@@ -58,7 +71,7 @@ public class NotificationServiceImpl implements NotificationService {
             if ("SALE".equals(notification.getType())) {
                 targetUrl = "/board/detail?boardId=" + notification.getMoveId();  // 구매 관련 알림
             } else if ("REPORT".equals(notification.getType())) {
-                targetUrl = "/user/reportList";  // 신고 관련 알림
+                targetUrl = "/user/admin";  // 관리자 알림
             } else if ("ANSWER".equals(notification.getType())){
                 targetUrl = "/qna/detail?qnaId=" + notification.getMoveId();
             } else if ("QUESTION".equals(notification.getType())){
@@ -66,6 +79,14 @@ public class NotificationServiceImpl implements NotificationService {
             } else if ("REPLY".equals(notification.getType())){
                 targetUrl = "/qna/detail?qnaId=" + notification.getMoveId();
             }
+            // 생성된 알림의 시간 차이를 계산
+            LocalDateTime createAt = notificationMapper.getCreateAt(notification.getNotificationId());
+            String timeAgo = TimeHandler.getTimeAgo(createAt.toString());
+
+            // 경과 시간 추가
+            String messageWithTime = notification.getMessage() + " (" + timeAgo + ")";
+            notification.setMessage(messageWithTime);
+
 
             notification.setUrl(targetUrl);  // URL을 notification 객체에 설정
         }

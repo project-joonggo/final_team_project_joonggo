@@ -9,10 +9,10 @@
     <h1>유저관리</h1>
     <hr>
 
-    <form id="searchForm" action="/user/list" method="get" class="d-flex page-search-form" role="search">
+    <form id="searchForm" action="/user/list" method="get" class="d-flex page-search-form" role="search" onsubmit="searchUsers(event)">
       <div id="searchArea">
         <img id="searchImg" src="/img/search.svg" alt="Search Icon">
-        <input id="searchBox" class="form-control me-2 page-search-box" name="keyword" type="search" placeholder="이름, 이메일, 휴대폰번호, 주소 입력"
+        <input id="page-search-box" class="form-control me-2 page-search-box" name="keyword" type="search" placeholder="이름, 이메일, 휴대폰번호, 주소 입력"
                aria-label="Search">
       </div>
     </form>
@@ -38,7 +38,7 @@
           <td th:text="${user.phone}"></td>
           <td th:text="${user.address1}"></td>
           <td>
-            <button class="btn btn-danger suspend-btn" th:data-user-id="${userId}">추방</button>
+            <button class="btn btn-danger suspend-btn" th:data-user-id="${user.userNum}" onclick="suspendUser(event)">추방</button>
           </td>
         </tr>
         </tbody>

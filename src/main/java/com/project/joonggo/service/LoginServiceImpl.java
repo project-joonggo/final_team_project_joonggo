@@ -115,4 +115,15 @@ public class LoginServiceImpl implements LoginService {
         return userMapper.getUserList(pgvo);
     }
 
+    @Transactional
+    @Override
+    public void banUser(long userNum) {
+        userMapper.banUser(userNum);
+    }
+
+    @Override
+    public String getSellerAddressByUserNum(long sellerId) {
+        return userMapper.getSellerAddressByUserNum(sellerId);
+    }
+
 }

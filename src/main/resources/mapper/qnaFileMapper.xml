@@ -14,10 +14,6 @@
         update qna_file set qna_id = #{qnaId} where qna_id = 0
     </update>
 
-    <select id="getList" resultType="com.project.joonggo.domain.QnaVO">
-        select * from qna_board  WHERE is_del = 'N' order by qna_id desc
-    </select>
-
     <select id="getFileList" resultType="com.project.joonggo.domain.QnaFileVO">
         select * from qna_file where qna_id = ${qnaId}
     </select>

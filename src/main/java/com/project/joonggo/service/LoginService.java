@@ -37,4 +37,8 @@ public interface LoginService {
     int getTotal(PagingVO pgvo);
 
     List<UserVO> getUserList(PagingVO pgvo);
+
+    void banUser(long userNum);
+
+    String getSellerAddressByUserNum(long sellerId);
 }
