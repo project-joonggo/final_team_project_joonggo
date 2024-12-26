@@ -56,7 +56,7 @@
                 <div th:text="${product.boardVO.boardName}" class="item-title"></div>
 
                 <!-- 상품 가격 -->
-                <div th:text="'가격: ' + ${product.boardVO.tradePrice} + '원'" class="item-price"></div>
+                <div th:text="${product.boardVO.tradePrice} + '원'" class="item-price"></div>
 
                 <!-- 상품 등록일 -->
                 <div th:text="'등록일: ' + ${product.boardVO.regAt}" class="item-atc"></div>

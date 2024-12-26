@@ -28,37 +28,28 @@
                 <!--class="form-label"-->
                 <label for="inputGroupSelect01" class="register-name">카테고리</label>
                 <!--class="form-select form-select-sm"-->
-                <select id="inputGroupSelect01" name="category" required>
-                    <option value="" disabled selected>Choose...</option> <!-- 기본 옵션, disabled로 선택 불가 -->
-                    <option value="가전제품">가전제품</option>
-                    <option value="의류">의류</option>
-                    <option value="노트북/PC">노트북/PC</option>
-                    <option value="리빙/생활">리빙/생활</option>
-                    <option value="게임">게임</option>
-                    <option value="도서/음반/문구">도서/음반/문구</option>
-                    <option value="뷰티">뷰티</option>
-                    <option value="출산/유아동">출산/유아동</option>
-                    <option value="모바일/태블릿">모바일/태블릿</option>
-                    <option value="카메라/캠코더">카메라/캠코더</option>
-                    <option value="가구/인테리어">가구/인테리어</option>
-                    <option value="레저/여행">레저/여행</option>
-                    <option value="스포츠">스포츠</option>
-                    <option value="반려동물/취미">반려동물/취미</option>
-                    <option value="중고차">중고차</option>
-                </select>
+                <div class="selectBox">
+                    <select id="inputGroupSelect01" name="category" class="select" required>
+                        <option disabled selected>카테고리</option> <!-- 기본 옵션, disabled로 선택 불가 -->
+                        <option value="가전제품">가전제품</option>
+                        <option value="의류">의류</option>
+                        <option value="노트북/PC">노트북/PC</option>
+                        <option value="리빙/생활">리빙/생활</option>
+                        <option value="게임">게임</option>
+                        <option value="도서/음반/문구">도서/음반/문구</option>
+                        <option value="뷰티">뷰티</option>
+                        <option value="출산/유아동">출산/유아동</option>
+                        <option value="모바일/태블릿">모바일/태블릿</option>
+                        <option value="카메라/캠코더">카메라/캠코더</option>
+                        <option value="가구/인테리어">가구/인테리어</option>
+                        <option value="레저/여행">레저/여행</option>
+                        <option value="스포츠">스포츠</option>
+                        <option value="반려동물/취미">반려동물/취미</option>
+                        <option value="중고차">중고차</option>
+                    </select>
+                    <span class="icoArrow"><img src="/img/drop-down.svg" class="select-icon"></span>
+                </div>
             </div>
-
-            <!-- test -->
-<!--            <div class="selectBox">-->
-<!--                <select name="fruits" class="select">-->
-<!--                    <option disabled selected>fruits 🍊</option>-->
-<!--                    <option value="apple">apple</option>-->
-<!--                    <option value="orange">orange</option>-->
-<!--                    <option value="grape">grape</option>-->
-<!--                    <option value="melon">melon</option>-->
-<!--                </select>-->
-<!--                <span class="icoArrow"><img src="/img/drop-down.svg" class="select-icon"></span>-->
-<!--            </div>-->
 
             <!--class="mb-3"-->
             <div class="register-area">
@@ -93,9 +84,9 @@
 
             <!-- class="flexBox" -->
             <!--style="display: flex; justify-content:end;"-->
-            <div class="register-area">
+            <div class="register-area register-center">
                 <!-- class="btn btn-secondary" -->
-                <button type="submit" id="regBtn">register</button>
+                <button type="submit" id="regBtn" class="register-button">등록</button>
             </div>
 
         </form>

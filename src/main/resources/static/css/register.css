@@ -41,15 +41,27 @@
 }
 
 /* test */
+.select{
+    -webkit-appearance: none;  /* 크롬 화살표 없애기 */
+    -moz-appearance: none; /* 파이어폭스 화살표 없애기 */
+    appearance: none;  /* 화살표 없애기 */
+}
+
+.select option{
+    color: #A3A3A3;
+}
+
 .selectBox {
     position: relative;
     width: 150px;
-    height: 35px;
+    height: 36px;
     border-radius: 4px;
     border: 2px solid #ccc;
-  }
+    display: flex; /* Flexbox 사용 */
+    align-items: center; /* 세로 가운데 정렬 */
+}
 
-  .selectBox .select {
+.selectBox .select {
     width: inherit;
     height: inherit;
     background: transparent;
@@ -58,41 +70,42 @@
     padding: 0 5px;
     position: relative;
     z-index: 3; 
-  }
+}
 
-  .selectBox .select option {
+.selectBox .select option {
     background: #fff;
     color: #000;
     padding: 3px 0;
     font-size: 16px;
-  }
+}
 
-  .selectBox .select option:hover {
-    background: #F26879;
-  }
-
-  .selectBox .icoArrow {
+.selectBox .icoArrow {
     position: absolute; 
     top: 0; 
     right: 0; 
     z-index: 1; 
     width: 35px; 
-    height: 33px;
+    height: 34px;
     border-left: 2px solid #ccc;
     display: flex;
     justify-content: center;
-  }
-  
-  .select-icon {
-    width: 50%;
-    right: 100px;         /* 원하는 위치로 조정 */
-    top: 50%;            /* 중앙 배치 */
-  }
-
-  .selectBox .select:focus + .select-icon {
-    transform: rotate(180deg);
 }
 
-  /* .selectBox .select:focus + .icoArrow img {
-    transform: rotate(180deg);
-  } */
+.register-button{
+    width: 180px;
+    height: 50px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 24px;
+    font-weight: 500;
+}
+
+.register-button:hover{
+    background-color: #CE4E6A;
+}
+
+.register-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
