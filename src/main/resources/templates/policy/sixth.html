@@ -4,15 +4,32 @@
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
+<head>
+  <link rel="stylesheet" th:href="@{/css/qnaMain.css}">
+  <link rel="stylesheet" th:href="@{/css/faq.css}">
+  <link rel="stylesheet" th:href="@{/css/policy.css}">
+</head>
+
 <div layout:fragment="content">
   <div class="container-md">
-    <h2>서비스 이용 제한</h2>
 
+    <div class="move-main">
+      <a href="/qna/main">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+          <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+          <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+        </svg>
+      </a>
+    </div>
+
+    <p class="qna-title">서비스 이용 제한</p>
+
+    <div class="faq-content">
     <p>이용약관 및 운영정책을 위반하거나 다른 이용자 혹은 회사에 경제적 ・ 물리적 ・ 정신적 피해를 주는 등 기타 부적절하다고 판단되는 행위가 있을 경우 앱 실행을 포함하여 쓸템에서 제공되는 모든 기능 및 서비스에 대해 일시적 혹은 영구적으로 이용이 제한될 수 있어요.</p>
 
-    <h3>기능 제한</h3>
-    <p>제한 기간에 따라 다음과 같은 기능 제한이 적용될 수 있어요:</p>
-    <ul>
+    <p class="qna-sub sub-top">기능 제한</p>
+    <p>제한 기간에 따라 다음과 같은 기능 제한이 적용될 수 있어요!</p>
+    <ul class="policy-ul">
       <li><strong>로그인 제한:</strong> 쓸템 앱 서비스의 실행을 포함하여 전체 서비스에 대한 이용이 제한될 수 있어요.</li>
       <li><strong>채팅 제한:</strong> 기존 ・ 신규 채팅의 일부 또는 전체 이용이 제한될 수 있어요. 또한, 채팅방 내에서 사용할 수 있는 약속 잡기, 쓸템 전화 등 일부 또는 전체의 이용이 제한될 수 있어요.</li>
       <li><strong>콘텐츠 작성 제한:</strong> 일부 또는 전체 서비스에서 게시글, 댓글, 후기 등 콘텐츠 작성・수정・삭제가 제한될 수 있어요.</li>
@@ -20,19 +37,66 @@
       <li><strong>계정 제한:</strong> 동일한 환경에서 서비스 탈퇴 → 재가입 혹은 동일한 환경에서 서비스를 이용하는 것으로 확인되는 경우, 이용정지 내용이 새로 가입한 계정에 적용될 수 있어요.</li>
     </ul>
 
-    <h3>제한 기간</h3>
+    <p class="qna-sub sub-top">제한 기간</p>
     <p>이용약관 및 운영정책을 위반하거나 기타 부적절하다고 판단되는 행위가 있을 경우, 일부 기능 또는 서비스에 대해 아래와 같이 단계별 제한이 늘어날 수 있어요. 또한, 위반 사안에 따라 심각하다고 판단되는 경우, 사전 통보 없이 높은 단계 또는 영구적으로 이용 제한이 될 수 있어요.</p>
-    <ul>
+    <ul class="policy-ul">
       <li><strong>1차:</strong> 경고</li>
       <li><strong>2차 이상:</strong> 일정 기간 이용 제한</li>
       <li><strong>심각한 정책 위반:</strong> 영구 이용 제한</li>
     </ul>
     <p><em>※ 제한 기간은 각 서비스 특성에 따라 다를 수 있어요.</em></p>
 
-    <h3>이용 제한 및 이용자 보호조치에 대한 이의 제기</h3>
+    <p class="qna-sub sub-top">이용 제한 및 이용자 보호조치에 대한 이의 제기</p>
     <p>이용 제한 및 보호조치에 대한 이의 제기는 쓸템팀을 통해 신청해 주세요.</p>
 
-    <a href="/qna/register"><button type="button" class="btn btn-secondary">문의하기</button></a>
+    </div>
+
+    <!-- 운영 정책 -->
+    <p class="sub-title" style="margin-top: 58px;">운영 정책</p>
+    <div class="qna-box">
+      <ul class="qna-list">
+        <li>
+          <a href="/policy/first">올바른 (쓸템) 사용법
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/second">불법 ・ 유해 콘텐츠와 거래금지물품
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/third">범죄 및 유해 행위
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/fourth">이용자에게 불쾌감을 유발하는 콘텐츠
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/fifth">권리 및 사생활 보호
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="feedback-box">
+      <span>도움이 필요하신가요?</span>
+      <a href="/qna/register"><button type="button" class="btn">문의하기</button></a>
+    </div>
 
   </div>
 </div>

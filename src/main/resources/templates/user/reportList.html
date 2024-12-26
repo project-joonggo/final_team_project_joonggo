@@ -6,28 +6,33 @@
 
 <div id="content" layout:fragment="content">
   <div class="container-md" id="reportListWrap">
-    <h1>신고 리스트</h1>
-    <div>총 [[${ph.totalCount}]]개의 신고가 접수 되었습니다.</div>
 
-    <select id="reportCategory" class="form-select">
-      <option value="">모든 신고 사유</option>
-      <!-- reasonList를 동적으로 추가 -->
-      <th:block th:each="reason : ${reasonList}">
-        <option th:value="${reason.compId}"
-                th:text="${reason.compContent}"
-                th:selected="${selectedCategory == reason.compId}"> </option>
-      </th:block>
-    </select>
+    <h1 class="list-title">신고관리</h1>
+    <hr>
 
-    <table class="table table-success table-striped">
+    <div class="sub-title">총 [[${ph.totalCount}]]개의 신고가 접수 되었습니다.</div>
+
+    <div class="report-flex-box">
+      <select id="reportCategory" class="form-select">
+        <option value="">모든 신고 사유</option>
+        <!-- reasonList를 동적으로 추가 -->
+        <th:block th:each="reason : ${reasonList}">
+          <option th:value="${reason.compId}"
+                  th:text="${reason.compContent}"
+                  th:selected="${selectedCategory == reason.compId}"> </option>
+        </th:block>
+      </select>
+    </div>
+
+    <table class="user-table">
       <thead>
       <tr>
-        <th scope="col">report_num</th>
-        <th scope="col">report_comp_id</th>
-        <th scope="col">report_date</th>
-        <th scope="col">user_num</th>
-        <th scope="col">status</th>
-        <th scope="col">board_id</th>
+        <th scope="col">신고번호</th>
+        <th scope="col">신고사유</th>
+        <th scope="col">접수일</th>
+        <th scope="col">신고당한유저번호</th>
+        <th scope="col">승인상태</th>
+        <th scope="col">신고게시글번호</th>
       </tr>
       </thead>
       <tbody>

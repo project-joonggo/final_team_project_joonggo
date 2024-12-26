@@ -1,0 +1,11 @@
+.list-title{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    margin-top: 30px;
+}
+
+/* .hidden 클래스를 추가하면 요소가 숨겨짐 */
+.hidden {
+    display: none;
+}

@@ -4,38 +4,113 @@
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
+<head>
+  <link rel="stylesheet" th:href="@{/css/qnaMain.css}">
+</head>
+
 
 <div layout:fragment="content">
 
 
   <div class="container-md">
   <!-- 큰 제목 -->
-  <p style="font-size: 36px; text-align: center;">안녕하세요, 무엇을 도와드릴까요?</p>
+  <p class="main-title">안녕하세요, 무엇을 도와드릴까요?</p>
 
   <!-- 자주 묻는 질문 -->
-    <p style="font-size : 24px">자주 묻는 질문</p>
-    <ul>
-      <li><a href="/faq/first">Q1: 서비스 가입 방법은 무엇인가요?</a></li>
-      <li><a href="/faq/second">Q2: 비밀번호를 잊어버렸을 때 어떻게 하나요?</a></li>
-      <li><a href="/faq/third">Q3: 결제 방법은 무엇이 있나요?</a></li>
-      <li><a href="/faq/fourth">Q4: 배송은 얼마나 걸리나요?</a></li>
-      <li><a href="/faq/fifth">Q5: 계정을 삭제하고 싶어요.</a></li>
-    </ul>
-
+    <p class="sub-title">자주 묻는 질문</p>
+    <div class="qna-box">
+      <ul class="qna-list">
+        <li>
+          <a href="/faq/first">Q1: 서비스 가입 방법은 무엇인가요?
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+          <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+        <li>
+          <a href="/faq/second">Q2: 비밀번호를 잊어버렸을 때 어떻게 하나요?
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+        <li>
+          <a href="/faq/third">Q3: 결제 방법은 무엇이 있나요?
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+        <li>
+          <a href="/faq/fourth">Q4: 배송은 얼마나 걸리나요?
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+        <li>
+          <a href="/faq/fifth">Q5: 계정을 삭제하고 싶어요.
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+      </ul>
+    </div>
   <!-- 운영 정책 -->
-    <p style="font-size : 24px">운영 정책</p>
-    <ul>
-      <li><a href="/policy/first">올바른 (쓸템) 사용법</a></li>
-      <li><a href="/policy/second">불법 ・ 유해 콘텐츠와 거래금지물품</a></li>
-      <li><a href="/policy/third">범죄 및 유해 행위</a></li>
-      <li><a href="/policy/fourth">이용자에게 불쾌감을 유발하는 콘텐츠</a></li>
-      <li><a href="/policy/fifth">권리 및 사생활 보호</a></li>
-      <li><a href="/policy/sixth">서비스 이용 제한</a></li>
-    </ul>
+    <p class="sub-title" style="margin-top: 58px;">운영 정책</p>
+    <div class="qna-box">
+      <ul class="qna-list">
+        <li>
+          <a href="/policy/first">올바른 (쓸템) 사용법
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+        <li>
+          <a href="/policy/second">불법 ・ 유해 콘텐츠와 거래금지물품
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+        <li>
+          <a href="/policy/third">범죄 및 유해 행위
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+        <li>
+          <a href="/policy/fourth">이용자에게 불쾌감을 유발하는 콘텐츠
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+        <li>
+          <a href="/policy/fifth">권리 및 사생활 보호
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+        <li>
+          <a href="/policy/sixth">서비스 이용 제한
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+          </svg>
+        </a>
+        </li>
+      </ul>
+    </div>
 
-  <!-- 도움말 -->
-    <span>도움이 필요하신가요?</span>
-   <a href="/qna/register"><button type="button" class="btn btn-secondary">문의하기</button></a>
+
+   <div class="feedback-box">
+   <span>도움이 필요하신가요?</span>
+   <a href="/qna/register"><button type="button" class="btn">문의하기</button></a>
+   </div>
 
   </div>
 

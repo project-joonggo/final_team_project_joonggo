@@ -4,14 +4,32 @@
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
+<head>
+  <link rel="stylesheet" th:href="@{/css/qnaMain.css}">
+  <link rel="stylesheet" th:href="@{/css/faq.css}">
+  <link rel="stylesheet" th:href="@{/css/policy.css}">
+</head>
+
 <div layout:fragment="content">
   <div class="container-md">
-    <h2>범죄 및 유해 행위</h2>
-    <p>쓸템은 안전하고 신뢰할 수 있는 동네 이웃 간의 교류를 촉진하기 위해 최선을 다하고 있습니다. 그러나 범죄적이거나 유해한 행위는 이 환경을 심각하게 해칠 수 있습니다. 쓸템은 이러한 행위에 대해 철저히 대응하고 있으며, 범죄나 유해한 활동을 확인할 경우 즉시 신고해 주세요.</p>
 
+    <div class="move-main">
+      <a href="/qna/main">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+          <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+          <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+        </svg>
+      </a>
+    </div>
+
+    <p class="qna-title">범죄 및 유해 행위</p>
+
+    <div class="faq-content">
+
+    <p>쓸템은 안전하고 신뢰할 수 있는 동네 이웃 간의 교류를 촉진하기 위해 최선을 다하고 있습니다. 그러나 범죄적이거나 유해한 행위는 이 환경을 심각하게 해칠 수 있습니다. 쓸템은 이러한 행위에 대해 철저히 대응하고 있으며, 범죄나 유해한 활동을 확인할 경우 즉시 신고해 주세요.</p>
     <p>아래와 같은 범죄적 또는 유해한 행위는 절대로 허용되지 않으며, 발견되면 즉시 쓸템의 운영팀에서 조사 후 해당 계정은 제한될 수 있습니다.</p>
 
-    <ul>
+    <ul class="policy-ul">
       <li><strong>불법 거래 또는 마약 거래</strong> - 쓸템은 모든 종류의 불법 물품이나 마약, 향정신성 물질을 거래하는 것을 엄격히 금지합니다. 불법적인 거래가 의심되는 경우 즉시 신고해 주세요.</li>
       <li><strong>폭력적 행동 및 협박</strong> - 물리적 폭력이나 협박, 위협적인 행동은 어떠한 상황에서도 용납되지 않습니다. 사용자는 서로 존중하며 안전한 환경을 유지해야 합니다.</li>
       <li><strong>성폭력 및 성적 괴롭힘</strong> - 성적 언행, 성희롱, 성폭력은 법적으로도 처벌을 받을 수 있는 심각한 범죄입니다. 쓸템에서는 이를 엄격히 금지하며, 관련 내용이 확인될 경우 즉시 신고해 주세요.</li>
@@ -23,10 +41,56 @@
     </ul>
 
     <p>쓸템은 범죄 및 유해한 행위에 대해 민감하게 반응하며, 이러한 행위가 확인되면 즉시 계정을 제한하거나 법적 조치를 취할 수 있습니다. 피해를 입은 사용자 역시 피해를 최소화할 수 있도록 쓸템 운영팀에 즉시 연락해 주세요.</p>
-
     <p>쓸템은 모든 사용자가 안전하고 신뢰할 수 있는 환경에서 서비스를 이용할 수 있도록 최선을 다하고 있습니다. 범죄와 유해 행위는 모두의 안전을 위협하는 요소이므로, 이를 방지하고 함께 건강한 서비스를 만들어 나가도록 합시다.</p>
 
+    </div>
 
-    <a href="/qna/register"><button type="button" class="btn btn-secondary">문의하기</button></a>
+    <!-- 운영 정책 -->
+    <p class="sub-title" style="margin-top: 58px;">운영 정책</p>
+    <div class="qna-box">
+      <ul class="qna-list">
+        <li>
+          <a href="/policy/first">올바른 (쓸템) 사용법
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/second">불법 ・ 유해 콘텐츠와 거래금지물품
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/fourth">이용자에게 불쾌감을 유발하는 콘텐츠
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/fifth">권리 및 사생활 보호
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/sixth">서비스 이용 제한
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="feedback-box">
+      <span>도움이 필요하신가요?</span>
+      <a href="/qna/register"><button type="button" class="btn">문의하기</button></a>
+    </div>
+
   </div>
 </div>

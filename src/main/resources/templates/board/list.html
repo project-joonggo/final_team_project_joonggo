@@ -4,11 +4,84 @@
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
+<head>
+  <link rel="stylesheet" th:href="@{/css/boardList.css}">
+</head>
+
 
 <div layout:fragment="content">
 
   <div class="container-md cBox">
 
+      <h2 class="list-title">검색결과</h2>
+      <hr>
+      <table>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>
+              <p>카테고리</p>
+              <button id="category-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+              </button>
+            </td>
+            <td>
+              <div id="category-selection" class="">
+                <ol id="breadcrumb">
+                  <li><a href="/board/list" id="selected-category">전체</a></li>
+                </ol>
+              </div>
+            </td>
+          </tr>
+          <tr class="category-list hidden">
+            <td>
+            </td>
+            <td>
+              <ul>
+                <li><a href="#" data-category="가전제품">가전제품</a></li>
+                <li><a href="#" data-category="의류">의류</a></li>
+                <li><a href="#" data-category="노트북/PC">노트북/PC</a></li>
+                <li><a href="#" data-category="리빙/생활">리빙/생활</a></li>
+                <li><a href="#" data-category="게임">게임</a></li>
+                <li><a href="#" data-category="도서/음반/문구">도서/음반/문구</a></li>
+                <li><a href="#" data-category="뷰티">뷰티</a></li>
+                <li><a href="#" data-category="출산/유아동">출산/유아동</a></li>
+                <li><a href="#" data-category="모바일/태블릿">모바일/태블릿</a></li>
+                <li><a href="#" data-category="카메라/캠코더">카메라/캠코더</a></li>
+                <li><a href="#" data-category="가구/인테리어">가구/인테리어</a></li>
+                <li><a href="#" data-category="레저/여행">레저/여행</a></li>
+                <li><a href="#" data-category="스포츠">스포츠</a></li>
+                <li><a href="#" data-category="반려동물/취미">반려동물/취미</a></li>
+                <li><a href="#" data-category="중고차">중고차</a></li>
+              </ul>
+            </td>
+          </tr>
+          <tr>
+            <td>가격</td>
+            <td>
+              <input type="text" placeholder="최소가격">
+              <span>
+
+              </span>
+              <input type="text" placeholder="최대가격">
+              <button>적용</button>
+            </td>
+          </tr>
+          <tr>
+            <td>옵션</td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>선택한 필터</td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
 
       <table>
         <thead>
@@ -68,12 +141,7 @@
       </ul>
     </nav>
 
-
-
-
-
-
-
+    <script th:src="@{/js/boardList.js}"></script>
 
   </div>
 </div>

@@ -1,0 +1,59 @@
+.main-title{
+    font-size: 36px;
+    text-align: center;
+    font-weight: bold;
+    padding: 50px;
+}
+
+.sub-title{
+   font-size: 24px;
+   font-weight: bold;
+   padding : 15px;
+   width: 800px;
+   margin: 0 auto;
+   margin-bottom: 10px;
+}
+
+.qna-box{
+    width: 800px;
+    margin: 0 auto;
+}
+
+
+.qna-list li {
+    margin-bottom: 20px; /* 항목 사이의 간격 */
+}
+
+.qna-list a {
+    display: flex; /* 플렉스박스를 사용하여 아이콘과 텍스트를 수평으로 배치 */
+    justify-content: space-between; /* 아이콘과 텍스트 사이에 공간을 만들기 */
+    padding: 15px 20px; /* 패딩을 주어 클릭 영역을 크게 */
+    font-size: 16px;
+    color: #000; /* 텍스트 색상 */
+    border-bottom: 2px solid #eaebee;
+}
+
+.feedback-box {
+    display: flex; /* flexbox로 배치하여 수평으로 정렬 */
+    justify-content: space-between; /* span과 a 요소 사이에 공간을 설정 */
+    padding: 20px;
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 58px;
+    align-items: center;
+    margin-bottom: 50px;
+}
+
+.feedback-box span {
+    font-size: 20px;
+    color: #000;
+    font-weight: bold;
+}
+
+.feedback-box .btn {
+    padding: 10px 20px; /* 버튼 크기 조정 */
+    background-color: #A0173B;
+    color: #ffffff;
+    border-radius: 10px;
+    font-weight: 600px;
+}

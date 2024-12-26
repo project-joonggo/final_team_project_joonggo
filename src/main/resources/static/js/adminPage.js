@@ -4,6 +4,9 @@ console.log("admin js in~!!");
 let isPending = 'false';  // 기본값은 'false' (전체보기)
 
 document.addEventListener('DOMContentLoaded', function() {
+
+    loadContent('/user/list');  // 페이지 로드 시 유저 리스트를 자동으로 불러옴
+
     // 사이드 메뉴 링크 클릭 시
     const sideMenuLinks = document.querySelectorAll('.side-menu-link');
     console.log(sideMenuLinks);
