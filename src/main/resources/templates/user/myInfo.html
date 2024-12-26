@@ -6,20 +6,43 @@
 
 <div layout:fragment="content">
   <div class="container-md d-flex justify-content-between margin-top-30" id="myInfo">
-      <div class="sideMenu">
-          <h2 class="sideTitle font-weight-bold">마이 페이지</h2>
-          <h3 class="font-weight-bold">거래 정보</h3>
-          <ul>
-              <li><a href="/payment/history">거래내역</a></li>
-              <li><a href="/wish/list">찜한 상품</a></li>
-          </ul>
-          <h3 class="font-weight-bold">내 정보</h3>
-          <ul>
-              <li><a href="/event/myGiftcon">당첨내역</a></li>
-              <li><a href="/qna/my">내 문의 내역</a></li>
-              <li><a href="/user/modify">내 정보 수정</a></li>
-              <li><a class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</a></li>
-          </ul>
+
+          <div class="sideMenu">
+              <h2 class="sideTitle font-weight-bold">마이 페이지</h2>
+              <h3 class="sideSubTitle font-weight-bold">거래 정보</h3>
+              <ul>
+                  <li><a href="/payment/history" class="menuItems">거래내역</a></li>
+                  <li><a href="/wish/list" class="menuItems">찜한 상품</a></li>
+              </ul>
+
+              <div class="title-divider"></div>
+
+              <h3 class="sideSubTitle font-weight-bold">내 정보</h3>
+              <ul>
+                  <li><a href="/event/myGiftcon" class="menuItems">당첨내역</a></li>
+                  <li><a href="/qna/my" class="menuItems">내 문의 내역</a></li>
+                  <li><a href="/user/modify" class="menuItems">내 정보 수정</a></li>
+                  <li><a class="cursor-pointer menuItems" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</a></li>
+              </ul>
+
+              <div class="title-divider"></div>
+
+              <h3 class="sideSubTitle font-weight-bold">내 배송지</h3>
+
+              <div class="map-box">
+                  <script type="text/javascript"
+                          th:src="@{'https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b&libraries=services'}"></script>
+
+                  <div id="map3" style="width:180px;height:160px;"></div>
+
+                  <script th:inline="javascript">
+                      var streetAddress = sessionStorage.getItem('userStreetAddress');
+                  </script>
+
+                  <script th:src="@{/js/myLocationMap.js}"></script>
+              </div>
+          </div>
+
           <!-- 모달 -->
           <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
               <div class="modal-dialog">
@@ -29,24 +52,25 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                       </div>
                       <div class="modal-body">
-                          유의 사항을 확인해주세요!
-                          전자 상거래 등에서의 소비자 보호에 관한 법률 규정에 따라 아래와 같이 기록을 보관하며, 법률 의한 경우 외 다른 목적으로 이용되지 않습니다.
-                          표시 광고에 대한 기록          6개월
-                          계약 또는 청약철회, 대금결제 및 재화 등의 공급에 관한 기록        5년
-                          소비자의 불만 또는 분쟁처리에 관한 기록            3년
-                          전자금융거래기록      5년
-
-                          탈퇴 신청 후 72시간(3일) 이내 철회 가능하며, 그 후에는 복구할 수 없습니다.
-                          정말 탈퇴하시겠습니까?
+                          <div>유의 사항을 확인해주세요!</div>
+                          <div><span>01</span> <span>탈퇴 신청일로부터 30일 이내에 동일한 아이디와 휴대폰 번호로 가입 불가하며 재가입 시, 신규 가입 혜택은 적용되지 않습니다.</span></div>
+                          <div><span>02</span> <span>회원 탈퇴 시 본인 계정에 등록된 게시물 또는 회원이 작성한 게시물 일체는 삭제됩니다. 다만, 다른 회원에 의해 스크랩되어 게시되거나 공용 게시판에 등록된 게시물은 삭제되지 않으니 삭제를 원하신다면 미리 삭제 후 탈퇴를 진행해주세요.</span></div>
+                          <div><span>03</span> <span>전자 상거래 등에서의 소비자 보호에 관한 법률 규정에 따라 아래와 같이 기록을 보관하며, 법률 의한 경우 외 다른 목적으로 이용되지 않습니다.</span></div>
+                          <div><span>표시 광고에 대한 기록</span> <span>6개월</span></div>
+                          <div><span>계약 또는 청약철회, 대금결제 및 재화 등의 공급에 관한 기록</span> <span>5년</span></div>
+                          <div><span>소비자의 불만 또는 분쟁처리에 관한 기록</span> <span>3년</span></div>
+                          <div><span>전자금융거래기록</span> <span>5년</span></div>
+                          <div><span>04</span> <span>탈퇴 신청 후 72시간(3일) 이내 철회 가능하며, 그 후에는 복구할 수 없습니다.</span></div>
                       </div>
                       <div class="modal-footer">
-                          <a class="cursor-pointer" data-bs-dismiss="modal">취소</a>
-                          <a id="confirmDeleteButton" class="cursor-pointer" onclick="showAlert()">탈퇴</a>
+                          <button id="confirmDeleteButton" class="btn cursor-pointer" onclick="showAlert()">탈퇴</button>
+                          <!--<a id="confirmDeleteButton" class="cursor-pointer" onclick="showAlert()">탈퇴</a>
+                          <a class="cursor-pointer" data-bs-dismiss="modal">취소</a>-->
                       </div>
                   </div>
               </div>
           </div>
-      </div>
+
       <div class="mainContent" th:with="auth=${#authentication.getPrincipal()}">
           <div class="d-flex justify-content-between">
               <div class="mainLeft d-flex justify-content-start">

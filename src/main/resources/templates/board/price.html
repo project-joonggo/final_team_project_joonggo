@@ -16,7 +16,7 @@
             <div class="price-title">시세 조회</div>
             <div class="price-subTitle">원하시는 상품이 얼마에 거래되고 있는지 알아보세요</div>
             <!--class="d-flex"-->
-            <form action="/board/price" role="search">
+            <form action="/board/price" role="search" id="priceSearchForm">
                 <div class="price-searchBar">
                     <!--class="form-control me-2"-->
                     <!--<img src="/img/search.svg" alt="Search Icon" class="price-searchIcon">-->
@@ -26,46 +26,46 @@
             </form>
         </div>
 
-        <div class="product-title">최근 등록된 상품</div>
+        <div id="price-hiddenBox">
+            <div class="product-title">최근 등록된 상품</div>
 
-        <hr>
+            <hr>
 
-        <div class="product-subTitle">최근 등록된 상품의 가격을 비교해봤어요</div>
+            <div class="product-subTitle">최근 등록된 상품의 가격을 비교해봤어요</div>
 
-        <!-- 시세 정보 표시 부분 -->
-        <div class="product-priceContainer">
-            <div class="product-priceBox"><span class="product-priceName">평균 가격</span><span th:text="${averagePrice} + '원'" class="product-price"></span></div>
-            <div class="product-divider"></div>
-            <div class="product-priceBox"><span class="product-priceName">최대 가격</span><span th:text="${maxPrice} + '원'" class="product-price"></span></div>
-            <div class="product-divider"></div>
-            <div class="product-priceBox"><span class="product-priceName">최소 가격</span><span th:text="${minPrice} + '원'" class="product-price"></span></div>
-        </div>
+            <!-- 시세 정보 표시 부분 -->
+            <div class="product-priceContainer">
+                <div class="product-priceBox"><span class="product-priceName">평균 가격</span><span th:text="${averagePrice} + '원'" class="product-price"></span></div>
+                <div class="product-divider"></div>
+                <div class="product-priceBox"><span class="product-priceName">최대 가격</span><span th:text="${maxPrice} + '원'" class="product-price"></span></div>
+                <div class="product-divider"></div>
+                <div class="product-priceBox"><span class="product-priceName">최소 가격</span><span th:text="${minPrice} + '원'" class="product-price"></span></div>
+            </div>
 
-        <!-- 검색된 상품 리스트 부분 -->
-        <div class="product-list">
-            <!-- 최근 등록된 상품 20개 순회 -->
-            <div th:each="product : ${recentProducts}" class="product-item">
-                <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
-                <!-- 상품 이미지 -->
-                <div class="product-image">
-                    <img th:if="${product.fileVOList != null and !product.fileVOList.isEmpty()}"
-                         th:src="@{${product.fileVOList[0].fileUrl}}" alt="상품 이미지" />
+            <!-- 검색된 상품 리스트 부분 -->
+            <div class="product-list">
+                <!-- 최근 등록된 상품 20개 순회 -->
+                <div th:each="product : ${recentProducts}" class="product-item">
+                    <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
+                    <!-- 상품 이미지 -->
+                    <div class="product-image">
+                        <img th:if="${product.fileVOList != null and !product.fileVOList.isEmpty()}"
+                             th:src="@{${product.fileVOList[0].fileUrl}}" alt="상품 이미지" />
+                    </div>
+
+                    <!-- 상품 제목 -->
+                    <div th:text="${product.boardVO.boardName}" class="item-title"></div>
+
+                    <!-- 상품 가격 -->
+                    <div th:text="${product.boardVO.tradePrice} + '원'" class="item-price"></div>
+
+                    <!-- 상품 등록일 -->
+                    <div th:text="'등록일: ' + ${product.boardVO.regAt}" class="item-atc"></div>
+                    </a>
                 </div>
-
-                <!-- 상품 제목 -->
-                <div th:text="${product.boardVO.boardName}" class="item-title"></div>
-
-                <!-- 상품 가격 -->
-                <div th:text="${product.boardVO.tradePrice} + '원'" class="item-price"></div>
-
-                <!-- 상품 등록일 -->
-                <div th:text="'등록일: ' + ${product.boardVO.regAt}" class="item-atc"></div>
-                </a>
             </div>
         </div>
     </div>
 
     <hr style="visibility: hidden; margin-bottom: 120px;">
-
-    <script th:src="@{/js/price.js}"></script>
 </div>

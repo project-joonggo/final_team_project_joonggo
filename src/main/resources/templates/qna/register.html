@@ -6,36 +6,64 @@
 
 
 <div layout:fragment="content">
-  <div class="container-md cBox" style="margin-top : 50px;" >
-    <h1>1:1 문의</h1>
-    <hr>
+  <link rel="stylesheet" th:href="@{/css/register.css}">
+<!--  <div class="container-md cBox" style="margin-top : 50px;" >-->
+  <div class="register-container">
+<!--    <h1>1:1 문의</h1>-->
+<!--    <hr>-->
     <form action="/qna/register" method="post" enctype="multipart/form-data">
-      <div class="mb-3">
-        <label for="q" class="form-label">문의제목</label>
-        <input type="text" class="form-control" id="q" name="qnaName" placeholder="제목">
+<!--      <div class="mb-3">-->
+      <div class="register-area">
+        <!--class="form-label"-->
+        <label for="q" class="register-name">문의제목</label>
+        <!--class="form-control"-->
+        <input type="text" class="register-input" id="q" name="qnaName" placeholder="제목">
       </div>
+
       <!-- qnaFormType 이라는 hidden input 추가 -->
       <input type="hidden" id="formType" value="qna">
-      <div class="mb-3">
-        <label for="inputGroupSelect01" class="form-label">문의 카테고리</label>
-        <select class="form-select form-select-sm" id="inputGroupSelect01" name="category" required>
-          <option value="" disabled selected>선택...</option> <!-- 기본 옵션, disabled로 선택 불가 -->
-          <option value="계정문의">계정문의</option>
-          <option value="채팅,알림">채팅,알림</option>
-          <option value="중고거래">중고거래</option>
-          <option value="광고문의">광고문의</option>
-          <option value="이벤트문의">이벤트문의</option>
-          <option value="직거래문의">직거래문의</option>
-          <option value="다른 문제가 있어요">다른 문제가 있어요</option>
-        </select>
+
+      <!--class="mb-3"-->
+      <div class="register-area">
+        <!--class="form-label"-->
+        <label for="inputGroupSelect01" class="register-name">카테고리</label>
+        <!--class="form-select form-select-sm"-->
+        <div class="selectBox">
+          <select id="inputGroupSelect01" name="category" class="select" required>
+            <option disabled selected>카테고리</option> <!-- 기본 옵션, disabled로 선택 불가 -->
+            <option value="계정문의">계정문의</option>
+            <option value="채팅,알림">채팅,알림</option>
+            <option value="중고거래">중고거래</option>
+            <option value="광고문의">광고문의</option>
+            <option value="이벤트문의">이벤트문의</option>
+            <option value="직거래문의">직거래문의</option>
+            <option value="다른 문제가 있어요">기타</option>
+          </select>
+          <span class="icoArrow"><img src="/img/drop-down.svg" class="select-icon"></span>
+        </div>
       </div>
-      <div id="smarteditor" class="mb-3">
-        <label for="c" class="form-label">문의내용</label>
-        <textarea class="form-control" id="c" name="qnaContent" cols="10" rows="20" placeholder="문의 할 내용을 입력해주세요.."></textarea>
+
+      <!--class="mb-3"-->
+      <div id="smarteditor" class="register-area">
+        <!--class="form-label"-->
+        <label for="c" class="register-name">문의내용</label>
+        <!--class="form-control"-->
+        <textarea id="c" name="qnaContent" rows="30"></textarea>
       </div>
-      <div class="flexBox" style="display: flex; justify-content:end;">
-        <button type="submit" class="btn btn-secondary" id="regBtn">문의작성</button>
+
+      <div class="register-notes">
+        <div class="register-bold">등록 시 참고사항</div>
+        <br>
+        <div class="register-bold">* 정확한 답변을 위해 문의 내용을 자세히 작성해 주세요.</div>
+        <div class="register-bold">* 문의하신 사항은 사실관계 확인 후 영업일 2~5일 이내 순차적으로 답변 드리겠습니다.</div>
       </div>
+
+      <!--class="flexBox" style="display: flex; justify-content:end;"-->
+      <div class="register-area register-center">
+        <!--class="btn btn-secondary"-->
+        <button type="submit" class="register-button" id="regBtn">등록</button>
+      </div>
+
     </form>
 
     <script th:src="@{/js/qnaRegister.js}" charset="UTF-8"></script>
