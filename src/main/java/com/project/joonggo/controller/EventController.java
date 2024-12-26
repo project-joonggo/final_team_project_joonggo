@@ -19,6 +19,24 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
+// 바코드 import
+/*import java.io.ByteArrayOutputStream;
+import java.util.EnumMap;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.oned.Code128Writer;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;*/
+
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/event/*")
@@ -42,6 +60,7 @@ public class EventController {
 
         model.addAttribute("list", list);
         model.addAttribute("ph", ph);
+
         return "/event/myGiftcon";
     }
 
@@ -112,8 +131,5 @@ public class EventController {
                     .body(Map.of("success", false, "error", e.getMessage()));
         }
     }
-
-
-
 
 }
