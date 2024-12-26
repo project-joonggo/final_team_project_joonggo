@@ -4,6 +4,7 @@ package com.project.joonggo.controller;
 import com.project.joonggo.domain.ChatCommentVO;
 import com.project.joonggo.domain.ChatJoinVO;
 import com.project.joonggo.domain.ChatRoomVO;
+import com.project.joonggo.security.AuthUser;
 import com.project.joonggo.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +33,11 @@ public class ChatController {
 
     // 채팅방 목록을 가져오기
     @GetMapping("/chatRoomList")
-    public String getChatRoomList(Model m, @RequestParam("userNum") int userNum) {
+    public String getChatRoomList(Model m) {
+        // SecurityContext에서 직접 userNum 가져오기
+        AuthUser authUser = (AuthUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        long userNum = authUser.getUserVO().getUserNum();
+
         List<ChatRoomVO> chatRoomList = chatService.getChatRoomList(userNum);
 
         // 각 채팅방의 안 읽은 메시지 수
@@ -131,13 +137,10 @@ public class ChatController {
     @GetMapping("/unread/total")
     @ResponseBody
     public ResponseEntity<Integer> getTotalUnreadCount(@RequestParam("userNum") int userNum) {
-        return ResponseEntity.ok(chatService.getTotalUnreadCount(userNum));
+        log.info("Getting total unread count for userNum: {}", userNum);
+        int count = chatService.getTotalUnreadCount(userNum);
+        log.info("Total unread count: {}", count);
+        return ResponseEntity.ok(count);
     }
 
-//    @MessageMapping("/chat/{roomId}/enter")
-//    @SendTo("/topic/chat/{roomId}/enter")
-//    public ChatJoinVO handleEnter(@DestinationVariable("roomId") int roomId, ChatJoinVO joinInfo) {
-//        log.info("User {} entered chat room {}", joinInfo.getUserNum(), joinInfo.getRoomId());
-//        return joinInfo;
-//    }
 }

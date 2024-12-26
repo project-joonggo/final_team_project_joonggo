@@ -115,6 +115,7 @@ create table chat_comment(
                         comment_user_num int not null,
                         comment_content varchar(512),
                         comment_write_date datetime default now(),
+                        is_read int default 0,
                         primary key(comment_id)
                         -- foreign key(room_id) references chat_room(room_id)
                         -- foreign key(comment_user_num) references user(user_num)
@@ -270,7 +271,7 @@ alter table reportlist add column board_id bigint;
 -- 관리자 권한 주기 INSERT INTO auth (user_num, auth) VALUES (50, 'ROLE_ADMIN');
 
 
--- 241227
+-- 241217
 ALTER TABLE notifications
 ADD COLUMN move_id bigint;
 

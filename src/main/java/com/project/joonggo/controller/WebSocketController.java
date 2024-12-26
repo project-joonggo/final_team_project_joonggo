@@ -27,17 +27,40 @@ public class WebSocketController {
     private final SimpMessagingTemplate messagingTemplate;
 
     // 채팅방별 접속 중인 사용자를 추적하기 위한 Map
-    private static Map<Integer, Set<Integer>> activeUsers = new ConcurrentHashMap<>();
+    private static final Map<Integer, Set<Integer>> activeUsers = new ConcurrentHashMap<>();
 
     // 사용자가 채팅방에 입장할 때
     @MessageMapping("/chat/{roomId}/enter")
-    public void handleEnter(@DestinationVariable("roomId") int roomId, ChatJoinVO joinInfo) {
-        log.info("User {} entered chat room {}", joinInfo.getUserNum(), roomId);
+    public void handleEnter(@DestinationVariable("roomId") int roomId, ChatJoinVO chatJoinVO) {
+        log.info("User {} entered chat room {}", chatJoinVO.getUserNum(), roomId);
 
         // 채팅방의 활성 사용자 목록에 추가
-        activeUsers.computeIfAbsent(roomId, k -> ConcurrentHashMap.newKeySet()).add(joinInfo.getUserNum());
+        activeUsers.computeIfAbsent(roomId, k -> ConcurrentHashMap.newKeySet())
+                .add((int) chatJoinVO.getUserNum());
 
-        messagingTemplate.convertAndSend("/topic/chat/" + roomId + "/enter", joinInfo);
+        log.info("Current active users in room {}: {}", roomId, activeUsers.get(roomId));  // 로그 추가
+
+        messagingTemplate.convertAndSend("/topic/chat/" + roomId + "/enter", chatJoinVO);
+    }
+
+    // 사용자가 채팅방을 나갈 때
+    @MessageMapping("/chat/{roomId}/leave")
+    public void handleLeave(@DestinationVariable("roomId") int roomId, ChatJoinVO joinInfo) {
+        log.info("User {} left chat room {}", joinInfo.getUserNum(), roomId);
+
+        Set<Integer> roomUsers = activeUsers.get(roomId);
+
+        if (roomUsers != null) {
+            boolean removed = roomUsers.remove(joinInfo.getUserNum());  // 제거 성공 여부 확인
+            log.info("User {} removal success: {}", joinInfo.getUserNum(), removed);
+
+            if (roomUsers.isEmpty()) {
+                activeUsers.remove(roomId);
+            }
+        }
+        log.info("Remaining active users in room {}: {}", roomId, activeUsers.get(roomId));
+
+        messagingTemplate.convertAndSend("/topic/chat/" + roomId + "/leave", joinInfo);
     }
 
     @MessageMapping("/chat/sendMessage")
@@ -55,6 +78,9 @@ public class WebSocketController {
         try {
             // 현재 채팅방의 활성 사용자 확인
             Set<Integer> roomUsers = activeUsers.get(chatCommentVO.getRoomId());
+
+            log.info("Current active users map: {}", activeUsers);  // 전체 activeUsers 맵 상태
+            log.info("Active users in room {}: {}", chatCommentVO.getRoomId(), roomUsers);
 
             // 메시지 수신자가 채팅방에 접속해있는지 확인
             int receiverNum = chatService.getReceiverUserNum(
@@ -75,12 +101,14 @@ public class WebSocketController {
                         chatCommentVO.getCommentUserNum(),
                         chatCommentVO.getCommentContent()
                 );
+                log.info("Saving message with is_read = 1");  // 로그 추가
             } else {
                 chatService.saveChatComment(
                         chatCommentVO.getRoomId(),
                         chatCommentVO.getCommentUserNum(),
                         chatCommentVO.getCommentContent()
                 );
+                log.info("Saving message with is_read = 0");  // 로그 추가
             }
 
             log.info("Final ChatCommentVO before save: {}", chatCommentVO);

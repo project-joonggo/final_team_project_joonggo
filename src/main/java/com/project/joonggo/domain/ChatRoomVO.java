@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 public class ChatRoomVO {
     private int roomId;
-    private int userNum;
+    private long userNum;
     private String roomName;
     private String roomStatus;
 }

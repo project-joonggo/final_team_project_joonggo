@@ -29,7 +29,7 @@ import java.util.Date;
 @Slf4j
 @Controller
 @RequiredArgsConstructor            //
-@RequestMapping("/chat/*")          // 안쓰면 template/chat 폴더 내 파일 불러오기 요청 안됨
+//@RequestMapping("/chat/*")          // 안쓰면 template/chat 폴더 내 파일 불러오기 요청 안됨
 public class ChatBotController_notUse {
 
     @Value("${secretKey}")
@@ -40,9 +40,10 @@ public class ChatBotController_notUse {
 
     // bubbles => content, description => details
 
-    @MessageMapping("/sendMessage")
+    @MessageMapping("/sendMessageToBot")
     @SendTo("/topic/public")
     public String sendMessage(@Payload String chatMessage) throws IOException {
+
         URL url = new URL(apiUrl);
 
         String message = getReqMessage(chatMessage);

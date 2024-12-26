@@ -1,0 +1,100 @@
+.content {
+    padding: 20px;
+  }
+
+  #openChatBtn {
+     position: fixed;  /* 화면에 고정 */
+     bottom: 40px;    /* 아래에서 20px 위치 */
+     right: 50px;     /* 오른쪽에서 20px 위치 */
+     padding: 5px 10px;
+     background-color: #CE4E6A;
+     color: white;
+     border: none;
+     border-radius: 30px;  /* 둥근 모서리 */
+     cursor: pointer;
+     z-index: 1000;  /* 다른 요소들 위에 표시 */
+     box-shadow: 0 2px 5px rgba(0,0,0,0.2);  /* 그림자 효과 */
+  }
+
+  #openChatBtn:hover {
+     background-color: #A0173B;
+     transform: scale(1.05);  /* 살짝 커지는 효과 */
+     transition: all 0.2s ease;  /* 부드러운 전환 효과 */
+  }
+
+  /* 대화방 사이드바 스타일 */
+  .chat-sidebar {
+    position: fixed;
+    right: -400px; /* 기본적으로 숨김 */
+    top: 210px;
+    width: 350px;
+    height: 600px;
+    background-color: #fff;
+    box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1);
+    transition: right 0.3s ease;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 15px;
+  }
+
+  /* 아이콘 클릭 시 채팅방 생성 */
+  .chat-sidebar.active {
+    right: 0;
+  }
+  
+  .chat-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    font-weight: bold;
+    align-items: center;
+  }
+  
+  .chat-messages {
+    flex-grow: 1;
+    margin: 20px 0;
+    overflow-y: auto;
+    height: calc(100% - 160px);
+  }
+  
+  .message {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #f1f1f1;
+    border-radius: 10px;
+  }
+  
+  #chatInput {
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  #sendBtn {
+    padding: 10px;
+    background-color:  #CE4E6A;
+    color: white;
+    border: none;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  #closeChatBtn {
+    padding: 10px;
+    background-color:  #CE4E6A;
+    color: white;
+    border: none;
+    border-radius: 5px;
+  }
+
+  #closeChatBtn:hover {
+       background-color: #A0173B;
+       transition: all 0.2s ease;
+  }
+
+  #sendBtn:hover{
+       background-color: #A0173B;
+       transition: all 0.2s ease;
+  }

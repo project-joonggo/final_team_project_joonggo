@@ -20,7 +20,7 @@ public class ChatServiceImpl implements ChatService {
     private final ChatCommentMapper chatCommentMapper;
 
     @Override
-    public List<ChatRoomVO> getChatRoomList(int userNum) {
+    public List<ChatRoomVO> getChatRoomList(long userNum) {
         return chatRoomMapper.getChatRoomList(userNum);
     }
 
@@ -30,7 +30,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void saveChatComment(int roomId, int userNum, String commentContent) {
+    public void saveChatComment(int roomId, long userNum, String commentContent) {
         ChatCommentVO chatCommentVO = new ChatCommentVO();
         chatCommentVO.setRoomId(roomId);
         chatCommentVO.setCommentUserNum(userNum);
@@ -40,7 +40,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void saveChatCommentEnterUser(int roomId, int userNum, String commentContent) {
+    public void saveChatCommentEnterUser(int roomId, long userNum, String commentContent) {
         ChatCommentVO chatCommentVO = new ChatCommentVO();
         chatCommentVO.setRoomId(roomId);
         chatCommentVO.setCommentUserNum(userNum);
@@ -50,7 +50,7 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public void addUserToRoom(int roomId, int userNum) {
+    public void addUserToRoom(int roomId, long userNum) {
         ChatJoinVO chatJoinVO = new ChatJoinVO();
         chatJoinVO.setRoomId(roomId);
         chatJoinVO.setUserNum(userNum);
@@ -74,30 +74,30 @@ public class ChatServiceImpl implements ChatService {
     }
 
     @Override
-    public boolean isUserInRoom(int roomId, int userNum) {
+    public boolean isUserInRoom(int roomId, long userNum) {
         return chatJoinMapper.isUserInRoom(roomId, userNum);
     }
 
     // 특정 채팅방의 읽지 않은 메시지 수 조회
     @Override
-    public int getUnreadCount(int roomId, int userNum) {
+    public int getUnreadCount(int roomId, long userNum) {
         return chatCommentMapper.countUnreadMessages(roomId, userNum);
     }
 
     // 전체 읽지 않은 메시지 수 조회
     @Override
-    public int getTotalUnreadCount(int userNum) {
+    public int getTotalUnreadCount(long userNum) {
         return chatCommentMapper.countTotalUnreadMessages(userNum);
     }
 
     // 채팅방 메시지 읽음 처리
     @Override
-    public void markAsRead(int roomId, int userNum) {
+    public void markAsRead(int roomId, long userNum) {
         chatCommentMapper.updateReadStatus(roomId, userNum);
     }
 
     @Override
-    public int getReceiverUserNum(int roomId, int userNum) {
+    public int getReceiverUserNum(int roomId, long userNum) {
         return chatJoinMapper.getReceiverUserNum(roomId, userNum);
     }
 
