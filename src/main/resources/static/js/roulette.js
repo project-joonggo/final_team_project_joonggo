@@ -2,7 +2,7 @@ const $c = document.querySelector("canvas");
 const ctx = $c.getContext(`2d`);
 
 const product = [
-    "당첨1", '꽝', "꽝", "당첨2", "꽝", "꽝", '당첨3', "꽝", "꽝",
+    "당첨", '꽝', "꽝", "당첨", "꽝", "꽝", '당첨', "꽝", "꽝",
 ];
 const colors = ["#dc0936", "#e6471d", "#f7a416", "#efe61f ", "#60b236", "#209b6c", "#169ed8", "#3f297e", "#87207b", "#be107f", "#e7167b"];
 

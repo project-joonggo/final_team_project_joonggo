@@ -75,6 +75,11 @@
                     node.classList.add('completed');
                 }
 
+                // 마지막 출석 노드 바로 다음 노드만 클릭 가능
+                if (i > completedCount + 1) {
+                    node.classList.add('disabled'); // 비활성화 스타일 추가
+                }
+
                 container.appendChild(node);
             }
         };
@@ -116,15 +121,19 @@
         document.querySelector('.attend-container .node-grid').addEventListener('click', (e) => {
             const target = e.target;
 
-            if (target.classList.contains('node') && !target.classList.contains('completed')) {
-                const index = target.dataset.index;
+            // 클릭 가능 조건 추가
+            if (target.classList.contains('node') &&
+                !target.classList.contains('completed') &&
+                !target.classList.contains('disabled')) {
+                const index = parseInt(target.dataset.index, 10);
                 startAttendanceCheck(index); // 출석 시작
+            } else {
+                alert("출석도장을 차례대로 찍어주세요");
             }
         });
 
         const init = async () => {
-            const completedCount = await getCompletedAttendance(); // 완료된 출석 수 가져오기
-            generateAttendanceNodes(completedCount); // 노드 생성 및 완료된 출석 표시
+            await generateAttendanceNodes();
         };
 
         init();

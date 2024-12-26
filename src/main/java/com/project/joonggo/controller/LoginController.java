@@ -109,7 +109,7 @@ public class LoginController {
     @RequestParam("newPassword") String newPassword){
         String encodedPassword = passwordEncoder.encode(newPassword);
         loginService.updatePassword(userId, encodedPassword);
-        return "redirect:/user/login";
+        return "/user/login";
     }
 
     //휴대폰 인증

@@ -562,11 +562,11 @@ a {
 .attend-container .node.gift {
     background-color: #f7a416;
 }
-.attend-container .node.completed {
+.attend-container .attend-container .node.completed {
     background-color: #80d6f1;
     pointer-events: none;
 }
-.node.completed::after {
+.attend-container .node.completed::after {
     content: "";
     position: absolute;
     top: 0;
@@ -588,4 +588,109 @@ a {
     border: 1px solid #ccc; /* 테두리 */
     padding: 10px; /* 패딩 */
     text-align: center; /* 텍스트 가운데 정렬 */
+}
+
+/* 비밀번호 찾기 */
+#findPassword .joinPostBtn{
+    margin: 50px auto;
+    width: 510px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #A0173B;
+    color: white;
+}
+#findPassword h2{
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+    margin: 44px 0 46px 0;
+}
+#findPassword .formWrap{
+    width: 600px;
+    margin: 0 auto;
+}
+#findPassword input{
+    width: 300px;
+}
+#findPassword .formWrapUl .label{
+    width: 120px;
+}
+#findPassword form{
+    border-radius: 10px;
+    border: 1px solid rgba(117, 123, 128, 0.22);
+    padding-top: 50px;
+    margin-bottom: 50px;
+}
+
+/* 아이디 찾기 */
+#findId h2{
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+    margin: 44px 0 46px 0;
+}
+#findId .joinPostBtn{
+    margin: 50px auto;
+    width: 510px;
+    height: 60px;
+    font-size: 20px;
+    font-weight: bold;
+    background-color: #A0173B;
+    color: white;
+}
+#findId .formWrap{
+    width: 600px;
+    margin: 0 auto;
+}
+#findId .label{
+    width: 150px;
+}
+#findId input{
+    width: 300px;
+}
+#findId form{
+    border-radius: 10px;
+    border: 1px solid rgba(117, 123, 128, 0.22);
+    padding-top: 50px;
+    margin-bottom: 50px;
+}
+#findIdResult h2{
+    font-size: 28px;
+    text-align: center;
+    font-weight: bold;
+    margin: 44px 0 46px 0;
+}
+#findIdResult .findIdResultWrap{
+    border-radius: 10px;
+    border: 1px solid rgba(117, 123, 128, 0.22);
+    padding: 50px 0;
+    margin-bottom: 50px;
+}
+#findIdResult .findIdResultWrapWrap{
+    width: 300px;
+    margin: 0 auto;
+}
+#findIdResult .findIdResultWrapWrap ul{
+    font-size: 20px;
+}
+#findIdResult .findIdResultWrapWrap .important{
+    font-weight: bold;
+    color: #A0173B;
+}
+
+/* 사기조회 */
+#fraudWrap .fraudPattern{
+    width: 600px;
+    padding: 26px;
+}
+#fraudWrap .fraudPattern h1{
+    font-size: 24px;
+    font-weight: bold;
+}
+#fraudWrap .fraudPattern img{
+    width: 100%;
+}
+#fraudWrap .fraudPattern p strong{
+    color: red;
 }

@@ -9,18 +9,122 @@
     <div id="findId">
       <h2>아이디 찾기</h2>
       <form action="/user/findId" method="post">
-      <p id="name_view" class="name" style="">
-        <strong id="name_lable">이름</strong>
-        <input id="name" name="name" fw-filter="" fw-label="이름" fw-msg="" class="lostInput" placeholder="" value="" type="text">
-      </p>
-      <p id="email_view" class="email" style="">
-        <strong id="email_lable">이메일로 찾기</strong>
-        <input id="email" name="email" fw-filter="" fw-label="이메일" fw-msg="" class="lostInput" placeholder="" value="" type="text">
-      </p>
+        <div class="formWrap">
+          <ul class="formWrapUl d-flex flex-column gap-3">
+            <li class="d-flex justify-content-start align-items-center gap-1">
+              <span class="label">이름</span>
+              <div class="d-flex justify-content-start align-items-center gap-2">
+                <input type="text" id="name" class="form-control" required name="name" placeholder="이름을 입력하세요.(예: 홍길동)">
+              </div>
+            </li>
 
-        <button type="submit">확인</button>
+            <li class="d-flex justify-content-start align-items-center gap-1">
+              <span class="label">휴대폰 번호로 찾기</span>
+              <div class="d-flex justify-content-start align-items-center gap-2">
+                <input name="email" id="phone" type="text" class="form-control" placeholder="휴대폰 번호(-제외)">
+                <a class="btn" id="phoneChk">인증번호 발송</a>
+              </div>
+            </li>
+            <li class="d-flex justify-content-start align-items-center gap-1">
+              <span class="label">인증번호</span>
+              <div class="d-flex justify-content-start align-items-center gap-2">
+                <input id="check" type="text" class="form-control" placeholder="인증번호" disabled>
+                <a id="phoneChk2" class="btn">인증하기</a>
+              </div>
+            </li>
+            <div id="dup-check"></div>
+            <div id="finalMessage"></div>
+            <button type="submit" class="btn joinPostBtn" disabled>확인</button>
+          </ul>
+        </div>
       </form>
 
     </div>
   </div>
+  <script>
+    const userName = document.getElementById('name');
+    const finalMessage = document.getElementById("finalMessage");
+    const joinBtn = document.querySelector('.joinPostBtn');
+
+    ///////////////핸드폰 인증 line
+    //[ Phone Check Num ]*/
+    let authCode = "";
+    let checkNum = false;
+
+    // 전화번호 인증 버튼 클릭 이벤트
+    document.getElementById("phoneChk").addEventListener("click", function () {
+      const isValidPhone = true; // 전화번호 검증 여부를 나타내는 변수 (필요시 실제 검증 로직 추가)
+      const phoneInput = document.getElementById("phone");
+      const checkInput = document.getElementById("check");
+      const dupCheck = document.getElementById("dup-check");
+
+      if (!isValidPhone) {
+        alert("휴대폰 번호가 올바르지 않습니다.");
+      } else {
+        alert("인증번호 발송이 완료되었습니다.\n휴대폰에서 인증번호 확인을 해주십시오.");
+        const pn = phoneInput.value;
+
+        fetch(`/user/phoneCheck?phone=${pn}`, { method: "GET", cache: "no-cache" })
+                .then((response) => response.text())
+                .then((data) => {
+                  if (data === "error") {
+                    alert("휴대폰 번호가 올바르지 않습니다.");
+                  } else {
+                    checkInput.disabled = false;
+                    dupCheck.textContent = "인증번호를 입력한 뒤 인증하기를 눌러주십시오.";
+                    dupCheck.style.color = "red";
+                    phoneInput.readOnly = true;
+                    authCode = data;
+                  }
+                })
+                .catch((error) => {
+                  console.error("Error:", error);
+                });
+      }
+    });
+
+    // 핸드폰 인증번호 확인 버튼 클릭 이벤트
+    document.getElementById("phoneChk2").addEventListener("click", function () {
+      const checkInput = document.getElementById("check");
+      const dupCheck = document.getElementById("dup-check");
+
+      if (authCode.length <= 0) {
+        checkInput.disabled = false;
+        dupCheck.textContent = "인증번호를 입력한 뒤 인증하기를 눌러주십시오.";
+        dupCheck.style.color = "red";
+      } else if (checkInput.value === authCode) {
+        dupCheck.textContent = "인증번호가 일치합니다.";
+        dupCheck.style.color = "green";
+        checkInput.disabled = true;
+        checkNum = true;
+      } else {
+        dupCheck.textContent = "인증번호가 일치하지 않습니다. 확인해주시기 바랍니다.";
+        dupCheck.style.color = "red";
+        checkInput.focus();
+        checkNum = false;
+        return;
+      }
+    });
+
+    function validateForm() {
+      if (userName.value === '') {
+        finalMessage.textContent = "이름을 입력해 주세요.";
+        joinBtn.disabled = true;
+        return;
+      }
+      if (!checkNum) {
+        finalMessage.textContent = "휴대폰 번호를 인증해 주세요.";
+        joinBtn.disabled = true;
+        return;
+      }
+
+      // 모든 조건 충족
+      finalMessage.textContent = ''; // 오류 메시지 초기화
+      joinBtn.disabled = false; // 버튼 활성화
+    }
+
+    userName.addEventListener('input', validateForm);
+    document.getElementById('phoneChk2').addEventListener('click', validateForm);
+
+  </script>
 </div>
