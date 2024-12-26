@@ -1,9 +1,6 @@
 package com.project.joonggo.service;
 
-import com.project.joonggo.domain.FileVO;
-import com.project.joonggo.domain.QnaFileDTO;
-import com.project.joonggo.domain.QnaFileVO;
-import com.project.joonggo.domain.QnaVO;
+import com.project.joonggo.domain.*;
 
 import java.util.List;
 
@@ -12,7 +9,7 @@ public interface QnaService {
 
     int fileUpload(List<QnaFileVO> flist);
 
-    List<QnaVO> getList();
+    List<QnaVO> getList(PagingVO pgvo, String pending);
 
     QnaFileDTO getDetail(Long qnaId);
 
@@ -29,4 +26,6 @@ public interface QnaService {
     Long getMaxQnaId();
 
     List<QnaVO> getMyList(Long userNum);
+
+    int getTotal(PagingVO pgvo, String pending);
 }

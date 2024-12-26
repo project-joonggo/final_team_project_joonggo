@@ -210,13 +210,27 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public int getReportTotal(PagingVO pgvo) {
+    public int getReportTotal(PagingVO pgvo, Integer reportCompId) {
+
+        if (reportCompId != null) {
+            return reportMapper.getFilteredReportTotal(pgvo, reportCompId);
+        }
+
         return reportMapper.getTotalCount(pgvo);
     }
 
     @Override
-    public List<ReportVO> getReportList(PagingVO pgvo) {
-        List<ReportVO> reportList = reportMapper.getList(pgvo);
+    public List<ReportVO> getReportList(PagingVO pgvo, Integer reportCompId) {
+        List<ReportVO> reportList;
+
+        // 만약 reportCompId가 주어졌다면 해당 신고 사유로 필터링된 목록을 가져옴
+        if (reportCompId != null) {
+            reportList = reportMapper.getFilteredListByCompId(pgvo, reportCompId);
+        } else {
+            // reportCompId가 없으면 전체 목록을 가져옴
+            reportList = reportMapper.getList(pgvo);
+        }
+
         // 각 보고서에 대해 신고 사유를 추가
         for (ReportVO reportVO : reportList) {
             String compContent = reportMapper.getCompContentByCompId(reportVO.getReportCompId());
@@ -263,5 +277,7 @@ public class BoardServiceImpl implements BoardService{
 
         return boardFileDTOList;
     }
+
+
 
 }

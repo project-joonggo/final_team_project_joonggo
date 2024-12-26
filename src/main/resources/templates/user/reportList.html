@@ -9,6 +9,16 @@
     <h1>신고 리스트</h1>
     <div>총 [[${ph.totalCount}]]개의 신고가 접수 되었습니다.</div>
 
+    <select id="reportCategory" class="form-select">
+      <option value="">모든 신고 사유</option>
+      <!-- reasonList를 동적으로 추가 -->
+      <th:block th:each="reason : ${reasonList}">
+        <option th:value="${reason.compId}"
+                th:text="${reason.compContent}"
+                th:selected="${selectedCategory == reason.compId}"> </option>
+      </th:block>
+    </select>
+
     <table class="table table-success table-striped">
       <thead>
       <tr>
@@ -46,10 +56,12 @@
     <!-- 페이지 네이션 라인 -->
     <nav aria-label="Page navigation example">
       <ul class="pagination justify-content-center">
+
         <!-- 이전 페이지 버튼 -->
         <li class="page-item" th:classappend="${ph.prev eq false ? 'disabled' : ''}">
           <a class="page-link"
-             th:href="@{${'/user/reportList?pageNo=' + (ph.startPage-1) + '&qty=10'}}"
+             href="javascript:void(0)"
+             th:data-url="@{${'/user/reportList?pageNo=' + (ph.startPage-1) + '&qty=10'}}"
              aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
           </a>
@@ -59,14 +71,16 @@
         <th:block th:each="i:${#numbers.sequence(ph.startPage, ph.endPage)}">
           <li class="page-item" th:classappend="${ph.pgvo.pageNo eq i ? 'active' : ''}">
             <a class="page-link"
-               th:href="@{${'/user/reportList?pageNo=' + i + '&qty=10'}}">[[${i}]]</a>
+               href="javascript:void(0)"
+               th:data-url="@{${'/user/reportList?pageNo=' + i + '&qty=10'}}">[[${i}]]</a>
           </li>
         </th:block>
 
         <!-- 다음 페이지 버튼 -->
         <li class="page-item" th:classappend="${ph.next eq false ? 'disabled' : ''}">
           <a class="page-link"
-             th:href="@{${'/user/reportList?pageNo=' + (ph.endPage+1) + '&qty=10'}}"
+             href="javascript:void(0)"
+             th:data-url="@{${'/user/reportList?pageNo=' + (ph.endPage+1) + '&qty=10'}}"
              aria-label="Next">
             <span aria-hidden="true">&raquo;</span>
           </a>

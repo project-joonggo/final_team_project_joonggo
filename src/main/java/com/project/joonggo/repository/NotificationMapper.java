@@ -3,6 +3,7 @@ package com.project.joonggo.repository;
 import com.project.joonggo.domain.NotificationVO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Mapper
@@ -16,4 +17,8 @@ public interface NotificationMapper {
     void updateNotificationStatus(NotificationVO notification);
 
     Long getNotificationId();
+
+    LocalDateTime getNotificationCreateAt();
+
+    LocalDateTime getCreateAt(Long notificationId);
 }

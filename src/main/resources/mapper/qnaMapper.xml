@@ -57,4 +57,21 @@
         where qna_id = #{qnaId}
     </update>
 
+    <select id="getTotal" resultType="int">
+        select count(qna_id) from qna_board
+    </select>
+
+    <select id="getList" resultType="com.project.joonggo.domain.QnaVO">
+        select * from qna_board  WHERE is_del = 'N' order by qna_id desc
+        limit #{startIndex}, #{qty}
+    </select>
+
+    <select id="getListPending" resultType="com.project.joonggo.domain.QnaVO">
+        SELECT * FROM qna_board WHERE answer_count = 0  limit #{startIndex}, #{qty};
+    </select>
+
+    <select id="countPending" resultType="int">
+        SELECT COUNT(*) FROM qna_board WHERE answer_count = 0;
+    </select>
+
 </mapper>

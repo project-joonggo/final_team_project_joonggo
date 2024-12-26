@@ -109,4 +109,44 @@
     <select id="getUserName" resultType="String">
         select user_name from user where user_num = #{userNum}
     </select>
+
+
+    <select id="getTotal" resultType="int">
+        select count(user_num) from user
+        where is_del = 'N'
+        <include refid="search"/>
+    </select>
+
+    <select id="getUserList" resultType="com.project.joonggo.domain.UserVO">
+        select * from user
+        where is_del = 'N'
+        <include refid="search"/>
+        limit #{startIndex}, #{qty}
+    </select>
+
+    <sql id="search">
+        <if test="keyword != null and keyword != ''">
+            AND (
+            user_name LIKE CONCAT('%', #{keyword}, '%')  <!-- 이름 검색 -->
+            OR user_id LIKE CONCAT('%', #{keyword}, '%')  <!-- 이메일 검색 -->
+            OR phone LIKE CONCAT('%', #{keyword}, '%')    <!-- 전화번호 검색 -->
+            OR address_1 LIKE CONCAT('%', #{keyword}, '%') <!-- 주소 1 검색 -->
+            OR address_2 LIKE CONCAT('%', #{keyword}, '%') <!-- 주소 2 검색 -->
+            OR address_3 LIKE CONCAT('%', #{keyword}, '%') <!-- 주소 3 검색 -->
+            )
+        </if>
+    </sql>
+
+    <!-- 사용자를 추방 처리하는 SQL -->
+    <update id="banUser" parameterType="long">
+        UPDATE user
+        SET is_del = 'Y'
+        WHERE user_num = #{userNum}
+    </update>
+
+    
+    <select id="getSellerAddressByUserNum" resultType="String">
+        select address_3 from user where user_num = #{sellerId}
+    </select>
+
 </mapper>

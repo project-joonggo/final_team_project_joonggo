@@ -1,5 +1,6 @@
 package com.project.joonggo.repository;
 
+import com.project.joonggo.domain.PagingVO;
 import com.project.joonggo.domain.UserVO;
 import com.project.joonggo.domain.AuthVO;
 import org.apache.ibatis.annotations.Mapper;
@@ -46,4 +47,12 @@ public interface UserMapper {
     List<Map<String, Object>> searchFraudUsers(String keyword);
 
     String getUserName(long userNum);
+
+    int getTotal(PagingVO pgvo);
+
+    List<UserVO> getUserList(PagingVO pgvo);
+
+    void banUser(long userNum);
+
+    String getSellerAddressByUserNum(long sellerId);
 }

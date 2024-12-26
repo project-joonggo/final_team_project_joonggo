@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+<div id="content" layout:fragment="content">
+  <div class="container-md">
+    <h1>유저관리</h1>
+    <hr>
+
+    <form id="searchForm" action="/user/list" method="get" class="d-flex page-search-form" role="search" onsubmit="searchUsers(event)">
+      <div id="searchArea">
+        <img id="searchImg" src="/img/search.svg" alt="Search Icon">
+        <input id="page-search-box" class="form-control me-2 page-search-box" name="keyword" type="search" placeholder="이름, 이메일, 휴대폰번호, 주소 입력"
+               aria-label="Search">
+      </div>
+    </form>
+
+    <!-- 검색 결과 -->
+    <div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th>회원번호</th>
+          <th>이름</th>
+          <th>이메일</th>
+          <th>전화번호</th>
+          <th>주소</th>
+          <th>추방</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user : ${userList}">
+          <td th:text="${user.userNum}"></td>
+          <td th:text="${user.userName}"></td>
+          <td th:text="${user.userId}"></td>
+          <td th:text="${user.phone}"></td>
+          <td th:text="${user.address1}"></td>
+          <td>
+            <button class="btn btn-danger suspend-btn" th:data-user-id="${user.userNum}" onclick="suspendUser(event)">추방</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+
+      <!-- 페이지 네이션 라인 -->
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center">
+
+          <!-- 이전 페이지 버튼 -->
+          <li class="page-item" th:classappend="${ph.prev eq false ? 'disabled' : ''}">
+            <a class="page-link"
+               href="javascript:void(0)"
+               th:data-url="@{${'/user/list?pageNo=' + (ph.startPage-1) + '&qty=10' + (keyword != null ? '&keyword=' + keyword : '')}}"
+               aria-label="Previous">
+              <span aria-hidden="true">&laquo;</span>
+            </a>
+          </li>
+
+          <!-- 페이지 번호 -->
+          <th:block th:each="i:${#numbers.sequence(ph.startPage, ph.endPage)}">
+            <li class="page-item" th:classappend="${ph.pgvo.pageNo eq i ? 'active' : ''}">
+              <a class="page-link"
+                 href="javascript:void(0)"
+                 th:data-url="@{${'/user/list?pageNo=' + i + '&qty=10' + (keyword != null ? '&keyword=' + keyword : '')}}">[[${i}]]</a>
+            </li>
+          </th:block>
+
+          <!-- 다음 페이지 버튼 -->
+          <li class="page-item" th:classappend="${ph.next eq false ? 'disabled' : ''}">
+            <a class="page-link"
+               href="javascript:void(0)"
+               th:data-url="@{${'/user/list?pageNo=' + (ph.endPage+1) + '&qty=10' + (keyword != null ? '&keyword=' + keyword : '')}}"
+               aria-label="Next">
+              <span aria-hidden="true">&raquo;</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+    </div>
+
+  </div>
+</div>
