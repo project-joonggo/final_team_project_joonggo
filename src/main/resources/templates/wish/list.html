@@ -13,34 +13,6 @@
 <body>
 
 <div layout:fragment="content">
-  <!--/*
-  <div class="wishHeader">찜한 상품 내역</div>
-  <div th:each="boardFileDTO : ${wishedProducts}" class="wishProduct">
-          <div class="wishProductInfo">
-            <img class="productImg"
-                 th:if="${boardFileDTO.fileVOList != null
-                            and boardFileDTO.fileVOList.size() > 0
-                            and boardFileDTO.fileVOList.get(0).fileUrl != null}"
-                 th:src="@{${boardFileDTO.fileVOList.get(0).fileUrl}}"
-                 alt="상품사진">
-            <div class="infoArea">
-              <p th:text="${boardFileDTO.boardVO.boardName}"></p>
-              <p th:text="${boardFileDTO.boardVO.tradePrice}"></p>
-              <p th:text="${boardFileDTO.boardVO.category}"></p>
-            </div>
-          </div>
-          <div class="handleBtn">
-            <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}"
-                    class="pay-btn" th:disabled="${boardFileDTO.boardVO.tradeFlag == 1}"
-                    th:text="${boardFileDTO.boardVO.tradeFlag == 1 ? '거래완료 상품' : '결제하기'}">
-                결제하기
-            </button>
-            <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}"
-                    class="remove-wish-btn">
-              찜 취소
-            </button>
-          </div>
-  </div> */-->
   <div class="wishHeader">찜한 상품 내역</div>
   <div class="wishList">
     <table style="width: 100%;">
