@@ -99,8 +99,9 @@
 
     <script th:src="@{/js/main.js}"></script>
 
-    <!--    카카오맵 API 로딩 (HTTPS 사용)-->
+    <!-- 로그인 시 -->
     <div sec:authorize="isAuthenticated()" class="map-hidden">
+    <!--    카카오맵 API 로딩 (HTTPS 사용)-->
       <script type="text/javascript"
               th:src="@{'https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b&libraries=services'}"></script>
       <!-- KakaoMap_API_KEY는 JS에 불러와서 사용하기 까다로움(구글링, gpt를 통해서 방법을 찾아서 사용해도 다른 문제점 발생)
