@@ -41,4 +41,6 @@ public interface LoginService {
     void banUser(long userNum);
 
     String getSellerAddressByUserNum(long sellerId);
+
+    UserVO getUserById(long userNum);
 }

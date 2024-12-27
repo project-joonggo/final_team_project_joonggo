@@ -14,6 +14,7 @@ public class ReportVO {
     private long boardId;
     private String status;
     private String reportDate;
+    private long reporterNum;
 
     private String compContent; // 신고 사유 필드 추가
 }

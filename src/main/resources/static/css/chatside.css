@@ -10,9 +10,9 @@
     cursor: pointer;
   }
   
-  button:hover {
+/*  button:hover {
     background-color: #45a049;
-  }
+  }*/
   
   /* 대화방 사이드바 스타일 */
   .chat-sidebar {

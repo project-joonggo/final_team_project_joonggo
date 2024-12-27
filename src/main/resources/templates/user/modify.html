@@ -7,43 +7,195 @@
 <div layout:fragment="content">
     <div class="container-md">
         <div id="modifyUser">
-            <h2>내 정보 수정</h2>
+            <h1>내 정보 수정</h1>
             <form action="/user/modify" method="post">
-                <div class="col">
-                    <div class="card border-dark mb-3" style="max-width: 540px;" th:with="auth=${#authentication.getPrincipal()}">
-                        <div class="row g-0">
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <input type="hidden" name="userNum" id="userNum" th:value="${auth.userVO.userNum }">
-                                    <h5 class="card-title">
-                                        <input type="text" name="userName" class="form-control" th:value="${auth.userVO.userName }">
-                                        <input type="text" name="password" class="form-control" placeholder="새 비밀번호">
-                                        <input type="text" name="birthYear" class="form-control" th:value="${auth.userVO.birthYear }">
-                                        <input type="text" name="birthMonth" class="form-control" th:value="${auth.userVO.birthMonth }">
-                                        <input type="text" name="birthDay" class="form-control" th:value="${auth.userVO.birthDay }">
-                                        <input type="text" name="address1" class="form-control" th:value="${auth.userVO.address1 }">
-                                        <input type="text" name="address2" class="form-control" th:value="${auth.userVO.address2 }">
-                                        <input type="text" name="address3" class="form-control" th:value="${auth.userVO.address3 }">
-                                        <input type="text" name="postCode" class="form-control" th:value="${auth.userVO.postCode }">
-                                        <input type="text" name="phone" class="form-control" th:value="${auth.userVO.phone }">
-                                        <button>
-                                            인증번호 받기
-                                        </button>
-                                        <input type="text">
-                                        <button>
-                                            인증확인
-                                        </button>
-                                    </h5>
-                                    <p class="card-text">[[${auth.userVO.userId }]] ([[${auth.userVO.regDate }]]) </p>
-                                    <span class="badge rounded-pill text-bg-success" th:each="auths:${auth.userVO.authList}">[[${auths.auth }]]</span>
-                                    <button type="submit" class="btn btn-primary btn-sm">수정</button>
-                                </div>
-                            </div>
+                <div class="formWrap" th:with="auth=${#authentication.getPrincipal()}">
+                    <input type="hidden" name="userNum" id="userNum" th:value="${auth.userVO.userNum }">
+                    <table class="requiredTable">
+                        <tbody class="d-flex flex-column gap-4">
+                        <tr class="d-flex justify-content-start align-items-center">
+                            <th>이름</th>
+                            <td class="d-flex justify-content-between align-items-center gap-2">
+                                <input type="text" id="userName" class="form-control" name="userName" th:value="${auth.userVO.userName }">
+                            </td>
+                        </tr>
+                        <tr class="d-flex justify-content-start align-items-center">
+                            <th>비밀번호</th>
+                            <td class="d-flex justify-content-start align-items-center gap-2">
+                                <input type="password" id="password" class="form-control" name="password" placeholder="">
+                                <span id="passwordMessage" class="password-message">(영문 대소문자/숫자/특수문자 중 3가지 이상 조합, 8자~16자)</span>
+                            </td>
+                        </tr>
+                        <tr class="d-flex justify-content-start align-items-center">
+                            <th>비밀번호 확인</th>
+                            <td class="d-flex justify-content-between align-items-center gap-2">
+                                <input type="password" id="passwordCheck" class="form-control" name="passwordCheck" placeholder="">
+                                <span id="passwordCheckMessage" class="password-check-message"></span>
+                            </td>
+                        </tr>
+                        <tr class="d-flex justify-content-start align-items-center">
+                            <th>주소</th>
+                            <td>
+                                <ul class="d-flex gap-2 flex-column">
+                                    <li class="d-flex justify-content-start align-items-center gap-2">
+                                        <input type="text" class="form-control" name="postCode" id="postCode" placeholder="우편번호" th:value="${auth.userVO.postCode }">
+                                        <a id="addressBtn" class="d-flex align-items-center" onclick="searchPostCode()">주소검색</a>
+                                    </li>
+                                    <li class="d-flex justify-content-between align-items-center gap-2">
+                                        <input type="text" class="form-control" name="address1" id="address1" placeholder="기본주소" th:value="${auth.userVO.address1 }">
+                                    </li>
+                                    <li class="d-flex justify-content-between align-items-center gap-2">
+                                        <input type="text" class="form-control" name="address2" id="address2" placeholder="나머지 주소(선택입력가능)" th:value="${auth.userVO.address2 }">
+                                    </li>
+                                    <li class="d-flex justify-content-between align-items-center gap-2">
+                                        <input type="text" class="form-control" name="address3" id="address3" th:value="${auth.userVO.address3 }">
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr class="d-flex justify-content-start align-items-center">
+                            <th>휴대전화</th>
+                            <td class="d-flex justify-content-start align-items-center gap-2">
+                                <ul class="d-flex gap-2 flex-column">
+                                    <li class="d-flex justify-content-start align-items-center gap-2">
+                                        <input type="text" id="phone" name="phone" class="form-control" th:value="${auth.userVO.phone }">
+                                        <a id="phoneChk" class="d-flex align-items-center">인증번호받기</a>
+                                    </li>
+                                    <li class="d-flex justify-content-start align-items-center gap-2">
+                                        <input type="text" id="check" name="check" class="form-control" placeholder="인증번호" disabled>
+                                        <a id="phoneChk2" class="d-flex align-items-center">인증하기</a>
+                                    </li>
+                                    <li>
+                                        <div id="dup-check"></div>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="mb-3 birthBox margin-top-20 d-flex justify-content-start align-items-center">
+                        <label class="form-label birthLabel d-flex align-items-center">생년월일</label>
+                        <div class="d-flex justify-content-start gap-3 align-items-center">
+                            <input type="text" class="form-control" name="birthYear"
+                                   th:value="${auth.userVO.birthYear }"><span>년</span>
+                            <input type="text" class="form-control" name="birthMonth"
+                                   th:value="${auth.userVO.birthMonth }"><span>월</span>
+                            <input type="text" class="form-control" name="birthDay"
+                                   th:value="${auth.userVO.birthDay }"><span>일</span>
                         </div>
                     </div>
+
+                    <button type="submit" class="btn joinPostBtn">수정하기</button>
                 </div>
             </form>
 
         </div>
     </div>
+    <script>
+        const passwordInput = document.getElementById('password');
+        const passwordCheckInput = document.getElementById('passwordCheck');
+        const passwordCheckMessage = document.getElementById('passwordCheckMessage');
+        const passwordMessage = document.getElementById('passwordMessage');
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,16}$/;
+        // 비밀번호 입력 시 체크
+        passwordInput.addEventListener('input', function() {
+            const password = passwordInput.value;
+
+// 비밀번호 규칙에 맞지 않으면 메시지 표시
+            if (!passwordRegex.test(password)) {
+                passwordMessage.classList.remove('success');
+                passwordMessage.classList.add('error');
+                passwordMessage.textContent = '비밀번호는 영문 대소문자, 숫자, 특수문자 3가지 이상 조합, 8~16자 이내로 작성해주세요.';
+            } else {
+                passwordMessage.classList.remove('error');
+                passwordMessage.classList.add('success');
+                passwordMessage.textContent = '적합한 비밀번호입니다.';
+            }
+
+            // 비밀번호 확인 자동 입력 제거
+            passwordCheckInput.value = '';
+
+            // 비밀번호 확인 체크
+            validatePasswordMatch();
+        });
+
+        // 비밀번호 확인이 일치하는지 확인
+        passwordCheckInput.addEventListener('input', validatePasswordMatch);
+
+        // 폼 제출 시 비밀번호 공란 처리
+        document.querySelector('form').addEventListener('submit', function(event) {
+            if (!passwordInput.value.trim()) {
+                passwordInput.removeAttribute('name');
+                passwordCheckInput.removeAttribute('name');
+            }
+        });
+
+        function validatePasswordMatch() {
+            const password = passwordInput.value;
+            const passwordCheck = passwordCheckInput.value;
+
+            // 비밀번호 확인이 일치하는지, 비밀번호 정규식이 만족하는지 확인
+            if (password !== passwordCheck || !passwordRegex.test(password)) {
+                passwordCheckMessage.classList.remove('success');
+                passwordCheckMessage.classList.add('error');
+                passwordCheckMessage.textContent = '비밀번호가 일치하지 않거나 규칙을 만족하지 않습니다.';
+                passwordFinalCheck = false;
+            } else {
+                passwordCheckMessage.classList.remove('error');
+                passwordCheckMessage.classList.add('success');
+                passwordCheckMessage.textContent = '비밀번호가 일치합니다.';
+                passwordFinalCheck = true;
+            }
+        }
+
+        // 우편번호 찾기
+        function searchPostCode(){
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var addr = ''; // 주소 변수
+                    var extraAddr = ''; // 참고항목 변수
+
+                    //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        addr = data.roadAddress;
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        addr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+                    if(data.userSelectedType === 'R'){
+                        // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+                        // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+                        if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있고, 공동주택일 경우 추가한다.
+                        if(data.buildingName !== '' && data.apartment === 'Y'){
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+                        if(extraAddr !== ''){
+                            extraAddr = ' (' + extraAddr + ')';
+                        }
+                        // 조합된 참고항목을 해당 필드에 넣는다.
+                        document.getElementById("address3").value = extraAddr;
+
+                    } else {
+                        document.getElementById("address3").value = '';
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('postCode').value = data.zonecode;
+                    document.getElementById("address1").value = addr;
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById("address2").focus();
+                }
+            }).open();
+        }
+    </script>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </div>

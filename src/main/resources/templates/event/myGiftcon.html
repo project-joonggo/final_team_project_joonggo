@@ -9,8 +9,18 @@
         <h2>내 당첨내역</h2>
 
         <div class="giftcon-container">
-            <div th:each="giftcon, iterStat : ${list}">
-                <div class="giftcon-item" th:text="${giftcon}"></div>
+            <div th:each="giftcon : ${list}">
+                <div class="giftcon-item">
+                    <span th:text="${giftcon.giftconName}"></span> <!-- 기프티콘 번호 텍스트 -->
+
+                    <!-- 바코드를 그릴 svg -->
+                    <svg class="barcode"
+                         jsbarcode-format="upc"
+                         jsbarcode-value="[[${giftcon.giftconName}]]"
+                         jsbarcode-textmargin="0"
+                         jsbarcode-fontoptions="bold">
+                    </svg>
+                </div>
             </div>
         </div>
 
@@ -47,5 +57,10 @@
 
 
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
+    <script>
+        window.onload = function() {
+            JsBarcode(".barcode").init();  // DOM 로딩 후 JsBarcode 초기화
+        };
+    </script>
+    <script th:src="@{/dist/js/JsBarcode.all.min.js}"></script>
 </div>

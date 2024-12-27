@@ -6,8 +6,8 @@
         SELECT * FROM reasonlist
     </select>
     <insert id="insertReport" parameterType="com.project.joonggo.domain.ReportVO">
-        INSERT INTO reportlist (report_comp_id, user_num, board_id)
-        VALUES (#{reportCompId}, #{userNum}, #{boardId})
+        INSERT INTO reportlist (report_comp_id, user_num, board_id, reporter_num)
+        VALUES (#{reportCompId}, #{userNum}, #{boardId}, #{reporterId})
     </insert>
 
     <select id="getFilteredListByCompId" resultType="com.project.joonggo.domain.ReportVO">

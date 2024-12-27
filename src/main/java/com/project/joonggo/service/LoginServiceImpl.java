@@ -126,4 +126,9 @@ public class LoginServiceImpl implements LoginService {
         return userMapper.getSellerAddressByUserNum(sellerId);
     }
 
+    @Override
+    public UserVO getUserById(long userNum) {
+        return userMapper.selectUserNum(userNum);
+    }
+
 }

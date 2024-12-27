@@ -284,11 +284,13 @@ public class BoardController {
     @PostMapping("/report")
     public String report(@RequestParam("reasonId") Long reasonId,
                          @RequestParam("sellerId") Long sellerId,
-                         @RequestParam("boardId") Long boardId) {
+                         @RequestParam("boardId") Long boardId,
+                         @RequestParam("reporterId") Long reporterId) {
         ReportVO reportVO = new ReportVO();
         reportVO.setReportCompId(reasonId);  // 신고 사유
         reportVO.setUserNum(sellerId);  // 신고 당할 사람
         reportVO.setBoardId(boardId);
+        reportVO.setReporterNum(reporterId);
         boardService.saveReport(reportVO);
 
         Long adminId = loginService.getAdminId();

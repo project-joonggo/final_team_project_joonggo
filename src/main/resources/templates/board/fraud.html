@@ -25,38 +25,86 @@
                         <th>이름</th>
                         <th>이메일</th>
                         <th>전화번호</th>
-                        <th>총 사기 횟수</th>
                         <th>사기 사유</th>
+                        <th>사기 횟수</th>
                     </tr>
                     </thead>
                     <tbody>
                     <tr th:each="user : ${fraudUserList}">
-                        <td th:text="${user.userName}"></td>
-                        <td th:text="${user.userId}"></td>
-                        <td th:text="${user.phone}"></td>
-                        <td th:text="${user.fraudCount}"></td>
-                        <td>
-                            <span th:text="${user.reasonName} + ' (' + ${user.reasonCount} + '회)'"></span>
-                        </td>
+                        <td th:text="${#strings.substring(user.userName, 0, 2) +
+                            #strings.repeat('*', user.userName.length() - 2)}"></td>
+                        <td th:text="${#strings.substring(user.userId, 0, user.userId.indexOf('@') + 1) +
+                            #strings.repeat('*', user.userId.substring(user.userId.indexOf('@') + 1).length())}"></td>
+                        <td th:text="${#strings.substring(user.phone, 0, 7) +
+                        #strings.repeat('*', user.phone.length() - 7)}"></td>
+                        <td th:text="${user.reasonName}">
+                        <td th:text="${user.reasonCount} + '회'"></td>
                     </tr>
                     </tbody>
                 </table>
             </div>
-            <div th:if="${fraudUserList == null or #lists.isEmpty(fraudUserList)}">
+            <div class="result" th:if="${fraudUserList == null or #lists.isEmpty(fraudUserList)}">
                 <p>검색된 사기 이력이 없습니다.</p>
             </div>
 
-            <div class="fraudPattern d-flex gap-3 flex-column">
-                <h1 class="d-flex justify-content-start">주요 사기 패턴 확인하기 _ 상품권 바코드 탈취</h1>
-                <p class="d-flex justify-content-start">일부 노출된 바코드를 읽기 프로그램을 이용하여 복원한 뒤 가로채는 수법</p>
-                <img src="/img/fraudPattern_starbucks.png">
-                <p>※ 바코드 탈취 후 <strong>다른 사람에게 재판매할 수 있어요!</strong></p>
+            <div id="carouselExampleAutoplaying" class="carousel slide fraudPatternWrap" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="fraudPattern d-flex gap-3 flex-column">
+                            <h1 class="d-flex justify-content-start">주요 사기 패턴 확인하기 _ 상품권 바코드 탈취</h1>
+                            <p class="d-flex justify-content-start">일부 노출된 바코드를 읽기 프로그램을 이용하여 복원한 뒤 가로채는 수법</p>
+                            <img class="starBucksBarcode" src="/img/fraudPattern_starbucks.png">
+                            <p>※ 바코드 탈취 후 <strong>다른 사람에게 재판매할 수 있어요!</strong></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="fraudPattern d-flex gap-3 flex-column">
+                            <h1 class="d-flex justify-content-start">주요 사기 패턴 확인하기 _ 3자 사기 (입금자명 변경)</h1>
+                            <p class="text-start">구매자에게 동시에 접근하여 구매자로 하여금 판매자에게 송금하게 하고 판매자에게는 자신이 송금한 것처럼 속여 물건을 가로채는 3자 사기 수법</p>
+                            <img src="/img/fraudPattern_3people.jpg">
+                            <p>※ 사기꾼은 <strong>입금자명을 변경 요청해요!</strong></p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="fraudPattern d-flex gap-3 flex-column">
+                            <h1 class="d-flex justify-content-start">주요 사기 패턴 확인하기 _ 이 외 패턴</h1>
+                            <div class="d-flex flex-column justify-content-center align-items-center" style="height: 100%;">
+                                <div class="etcPatterns d-flex flex-column justify-content-between align-items-center">
+                                    <div class="etcPattern">
+                                        <h4>무료나눔 개인정보 도용</h4>
+                                        <h5>무료 나눔 이벤트를 가장하여 개인정보를 수집하는 사기 수법</h5>
+                                        <p>※ <strong>개인 정보가 유출</strong>되어 계정 도용이 일어날 수 있어요!</p>
+                                    </div>
+                                    <div class="etcPattern">
+                                        <h4>외부 메신저 유도</h4>
+                                        <h5>쓸템 내 채팅을 거부하고 외부 메신저를 통해 거래하는 사기 수법</h5>
+                                        <p>※ 휴대폰 번호를 노출하지 않기 위해 <strong>메신저 아이디를 사용하는 경우</strong>가 많아요!</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
-            <div class="fraudPattern d-flex gap-3 flex-column">
-                <h1 class="d-flex justify-content-start">주요 사기 패턴 확인하기 _ 3자 사기 (입금자명 변경)</h1>
-                <p class="d-flex justify-content-start">판매자와 구매자에게 동시에 접근하여 구매자로 하여금 판매자에게 송금하게 하고 판매자에게는 자신이 송금한 것처럼 속여 물건을 가로채는 3자 사기 수법</p>
-                <img src="/img/fraudPattern_3people.jpg">
-            </div>
+            <section class="oftenQna text-start">
+                <h2>자주 묻는 질문</h2>
+                <ul class="d-flex justify-content-start gap-1 margin-top-30">
+                    <li class="btn btn-dark"><a href="/policy/third">범죄 및 유해 행위</a></li>
+                    <li class="btn btn-dark"><a href="/policy/fifth?continue">개인정보가 유출되었어요</a></li>
+                    <li class="btn btn-dark"><a href="/policy/fourth?continue">불쾌감 유발 컨텐츠</a></li>
+                    <li class="btn btn-dark"><a href="/policy/first">쓸템 이용 가이드</a></li>
+                </ul>
+            </section>
         </div>
     </div>
+    <script th:src="@{/dist/js/bootstrap.bundle.min.js}"></script>
 </div>

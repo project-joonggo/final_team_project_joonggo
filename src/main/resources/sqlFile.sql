@@ -296,3 +296,6 @@ create table giftcon(
 
 ALTER TABLE qna_board
 ADD COLUMN answer_count INT DEFAULT 0;
+
+-- 241226
+alter table reportlist add column reporter_num bigint;

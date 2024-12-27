@@ -51,6 +51,7 @@
               <!-- sellerId (신고 당할 사람), 게시글 번호(리다이렉트용) -->
               <input type="hidden" name="sellerId" th:value="${boardVO.sellerId}">
               <input type="hidden" name="boardId" th:value="${boardVO.boardId}">
+              <input type="hidden" name="reporterId" th:value="${#authentication.getPrincipal().userVO.userNum}">
               </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>

@@ -25,7 +25,7 @@
         <th scope="col">report_num</th>
         <th scope="col">report_comp_id</th>
         <th scope="col">report_date</th>
-        <th scope="col">user_num</th>
+        <th scope="col">reporter_num</th>
         <th scope="col">status</th>
         <th scope="col">board_id</th>
       </tr>
@@ -35,7 +35,7 @@
         <td th:text="${reportVO.reportNum}"></td>
         <td th:text="${reportVO.compContent}"></td>
         <td th:text="${reportVO.reportDate}"></td>
-        <td th:text="${reportVO.userNum}"></td>
+        <td th:text="${reportVO.reporterNum}"></td>
         <td>
           <select class="form-select"
                   th:attr="data-report-id=${reportVO.reportNum}"

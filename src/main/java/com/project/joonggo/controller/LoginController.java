@@ -165,7 +165,15 @@ public class LoginController {
     //내정보 수정
     @PostMapping("/modify")
     public String modify(UserVO userVO){
-        userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
+        // 비밀번호가 비어 있지 않다면 암호화 후 저장
+        if (userVO.getPassword() != null && !userVO.getPassword().isEmpty()) {
+            userVO.setPassword(passwordEncoder.encode(userVO.getPassword()));
+        } else {
+            // 비밀번호가 비어 있으면 기존 비밀번호 유지
+            UserVO existingUser = loginService.getUserById(userVO.getUserNum()); // 기존 유저 정보를 가져옴
+            userVO.setPassword(existingUser.getPassword()); // 기존 비밀번호로 설정
+        }
+
         loginService.modify(userVO);
         return "redirect:/user/logout";
     }
