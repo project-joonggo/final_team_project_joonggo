@@ -3,51 +3,81 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
-
+<head>
+    <link rel="stylesheet" th:href="@{/css/payment_history.css}">
+</head>
 <body>
 
 <div layout:fragment="content">
-    <table>
-        <thead>
-        <tr>
-            <th>결제 ID</th>
-            <th>결제 금액</th>
-            <th>결제 일자</th>
-            <th>환불</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="paymentDTO : ${payments}">
-            <!-- 상품 이미지가 있을 경우 보여주기 -->
-            <td>
-                <span th:if="${paymentDTO.fileUrl != null}">
-                    <img th:src="@{${paymentDTO.fileUrl}}" alt="상품 이미지" width="100"/>
-                </span>
-                <span th:if="${paymentDTO.fileUrl == null}">이미지가 없습니다.</span>
-            </td>
-            <td th:text="${paymentDTO.payment.paymentId}"></td>
-            <td th:text="${paymentDTO.payment.amount}"></td>
-            <td th:text="${paymentDTO.payment.paidAt}"></td>
+    <div class="container-md" id="payHistoryBase">
+        <div class="payHeader">거래 내역</div>
+        <div th:each="paymentDTO : ${payments}" class="buyProduct">
+            <div th:text="${#strings.substring(paymentDTO.payment.paidAt,0,10)}" class="buyDate"></div>
+            <div id="buyProductInfo">
+                <img class="productImg" th:src="@{${paymentDTO.fileUrl}}" alt="상품 이미지" width="100"/>
+                <div class="infoArea">
+                    <p> "카테고리 넣을곳" </p>
+                    <p th:text="${paymentDTO.payment.productName}"></p>
+                    <p th:text="${paymentDTO.payment.amount}">원</p>
+                    <!-- 환불 버튼 추가 -->
+                    <button class="cancelBtn" th:data-impUid="${paymentDTO.payment.impUid}"
+                            th:data-merchantUid="${paymentDTO.payment.merchantUid}"
+                            th:data-paidAmount="${paymentDTO.payment.amount}"
+                            th:data-cancelFlag="${paymentDTO.payment.cancelFlag}">
+                        환불
+                    </button>
+                    <span th:if="${paymentDTO.payment.cancelFlag}" style="color: red; margin-left: 10px; font-weight: bold; font-size: 18px;">
+                            환불 완료
+                    </span>
+                    <span th:unless="${paymentDTO.payment.cancelFlag}" style="color: green; margin-left: 10px; font-weight: bold; font-size: 18px;">
+                            환불 가능
+                    </span>
+                </div>
+            </div>
+        </div>
 
-            <td>
-            <!-- 환불 버튼 추가 -->
-            <button class="cancelBtn" th:data-impUid="${paymentDTO.payment.impUid}"
-                    th:data-merchantUid="${paymentDTO.payment.merchantUid}"
-                    th:data-paidAmount="${paymentDTO.payment.amount}"
-                    th:data-cancelFlag="${paymentDTO.payment.cancelFlag}">
-                환불
-            </button>
-            <span th:if="${paymentDTO.payment.cancelFlag}" style="color: red; margin-left: 10px; font-weight: bold;">
-                    환불 완료
-                </span>
-            <span th:unless="${paymentDTO.payment.cancelFlag}" style="color: green; margin-left: 10px; font-weight: bold;">
-                    환불 가능
-                </span>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+<!--    <table>-->
+<!--        <thead>-->
+<!--        <tr>-->
+<!--            <th></th>-->
+<!--            <th>결제 ID</th>-->
+<!--            <th>결제 금액</th>-->
+<!--            <th>결제 일자</th>-->
+<!--            <th>환불</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="paymentDTO : ${payments}">-->
+<!--            &lt;!&ndash; 상품 이미지가 있을 경우 보여주기 &ndash;&gt;-->
+<!--            <td>-->
+<!--                <span th:if="${paymentDTO.fileUrl != null}">-->
+<!--                    <img th:src="@{${paymentDTO.fileUrl}}" alt="상품 이미지" width="100"/>-->
+<!--                </span>-->
+<!--                <span th:if="${paymentDTO.fileUrl == null}">이미지가 없습니다.</span>-->
+<!--            </td>-->
+<!--            <td th:text="${paymentDTO.payment.paymentId}"></td>-->
+<!--            <td th:text="${paymentDTO.payment.amount}"></td>-->
+<!--            <td th:text="${paymentDTO.payment.paidAt}"></td>-->
 
+<!--            <td>-->
+<!--            &lt;!&ndash; 환불 버튼 추가 &ndash;&gt;-->
+<!--            <button class="cancelBtn" th:data-impUid="${paymentDTO.payment.impUid}"-->
+<!--                    th:data-merchantUid="${paymentDTO.payment.merchantUid}"-->
+<!--                    th:data-paidAmount="${paymentDTO.payment.amount}"-->
+<!--                    th:data-cancelFlag="${paymentDTO.payment.cancelFlag}">-->
+<!--                환불-->
+<!--            </button>-->
+<!--            <span th:if="${paymentDTO.payment.cancelFlag}" style="color: red; margin-left: 10px; font-weight: bold;">-->
+<!--                    환불 완료-->
+<!--            </span>-->
+<!--            <span th:unless="${paymentDTO.payment.cancelFlag}" style="color: green; margin-left: 10px; font-weight: bold;">-->
+<!--                    환불 가능-->
+<!--            </span>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+    </div>
     <!-- Thymeleaf를 사용해 payments 데이터를 JavaScript 변수로 직접 전달 -->
     <script th:inline="javascript">
         /*<![CDATA[*/

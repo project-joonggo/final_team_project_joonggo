@@ -51,9 +51,8 @@
                     </a>
                 </li>
                 <li sec:authorize="isAuthenticated()">
-                    <a th:with="userNum=${#authentication.getPrincipal().userVO.userNum}"
-                       th:href="@{/chat/chatRoomList(userNum=${userNum})}"
-                       th:data-user-num="${userNum}"
+                    <a th:href="@{/chat/chatRoomList(userNum=${#authentication.getPrincipal().userVO.userNum})}"
+                       th:data-user-num="${#authentication.getPrincipal().userVO.userNum}"
                        class="d-flex justify-content-center align-items-center gap-1">
                         <img src="/img/chatting.svg">
                         <span>채팅</span>
@@ -192,5 +191,24 @@
 
     </div>
     </div>
+
+    <button type="button" id="openChatBtn"><img src="/img/chatbot.png"></button>
+
+    <!-- 대화방 사이드바 -->
+    <div id="chatSidebar" class="chat-sidebar">
+        <div class="chat-header">
+            <span>대화방</span>
+            <button id="closeChatBtn"><img src="/img/x.png"></button>
+        </div>
+        <div class="chat-messages">
+            <div class="message">
+                안녕하세요!<br>대화방에 오신 것을 환영합니다.
+            </div>
+        </div>
+        <input type="text" id="chatInput" placeholder="메시지를 입력하세요...">
+        <button id="sendBtn">전송</button>
+    </div>
+
     <script th:src="@{/js/headerChatCnt.js}"></script>
+    <script th:src="@{/js/chatside.js}"></script>
 </div>

@@ -10,7 +10,7 @@ import lombok.*;
 public class ChatCommentVO {
     private int commentId;
     private int roomId;
-    private int commentUserNum;
+    private long commentUserNum;
     private String commentContent;
     private String commentWriteDate;
     private int isRead;

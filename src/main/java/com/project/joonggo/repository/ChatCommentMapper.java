@@ -18,12 +18,12 @@ public interface ChatCommentMapper {
     void saveChatCommentEnterUser(ChatCommentVO chatCommentVO);
 
     // 특정 채팅방의 읽지 않은 메시지 수 조회
-    int countUnreadMessages(@Param("roomId") int roomId, @Param("userNum") int userNum);
+    int countUnreadMessages(@Param("roomId") int roomId, @Param("userNum") long userNum);
 
     // 전체 읽지 않은 메시지 수 조회
-    int countTotalUnreadMessages(@Param("userNum") int userNum);
+    int countTotalUnreadMessages(@Param("userNum") long userNum);
 
     // 채팅방 메시지 읽음 처리
-    int updateReadStatus(@Param("roomId") int roomId, @Param("userNum") int userNum);
+    int updateReadStatus(@Param("roomId") int roomId, @Param("userNum") long userNum);
 
 }

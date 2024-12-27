@@ -63,7 +63,7 @@
 /* 보낸 메시지 (우측) */
 .sent-message {
     align-self: flex-end;
-    background-color: #007bff;
+    background-color: #CE4E6A;
     color: white;
 }
 
@@ -81,7 +81,7 @@
 
 #sendButton {
   padding: 8px 15px;
-  background-color: #007bff;
+  background-color: #CE4E6A;
   color: white;
   border: none;
   border-radius: 4px;
@@ -89,7 +89,7 @@
 }
 
 #sendButton:hover {
-  background-color: #0056b3;
+  background-color: #A0173B;
 }
 /* 채팅방 안읽은 채팅 count */
 .badge {

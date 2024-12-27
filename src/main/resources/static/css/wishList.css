@@ -1,0 +1,70 @@
+.wishHeader {
+    font-size: 26px;
+    width: 900px;
+    margin: 10px auto;
+    padding: 18px;
+}
+
+.wishProductInfo {
+    display: flex;
+    width: 650px;
+}
+.wishList {
+    width: 900px;
+    margin: 20px auto;
+}
+.wishProduct {
+    display: flex;
+   justify-content: space-between;
+    border-top: 1px solid #A3A3A3;
+    padding: 15px;
+    align-items: center;
+}
+
+.handleBtn {
+  display: flex;
+  flex-direction: column;
+}
+
+.productImg {
+    width: 120px;
+    height: 120px;
+}
+
+.infoArea {
+    width: calc(100% - 120px);
+    margin: 20px;
+}
+
+.infoArea > p {
+    margin-bottom: 10px;
+}
+
+.infoArea > a > p {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.infoArea > p:nth-child(2) {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.infoArea > p:nth-child(3) {
+    color: gray;
+}
+
+.pay-btn, .remove-wish-btn {
+    border: 0px;
+    color: white;
+    background: #CE4E6A;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 18px;
+    width: 130px;
+}
+
+.pay-btn:hover, .remove-wish-btn:hover {
+    background: #A0173B;
+    transition: all 0.2s ease;
+}

@@ -10,7 +10,7 @@ import java.util.List;
 public interface ChatJoinMapper {
 
     // 채팅방에 사용자가 참여했는지 여부 확인
-    boolean isUserInRoom(@Param("roomId") int roomId, @Param("userNum") int userNum);
+    boolean isUserInRoom(@Param("roomId") int roomId, @Param("userNum") long userNum);
 
     // 채팅방에 사용자를 추가(입장)
     void addUserToRoom(ChatJoinVO chatJoinVO);
@@ -20,5 +20,5 @@ public interface ChatJoinMapper {
 
     void joinChatRoom(ChatJoinVO chatJoinVO);
 
-    int getReceiverUserNum(@Param("roomId") int roomId, @Param("userNum") int commentUserNum);
+    int getReceiverUserNum(@Param("roomId") int roomId, @Param("userNum") long commentUserNum);
 }
