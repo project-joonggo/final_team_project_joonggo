@@ -84,7 +84,13 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String list(Model model, PagingVO pgvo, @RequestParam(value = "category",required = false) String category, @RequestParam(value = "keyword", required = false) String keyword){
+    public String list(Model model, PagingVO pgvo, @RequestParam(value = "category",required = false) String category,
+                       @RequestParam(value = "keyword", required = false) String keyword,
+                       @RequestParam(value = "minPrice", required = false) Integer minPrice,
+                       @RequestParam(value = "maxPrice", required = false) Integer maxPrice,
+                       @RequestParam(value = "includeSoldOut", required = false, defaultValue = "false") boolean includeSoldOut){
+
+
 
         int totalCount = boardService.getTotal(pgvo);
 
@@ -96,11 +102,17 @@ public class BoardController {
         log.info(">>> ph >>> {}" , ph);
         log.info(">>> category >> {}" , category);
         log.info(">>> keyword >>> {}", keyword);
+        log.info(">>> minPrice >>> {}", minPrice);
+        log.info(">>> maxPrice >>> {}", maxPrice);
+        log.info(">>> includeSoldOut >>> {}", includeSoldOut);
 
         model.addAttribute("list",list);
         model.addAttribute("ph",ph);
         model.addAttribute("category", category);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("includeSoldOut", includeSoldOut);  // 추가된 필드 설정
 
         return "/board/list";
     }

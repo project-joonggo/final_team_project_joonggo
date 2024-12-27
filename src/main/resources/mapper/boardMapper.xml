@@ -21,6 +21,7 @@
         order by board_id desc
         limit #{startIndex}, #{qty}
     </select>
+
     <select id="getDetail" resultType="com.project.joonggo.domain.BoardVO">
         select * from sellbuy_board where board_id = #{boardId}
     </select>
@@ -56,8 +57,15 @@
     <select id="getBoardList" resultType="com.project.joonggo.domain.BoardVO">
         select * from sellbuy_board
         WHERE is_del = 'N'
+        <if test="includeSoldOut == false">
+            AND trade_flag = 0 <!-- 판매완료된 상품은 제외 -->
+        </if>
+        <if test="includeSoldOut == true">
+            AND (trade_flag = 0 OR trade_flag = 1) <!-- 판매완료된 상품도 포함 -->
+        </if>
         <include refid="search"/>
         <include refid="categorySearch"/>
+        <include refid="priceSearch"/> <!-- 가격 조건 추가 -->
         order by board_id desc
         LIMIT #{startIndex}, #{qty}
     </select>
@@ -88,8 +96,15 @@
     <select id="getTotal" resultType="int">
         select count(board_id) from sellbuy_board
         where is_del = 'N'
+        <if test="includeSoldOut == false">
+            AND trade_flag = 0 <!-- 판매완료된 상품은 제외 -->
+        </if>
+        <if test="includeSoldOut == true">
+            AND (trade_flag = 0 OR trade_flag = 1) <!-- 판매완료된 상품도 포함 -->
+        </if>
         <include refid="search"/>
         <include refid="categorySearch"/>
+        <include refid="priceSearch"/> <!-- 가격 조건 추가 -->
     </select>
 
     <sql id="search">
@@ -101,6 +116,17 @@
     <sql id="categorySearch">
         <if test="category != null and category != ''">
             AND category LIKE CONCAT('%', #{category}, '%') <!-- 카테고리가 일치하는 게시글만 검색 -->
+        </if>
+    </sql>
+
+    <sql id="priceSearch">
+        <if test="minPrice != null">
+            AND trade_price >= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            <![CDATA[
+                AND trade_price <= #{maxPrice}
+                ]]>
         </if>
     </sql>
 

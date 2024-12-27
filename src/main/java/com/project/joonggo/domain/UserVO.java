@@ -10,7 +10,6 @@ import java.util.List;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
 public class UserVO {
     private long userNum;
     private String userId;
