@@ -59,6 +59,7 @@
 
     <select id="getTotal" resultType="int">
         select count(qna_id) from qna_board
+        where is_del = 'N'
     </select>
 
     <select id="getList" resultType="com.project.joonggo.domain.QnaVO">

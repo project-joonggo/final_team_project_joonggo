@@ -1,0 +1,53 @@
+.faq-content{
+    width: 800px;
+    margin: 0 auto;
+    font-size: 18px;
+    padding: 15px;
+    line-height: 1.6;
+}
+
+.qna-title{
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+    padding: 50px;
+}
+
+.feedback a{
+    text-decoration: underline;
+    font-size: 20px;
+    color: #000;
+    font-weight: bold;
+}
+
+.feedback{
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 58px;
+    padding: 15px;
+    margin-bottom: 50px;
+}
+
+.qna-sub{
+    font-weight: bold;
+    font-size: 20px;
+    padding-bottom: 20px;
+}
+
+.faq-ol li{
+    margin-bottom: 10px;
+}
+
+.move-main{
+    text-decoration: underline;
+    font-size: 14px;
+    color: #000;
+    width: 800px;
+    margin: 0 auto;
+    margin-top: 30px;
+    font-size: 16px;
+}
+
+.move-main a{
+    margin-left: 15px;
+}

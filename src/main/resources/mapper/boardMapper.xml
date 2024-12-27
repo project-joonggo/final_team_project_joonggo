@@ -160,6 +160,9 @@
         limit #{pgvo.startIndex}, #{pgvo.qty}
     </select>
 
+    <select id="getCategory" resultType="String">
+        select category from sellbuy_board where board_id = #{boardId}
+    </select>
 
 
 </mapper>

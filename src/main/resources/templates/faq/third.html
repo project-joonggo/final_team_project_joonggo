@@ -4,19 +4,76 @@
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
+<head>
+    <link rel="stylesheet" th:href="@{/css/qnaMain.css}">
+    <link rel="stylesheet" th:href="@{/css/faq.css}">
+</head>
+
 <div layout:fragment="content">
     <div class="container-md">
-        <h2>Q3: 결제 방법은 무엇이 있나요?</h2>
-        <p>서비스 결제는 아래와 같은 다양한 방법으로 가능합니다:</p>
-        <ul>
-            <li><strong>카드 결제</strong>: 신용카드 및 체크카드를 이용한 결제 방법입니다.</li>
-            <li><strong>계좌 이체</strong>: 은행 계좌 이체를 통한 결제 방법입니다. 온라인 은행을 통해 결제할 수 있습니다.</li>
-            <li><strong>간편 결제</strong>: 카카오페이, 네이버페이 등 다양한 간편 결제 서비스를 통해 결제할 수 있습니다.</li>
-            <li><strong>휴대폰 결제</strong>: 모바일을 이용한 간편 결제 방식으로, 휴대폰을 통해 결제를 완료할 수 있습니다.</li>
-        </ul>
-        <p>결제는 결제 수단에 따라 실시간으로 처리되며, 결제 완료 후 바로 서비스를 이용하실 수 있습니다.</p>
 
-        <a href="/qna/register"><button type="button" class="btn btn-secondary">문의하기</button></a>
+        <div class="move-main">
+            <a href="/qna/main">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+                    <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+                    <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+                </svg>
+            </a>
+        </div>
+
+        <p class="qna-title">Q3: 결제 방법은 무엇이 있나요?</p>
+
+        <div class="faq-content">
+        <p class="qna-sub">서비스 결제는 아래와 같은 다양한 방법으로 가능합니다!</p>
+        <ul class="faq-ol">
+            <li>1. <strong>카드 결제</strong>: 신용카드 및 체크카드를 이용한 결제 방법입니다.</li>
+            <li>2. <strong>계좌 이체</strong>: 은행 계좌 이체를 통한 결제 방법입니다. 온라인 은행을 통해 결제할 수 있습니다.</li>
+            <li>3. <strong>간편 결제</strong>: 카카오페이, 네이버페이 등 다양한 간편 결제 서비스를 통해 결제할 수 있습니다.</li>
+            <li>4. <strong>직거래 결제</strong>: 상대와 채팅을 통해 직접 결제방법을 정하실 수 있습니다.</li>
+        </ul>
+        <br>
+        <p>결제는 결제 수단에 따라 실시간으로 처리되며, 결제 완료 후 바로 서비스를 이용하실 수 있습니다.</p>
+        </div>
+
+        <!-- 자주 묻는 질문 -->
+        <p class="sub-title" style="margin-top: 58px;">자주 묻는 질문</p>
+        <div class="qna-box">
+            <ul class="qna-list">
+                <li>
+                    <a href="/faq/first">Q1: 서비스 가입 방법은 무엇인가요?
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="/faq/second">Q2: 비밀번호를 잊어버렸을 때 어떻게 하나요?
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="/faq/fourth">Q4: 배송은 얼마나 걸리나요?
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                    </a>
+                </li>
+                <li>
+                    <a href="/faq/fifth">Q5: 계정을 삭제하고 싶어요.
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+                        </svg>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="feedback">
+            <a href="/qna/register">문의하기</a>
+        </div>
 
     </div>
 </div>

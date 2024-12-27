@@ -7,14 +7,21 @@
 
 <div id="content" layout:fragment="content">
 
-  <div class="container-md cBox">
+  <div class="container-md">
 
-    <div class="button-group">
-      <button id="viewPendingBtn" class="btn btn-primary">답변대기만 보기</button>
-      <button id="viewAllBtn" class="btn btn-secondary" style="display: none;">전체 보기</button>
+    <h1 class="list-title">문의관리</h1>
+    <hr>
+
+    <div class="sub-title">총 [[${ph.totalCount}]]개의 문의가 접수 되었습니다.</div>
+
+    <div>
+      <div class="button-group btn-flex-box">
+        <button id="viewPendingBtn" class="btn seeBtn">답변대기만 보기</button>
+        <button id="viewAllBtn" class="btn seeBtn" style="display: none;">전체 보기</button>
+      </div>
     </div>
 
-    <table>
+    <table class="user-table">
       <thead>
       <tr>
         <th>문의명</th>

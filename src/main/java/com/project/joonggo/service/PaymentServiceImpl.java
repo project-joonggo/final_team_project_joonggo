@@ -1,9 +1,11 @@
 package com.project.joonggo.service;
 
 
+import com.project.joonggo.domain.BoardVO;
 import com.project.joonggo.domain.FileVO;
 import com.project.joonggo.domain.Payment;
 import com.project.joonggo.domain.PaymentDTO;
+import com.project.joonggo.repository.BoardMapper;
 import com.project.joonggo.repository.FileMapper;
 import com.project.joonggo.repository.PaymentMapper;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentMapper paymentMapper;
     private final FileMapper fileMapper;
+    private final BoardMapper boardMapper;
 
     @Override
     public boolean savePaymentInfo(String impUid,String merchantUid, int amount, Long boardId, String productName, Long userNum) {
@@ -57,7 +60,11 @@ public class PaymentServiceImpl implements PaymentService {
                 fileUrl = images.get(0).getFileUrl();  // 첫 번째 이미지 URL만 사용
             }
 
-            PaymentDTO paymentDTO = new PaymentDTO(payment, fileUrl);
+            String category = boardMapper.getCategory(boardId);
+
+            log.info(">>> category >> {}", category);
+
+            PaymentDTO paymentDTO = new PaymentDTO(payment, fileUrl, category);
             paymentDTOs.add(paymentDTO);
         }
 

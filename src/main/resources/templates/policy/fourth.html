@@ -4,16 +4,34 @@
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
 
+<head>
+  <link rel="stylesheet" th:href="@{/css/qnaMain.css}">
+  <link rel="stylesheet" th:href="@{/css/faq.css}">
+  <link rel="stylesheet" th:href="@{/css/policy.css}">
+</head>
+
 <div layout:fragment="content">
   <div class="container-md">
 
-    <h2>이용자에게 불쾌감을 유발하는 콘텐츠</h2>
+    <div class="move-main">
+      <a href="/qna/main">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
+          <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z"/>
+          <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z"/>
+        </svg>
+      </a>
+    </div>
+
+    <p class="qna-title">이용자에게 불쾌감을 유발하는 콘텐츠</p>
+
+    <div class="faq-content">
 
     <p>쓸템은 폭력적이거나 잔혹한 정보를 비롯하여 이웃 간 증오・혐오감을 유발할 수 있는 모든 정보를 허용하지 않아요. 이웃 누구나 보고 참여할 수 있는 서비스 영역에서 이러한 정보를 확인하셨다면 신고해 주세요.</p>
+    <br>
+    <p class="qna-sub">폭력 ・ 잔혹성 정보</p>
 
-    <h3>폭력 ・ 잔혹성 정보</h3>
     <p>사람과 사람의 표현물(모든 창작물)에 대한 육체적·정신적 고통 등을 사실적·구체적으로 표현하여 다른 이웃들에게 불쾌감을 주는 내용은 폭력성·잔혹성 정보로 판단됩니다. 아래와 같은 폭력적이고 잔혹한 내용을 포함한 정보는 엄격히 금지됩니다.</p>
-    <ul>
+    <ul class="policy-ul">
       <li>피와 출혈을 동반한 절단, 손괴 등 잔인한 살해 장면이나 사체유기 등을 표현 또는 묘사한 내용</li>
       <li>무방비 상태에서 대응할 수 없는 사람에게 행해지는 고문, 폭행 등을 표현 또는 묘사한 내용</li>
       <li>장애인, 노인, 임산부, 아동 등 사회적 약자 또는 부모, 스승 등에 대한 살인, 상해, 폭행, 협박, 학대행위 등을 표현 또는 묘사한 내용</li>
@@ -24,9 +42,9 @@
       <li>그 밖에 육체적·정신적 고통 등을 사실적·구체적으로 표현하여 잔혹감을 줄 수 있는 내용</li>
     </ul>
 
-    <h3>욕설 ・ 비속어 정보</h3>
+    <p class="qna-sub sub-top">욕설 ・ 비속어 정보</p>
     <p>다른 이웃들에게 모욕감 또는 불쾌감을 주거나 언어적 폭력으로 느낄 수 있는 과도한 표현은 욕설・비속어 정보로 판단됩니다. 쓸템에서는 다음과 같은 정보도 금지하고 있습니다:</p>
-    <ul>
+    <ul class="policy-ul">
       <li>노골적인 성적 행위 및 성기 등을 표현 또는 묘사한 욕설・비속어</li>
       <li>신체 훼손을 표현하는 폭력적인 내용의 욕설・비속어</li>
       <li>사람을 동물에 비유하거나 신체의 손상 및 취향을 비하하는 내용을 표현하는 욕설・비속어</li>
@@ -36,9 +54,9 @@
       <li>그 밖에 타인에게 모욕감 또는 불쾌감을 줄 수 있는 욕설・비속어</li>
     </ul>
 
-    <h3>증오 ・ 혐오성 정보</h3>
+    <p class="qna-sub sub-top">증오 ・ 혐오성 정보</p>
     <p>쓸템은 차별적 인식에 기반해 특정 집단에 대해 극단적인 언어적 폭력을 가하는 행위를 “증오 발언”으로 정의하고 있습니다. 이러한 혐오 발언과 차별적 행위는 쓸템 내에서 허용되지 않으며, 다음과 같은 사항은 모두 금지됩니다:</p>
-    <ul>
+    <ul class="policy-ul">
       <li>출신 (국가, 지역 등)</li>
       <li>인종</li>
       <li>외양</li>
@@ -51,9 +69,9 @@
       <li>성적 지향 또는 기타 정체성 요인</li>
     </ul>
 
-    <h3>혐오성 정보</h3>
+    <p class="qna-sub sub-top">혐오성 정보</p>
     <p>다수의 이용자들이 거부감을 느끼거나 기피할 수 있는 내용은 혐오성 정보로 판단되며, 이 역시 엄격히 금지됩니다. 아래와 같은 내용은 혐오성 정보로 간주되어 삭제될 수 있습니다:</p>
-    <ul>
+    <ul class="policy-ul">
       <li>구토, 방뇨(소변), 배설시의 오물(대변 등)을 표현 또는 묘사한 내용</li>
       <li>여성의 생리분비물, 질분비물 등을 표현 또는 묘사한 내용</li>
       <li>낙태, 절개・절단, 출산, 수술 장면 등을 구체적으로 표현 또는 묘사한 내용</li>
@@ -62,9 +80,9 @@
       <li>타인에게 공포감을 줄 수 있는 귀신 등을 표현 또는 묘사한 내용</li>
     </ul>
 
-    <h3>동물학대 정보</h3>
+    <p class="qna-sub sub-top">동물학대 정보</p>
     <p>“동물학대”란 동물을 대상으로 정당한 사유 없이 불필요하거나 피할 수 있는 신체적 고통과 스트레스를 주는 행위 및 굶주림, 질병 등에 대해 적절한 조치를 게을리하거나 방치하는 행위를 의미합니다. 쓸템은 이러한 동물학대 행위를 철저히 금지하고 있으며, 아래와 같은 행위들은 동물학대 정보로 간주하여 신고가 가능합니다:</p>
-    <ul>
+    <ul class="policy-ul">
       <li>동물의 목을 매다는 등 잔인한 방법으로 죽음에 이르게 하는 행위</li>
       <li>노상 등 공개된 장소에서 죽음에 이르게 하는 행위</li>
       <li>같은 종류의 다른 동물이 보는 앞에서 죽음에 이르게 하는 행위</li>
@@ -81,7 +99,54 @@
 
     <p>쓸템은 이러한 폭력적, 잔혹한 정보 및 혐오성, 동물학대 정보를 철저히 관리하며, 문제가 되는 콘텐츠를 신고한 경우 신속하게 대응할 것입니다.</p>
 
+    </div>
 
-    <a href="/qna/register"><button type="button" class="btn btn-secondary">문의하기</button></a>
+    <!-- 운영 정책 -->
+    <p class="sub-title" style="margin-top: 58px;">운영 정책</p>
+    <div class="qna-box">
+      <ul class="qna-list">
+        <li>
+          <a href="/policy/first">올바른 (쓸템) 사용법
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/second">불법 ・ 유해 콘텐츠와 거래금지물품
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/third">범죄 및 유해 행위
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/fifth">권리 및 사생활 보호
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+        <li>
+          <a href="/policy/sixth">서비스 이용 제한
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right" viewBox="0 0 16 16">
+              <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708"/>
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="feedback-box">
+      <span>도움이 필요하신가요?</span>
+      <a href="/qna/register"><button type="button" class="btn">문의하기</button></a>
+    </div>
+
   </div>
 </div>

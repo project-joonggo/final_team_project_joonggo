@@ -12,5 +12,5 @@ import java.time.LocalDateTime;
 public class PaymentDTO {
     private Payment payment;
     private String fileUrl;
-
+    private String category;
 }
