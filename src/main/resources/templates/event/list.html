@@ -8,10 +8,21 @@
 <div layout:fragment="content">
     <div class="container-md">
 
-        <h1>Event List</h1>
-        <div class="d-flex justify-content-between align-items-center eventListContainer">
-        <div><a href="/event/roulette"><img src="/img/roulette.jpg"></a></div>
-        <div><a href="/event/attend"><img src="/img/attendCheck.png"></a></div>
+        <div class="event-title">이벤트</div>
+        <div class="event-category">
+            <span class="event-bold"><a href="/event/list">참여형</a></span>
+            <span><a href="/event/eventList">혜택형</a></span>
+        </div>
+        <!--d-flex justify-content-between align-items-center -->
+        <div class="event-engagementContainer">
+            <div class="event-engagement event-margin">
+                <a href="/event/roulette"><img src="/img/roulette.jpg"></a>
+                <span class="event-date">상시</span>
+            </div>
+            <div class="event-engagement">
+                <a href="/event/attend"><img src="/img/attendCheck.png"></a>
+                <span class="event-date">상시</span>
+            </div>
         </div>
 
     </div>

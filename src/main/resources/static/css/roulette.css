@@ -1,5 +1,4 @@
 .roulette-container {
-  /* background: #f9f9f9; */
   background-image: url('/img/rouletteBackground.svg');
   background-size: cover;  
   background-position: center; 
@@ -48,9 +47,12 @@
   color: #A0173B;
 }
 
+.roulette-container button {
+  color: #f9f9f9;
+}
+
 .roulette-container button:hover {
   background: #CE4E6A;
-  color: #f9f9f9;
 }
 
 .roulette-container .roulette-box {

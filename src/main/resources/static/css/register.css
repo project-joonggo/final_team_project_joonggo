@@ -40,7 +40,6 @@
     font-weight: 500;
 }
 
-/* test */
 .select{
     -webkit-appearance: none;  /* 크롬 화살표 없애기 */
     -moz-appearance: none; /* 파이어폭스 화살표 없애기 */
@@ -94,14 +93,17 @@
 .register-button{
     width: 180px;
     height: 50px;
-    padding: 5px 10px;
+    padding: 5px 10px;;
+    color: white;
+    background-color: #CE4E6A;
+    border: none;
     border-radius: 10px;
     font-size: 24px;
     font-weight: 500;
 }
 
 .register-button:hover{
-    background-color: #CE4E6A;
+    background-color: #F26879;
 }
 
 .register-center{
