@@ -16,7 +16,8 @@
             <div id="buyProductInfo">
                 <img class="productImg" th:src="@{${paymentDTO.fileUrl}}" alt="상품 이미지" width="100"/>
                 <div class="infoArea">
-                    <p> "카테고리 넣을곳" </p>
+<!--                    <p>카테고리</p>-->
+                    <p th:text="${paymentDTO.category}"></p>
                     <p th:text="${paymentDTO.payment.productName}"></p>
                     <p th:text="${paymentDTO.payment.amount}">원</p>
                     <!-- 환불 버튼 추가 -->
