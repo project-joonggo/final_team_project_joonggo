@@ -22,13 +22,16 @@
     </button>
 
     <button id="paymentBtn">결제하기</button>
-    <button id="cancelBtn">결제 취소</button>
 
-    <button type="button" id="modBtn">수정</button>
-    <a th:href="@{/board/delete(boardId=${boardVO.boardId})}"><button type="button" id="delBtn">글삭제</button></a>
-    <button href="#" data-bs-toggle="modal" data-bs-target="#reportModal">
-      신고
+    <div th:if="${#authentication.principal != 'anonymousUser' && #authentication.principal.userVO.userNum == boardVO.sellerId}">
+      <button type="button" id="modBtn">수정</button>
+      <a th:href="@{/board/delete(boardId=${boardVO.boardId})}"><button type="button" id="delBtn">글삭제</button></a>
+    </div>
+
+    <button href="#" id="reportBtn" data-bs-toggle="modal" data-bs-target="#reportModal">
+        신고
     </button>
+
     <form id="reportForm" action="/board/report" method="post">
     <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -51,8 +54,9 @@
               <!-- sellerId (신고 당할 사람), 게시글 번호(리다이렉트용) -->
               <input type="hidden" name="sellerId" th:value="${boardVO.sellerId}">
               <input type="hidden" name="boardId" th:value="${boardVO.boardId}">
-              <input type="hidden" name="reporterId" th:value="${#authentication.getPrincipal().userVO.userNum}">
-              </div>
+               <input type="hidden" name="reporterId"
+                      th:value="${#authentication.principal != 'anonymousUser' ? #authentication.getPrincipal().userVO.userNum : ''}">
+             </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
             <button type="submit" class="btn btn-danger" id="submitReport">신고하기</button>
@@ -77,6 +81,27 @@
           /*<![CDATA[*/
       var tradeFlag = [[${boardVO.tradeFlag}]];
       /*]]>*/
+    </script>
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+
+       var principal = [[${#authentication.principal}]];
+
+       document.getElementById('paymentBtn').addEventListener('click', function() {
+         var principal = [[${#authentication.principal}]];
+         if (principal === 'anonymousUser') {
+           window.location.href = '/user/login';
+         }
+       });
+
+       document.getElementById('reportBtn').addEventListener('click', function() {
+         var principal = [[${#authentication.principal}]];
+         if (principal === 'anonymousUser') {
+           window.location.href = '/user/login';
+         }
+       });
+       /*]]>*/
     </script>
 
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>

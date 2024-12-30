@@ -117,10 +117,11 @@
 
 /* 버튼 스타일 (추방 버튼) */
 .suspend-btn {
-    background-color: #A0173B;  /* 빨간색 배경 */
+    background-color: #A0173B;
     color: #ffffff;  /* 글자 색은 흰색 */
     padding: 5px 10px;  /* 버튼 여백 */
     border-radius: 4px;  /* 버튼 모서리 둥글게 */
+    border: none;
 }
 
 .sub-title {
@@ -156,4 +157,14 @@
     display: flex;
     justify-content: end;
     margin-bottom: 30px;
+}
+
+/* active 상태일 때 강조 */
+.sideMenu .active {
+    font-weight: bold; /* 선택된 항목은 두껍게 */
+}
+
+/* 첫 번째 tr에 밑줄 추가 */
+.user-table thead tr {
+    border-bottom: 1px solid #ccc; /* 두께와 색상 설정 */
 }

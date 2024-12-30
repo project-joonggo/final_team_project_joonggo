@@ -18,6 +18,7 @@ public class PagingVO {
     private Integer minPrice;
     private Integer maxPrice;
     private boolean includeSoldOut; // 판매완료 상품 포함 여부
+    private String sort;
 
     public PagingVO(){
         pageNo = 1;

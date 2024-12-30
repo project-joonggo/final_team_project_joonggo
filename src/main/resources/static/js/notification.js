@@ -21,6 +21,23 @@ document.addEventListener('DOMContentLoaded', function () {
             toggleNotifications(); // 알림 리스트 보이기/숨기기
         }
     });
+
+        // 각 카테고리별 필터링 버튼 클릭 이벤트 추가
+        document.getElementById("show-all-notifications").addEventListener("click", function() {
+            showAllNotifications(); // 모든 알림을 표시
+        });
+    
+        document.getElementById("show-sale-notifications").addEventListener("click", function() {
+            showNotificationsByType('SALE'); // 판매 알림만 표시
+        });
+    
+        document.getElementById("show-question-notifications").addEventListener("click", function() {
+            showNotificationsByType('QUESTION'); // 문의 알림만 표시
+        });
+    
+        document.getElementById("show-report-notifications").addEventListener("click", function() {
+            showNotificationsByType('REPORT'); // 신고 알림만 표시
+        });
 });
 
 stompClient.connect({}, function (frame) {
@@ -61,12 +78,20 @@ stompClient.onclose = function() {
 
 
 
-function handleNotification(message,url,notificationId,isWebsocket) {
+function handleNotification(message,url,notificationId,isWebsocket, type) {
     console.log('Handling notification:', message);
     console.log("url: ",url);
     console.log("notificationId: ",notificationId);
 
-    const notificationList = document.getElementById("notification-list");
+    let notificationList = null;
+
+    // 'ANSWER'와 'REPLY' 알림은 모두 'QUESTION' 카테고리 내에서 처리
+    if (type === 'ANSWER' || type === 'REPLY') {
+        notificationList = document.getElementById("QUESTION-notifications"); // 'QUESTION' 카테고리 안에 포함
+    } else {
+        notificationList = document.getElementById(type + "-notifications"); // 일반 카테고리 처리
+    }
+    
     const newNotification = document.createElement("li");
     newNotification.classList.add("notification-item");
     newNotification.setAttribute("data-status", "unread"); // 상태를 '읽지 않음'으로 설정
@@ -188,7 +213,7 @@ function fetchNotifications() {
             if (dbNotificationsCount === 0) {
                 showNoNotificationsMessage(); // 알림이 없으면 "새로운 알림이 없습니다." 메시지 표시
             } else {
-                notifications.forEach(notification => handleNotification(notification.message, notification.url, notification.notificationId, false)); // 각 알림을 화면에 표시
+                notifications.forEach(notification => handleNotification(notification.message, notification.url, notification.notificationId, false, notification.type)); // 각 알림을 화면에 표시
             }
         })
         .catch(error => {
@@ -196,3 +221,39 @@ function fetchNotifications() {
         });
 }
 
+
+// 모든 알림을 표시
+function showAllNotifications() {
+    document.getElementById("SALE-notifications").style.display = 'block';
+    document.getElementById("QUESTION-notifications").style.display = 'block';
+    document.getElementById("REPORT-notifications").style.display = 'block';
+}
+
+// 특정 카테고리의 알림만 표시
+function showNotificationsByType(type) {
+    const allCategories = ['SALE', 'QUESTION', 'REPORT'];
+    
+    // 모든 카테고리를 숨김
+    allCategories.forEach(category => {
+        document.getElementById(category + "-notifications").style.display = 'none';
+    });
+
+    // 선택한 카테고리만 표시
+    document.getElementById(type + "-notifications").style.display = 'block';
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    // 카테고리 버튼들 가져오기
+    const categoryButtons = document.querySelectorAll('.filter-button');
+
+    // 버튼 클릭 시 active 클래스를 추가하고, 다른 버튼에서 제거
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // 모든 버튼에서 active 클래스 제거
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+
+            // 클릭된 버튼에 active 클래스 추가
+            button.classList.add('active');
+        });
+    });
+});

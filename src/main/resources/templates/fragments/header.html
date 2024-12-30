@@ -70,8 +70,30 @@
     </div>
 
     <!-- 알림 리스트 (드롭다운처럼 표시) -->
-    <div id="notification-list" style="display: none; position: absolute; background-color: #fff; border: 1px solid #ccc; width: 250px; max-height: 300px; overflow-y: auto; z-index: 9999;">
-        <!-- 알림 항목들이 여기에 동적으로 추가됩니다 -->
+    <div id="notification-list" style="display: none; position: absolute; border: 1px solid #ccc; overflow-y: auto; z-index: 9999;">
+        <div class="notification-header">
+            <p class="notification-title">알림</p>
+            <hr>
+        </div>
+
+        <!-- 카테고리 필터링 버튼 -->
+        <div class="notification-category-buttons">
+            <button id="show-all-notifications" class="filter-button active">전체</button>
+            <button id="show-sale-notifications" class="filter-button">판매</button>
+            <button id="show-question-notifications" class="filter-button">문의</button>
+            <button id="show-report-notifications" class="filter-button">신고</button>
+        </div>
+
+        <!-- 알림 카테고리 별로 나누어짐 -->
+        <div id="SALE-notifications">
+            <!-- 판매 알림들이 여기에 추가됩니다 -->
+        </div>
+        <div id="QUESTION-notifications">
+            <!-- 문의 알림들이 여기에 추가됩니다 -->
+        </div>
+        <div id="REPORT-notifications">
+            <!-- 신고 알림들이 여기에 추가됩니다 -->
+        </div>
     </div>
 
     <div class="d-flex justify-content-start align-items-center" id="headerBot">

@@ -66,7 +66,27 @@
         <include refid="search"/>
         <include refid="categorySearch"/>
         <include refid="priceSearch"/> <!-- 가격 조건 추가 -->
-        order by board_id desc
+
+        <!-- sort 파라미터에 따라 동적으로 ORDER BY 설정 -->
+        <choose>
+            <when test="sort == 'latest'">
+                order by board_id desc <!-- 최신순 -->
+            </when>
+            <when test="sort == 'recommend'">
+                order by like_count desc <!-- 추천순 (예시, 추천수가 많은 순으로 정렬) -->
+            </when>
+            <when test="sort == 'low-price'">
+                order by trade_price asc <!-- 낮은 가격순 (오름차순으로 정렬) -->
+            </when>
+            <when test="sort == 'high-price'">
+                order by trade_price desc <!-- 높은 가격순 (내림차순으로 정렬) -->
+            </when>
+            <otherwise>
+                order by board_id desc <!-- 기본적으로 최신순 (최신순을 기본값으로 설정) -->
+            </otherwise>
+        </choose>
+
+
         LIMIT #{startIndex}, #{qty}
     </select>
 

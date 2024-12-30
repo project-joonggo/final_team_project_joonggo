@@ -101,3 +101,185 @@
    padding: 10px;
    border-radius: 10px;
 }
+
+.selected-filters {
+    display: flex; /* flexbox를 사용하여 자식 요소를 가로로 배치 */
+    flex-wrap: wrap; /* 공간이 부족하면 자동으로 줄 바꿈 */
+    gap: 10px; /* 필터 항목 간의 간격 */
+}
+
+.filter-item {
+    background-color: #f0f0f0; /* 배경색 */
+    padding: 5px 10px; /* 여백 */
+    border-radius: 5px; /* 둥근 모서리 */
+    display: flex; /* 내부 요소들을 가로로 배치 */
+    align-items: center; /* 텍스트와 X 버튼을 세로로 가운데 정렬 */
+    font-size: 14px; /* 글자 크기 */
+}
+
+.filter-item button {
+    background: none; /* 배경 없음 */
+    border: none; /* 테두리 없음 */
+    color: red; /* X 버튼 색 */
+    margin-left: 5px; /* X 버튼과 텍스트 사이에 간격 */
+    cursor: pointer; /* 버튼 커서 */
+}
+
+.priceSearchBtn {
+   background-color: #A0173B;
+   color: white;
+   margin-left: 10px;
+   margin-bottom: 3px;
+   padding: 10px 12px;
+   border: none;
+   border-radius: 7px;
+}
+
+.product-subTitle{
+    margin: 40px 0 30px 5px;
+    font-size: 22px;
+    font-family: 700;
+}
+
+.product-priceContainer{
+    width: 1292px;
+    height: 80px;
+    font-size: 24px;
+    font-weight: 500;
+    background-color: rgb(247 249 250);
+    display: flex; /* 자식 요소를 가로로 배치 */
+    align-items: center; /* 세로 방향 중앙 정렬 */
+    margin: 20px auto;
+}
+
+.product-priceBox{
+    width: 440px;
+    padding: 5px 20px;
+    display: flex; /* 플렉스박스 사용 */
+    justify-content: space-between; /* 양쪽 끝에 배치 */
+    align-items: center; /* 수직 방향으로 중앙 정렬 */
+    color: #4a5056;
+}
+
+.product-price{
+    font-size: 30px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.product-divider{
+    width: 1px;
+    height: 32px;
+    background-color: #757b80;
+}
+
+/* 전체 상품 목록을 flexbox로 설정 */
+.product-list {
+    margin-left: 40px;
+    display: flex;
+    flex-wrap: wrap; /* 여러 줄로 표시 */
+    gap: 20px; /* 각 상품 사이의 간격 */
+    justify-content: space-between; /* 각 줄에서 상품을 고르게 분배 */
+    align-items: flex-start; /* 상품이 부족할 때, 상단에 정렬 */
+}
+
+/* 각 상품은 한 줄에 5개씩 배치 */
+.product-item {
+    width: calc(20% - 16px); /* 5개가 한 줄에 표시되도록 20% 크기 설정, 간격을 고려한 크기 */
+    box-sizing: border-box; /* 간격이 포함되도록 설정 */
+    margin-bottom: 20px; /* 각 줄의 아래 간격 */
+    height:320px;
+}
+
+.item-title{
+    height: 30px;
+    font-size: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.item-price{
+    height: 25px;
+    font-size: 25px;
+    font-weight: 700;
+    margin: 10px 0 10px 0;
+}
+.item-atc{
+    font-size: 12px;
+    color: #A9A9A9;
+}
+.item-count{
+    font-size: 12px;
+    color: #A9A9A9;
+    text-align: end;
+    margin-top: 20px;
+    width: 185px;
+}
+
+.product-list-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sort-buttons {
+  display: flex;
+  justify-content: flex-end; /* 우측 정렬 */
+  margin-bottom: 40px; /* 버튼 간격 */
+  width: 100%;
+}
+
+.sort-btn {
+  background-color: white;
+  margin-left: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #A3A3A3;
+  border: none;
+}
+
+.sort-buttons .active{
+    color: black;
+    font-weight: 600;
+}
+
+.optionBtn {
+    border: none;
+    background-color: white;
+}
+
+
+/* 상품 이미지 컨테이너 */
+.product-image {
+    position: relative;
+    width: 185px;  /* 원하는 고정 크기 */
+    height: 185px; /* 원하는 고정 크기 */
+    border-radius: 30px;  /* 둥근 모서리 */
+    overflow: hidden; /* 컨테이너 밖으로 이미지가 나가지 않도록 함 */
+    margin-bottom: 10px;
+}
+
+/* 상품 이미지에 적절한 크기 설정 */
+.product-image img {
+    width: 100%;
+    height: 100%;
+    border-radius: 30px;
+}
+
+.product-image img {
+    transition: transform 0.3s ease; /* 이미지 확대 시 부드러운 애니메이션 효과 */
+    border-radius: 30px; /* 이미지에 둥근 모서리 적용 */
+}
+
+.product-image:hover img {
+    transform: scale(1.1); /* 호버 시 이미지를 1.1배 확대 */
+    transform-origin: center; /* 확대되는 기준점을 이미지의 중심으로 설정 */
+}
+
+/* 상품이 하나만 있을 때 스타일 */
+.product-list.single-item .product-item {
+    width: 100%; /* 하나일 경우 가득 차도록 설정 */
+}
+
+.small-item-count .product-item{
+    width: 235px;
+}

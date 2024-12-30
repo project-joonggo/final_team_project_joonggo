@@ -11,11 +11,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const sideMenuLinks = document.querySelectorAll('.side-menu-link');
     console.log(sideMenuLinks);
 
+    // 페이지 로드 시 기본 "유저관리" 메뉴에 active 클래스 추가
+    if (sideMenuLinks.length > 0) {
+        sideMenuLinks[0].classList.add('active');
+    }
+
     sideMenuLinks.forEach(function(link) {
         link.addEventListener('click', function(event) {
             event.preventDefault();  // 기본 동작(페이지 이동)을 막음
             const url = this.getAttribute('data-url');  // 클릭된 링크의 URL을 가져옴
             console.log(url);
+
+            sideMenuLinks.forEach(function(item) {
+                item.classList.remove('active');  // 모든 항목에서 active 클래스 제거
+            });
+            this.classList.add('active');  // 클릭된 항목에 active 클래스 추가
 
             // AJAX 요청 (XMLHttpRequest 사용)
             loadContent(url); // 중복된 AJAX 코드 제거하고 함수로 처리

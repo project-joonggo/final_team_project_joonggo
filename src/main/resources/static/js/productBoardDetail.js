@@ -31,35 +31,41 @@ document.addEventListener("DOMContentLoaded", function() {
     if (wishBtn) {
         wishBtn.addEventListener("click", function() {
             // data-* 속성으로 boardId와 userNum을 가져옵니다.
-            const boardId = wishBtn.getAttribute("data-board-id");
-        
 
-            console.log(boardId);
-
-                // POST 요청으로 찜 추가 또는 취소
-                fetch("/wish/getWish", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        boardId: boardId
+            if (principal === 'anonymousUser') {
+                // 로그인하지 않은 경우, 로그인 페이지로 리다이렉트
+                window.location.href = '/user/login';
+            } else{
+                const boardId = wishBtn.getAttribute("data-board-id");
+            
+    
+                console.log(boardId);
+    
+                    // POST 요청으로 찜 추가 또는 취소
+                    fetch("/wish/getWish", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            boardId: boardId
+                        })
                     })
-                })
-                .then(response => response.json())
-                .then(data => {
-                     // 찜 추가/취소 후 알림
-                     alert(data.message);
-                    
-                     // 버튼 텍스트 변경 (예: 찜하기 <-> 찜 취소)
-                     wishBtn.textContent = data.newButtonText;
-                    // 찜 수 업데이트 (UI 반영)
-                    const likeCountSpan = document.getElementById('likeCount');
-                    if (likeCountSpan) {
-                        likeCountSpan.textContent = data.newLikeCount;  // 새로운 찜 수 업데이트
-                    }
-                })
-                .catch(error => console.error('Error:', error));
+                    .then(response => response.json())
+                    .then(data => {
+                         // 찜 추가/취소 후 알림
+                         alert(data.message);
+                        
+                         // 버튼 텍스트 변경 (예: 찜하기 <-> 찜 취소)
+                         wishBtn.textContent = data.newButtonText;
+                        // 찜 수 업데이트 (UI 반영)
+                        const likeCountSpan = document.getElementById('likeCount');
+                        if (likeCountSpan) {
+                            likeCountSpan.textContent = data.newLikeCount;  // 새로운 찜 수 업데이트
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                }
             });
         }
 

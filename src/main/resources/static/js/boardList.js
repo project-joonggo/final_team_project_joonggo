@@ -72,7 +72,121 @@ window.addEventListener('DOMContentLoaded', function() {
         iconUnchecked.style.display = "inline";
         iconChecked.style.display = "none";
     }
+    
 
     // 필터링 폼 제출
     document.getElementById("option-form").submit();
+    
+});
+
+// 페이지 로드 시 URL 파라미터로 'includeSoldOut' 값 설정
+window.addEventListener('DOMContentLoaded', function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  const includeSoldOutParam = urlParams.get('includeSoldOut'); // URL에서 'includeSoldOut' 파라미터 추출
+  var includeSoldOutInput = document.getElementById("includeSoldOut");
+  var iconUnchecked = document.getElementById("icon-unchecked");
+  var iconChecked = document.getElementById("icon-checked");
+
+  if (includeSoldOutParam === "true") {
+      includeSoldOutInput.value = "true";
+      iconUnchecked.style.display = "none";
+      iconChecked.style.display = "inline";
+  } else {
+      includeSoldOutInput.value = "false";
+      iconUnchecked.style.display = "inline";
+      iconChecked.style.display = "none";
+  }
+});
+
+
+// 페이지 로드 시 URL에서 필터 파라미터 읽어오기
+window.addEventListener('DOMContentLoaded', function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // 선택한 필터 항목 표시
+    function addFilterToSelectedList(filterDescription, filterKey, filterValue) {
+        const filterList = document.querySelector('.selected-filters'); // '선택한 필터' 영역
+        const filterItem = document.createElement('li');
+        
+        filterItem.classList.add('filter-item');
+        filterItem.innerHTML = `${filterDescription} <button class="remove-filter" data-filter-key="${filterKey}" data-filter-value="${filterValue}">X</button>`;
+        
+        filterList.appendChild(filterItem);
+    }
+
+    // URL에서 필터 값 추출하여 표시
+    const category = urlParams.get('category');
+    const minPrice = urlParams.get('minPrice');
+    const maxPrice = urlParams.get('maxPrice');
+    const includeSoldOut = urlParams.get('includeSoldOut');
+
+    // 카테고리 필터 추가
+    if (category) {
+        addFilterToSelectedList(`카테고리: ${category}`, 'category', category);
+    }
+
+    // 가격 필터 추가
+    if (minPrice && maxPrice) {
+        addFilterToSelectedList(`가격: ${minPrice} ~ ${maxPrice}`, 'price', `${minPrice}-${maxPrice}`);
+    }
+
+    // '판매완료 상품 포함' 필터만 추가
+    if (includeSoldOut !== null) {
+      if (includeSoldOut === 'true') {
+          addFilterToSelectedList('판매완료 상품 포함', 'includeSoldOut', 'true');
+      }
+  }
+
+    // X 버튼 클릭 시 해당 필터만 제거
+    document.querySelector('.selected-filters').addEventListener('click', function(event) {
+      if (event.target.classList.contains('remove-filter')) {
+        const filterKey = event.target.getAttribute('data-filter-key');
+        const filterValue = event.target.getAttribute('data-filter-value');
+    
+        // 필터 항목을 URL에서 제거
+        if (filterKey === 'price') {
+          // 가격 필터일 경우 minPrice와 maxPrice 제거
+          urlParams.delete('minPrice');
+          urlParams.delete('maxPrice');
+        } else {
+          urlParams.delete(filterKey);
+        }
+    
+        // 새로 고침된 URL로 이동하여 필터 제거
+        const newUrl = `${window.location.pathname}?${urlParams.toString()}`;
+        window.location.href = newUrl;  // 페이지 새로 고침
+      }
+    });
+});
+
+
+document.querySelectorAll('.sort-btn').forEach(button => {
+  button.addEventListener('click', function() {
+    const sortValue = this.getAttribute('data-sort');  // 클릭한 버튼의 data-sort 값 가져오기
+    const urlParams = new URLSearchParams(window.location.search);  // 현재 URL에서 파라미터 가져오기
+
+    // 기존 필터와 페이지를 유지하면서 sort 파라미터만 갱신
+    urlParams.set('sort', sortValue);
+
+    // URL 갱신
+    window.location.href = `${window.location.pathname}?${urlParams.toString()}`;
+  });
+});
+
+
+document.addEventListener("DOMContentLoaded", function() {
+  const productList = document.getElementById('productList');
+  const productItems = productList.getElementsByClassName('product-item');
+  
+  // 상품이 하나만 있으면 single-item 클래스 추가
+  if (productItems.length === 1) {
+      productList.classList.add('single-item');
+  }
+
+  // 상품 개수가 5개 이하일 경우 'small-item-count' 클래스 추가
+  if (productItems.length <= 5) {
+      productList.classList.add('small-item-count');
+  } else {
+    productList.classList.remove('small-item-count');
+  }
 });
