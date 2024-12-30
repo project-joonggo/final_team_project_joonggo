@@ -6,18 +6,45 @@
 
 <div layout:fragment="content">
     <div class="container-md" id="attend">
-        <h2>출석체크 이벤트</h2>
-        <div class="attend-container">
-            <div class="node-grid">
-                <!-- 각 노드 -->
-                <div class="node" data-index="1">출석</div>
-                <div class="node" data-index="2">출석</div>
-                <div class="node gift" data-index="5">기프티콘</div>
-                <!-- ... -->
-                <div class="node gift" data-index="30">기프티콘</div>
+        <div class="attend-effect">
+            <div class="attend-title">출석체크</div>
+            <div class="attend-container">
+                <div class="node-grid">
+                    <!-- 각 노드 -->
+                    <div class="node" data-index="1">출석</div>
+                    <div class="node" data-index="2">출석</div>
+                    <div class="node gift" data-index="5">당첨</div>
+                    <!-- ... -->
+                    <div class="node gift" data-index="30">당첨</div>
+                </div>
             </div>
         </div>
+
+        <div class="reward-container">
+            <div class="reward-title">당첨 상품</div>
+            <div class="reward-box">
+                <img src="/img/giftcon_450_red.png">
+            </div>
+            <div class="reward-content">상품권 10,000원</div>
+        </div>
+
+        <div class="attend-notes">
+            <div class="attend-bold">참고사항</div>
+            <br>
+            <div class="attend-bold">* 출석체크는 계정당 하루에 한 번만 이용 가능해요.</div>
+            <div class="attend-bold">* 당첨이 되셨을 경우에는 [마이] -> [내 정보] -> [당첨 내역]을 통해서 당첨을 확인하실 수 있어요.</div>
+            <div class="attend-bold">* 당첨된 상품은 사용 기한이 있으며, 기한 연장은 어려우니 기한 안에 사용해야 해요.</div>
+        </div>
     </div>
+
+    <div id="custom-alert" class="event-modal">
+        <div class="event-modalContent">
+            <p id="alert-message"></p>
+            <hr class="event-divider">
+            <button id="alert-ok-button">확인</button>
+        </div>
+    </div>
+
     <script>
         const NODES_TOTAL = 30;
         const GIFT_INTERVAL = 5;
@@ -65,7 +92,7 @@
 
                 if (i % GIFT_INTERVAL === 0) {
                     node.classList.add('gift');
-                    node.textContent = '기프티콘';
+                    node.textContent = '당첨';
                 } else {
                     node.textContent = `출석`; // 출석 일수 표시
                 }
@@ -89,7 +116,7 @@
             const alreadyParticipated = await checkParticipation();
 
             if (alreadyParticipated) {
-                alert("하루에 한 번만 출석할 수 있습니다.");
+                showAlert("하루에 한 번만 출석 가능합니다.");
                 return; // 이미 출석한 경우 더 이상 진행하지 않음
             }
 
@@ -100,7 +127,7 @@
         const markAttendance = async (index) => {
             const target = document.querySelector(`[data-index="${index}"]`);
             target.classList.add('completed');
-            alert("출석 완료!");
+            showAlert("출석 완료!");
 
             // 서버로 출석 체크 결과 전송
             fetch('/event/attend', {
@@ -111,7 +138,7 @@
                 .then((res) => res.json())
                 .then((data) => {
                     if (data.gift) {
-                        alert("🎉 기프티콘 지급 완료!");
+                        showAlert("🎉 기프티콘 지급 완료!");
                     }
                 })
                 .catch((err) => console.error("서버 오류:", err));
@@ -128,7 +155,7 @@
                 const index = parseInt(target.dataset.index, 10);
                 startAttendanceCheck(index); // 출석 시작
             } else {
-                alert("출석도장을 차례대로 찍어주세요");
+                showAlert("출석도장을 차례대로 찍어주세요");
             }
         });
 
@@ -138,5 +165,22 @@
 
         init();
 
+        // 모달 DOM 요소
+        const customAlert = document.getElementById("custom-alert");
+        const alertMessage = document.getElementById("alert-message");
+        const alertOkButton = document.getElementById("alert-ok-button");
+
+        // 커스터마이즈된 alert 함수
+        const showAlert = (message) => {
+          alertMessage.textContent = message;
+          customAlert.classList.remove("hidden");
+          customAlert.style.display = "block";
+        };
+
+        // "확인" 버튼 클릭 시 모달 닫기
+        alertOkButton.addEventListener("click", () => {
+          customAlert.classList.add("hidden");
+          customAlert.style.display = "none";
+        });
     </script>
 </div>
