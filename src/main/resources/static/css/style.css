@@ -1199,6 +1199,7 @@ a {
 #asListArea .list-group-item{
     padding-left: 0;
     padding-right: 0;
+    border: none;
 }
 
 

@@ -310,7 +310,7 @@ function renderReplies(repliesList, replies) {
         let li = document.createElement('li');
         li.classList.add('list-group-item');
         li.innerHTML += `
-            <div class="ms-2 me-auto">
+            <div class="me-auto">
                 <div class="fw-bold">${reply.writerName}</div>
                 ${reply.reply}
             </div>
