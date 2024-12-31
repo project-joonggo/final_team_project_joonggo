@@ -248,11 +248,11 @@ public class PaymentController {
 
             try {
                 Thread.sleep(2000);
-               }
+            }
             catch (InterruptedException e)
-               {
+            {
                 Thread.currentThread().interrupt();
-              }
+            }
 
             // 결제 취소 요청
             ResponseEntity<Map> cancelResponse = restTemplate.exchange(
