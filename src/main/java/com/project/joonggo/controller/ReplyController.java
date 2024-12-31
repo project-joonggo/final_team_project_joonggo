@@ -49,10 +49,10 @@ public class ReplyController {
 
         String notificationMessage = "";
         if(replyVO.getUserNum() != adminId){
-            notificationMessage = "답변에 추가질문이 달렸습니다. 확인하고 추가적으로 답변을해주세요.";
+            notificationMessage = "<span>문의</span>답변에 추가질문이 달렸습니다.<br> 확인하고 추가적으로 답변을해주세요.";
             notificationService.saveNotification(adminId, notificationMessage, qnaId, "REPLY");
         } else {
-            notificationMessage = "추가질문에 답변이 달렸습니다. 확인해보세요!";
+            notificationMessage = "<span>문의</span>추가질문에 답변이 달렸습니다.<br> 확인해보세요!";
             notificationService.saveNotification(userId, notificationMessage, qnaId, "REPLY");
         }
 

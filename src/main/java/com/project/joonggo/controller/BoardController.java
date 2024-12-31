@@ -19,14 +19,12 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Controller
@@ -85,23 +83,113 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String list(Model model, PagingVO pgvo, @RequestParam(value = "category",required = false) String category, @RequestParam(value = "keyword", required = false) String keyword){
+    public String list(Model model, PagingVO pgvo, @RequestParam(value = "category",required = false) String category,
+                       @RequestParam(value = "keyword", required = false) String keyword,
+                       @RequestParam(value = "minPrice", required = false) Integer minPrice,
+                       @RequestParam(value = "maxPrice", required = false) Integer maxPrice,
+                       @RequestParam(value = "includeSoldOut", required = false, defaultValue = "false") boolean includeSoldOut,
+                       @RequestParam(value = "sort", required = false, defaultValue = "latest") String sort){
+
+
 
         int totalCount = boardService.getTotal(pgvo);
 
-        PagingHandler ph = new PagingHandler(pgvo,totalCount);
+        // getList에서만 15개씩 가져오기 위해 PagingVO를 새로 생성하여 15로 설정
+        PagingVO customPagingVO = new PagingVO(pgvo.getPageNo(), 15);  // 여기서 15로 개수를 설정
+        customPagingVO.setCategory(pgvo.getCategory());  // category 필터 값 설정
+        customPagingVO.setKeyword(pgvo.getKeyword());    // keyword 필터 값 설정
+        customPagingVO.setMinPrice(pgvo.getMinPrice());  // minPrice 필터 값 설정
+        customPagingVO.setMaxPrice(pgvo.getMaxPrice());  // maxPrice 필터 값 설정
+        customPagingVO.setIncludeSoldOut(pgvo.isIncludeSoldOut()); // 품절 여부 설정
+        customPagingVO.setSort(pgvo.getSort());  // 정렬 기준 설정
 
-        List<BoardFileDTO> list = boardService.getList(pgvo);
+        PagingHandler ph = new PagingHandler(customPagingVO,totalCount);
+
+        List<BoardFileDTO> list = boardService.getList(customPagingVO);
 
         log.info(">>> list >>> {}", list);
         log.info(">>> ph >>> {}" , ph);
         log.info(">>> category >> {}" , category);
         log.info(">>> keyword >>> {}", keyword);
+        log.info(">>> minPrice >>> {}", minPrice);
+        log.info(">>> maxPrice >>> {}", maxPrice);
+        log.info(">>> includeSoldOut >>> {}", includeSoldOut);
+        log.info(">>> sort >>> {}", sort);
+
+        // 평균, 최소, 최대 가격 계산
+        double averagePrice = 0.0;
+        int minPriceValue = Integer.MAX_VALUE;
+        int maxPriceValue = Integer.MIN_VALUE;
+        int priceCount = 0;
+
+        for (BoardFileDTO dto : list) {
+            int price = dto.getBoardVO().getTradePrice();  // 가격 정보를 가져옴
+            if (price > 0) {
+                averagePrice += price;
+                minPriceValue = Math.min(minPriceValue, price);
+                maxPriceValue = Math.max(maxPriceValue, price);
+                priceCount++;
+            }
+        }
+
+        if (priceCount > 0) {
+            averagePrice /= priceCount;  // 평균 가격 계산
+        } else {
+            averagePrice = 0.0;  // 가격이 없는 경우
+            minPriceValue = 0;   // 최소 가격은 0
+            maxPriceValue = 0;   // 최대 가격은 0
+        }
+
+        // 가격을 3자리마다 콤마로 구분하고, 평균 가격 소수점 버리기
+        NumberFormat numberFormat = NumberFormat.getInstance();
+        DecimalFormat decimalFormat = new DecimalFormat("#,###"); // 소수점 버리고 3자리마다 콤마
+
+        // 포맷된 값으로 변환
+        String formattedAveragePrice = decimalFormat.format(averagePrice);  // 평균 가격
+        String formattedMinPrice = numberFormat.format(minPriceValue);      // 최소 가격
+        String formattedMaxPrice = numberFormat.format(maxPriceValue);      // 최대 가격
+
+        log.info(">>> 평균 가격 >>> {}", formattedAveragePrice);
+        log.info(">>> 최소 가격 >>> {}", formattedMinPrice);
+        log.info(">>> 최대 가격 >>> {}", formattedMaxPrice);
+
+        // 최근 등록된 상품에 대해 판매자 주소 및 경과 시간 조회
+        Map<Long, String> sellerAddresses = new HashMap<>();
+        Map<Long, String> productTimes = new HashMap<>();
+
+        for (BoardFileDTO product : list) {
+            long sellerId = product.getBoardVO().getSellerId(); // 판매자 ID 가져오기
+            if (!sellerAddresses.containsKey(sellerId)) {
+                String sellerAddress = loginService.getSellerAddressByUserNum(sellerId);
+                if (sellerAddress != null) {
+                    sellerAddress = sellerAddress.replace("(", "").replace(")", "");
+                }
+                sellerAddresses.put(sellerId, sellerAddress); // 판매자 주소를 맵에 저장
+            }
+
+            // regAt을 ISO 형식의 문자열로 변환
+            String regAtString = product.getBoardVO().getRegAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);  // LocalDateTime -> String
+            String timeAgo = TimeHandler.getTimeAgo(regAtString);  // 경과 시간 계산
+            productTimes.put(product.getBoardVO().getBoardId(), timeAgo);  // 상품별 경과 시간 저장
+        }
+
+        // 모델에 sellerAddresses와 productTimes 추가
+        model.addAttribute("sellerAddresses", sellerAddresses);
+        model.addAttribute("productTimes", productTimes);
+
+        // 모델에 평균, 최소, 최대 가격 추가
+        model.addAttribute("formattedAveragePrice", formattedAveragePrice);
+        model.addAttribute("formattedMinPrice", formattedMinPrice);
+        model.addAttribute("formattedMaxPrice", formattedMaxPrice);
 
         model.addAttribute("list",list);
         model.addAttribute("ph",ph);
         model.addAttribute("category", category);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("minPrice", minPrice);
+        model.addAttribute("maxPrice", maxPrice);
+        model.addAttribute("includeSoldOut", includeSoldOut);  // 추가된 필드 설정
+        model.addAttribute("sort", sort); // sort 값도 모델에 추가
 
         return "/board/list";
     }
@@ -298,7 +386,7 @@ public class BoardController {
         Long adminId = loginService.getAdminId();
 
         // 알림 메시지 생성
-        String notificationMessage = "새로운 신고가 접수되었습니다. 신고된 게시글 번호: " + boardId;
+        String notificationMessage = "<span>신고</span><br>새로운 신고가 접수되었습니다.<br> 신고된 게시글 번호: " + boardId;
 
         // 알림을 관리자에게 보내기
         notificationService.saveNotification(adminId, notificationMessage, boardId, "REPORT");

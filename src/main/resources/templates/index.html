@@ -41,7 +41,9 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" th:each="product : ${popularProducts}">
           <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
-            <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
+            <div class="product-image">
+              <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
+            </div>
             <div class="item-title" th:text="${product.boardVO.boardName}"></div>
             <div class="item-price" th:text="${product.boardVO.formattedPrice} + '원'"></div>
             <div class="item-atc" th:text="${productTimes[product.boardVO.boardId]} + ' | ' + ${sellerAddresses[product.boardVO.sellerId]}"></div>
@@ -61,7 +63,9 @@
       <div class="swiper-wrapper">
         <div class="swiper-slide" th:each="product : ${recentProducts}">
           <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
-            <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
+            <div class="product-image">
+               <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
+            </div>
             <div class="item-title" th:text="${product.boardVO.boardName}"></div>
             <div class="item-price" th:text="${product.boardVO.formattedPrice} + '원'"></div>
             <div class="item-atc" th:text="${productTimes[product.boardVO.boardId]} + ' | ' + ${sellerAddresses[product.boardVO.sellerId]}"></div>
@@ -81,7 +85,9 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" th:each="product : ${recommendedProducts}">
             <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
-              <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
+              <div class="product-image">
+                <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
+              </div>
               <div class="item-title" th:text="${product.boardVO.boardName}"></div>
               <div class="item-price" th:text="${product.boardVO.formattedPrice} + '원'"></div>
               <div class="item-atc" th:text="${productTimes[product.boardVO.boardId]} + ' | ' + ${sellerAddresses[product.boardVO.sellerId]}"></div>
