@@ -1258,13 +1258,19 @@ a {
 
 /* 선택된 버튼(Active 상태) 스타일 */
 .notification-category-buttons .active {
-    background-color: #A4C6F9; /* 선택된 버튼 배경색 */
-    color: #4173F5;
+    background-color: #A0173B; /* 선택된 버튼 배경색 */
+    color: white;
 }
 
 .notification-item span {
     font-size: 18px;
     font-weight: bold;
+
+}
+
+.notification-item b {
+    color: gray;
+    font-size: 14px;
 
 }
 
