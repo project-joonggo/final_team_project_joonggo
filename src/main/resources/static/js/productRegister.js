@@ -43,19 +43,19 @@ document.getElementById("regBtn").addEventListener("click", (event) =>{
      console.log("카테고리:", category);    // 카테고리 값 확인
 
      if (boardName.trim() === '') {
-        alert("상품명을 입력해주세요.");
+        showAlert("상품명을 입력해주세요.");
         document.getElementById("b").focus(); // 제목 필드로 포커스 이동
         return;
     }
 
     if (tradePrice.trim() === '') {
-        alert("판매가격을 입력해주세요.");
+        showAlert("판매가격을 입력해주세요.");
         document.getElementById("p").focus(); // 가격 필드로 포커스 이동
         return;
     }
 
     if (category === '') {
-        alert("카테고리를 선택해주세요.");
+        showAlert("카테고리를 선택해주세요.");
         document.getElementById("inputGroupSelect01").focus(); // 제목 필드로 포커스 이동
         return;
     }
@@ -68,7 +68,7 @@ document.getElementById("regBtn").addEventListener("click", (event) =>{
        let cleanedContent = textContent.replace(/\s+/g, ' ').trim(); // 공백 처리 후 trim()
 
      if (cleanedContent.trim() === '') {
-        alert("내용을 입력해주세요.");
+        showAlert("내용을 입력해주세요.");
         oEditors.getById["c"].exec("FOCUS"); // 에디터로 포커스 이동
         return;
     } else {
@@ -81,9 +81,9 @@ document.getElementById("regBtn").addEventListener("click", (event) =>{
 
         registerPostToServer(formData).then(result => {
             if(result === "1"){
-                alert("글을 등록하였습니다.");
+                showAlert("글을 등록하였습니다.");
             } else {
-                alert("게시글 등록 실패");
+                showAlert("게시글 등록 실패");
             }
         })
     }
@@ -107,7 +107,7 @@ async function registerPostToServer(formData) {
             window.location.href = "/"; // 등록 후 리다이렉트
         } else {
             console.log(resp);
-            alert('오류가 발생하였습니다.');
+            showAlert('오류가 발생하였습니다.');
         }
 
         // 응답 내용 읽기
@@ -117,7 +117,25 @@ async function registerPostToServer(formData) {
 
     } catch (error) {
         console.log(error);  // 에러 발생 시 처리
-        alert("서버와의 연결에 문제가 발생했습니다.");
+        showAlert("서버와의 연결에 문제가 발생했습니다.");
     }
 }
+
+// 모달 DOM 요소
+const customAlert = document.getElementById("custom-alert");
+const alertMessage = document.getElementById("alert-message");
+const alertOkButton = document.getElementById("alert-ok-button");
+
+// 커스터마이즈된 alert 함수
+const showAlert = (message) => {
+  alertMessage.textContent = message;
+  customAlert.classList.remove("hidden");
+  customAlert.style.display = "block";
+};
+
+// "확인" 버튼 클릭 시 모달 닫기
+alertOkButton.addEventListener("click", () => {
+  customAlert.classList.add("hidden");
+  customAlert.style.display = "none";
+});
 

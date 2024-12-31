@@ -770,6 +770,20 @@ a {
     font-weight: 700;
 }
 
+.event-others{
+    width: 1165px;
+    height: 200px;
+    background-color: #EBEBF2;
+    font-size: 48px;
+    font-weight: 700;
+    color: #000;
+    border-radius: 20px;
+    margin: 0 0 80px 65px;
+    padding: 50px;
+    line-height: 100px;
+    text-align: center;
+}
+
 #ad-container{
     display: flex;
     justify-content: center;
@@ -872,7 +886,7 @@ a {
     font-weight: bold;
 }
 .attend-container .node.gift.completed {
-    background-color: #f7a416; /* 기프티콘 컬러 유지 */
+    /* background-color: #f7a416; */ 
     pointer-events: none; /* 클릭 막기 */
 }
 .node.completed:not(.gift)::after {
@@ -959,6 +973,42 @@ a {
 #alert-ok-button:hover {
     background-color: #CE4E6A;
 }  
+
+.banner-container{
+    width: 850px;
+    height: 56px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+}
+
+.banner-content{
+    width: 780px;
+    height: 56px;
+    padding: 16px;
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    line-height: 24px;
+}
+
+.banner-icon{
+    width: 50px;
+    height: 56px;
+    padding-right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-icon img{
+    width: 25px;
+    height: 25px;
+}
+
+.banner-icon:hover{
+    cursor: pointer;
+}
 
 /* 내 당첨내역 */
 #myGiftcon .giftcon-container {

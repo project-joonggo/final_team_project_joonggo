@@ -7,21 +7,121 @@
 <body>
 
 <div layout:fragment="content">
-  <hr>
+  <link rel="stylesheet" th:href="@{/css/detail.css}">
   <th:block th:with="boardVO=${boardFileDTO.boardVO}">
-  [[${boardFileDTO}]]
-    <div>
+    [[${boardFileDTO}]]
+    <!--<div>
       <p>조회수: <span th:text="${boardVO.readCount}">0</span></p>
       <p>찜수: <span id="likeCount">[[${boardVO.likeCount}]]</span></p>
+    </div>-->
+
+  <hr>
+
+  <!--중고나라 상품 디테일 기준-->
+  <div class="detail-firstContainer">
+    <!--왼쪽의 상품 이미지(swiper)-->
+    <div class="detail-left">스와이퍼</div>
+
+    <!--오른쪽의 상품 정보-->
+    <div class="detail-right">
+      <!--카테고리-->
+      <div class="detail-category">[[${boardVO.category}]]</div>
+
+      <div class="detail-titleBox">
+        <!--판매글 제목-->
+        <span class="detail-title">[[${boardVO.boardName}]]</span>
+
+        <!--url 복사 아이콘-->
+        <span class="detail-url">url 복사 아이콘</span>
+      </div>
+
+      <!--상품 가격-->
+      <div class="detail-price">[[${boardVO.tradePrice}]]</div>
+
+      <div class="detail-atcBox">
+        <div class="detail-atc">
+          <!--등록 시간-->
+          <span class="detail-regAt">[[${boardVO.regAt}]]</span>
+
+          <!--구분점-->
+          <span>·</span>
+
+          <!--조회수-->
+          <span class="detail-readCount">조회 <span th:text="${boardVO.readCount}">0</span></span>
+
+          <!--구분점-->
+          <span>·</span>
+
+          <!--찜 수-->
+          <span class="detail-likeCount">찜 <span id="likeCount">[[${boardVO.likeCount}]]</span></span>
+        </div>
+
+        <!--시세 조회 href-->
+        <a href="/board/price"><span class="detail-boardPrice">시세조회</span></a>
+      </div>
+
+      <!--<div>
+        <span>거래희망지역</span>
+
+        &lt;!&ndash;지역 동 출력&ndash;&gt;
+        <span></span>
+      </div>-->
+
+      <!--찜하기, 채팅하기, 구매하기-->
+      <div class="detail-buttons">
+        <button type="button" id="wishBtn"
+                class="detail-likeCountButton"
+                th:data-board-id="${boardVO.boardId}"
+                th:text="${isAlreadyWished != null ? (isAlreadyWished ? '찜 취소' : '찜하기') : '찜하기'}">
+        </button>
+
+        <button class="detail-chattingButton">채팅하기</button>
+
+        <button class="detail-buying" id="paymentBtn">구매하기</button>
+      </div>
     </div>
 
+  </div>
+
+  <!--왼쪽 상품 정보, 오른쪽 가게 정보-->
+  <div class="detail-secondContainer">
+    <!--판매글 content 가져와서 출력-->
+    <div class="detail-left">
+      <div class="detail-title">상품 정보</div>
+
+      <!--판매글 content-->
+      <div th:utext="${boardVO.boardContent}" class="detail-content"></div>
+    </div>
+
+    <!--myInfo 가져와서 출력-->
+    <!--<div>
+      <div>가게 정보</div>
+
+      &lt;!&ndash;판매자 유저 이름&ndash;&gt;
+      <div></div>
+
+      &lt;!&ndash;매너 지수&ndash;&gt;
+      <div>매너 지수</div>
+    </div>-->
+  </div>
+
+  <!--같은 카테고리인 상품들을 출력-->
+  <div class="detail-third">
+    <div class="detail-title">이런 상품은 어때요?</div>
+
+    <!--swiper-->
+    <div>스와이퍼</div>
+  </div>
+
+  <hr>
+
     <!-- 찜하기 버튼 상태 설정 -->
-    <button type="button" id="wishBtn"
+<!--    <button type="button" id="wishBtn"
             th:data-board-id="${boardVO.boardId}"
             th:text="${isAlreadyWished != null ? (isAlreadyWished ? '찜 취소' : '찜하기') : '찜하기'}">
-    </button>
+    </button>-->
 
-    <button id="paymentBtn">결제하기</button>
+<!--    <button id="paymentBtn">결제하기</button>-->
     <button id="cancelBtn">결제 취소</button>
 
     <button type="button" id="modBtn">수정</button>

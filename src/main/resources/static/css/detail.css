@@ -1,0 +1,151 @@
+.detail-firstContainer{
+    display: flex;
+    justify-content: space-between;
+    width: 1280px;
+    height: 730px;
+    padding: 72px 0 52px;
+    margin: 0 auto;
+}
+
+.detail-left{
+    width: 604px;
+    height: 604px;
+}
+
+.detail-right{
+    width: 604px;
+}
+
+.detail-category{
+    width: 604px;
+    height: 20px;
+    color: #A9A9A9;
+    font-size: 14px;
+}
+
+.detail-titleBox{
+    width: 604px;
+    height: 30px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.detail-firstContainer .detail-title{
+    color: rgb(20 19 19);
+    font-size: 24px;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+}
+
+.detail-url{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail-url img{
+    width: 24px;
+}
+
+.detail-price{
+    width: 604px;
+    display: flex;
+    justify-content: left;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.detail-atcBox{
+    width: 604px;
+    height: 16px;
+    display: flex;
+    justify-content: space-between;
+    color: #A9A9A9;
+    font-size: 12px;
+    font-weight: 500;
+    margin-bottom: 16px;
+}
+
+.detail-atc{
+    display: flex;
+    justify-content: center;
+}
+
+.detail-regAt{
+
+}
+
+.detail-likeCount{
+
+}
+
+.detail-boardPrice{
+
+}
+
+.detail-buttons{
+    width: 604px;
+    height: 64px;
+    padding: 16px 0 0;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgb(20 19 19);
+}
+
+.detail-likeCountButton{
+    width: 35px;
+    height: 64px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.detail-chattingButton{
+    width: 270px;
+    height: 48px;
+    border: 1px solid rgb(20 19 19);
+    border-radius: 10px;
+    padding: 8px 20px;
+    margin-left: 16px;
+    text-align: center;
+    line-height: 24px;
+}
+
+.detail-buying{
+    width: 270px;
+    height: 48px;
+    color: white;
+    background-color: rgb(20 19 19);
+    border-radius: 10px;
+    padding: 8px 20px;
+    margin-left: 16px;
+    text-align: center;
+    line-height: 24px;
+}
+
+.detail-secondContainer{
+    width: 1280px;
+    padding: 0px 0px 48px;
+    margin: 0 auto;
+}
+
+.detail-secondContainer .detail-left .detail-title{
+    width: 788px;
+    height: 49px;
+    padding: 0 0 20px;
+    color: rgb(20 19 19);
+    font-size: 22px;
+    font-weight: 700;
+    border-bottom: 1px solid #A9A9A9;
+}
+
+.detail-content{
+    
+}
+
+.detail-third{
+
+}
