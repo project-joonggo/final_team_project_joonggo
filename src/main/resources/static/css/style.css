@@ -1196,7 +1196,10 @@ a {
 .cBox .replyArea{
     width: 100%;
 }
-
+#asListArea .list-group-item{
+    padding-left: 0;
+    padding-right: 0;
+}
 
 
 /* 알림 리스트 스타일 */

@@ -32,7 +32,7 @@ function spreadAnswer(qnaId){
         console.log(result);
         const ul = document.getElementById('asListArea');
         if( result.length > 0 ){
-            ul.innerHTML = ""; 
+            ul.innerHTML = "";
             for(let avo of result){
                 console.log(avo);
                 let li = `<li class="list-group-item">`;
@@ -52,8 +52,11 @@ function spreadAnswer(qnaId){
                     hour12: false // 24시간 형식
                 });
                 li += `</div>`;
-                li += `<div class="d-flex gap-3">`;
-                li += `<span class="d-flex answerDate align-items-center">${formattedDate}</span>`;
+                li += `<div class="d-flex gap-3 align-items-center">`;
+                li += `<div class="d-flex gap-2 align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#A3A3A3" class="bi bi-clock-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+          </svg>`;
+                li += `<span class="d-flex answerDate align-items-center">${formattedDate}</span></div>`;
                 // 수정 삭제 버튼 추가
                 if (isAdmin){
                     li += `<div class="d-grid gap-1 d-md-flex justify-content-md-end answerButtons">`;
@@ -83,8 +86,8 @@ function spreadAnswer(qnaId){
                 li += `</li>`;
                 ul.innerHTML += li;
 
-                 // 추가질문 목록 불러오기
-                 loadReplies(avo.ano);
+                // 추가질문 목록 불러오기
+                loadReplies(avo.ano);
             }
         } else{
             ul.innerHTML = `<li class="list-group-item">아직 답변이 없습니다.</li>`;
@@ -112,7 +115,7 @@ document.addEventListener('click', (e) => {
     if(e.target.classList.contains('mod')){
 
         let li = e.target.closest('li');
-        
+
         let answerWriter = li.querySelector('.fw-bold').innerText;
         document.getElementById('asWriterMod').innerHTML = "관리자";
 
@@ -125,7 +128,7 @@ document.addEventListener('click', (e) => {
 
     if(e.target.id == 'asModBtn'){
         let asData = {
-            ano: e.target.dataset.ano,  
+            ano: e.target.dataset.ano,
             answer: document.getElementById('asTextMod').value
         }
         console.log(asData);
@@ -134,7 +137,7 @@ document.addEventListener('click', (e) => {
                 alert("답변 수정 성공");
             } else{
                 alert("답변 수정 실패");
-            }    
+            }
             // 모달창 닫기
             document.querySelector('.btn-close').click();
             // 댓글 뿌리기
@@ -146,20 +149,20 @@ document.addEventListener('click', (e) => {
 
 
 
-// 댓글 등록 
+// 댓글 등록
 async function postAnswerToServer(asData) {
     try {
         const url = "/answer/post"
         const config = {
             method: 'post',
-			headers: {
-				'Content-Type': 'application/json; charset=utf-8'
-			},
-			body: JSON.stringify(asData)
+            headers: {
+                'Content-Type': 'application/json; charset=utf-8'
+            },
+            body: JSON.stringify(asData)
         };
         const resp = await fetch(url, config);
         console.log(resp);
-        const result = await resp.text(); 
+        const result = await resp.text();
         return result;
     } catch (error) {
         console.log(error);
@@ -170,7 +173,7 @@ async function postAnswerToServer(asData) {
 // 댓글 리스트 가져오기
 async function getAnswerFromServer(qnaId) {
     try {
-        const resp = await fetch("/answer/list/"+ qnaId) 
+        const resp = await fetch("/answer/list/"+ qnaId)
         const result = await resp.json();
         return result;
     } catch (error) {
@@ -209,7 +212,7 @@ async function modifyAnswerToServer(asData) {
         const resp = await fetch(url,config);
         const result = await resp.text();
 
-       return result; 
+        return result;
 
     } catch (error) {
         console.log(error);
@@ -300,13 +303,13 @@ async function loadReplies(ano) {
         repliesList.innerHTML = '';
     }
 }
-
 // 추가질문 렌더링
 function renderReplies(repliesList, replies) {
+    repliesList.innerHTML = '';
     replies.forEach(reply => {
         let li = document.createElement('li');
         li.classList.add('list-group-item');
-        li.innerHTML = `
+        li.innerHTML += `
             <div class="ms-2 me-auto">
                 <div class="fw-bold">${reply.writerName}</div>
                 ${reply.reply}
@@ -314,18 +317,55 @@ function renderReplies(repliesList, replies) {
             <span class="badge text-bg-primary rounded-pill">${reply.regAt}</span>
         `;
 
-      // 수정/삭제 버튼에 id 추가
-      if (isAdmin || reply.userNum === userVal){
-          li.innerHTML += `
+        // 수정/삭제 버튼에 id 추가
+        if (isAdmin || reply.userNum === userVal){
+            li.innerHTML += `
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
               <button type="button" id="modify-reply-${reply.replyId}" class="btn btn-outline-warning btn-sm" data-replyId="${reply.replyId}" onclick="modifyReply(${reply.replyId})">수정</button>
               <button type="button" id="delete-reply-${reply.replyId}" class="btn btn-outline-danger btn-sm" data-replyId="${reply.replyId}" onclick="deleteReply(${reply.replyId})">삭제</button>
           </div>
            `;
-      }
+        }
         repliesList.appendChild(li);
     });
 }
+// 추가질문 렌더링
+/*function renderReplies(repliesList, replies) {
+    replies.forEach(reply => {
+        let li = document.createElement('li');
+        li.classList.add('list-group-item');
+        li.classList.add('reply-group-item');
+        li.innerHTML = `
+            <div class="ms-3 mt-2 d-flex justify-content-between align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#A0173B" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                 <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+                </svg>
+                <div class="fw-bold">${reply.writerName}</div>
+                <div>${reply.reply}</div>
+                <div>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#A3A3A3" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
+                    </svg>
+                    <span class="badge text-bg-primary rounded-pill">${reply.regAt}</span>
+                </div>
+                <div>
+        `;
+
+        // 수정/삭제 버튼에 id 추가
+        if (isAdmin || reply.userNum === userVal){
+            li.innerHTML += `
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <button type="button" id="modify-reply-${reply.replyId}" class="btn btn-outline-warning btn-sm" data-replyId="${reply.replyId}" onclick="modifyReply(${reply.replyId})">수정</button>
+              <button type="button" id="delete-reply-${reply.replyId}" class="btn btn-outline-danger btn-sm" data-replyId="${reply.replyId}" onclick="deleteReply(${reply.replyId})">삭제</button>
+          </div>
+           `;
+        }
+
+        li.innerHTML = `</div></div>`
+
+        repliesList.appendChild(li);
+    });
+}*/
 
 // 대댓글 수정 함수
 async function modifyReply(replyId) {
@@ -344,7 +384,7 @@ async function modifyReply(replyId) {
         console.log(replyData);
         // 서버로 대댓글 수정 요청
         const result = await modifyReplyToServer(replyData);
-        
+
         if (result === '1') {
             alert("대댓글 수정 성공");
             spreadAnswer(qnaVal); // 대댓글 목록을 다시 불러옴
@@ -377,10 +417,10 @@ async function modifyReplyToServer(replyData) {
 // 대댓글 삭제 함수
 async function deleteReply(replyId) {
     const confirmDelete = confirm("대댓글을 삭제하시겠습니까?");
-    
+
     if (confirmDelete) {
         const result = await deleteReplyToServer(replyId);
-        
+
         if (result === '1') {
             alert("대댓글 삭제 성공");
             spreadAnswer(qnaVal); // 대댓글 목록을 다시 불러옴
