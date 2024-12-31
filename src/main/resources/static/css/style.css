@@ -1204,11 +1204,11 @@ a {
     width: 400px;
     max-height: 500px;
     position: absolute;
-    top: 90px;
-    right: 300px;
     z-index: 9999;
     box-sizing: border-box;
     background-color: #ccc;
+    right: 20px;
+    top: 90px;
 }
 
 /* 알림 창 헤더 스타일 */

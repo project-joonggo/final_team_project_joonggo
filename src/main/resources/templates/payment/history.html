@@ -36,18 +36,18 @@
             </div>
         </div>
 
-    <!-- Thymeleaf를 사용해 payments 데이터를 JavaScript 변수로 직접 전달 -->
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        var payments = [[${payments}]];
-        console.log(payments); // 콘솔에 payments 객체를 확인
-        /*]]>*/
-    </script>
+        <!-- Thymeleaf를 사용해 payments 데이터를 JavaScript 변수로 직접 전달 -->
+        <script th:inline="javascript">
+            /*<![CDATA[*/
+            var payments = [[${payments}]];
+            console.log(payments); // 콘솔에 payments 객체를 확인
+            /*]]>*/
+        </script>
 
-    <script th:src="@{/js/refund.js}"></script>
-    <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
+        <script th:src="@{/js/refund.js}"></script>
+        <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 
 
-</div>
+    </div>
 </div>
 </body>

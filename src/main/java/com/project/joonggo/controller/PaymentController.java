@@ -1,6 +1,7 @@
 package com.project.joonggo.controller;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.joonggo.service.BoardService;
 import com.project.joonggo.service.NotificationService;
 import com.project.joonggo.service.PaymentService;
@@ -26,6 +27,10 @@ public class PaymentController {
     private final PaymentService paymentService;
     private final BoardService boardService;
     private final NotificationService notificationService;
+
+    // 클래스의 멤버 변수로 accessToken과 만료 시간 저장
+    private String cachedAccessToken = null;
+    private long tokenExpiryTime = 0;
 
     @Value("${api.key}")
     private String apiKey;
@@ -230,10 +235,14 @@ public class PaymentController {
             body.put("amount", paidAmount);
             body.put("reason", "상품 불만족");
 
-            HttpEntity<Map<String, Object>> entity = new HttpEntity<>(body, headers);
+            // ObjectMapper를 사용하여 Map을 JSON 문자열로 직렬화
+            ObjectMapper objectMapper = new ObjectMapper();
+            String jsonBody = objectMapper.writeValueAsString(body);
+
+            HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers);
 
             log.info("Request headers: {}", headers);
-            log.info("Request body: {}", body);
+            log.info("Request body: {}", jsonBody);
 
             log.info(">>> ent >>> {}", entity);
 
@@ -272,54 +281,51 @@ public class PaymentController {
         return false;
     }
 
-    // 아임포트 API 토큰 발급
     private String getAccessToken() {
-        try {
-            // 요청 본문 및 헤더 설정
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Content-Type", "application/json");
-
-            Map<String, String> body = Map.of(
-                    "imp_key", apiKey,
-                    "imp_secret", apiSecret
-            );
-
-            log.info(">>>>>>>> api {} , {} ", apiKey, apiSecret);
-
-            HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
-
-            // 요청 보내기
-            ResponseEntity<Map> response = restTemplate.exchange(
-                    "https://api.iamport.kr/users/getToken", HttpMethod.POST, entity, Map.class
-            );
-            log.info(">>>> response status code >> {}", response.getStatusCodeValue());
-            log.info(">>>> response body >> {}", response.getBody());
-
-            // 응답 처리
-            if (response.getStatusCodeValue() == 200) {
-                Map<String, Object> responseBody = response.getBody();
-                if (responseBody != null && responseBody.containsKey("response")) {
-                    Map<String, Object> responseObj = (Map<String, Object>) responseBody.get("response");
-                    log.info(">>> 토큰발급됐냐? >>> {}" , responseObj);
-                    return (String) responseObj.get("access_token");
-                }
-            }
-
-            log.error("토큰 발급 실패: 응답이 정상적이지 않음");
-            throw new RuntimeException("API 토큰 발급 실패");
-
-        } catch (Exception e) {
-            log.error("토큰 발급 중 예외 발생", e);
-            throw new RuntimeException("API 토큰 발급 실패", e);
+        // 토큰이 존재하고, 만료되지 않았으면 기존 토큰 사용
+        if (cachedAccessToken != null && System.currentTimeMillis() < tokenExpiryTime) {
+            return cachedAccessToken;
         }
+
+        // 토큰을 새로 발급받아 저장
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+
+        Map<String, String> body = Map.of(
+                "imp_key", apiKey,
+                "imp_secret", apiSecret
+        );
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
+
+        ResponseEntity<Map> response = restTemplate.exchange(
+                "https://api.iamport.kr/users/getToken", HttpMethod.POST, entity, Map.class
+        );
+
+        if (response.getStatusCodeValue() == 200) {
+            Map<String, Object> responseBody = response.getBody();
+            if (responseBody != null && responseBody.containsKey("response")) {
+                Map<String, Object> responseObj = (Map<String, Object>) responseBody.get("response");
+                String accessToken = (String) responseObj.get("access_token");
+
+                // 토큰과 만료 시간을 저장
+                cachedAccessToken = accessToken;
+                tokenExpiryTime = System.currentTimeMillis() + 3600 * 1000; // 1시간 후 만료
+
+                return accessToken;
+            }
+        }
+
+        throw new RuntimeException("API 토큰 발급 실패");
     }
 
-
-    // 아임포트 결제 상태 확인
     private String getPaymentStatus(String impUid) {
         log.info(">>>>> impUid >> {}", impUid);
+
+        // 캐시된 토큰 사용
         String accessToken = getAccessToken();
-        log.info(">>> acToken >> {} " , accessToken);
+        log.info(">>> acToken >> {} ", accessToken);
+
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", accessToken);
@@ -337,6 +343,7 @@ public class PaymentController {
                 return (String) response.get("status");  // 결제 상태 반환
             }
         }
+
         return "unknown";  // 상태를 확인할 수 없는 경우
     }
 
