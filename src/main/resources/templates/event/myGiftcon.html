@@ -3,64 +3,137 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/layout}">
-
+<head>
+    <link rel="stylesheet" th:href="@{/css/price.css}">
+</head>
 <div layout:fragment="content">
     <div class="container-md" id="myGiftcon">
-        <h2>내 당첨내역</h2>
+        <div class="price-container">
+            <div class="price-title">내 당첨내역</div>
+            <div class="price-subTitle">당첨된 기프티콘을 볼 수 있어요.</div>
+            <div class="giftcon-container">
+                <div th:each="giftcon : ${list}">
+                    <div class="giftcon-item"
+                         th:data-giftcon-name="${giftcon.giftconName}"
+                         th:data-reg-at="${giftcon.regAt}"
+                         th:data-end-date="${giftcon.endDate}"
+                         data-bs-toggle="modal"
+                         data-bs-target="#barcodeModal">
+                        <span>[[${giftcon.regAt}]]</span>
+                        <!-- 바코드를 그릴 SVG -->
+                        <svg class="barcode"
+                             th:attr="jsbarcode-format='EAN13', jsbarcode-value=${giftcon.giftconName}, jsbarcode-textmargin='0', jsbarcode-fontoptions='bold'">
+                        </svg>
 
-        <div class="giftcon-container">
-            <div th:each="giftcon : ${list}">
-                <div class="giftcon-item">
-                    <span th:text="${giftcon.giftconName}"></span> <!-- 기프티콘 번호 텍스트 -->
+                    </div>
+                </div>
+            </div>
 
-                    <!-- 바코드를 그릴 svg -->
-                    <svg class="barcode"
-                         jsbarcode-format="upc"
-                         jsbarcode-value="[[${giftcon.giftconName}]]"
-                         jsbarcode-textmargin="0"
-                         jsbarcode-fontoptions="bold">
-                    </svg>
+            <!-- 페이지 네이션 라인 -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <!-- 이전 페이지 버튼 -->
+                    <li class="page-item" th:classappend="${ph.prev eq false ? 'disabled' : ''}">
+                        <a class="page-link"
+                           th:href="@{${'/event/myGiftcon?pageNo=' + (ph.startPage-1) + '&qty=10'}}"
+                           aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <!-- 페이지 번호 -->
+                    <th:block th:each="i:${#numbers.sequence(ph.startPage, ph.endPage)}">
+                        <li class="page-item" th:classappend="${ph.pgvo.pageNo eq i ? 'active' : ''}">
+                            <a class="page-link"
+                               th:href="@{${'/event/myGiftcon?pageNo=' + i + '&qty=10'}}">[[${i}]]</a>
+                        </li>
+                    </th:block>
+
+                    <!-- 다음 페이지 버튼 -->
+                    <li class="page-item" th:classappend="${ph.next eq false ? 'disabled' : ''}">
+                        <a class="page-link"
+                           th:href="@{${'/event/myGiftcon?pageNo=' + (ph.endPage+1) + '&qty=10'}}"
+                           aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+    <!-- 모달(Modal) 구조 -->
+    <div class="modal fade" id="barcodeModal" tabindex="-1" aria-labelledby="barcodeModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title regAt" id="barcodeModalLabel">발급일 : </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex flex-column justify-content-center align-items-center gap-1">
+                    <img class="giftconImg" src="/img/giftcon_450_red.png">
+                    <span class="giftconType">쓸템백화점 상품권</span>
+                    <span class="giftconPrice">1만원권</span>
+                    <svg id="barcodeLarge" class="barcode"></svg>
+                    <span class="endDate">유효기간 : </span>
                 </div>
             </div>
         </div>
-
-        <!-- 페이지 네이션 라인 -->
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                <!-- 이전 페이지 버튼 -->
-                <li class="page-item" th:classappend="${ph.prev eq false ? 'disabled' : ''}">
-                    <a class="page-link"
-                       th:href="@{${'/event/myGiftcon?pageNo=' + (ph.startPage-1) + '&qty=10'}}"
-                       aria-label="Previous">
-                        <span aria-hidden="true">&laquo;</span>
-                    </a>
-                </li>
-
-                <!-- 페이지 번호 -->
-                <th:block th:each="i:${#numbers.sequence(ph.startPage, ph.endPage)}">
-                    <li class="page-item" th:classappend="${ph.pgvo.pageNo eq i ? 'active' : ''}">
-                        <a class="page-link"
-                           th:href="@{${'/event/myGiftcon?pageNo=' + i + '&qty=10'}}">[[${i}]]</a>
-                    </li>
-                </th:block>
-
-                <!-- 다음 페이지 버튼 -->
-                <li class="page-item" th:classappend="${ph.next eq false ? 'disabled' : ''}">
-                    <a class="page-link"
-                       th:href="@{${'/event/myGiftcon?pageNo=' + (ph.endPage+1) + '&qty=10'}}"
-                       aria-label="Next">
-                        <span aria-hidden="true">&raquo;</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-
-
     </div>
+
     <script>
         window.onload = function() {
-            JsBarcode(".barcode").init();  // DOM 로딩 후 JsBarcode 초기화
+            // DOM 로딩 후 JsBarcode 초기화
+            JsBarcode(".barcode").init();
+
+            const items = document.querySelectorAll('.giftcon-item');
+            const modalRegAt = document.querySelector('.regAt');
+            const modalEndDate = document.querySelector('.endDate');
+
+            // 각 아이템에 클릭 이벤트 리스너 추가
+            items.forEach(item => {
+                item.addEventListener('click', function () {
+                    const barcodeValue = item.getAttribute('data-giftcon-name'); // 클릭한 아이템의 바코드 값 가져오기
+                    const regAt = item.getAttribute('data-reg-at'); // regAt 값 가져오기
+                    const endDate = item.getAttribute('data-end-date');
+
+                    modalRegAt.textContent = `발급일 : ${regAt}`;
+                    modalEndDate.textContent = `유효기간 : ${endDate}`
+
+                    // 모달의 큰 바코드를 표시할 SVG 요소 가져오기
+                    const largeBarcode = document.getElementById('barcodeLarge');
+
+                    // SVG 요소가 존재하는지 확인
+                    if (largeBarcode) {
+                        // JsBarcode로 바코드 그리기
+                        JsBarcode(largeBarcode, barcodeValue, {
+                            format: "EAN13", // EAN13 형식
+                            textMargin: 0,
+                            fontOptions: "bold"
+                        });
+
+                        // 모달을 띄움
+                        const modal = document.getElementById('barcodeModal');
+                        modal.classList.add('show');
+                        modal.style.display = 'block';
+                        modal.setAttribute('aria-hidden', 'false');
+                    } else {
+                        console.error("모달 내에 바코드를 그릴 SVG 요소가 없습니다.");
+                    }
+                });
+            });
+
+            // 모달 닫기
+            const closeModal = document.querySelector('.btn-close');
+            closeModal.addEventListener('click', function () {
+                const modal = document.getElementById('barcodeModal');
+                modal.classList.remove('show');
+                modal.style.display = 'none';
+                modal.setAttribute('aria-hidden', 'true');
+            });
         };
     </script>
+
+
     <script th:src="@{/dist/js/JsBarcode.all.min.js}"></script>
 </div>

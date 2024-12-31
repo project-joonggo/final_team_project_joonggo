@@ -9,38 +9,40 @@
 <div layout:fragment="content">
 
   <div class="container-md cBox">
-
-    [[${qnaFileDTO}]]
-
     <th:block th:with="qnaVO=${qnaFileDTO.qnaVO}">
-      <div class="mb-3">
-        <label for="q" class="form-label">문의제목</label>
-        <input type="text" class="form-control" id="q" name="qnaName" th:value="${qnaVO.qnaName}" readonly="readonly">
+      <div class="detailHeader d-flex justify-content-between align-items-center">
+        <div class="titleBox">
+          <h1 class="d-flex align-items-center gap-3">
+            <span th:text="${qnaVO.category}" class="category"></span>
+            <span class="title">[[${qnaVO.qnaName}]]</span>
+          </h1>
+        </div>
+        <div class="userBox d-flex flex-column gap-3">
+          <div class="userName"><strong>[[${userVO.userName}]]</strong>님([[${userVO.userId}]])<span class="badge bg-secondary">#[[${userVO.userNum}]]</span></div>
+          <span class="regAt d-flex align-items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#A3A3A3" class="bi bi-clock-fill" viewBox="0 0 16 16">
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+          </svg>
+          [[${qnaVO.formattedRegAt}]]
+        </span>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="cate" class="form-label">문의 카테고리</label>
-        <input type="text" class="form-control" id="cate" name="category" th:value="${qnaVO.category}" readonly="readonly">
-      </div>
-      <div class="mb-3">
-        <label for="c" class="form-label">문의내용</label>
-        <div class="form-control" id="c" name="qnaContent"
-             readonly="readonly" th:utext="${qnaVO.qnaContent}"></div>
-      </div>
-
-      <!-- 어드민만 보이는 list로가는 버튼을 추가할까? -->
-
-      <a th:href="@{/qna/modify(qnaId=${qnaVO.qnaId})}"><button type="button" id="modBtn" class="btn btn-primary">문의수정</button></a>
-      <a th:href="@{/qna/delete(qnaId=${qnaVO.qnaId})}"><button type="button" id="delBtn" class="btn btn-danger">문의삭제</button></a>
+      <div class="content" th:utext="${qnaVO.qnaContent}"></div>
+      <th:block th:if="${#authentication.getPrincipal().userVO.userNum == qnaVO.userId}">
+        <div class="userBtn d-flex justify-content-end">
+          <a th:href="@{/qna/delete(qnaId=${qnaVO.qnaId})}"><button type="button" id="delBtn" class="btn joinPostBtn" onclick="return confirm('정말 삭제하시겠습니까?')">문의삭제</button></a>
+        </div>
+      </th:block>
     </th:block>
 
 
     <!--/* 답변 라인 */-->
     <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-      <div class="answer">
-			<span id="answerWriter">관리자</span>
+      <div class="answer d-flex justify-content-start gap-2 align-items-center">
+        <span id="answerWriter" class="fw-bold">관리자</span>
         <textarea id="answerText" placeholder="답변을 남겨주세요"></textarea>
         <div class="abtn">
-          <button type="button" class="btn btn-success" id="asAddBtn">등록</button>
+          <button type="button" id="asAddBtn">등록</button>
         </div>
       </div>
     </th:block>
@@ -49,7 +51,7 @@
       <li class="list-group-item">
         <div class="ms-2 me-auto">
           <div class="fw-bold">writer</div>
-          Content
+          <span>Content</span>
         </div>
         <span class="badge text-bg-primary rounded-pill">regDate</span>
       </li>
@@ -68,7 +70,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" id="asModBtn" class="btn btn-primary">Save changes</button>
+            <button type="button" id="asModBtn" class="btn joinPostBtn">Save changes</button>
           </div>
         </div>
       </div>

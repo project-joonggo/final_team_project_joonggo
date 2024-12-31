@@ -15,7 +15,7 @@ function updateStatus(selectElement) {
     })
         .then(response => {
             if (response.ok) {
-                alert('Status updated successfully!');
+                alert('상태가 갱신되었습니다.');
             } else {
                 alert('Failed to update status.');
             }

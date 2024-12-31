@@ -19,4 +19,6 @@ public class QnaVO {
     private LocalDateTime regAt;        // reg_at
     private String isDel;      // is_del
     private int answerCount;
+
+    private String formattedRegAt; //regAt을 화면에서 보기좋게
 }

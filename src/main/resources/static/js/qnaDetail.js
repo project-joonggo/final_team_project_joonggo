@@ -35,37 +35,57 @@ function spreadAnswer(qnaId){
             ul.innerHTML = ""; 
             for(let avo of result){
                 console.log(avo);
-                let li = `<li class="list-group-item" data-ano=${avo.ano}>`;
-                li += `<div class="ms-2 me-auto">`;
+                let li = `<li class="list-group-item">`;
+                li += `<div class="d-flex align-items-center justify-content-between replyToggle" style="width: 100%;" data-ano=${avo.ano} onclick="toggleReplyForm(${avo.ano})">`;
+                li += `<div class="d-flex gap-3">`;
                 li += `<div class="fw-bold">관리자</div>`;
                 li += `${avo.answer}`;
+                // 날짜 포맷 변환
+                const regAtDate = new Date(avo.regAt);
+                const formattedDate = regAtDate.toLocaleString('ko-KR', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: false // 24시간 형식
+                });
                 li += `</div>`;
-                li += `<span class="badge text-bg-primary rounded-pill">${avo.regAt}</span>`;
-                // 추가질문 버튼 추가
-                li += `<button class="btn btn-link btn-sm mt-2" type="button" onclick="toggleReplyForm(${avo.ano})">추가질문쓰기</button>`;
-                // 수정 삭제 버튼 추가   
+                li += `<div class="d-flex gap-3">`;
+                li += `<span class="d-flex answerDate align-items-center">${formattedDate}</span>`;
+                // 수정 삭제 버튼 추가
                 if (isAdmin){
-                    li += `<div class="d-grid gap-2 d-md-flex justify-content-md-end">`;
-                    li += `<button type="button" data-ano=${avo.ano} class="btn btn-outline-warning btn-sm mod" data-bs-toggle="modal" data-bs-target="#myModal">%</button>`;
-                    li += `<button type="button" data-ano=${avo.ano} class="btn btn-outline-danger btn-sm del">X</button>`;
+                    li += `<div class="d-grid gap-1 d-md-flex justify-content-md-end answerButtons">`;
+                    li += `<button type="button" data-ano=${avo.ano} class="btn joinPostBtn mod" data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`;
+                    li += `<button type="button" data-ano=${avo.ano} class="btn joinPostBtn del" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>`;
                     li += `</div>`;
                 }
+                li += `</div>`;
+                li += `</div>`;
 
                 // 추가질문 입력 폼 (기본적으로 숨김)
-                li += `<div id="replyForm-${avo.ano}" class="ms-3 mt-2" style="display:none;">
-                       <textarea class="form-control" id="replyText-${avo.ano}" placeholder="추가질문을 작성하세요"></textarea>
-                       <button class="btn btn-success mt-2" onclick="addReply(${avo.ano})">등록</button>
+                li += `<div id="replyForm-${avo.ano}" class="ms-3 mt-2 justify-content-between align-items-center gap-2" style="display:none;">
+                           <div>
+                               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#A0173B" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                                 <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+                               </svg>
+                           </div>
+                           <div class="d-flex align-items-center justify-content-between replyArea gap-2">
+                               <textarea class="replyText" id="replyText-${avo.ano}" placeholder="추가질문을 작성하세요"></textarea>
+                               <button class="btn addReplyBtn" onclick="addReply(${avo.ano})">등록</button>
+                           </div>
                        </div>`;
 
                 // 추가질문 목록 표시 영역
-                li += `<ul id="replies-${avo.ano}" class="list-group mt-3"></ul>`;       
+                li += `<ul id="replies-${avo.ano}" class="list-group mt-3"></ul>`;
 
                 li += `</li>`;
-                ul.innerHTML += li;       
-                
+                ul.innerHTML += li;
+
                  // 추가질문 목록 불러오기
                  loadReplies(avo.ano);
-            } 
+            }
         } else{
             ul.innerHTML = `<li class="list-group-item">아직 답변이 없습니다.</li>`;
         }
@@ -200,7 +220,7 @@ async function modifyAnswerToServer(asData) {
 // 추가질문 입력 폼 토글
 function toggleReplyForm(ano) {
     var replyForm = document.getElementById("replyForm-" + ano);
-    replyForm.style.display = (replyForm.style.display === "none" || replyForm.style.display === "") ? "block" : "none";
+    replyForm.style.display = (replyForm.style.display === "none" || replyForm.style.display === "") ? "flex" : "none";
 }
 
 

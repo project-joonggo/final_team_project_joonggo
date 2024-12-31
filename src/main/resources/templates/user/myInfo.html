@@ -5,7 +5,7 @@
       layout:decorate="~{layout/layout}">
 
 <div layout:fragment="content">
-  <div class="container-md d-flex justify-content-between margin-top-30" id="myInfo">
+  <div class="container-md d-flex justify-content-between margin-top-30 margin-bot-30" id="myInfo">
 
           <div class="sideMenu">
               <h2 class="sideTitle font-weight-bold">마이 페이지</h2>
@@ -73,24 +73,24 @@
 
       <div class="mainContent" th:with="auth=${#authentication.getPrincipal()}">
           <div class="d-flex justify-content-between">
-              <div class="mainLeft d-flex justify-content-start">
+              <div class="mainLeft d-flex justify-content-start align-items-center gap-4">
                   <img class="logoImg" src="/img/popIcon.svg">
-                  <div class="d-flex flex-column">
-                      <span>쓸템</span>
-                      <div class="d-flex justify-content-start">
+                  <div class="d-flex flex-column gap-2">
+                      <span class="companyName">쓸템</span>
+                      <div class="userName d-flex justify-content-start align-items-end">
                           <strong>[[${auth.userVO.userName}]]</strong>
                           <span>님 환영합니다.</span>
                       </div>
                   </div>
               </div>
-              <div class="mainRight d-flex justify-content-between">
+              <div class="mainRight d-flex justify-content-between align-items-center">
                   <div class="scoreArea">
-                      <div>
+                      <div class="d-flex justify-content-between align-items-center">
                           <span>
-                              <span>매너지수</span>
+                              <span class="mannerSpan">매너지수</span>
                               <span id="score-value">[[${auth.userVO.score}]]</span>
                           </span>
-                          <span>
+                          <span class="maxScore">
                               100
                           </span>
                       </div>
@@ -103,9 +103,9 @@
                   </div>
               </div>
           </div>
-          <div>
+          <div class="myProductBox">
               <h2>내 상품</h2>
-              <div>
+              <div class="tableBox">
                   <table>
                       <thead>
                       <tr>
@@ -122,13 +122,13 @@
                               <img th:if="${boardFileDTO.fileVOList != null and boardFileDTO.fileVOList.size() > 0 and boardFileDTO.fileVOList.get(0).fileUrl != null}"
                                    th:src="@{${boardFileDTO.fileVOList.get(0).fileUrl}}" alt="상품사진" width="100">
                           </td>
-                          <td th:text="${boardFileDTO.boardVO.category}"></td>
+                          <td th:text="${boardFileDTO.boardVO.category}" class="categoryTd"></td>
                           <td>
                               <a th:href="@{/board/detail(boardId=${boardFileDTO.boardVO.boardId})}">
                                   <span th:text="${boardFileDTO.boardVO.boardName}"></span>
                               </a>
                           </td>
-                          <td th:text="${boardFileDTO.boardVO.tradePrice}"></td>
+                          <td th:text="${boardFileDTO.boardVO.tradePrice}" class="priceTd"></td>
                       </tr>
                       </tbody>
                   </table>

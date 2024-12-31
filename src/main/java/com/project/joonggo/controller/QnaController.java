@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.security.Principal;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -136,6 +137,14 @@ public class QnaController {
         log.info(">>> qnaFileDTO >>> {}" , qnaFileDTO);
 
         model.addAttribute("qnaFileDTO", qnaFileDTO);
+
+        // 글쓴이 정보 가져오기
+        Long userId = qnaFileDTO.getQnaVO().getUserId();
+        UserVO userVO = loginService.getUserById(userId);
+        model.addAttribute("userVO", userVO);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 HH:mm:ss");
+        qnaFileDTO.getQnaVO().setFormattedRegAt(qnaFileDTO.getQnaVO().getRegAt().format(formatter));
 
     }
 

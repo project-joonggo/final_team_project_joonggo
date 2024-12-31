@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.text.NumberFormat;
@@ -285,7 +286,8 @@ public class BoardController {
     public String report(@RequestParam("reasonId") Long reasonId,
                          @RequestParam("sellerId") Long sellerId,
                          @RequestParam("boardId") Long boardId,
-                         @RequestParam("reporterId") Long reporterId) {
+                         @RequestParam("reporterId") Long reporterId,
+                         RedirectAttributes redirectAttributes) {
         ReportVO reportVO = new ReportVO();
         reportVO.setReportCompId(reasonId);  // 신고 사유
         reportVO.setUserNum(sellerId);  // 신고 당할 사람
@@ -300,6 +302,8 @@ public class BoardController {
 
         // 알림을 관리자에게 보내기
         notificationService.saveNotification(adminId, notificationMessage, boardId, "REPORT");
+
+        redirectAttributes.addFlashAttribute("alertMessage", "신고가 접수되었습니다. 관리자 확인 후 조치될 예정입니다.");
 
         return "redirect:/board/detail?boardId=" + boardId;  // 신고 후, 게시글 상세 페이지로 리다이렉트
     }

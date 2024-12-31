@@ -30,7 +30,7 @@ body {
     font-weight: 400;
     font-style: normal;
 }
-ol, ul {
+ol, ul, li {
     list-style: none;
 }
 blockquote, q {
@@ -51,6 +51,11 @@ a {
 }
 
 /* 공통 */
+.joinPostBtn{
+    font-size: 16px;
+    background-color: #A0173B;
+    color: white;
+}
 .cursor-pointer {
     cursor: pointer !important;
 }
@@ -66,10 +71,12 @@ a {
 .margin-bot-20{
     margin-bottom: 20px;
 }
+.margin-bot-30{
+    margin-bottom: 30px;
+}
 .margin-top-20{
     margin-top: 20px;
 }
-
 .margin-top-30{
     margin-top: 30px;
 }
@@ -88,6 +95,9 @@ a {
     top: 0; /* 페이지 상단에 고정 */
     z-index: 1000; /* 다른 콘텐츠 위에 표시되도록 설정 */
     background-color: white; /* 스크롤 시 콘텐츠가 보이지 않도록 배경색 추가 */
+}
+#header .container-md{
+    position : relative;
 }
 .logoName{
     font-size: 40px;
@@ -468,8 +478,8 @@ a {
     width: 500px;
 }
 .logoImg{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
 }
 .profileImg{
     width: 70px;
@@ -491,6 +501,83 @@ a {
     height: 100%;
     background: linear-gradient(to right, #A0173B, #4B6F9B);
     transition: background 0.3s ease;
+}
+#myInfo .companyName{
+    font-size: 18px;
+}
+#myInfo .userName{
+    font-size: 24px;
+}
+#myInfo .userName strong{
+    font-size: 27px;
+    font-weight: bold;
+}
+#myInfo .mainRight .mannerSpan{
+    font-size: 18px;
+    background: linear-gradient(to right, #A0173B, #4B6F9B);
+    -webkit-background-clip: text; /* 배경을 텍스트 내부에만 적용 */
+    -webkit-text-fill-color: transparent; /* 텍스트 색상을 투명하게 만들어 배경만 보이게 함 */
+    font-weight: bold; /* 원하는 스타일 추가 */
+    transition: background 0.3s ease; /* 점진적 변화 효과 */
+    padding-left: 10px;
+}
+#myInfo .mainRight .maxScore{
+    color: #A3A3A3;
+}
+#myInfo .myProductBox{
+    margin-top: 40px;
+/*    border-radius: 10px;
+    border: 1px solid rgba(117, 123, 128, 0.22);
+    padding-top: 50px;
+    margin-bottom: 50px;*/
+}
+#myInfo .myProductBox h2{
+    font-size: 24px;
+    font-weight: bold;
+}
+#myInfo .tableBox{
+    margin: 20px auto;
+    width: 1000px;
+}
+#myInfo .tableBox table {
+    width: 100%;
+    border-collapse: collapse; /* 셀 간격 제거 */
+}
+#myInfo .tableBox th, .tableBox td {
+    text-align: left; /* 텍스트 정렬 */
+    padding: 12px 15px; /* 셀 간 여백 */
+    border-bottom: 1px solid #ddd; /* 행 구분선 */
+}
+#myInfo .tableBox th {
+    color: black; /* 헤더 텍스트 색 */
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase; /* 텍스트 대문자 */
+}
+#myInfo .tableBox tbody tr:hover {
+    background-color: #f1f1f1; /* 마우스 오버 효과 */
+}
+#myInfo .tableBox tbody td a {
+    text-decoration: none; /* 밑줄 제거 */
+}
+#myInfo .tableBox tbody td a:hover {
+    color: #4B6F9B; /* 링크 호버 색상 */
+    text-decoration: underline; /* 호버 시 밑줄 추가 */
+}
+#myInfo nav{
+    margin-top: 30px;
+}
+#myInfo .categoryTd{
+    color: #A3A3A3;
+    font-size: 14px;
+}
+#myInfo .priceTd{
+    font-weight: bold;
+}
+#score-value{
+    font-size: 22px;
+    color: #A0173B;
+    font-weight: bold;
 }
 .sideTitle{
     font-size: 26px;
@@ -620,10 +707,6 @@ a {
     background-color: #f8f9fa;
 }
 
-#notification-list {
-    display: none;  /* 초기 상태로 숨김 */
-}
-
 /* 이벤트 페이지 */
 .eventListContainer{
     padding: 0 40px;
@@ -689,16 +772,45 @@ a {
 }
 
 /* 내 당첨내역 */
+#myGiftcon .price-container{
+    margin: 80px 0;
+}
 #myGiftcon .giftcon-container {
     display: grid;
     grid-template-columns: repeat(5, 1fr); /* 5개씩 나열 */
-    gap: 10px; /* 각 아이템 간의 간격 */
+    gap: 20px; /* 각 아이템 간의 간격 */
 }
-
 #myGiftcon .giftcon-item {
     border: 1px solid #ccc; /* 테두리 */
-    padding: 10px; /* 패딩 */
+    padding: 20px; /* 패딩 */
     text-align: center; /* 텍스트 가운데 정렬 */
+    max-width: 100%;
+}
+#myGiftcon .barcode {
+    width: 100%;  /* 바코드가 컨테이너에 맞춰 크기 조정 */
+    height: auto; /* 비율에 맞게 높이 자동 설정 */
+}
+#myGiftcon .giftcon-container{
+    margin: 40px 0;
+}
+#myGiftcon .giftcon-item{
+    cursor: pointer;
+}
+#barcodeLarge {
+    align-self: center; /* 부모 컨테이너의 가운데로 정렬 */
+    width: 300px;       /* 가로 크기 */
+    height: auto;
+}
+#barcodeModal .giftconType{
+    color: #5D6D7E;
+}
+#barcodeModal .giftconPrice{
+    font-weight: bold;
+    font-size: 16px;
+}
+#barcodeModal .modal-body{
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
 /* 비밀번호 찾기 */
@@ -981,4 +1093,102 @@ a {
     font-weight: bold;
     background-color: #A0173B;
     color: white;
+}
+
+/* 고객센터 문의 qna */
+.cBox .category {
+    background-color: rgba(220, 220, 220, 0.69);
+    padding: 5px 10px;
+    border-radius: 5px;
+    display: inline-block;
+}
+.cBox .userBox{
+    border-radius: 5px;
+    background-color: rgba(220, 220, 220, 0.29);
+    padding: 10px 18px;
+}
+.cBox .userBox .userName strong{
+    font-size: 18px;
+    font-weight: bold;
+}
+.cBox .userBox .regAt{
+    color: #888888;
+    font-size: 14px;
+}
+.cBox h1 .title{
+    font-size: 26px;
+    font-weight: 900;
+}
+.cBox .detailHeader{
+    margin: 30px 0 50px 0;
+}
+.cBox .content{
+    border-bottom: 1px solid rgba(161, 176, 184, 0.33);
+    padding-bottom: 50px;
+}
+.cBox .userBtn{
+    margin: 10px 0;
+}
+.cBox .userBtn .joinPostBtn{
+    font-size: 16px;
+    background-color: #A0173B;
+    color: white;
+}
+#asAddBtn{
+    border: 1px solid black;
+    height: 38px;
+    border-radius: 0.375rem;
+    padding: 6px 20px;
+    cursor: pointer;
+    background-color: white;
+}
+#asListArea .joinPostBtn{
+    font-size: 14px;
+    background-color: #A0173B;
+    color: white;
+}
+#answerText{
+    width: 90%;
+    height: 38px;
+    padding: 8px 12px; /* 세로 방향 8px, 가로 방향 12px */
+    box-sizing: border-box;
+    border-radius: 8px; /* 선의 둥글기 설정 */
+    outline: none; /
+}
+.cBox .answer{
+    margin: 20px 0;
+}
+.cBox .addReplyBtn{
+    border: 1px solid black;
+    border-radius: 0.375rem;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: white;
+    font-size: 14px;
+    width: 55px;
+}
+.cBox .replyArea{
+    margin-top: 10px;
+}
+.cBox .answerDate{
+    font-size: 14px;
+    color: #A3A3A3;
+    margin-right: 20px;
+}
+#asListArea .replyToggle{
+    cursor: pointer;
+}
+#asListArea .replyToggle:hover{
+    background-color: rgba(195, 195, 195, 0.22);
+}
+.cBox .replyText{
+    width: 100%;
+    height: 38px;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    border-radius: 8px;
+    outline: none;
+}
+.cBox .replyArea{
+    width: 100%;
 }

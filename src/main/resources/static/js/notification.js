@@ -87,7 +87,7 @@ function handleNotification(message,url,notificationId,isWebsocket) {
         }
     });
 
-    notificationList.appendChild(newNotification);
+    notificationList.insertBefore(newNotification, notificationList.firstChild);
 
     // 알림 배지 업데이트 (읽지 않은 알림 개수)
 
