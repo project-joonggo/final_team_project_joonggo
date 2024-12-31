@@ -30,18 +30,18 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests((authorize)-> authorize
-//                                .requestMatchers(
-//                                        "/", "/js/**", "/img/**", "/css/**", "/dist/**", "/upload/**",
-//                                        "/index", "/user/join", "/user/login", "/board/list", "/board/detail/**",
-//                                        "/comment/list/**", "/smarteditor/**", "/user/kakao/**", "/user/google/**",
-//                                        "/user/naver/**","/chat/**", "/chat/unread/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult",
-//                                        "/user/mailSend", "/user/mailCheck", "/board/report", "/board/fraud",
-//                                        "/user/findPassword", "/user/updatePassword","/qna/**","/answer/**","/api/**","/api/payment/webhook").permitAll()
-                      .requestMatchers("/**").permitAll()
-//                                .requestMatchers("/ws/**", "/notifications/**","/notice/**").permitAll() // WebSocket 경로 허용
-//                                .requestMatchers("/chat/unread/**").authenticated()
-//                                .requestMatchers("/user/list").hasAnyRole("ADMIN")
-//                                .anyRequest().authenticated()
+                                .requestMatchers(
+                                        "/", "/js/**", "/img/**", "/css/**", "/dist/**", "/upload/**",
+                                        "/index", "/user/join", "/user/login", "/board/list", "/board/detail/**",
+                                        "/comment/list/**", "/smarteditor/**", "/user/kakao/**", "/user/google/**",
+                                        "/user/naver/**","/chat/**", "/chat/unread/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult",
+                                        "/user/mailSend", "/user/mailCheck", "/board/report", "/board/fraud",
+                                        "/user/findPassword", "/user/updatePassword","/qna/**","/answer/**","/api/**","/api/payment/webhook").permitAll()
+//                      .requestMatchers("/**").permitAll()
+                                .requestMatchers("/ws/**", "/notifications/**","/notice/**").permitAll() // WebSocket 경로 허용
+                                .requestMatchers("/chat/unread/**").authenticated()
+                                .requestMatchers("/user/list").hasAnyRole("ADMIN")
+                                .anyRequest().authenticated()
                 )
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
