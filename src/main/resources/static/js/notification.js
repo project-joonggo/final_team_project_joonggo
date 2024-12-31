@@ -58,7 +58,7 @@ stompClient.connect({}, function (frame) {
         if (message.body) {
             console.log('Message body:', message.body);
             const data = JSON.parse(message.body); // 서버에서 JSON으로 보낸다고 가정
-            handleNotification(data.message, data.url, data.notificationId, true);  // 알림 처리
+            handleNotification(data.message, data.url, data.notificationId, true, data.type);  // 알림 처리
 
         } else {
             console.log('Message body is empty or undefined');
@@ -97,8 +97,34 @@ function handleNotification(message,url,notificationId,isWebsocket, type) {
     newNotification.setAttribute("data-status", "unread"); // 상태를 '읽지 않음'으로 설정
     newNotification.setAttribute("data-id", notificationId); // notificationId를 data-id 속성에 저장
 
+
+    // 기본 아이콘을 정의합니다.
+    let icon = '';
+
+    // 타입에 따라 아이콘을 설정합니다.
+    if (type === 'ANSWER' || type === 'REPLY' || type === 'QUESTION') {
+        icon = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" fill="currentColor" class="bi bi-question" viewBox="0 0 18 18">
+                    <path d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"/>
+                </svg>`;
+    } else if (type === 'SALE') {
+        icon = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" fill="currentColor" class="bi bi-coin" viewBox="0 0 18 18">
+                    <path d="M5.5 9.511c.076.954.83 1.697 2.182 1.785V12h.6v-.709c1.4-.098 2.218-.846 2.218-1.932 0-.987-.626-1.496-1.745-1.76l-.473-.112V5.57c.6.068.982.396 1.074.85h1.052c-.076-.919-.864-1.638-2.126-1.716V4h-.6v.719c-1.195.117-2.01.836-2.01 1.853 0 .9.606 1.472 1.613 1.707l.397.098v2.034c-.615-.093-1.022-.43-1.114-.9zm2.177-2.166c-.59-.137-.91-.416-.91-.836 0-.47.345-.822.915-.925v1.76h-.005zm.692 1.193c.717.166 1.048.435 1.048.91 0 .542-.412.914-1.135.982V8.518z"/>
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M8 13.5a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11m0 .5A6 6 0 1 0 8 2a6 6 0 0 0 0 12"/>
+                </svg>`;
+    } else if (type === 'REPORT') {
+        icon = `<svg xmlns="http://www.w3.org/2000/svg" width="22" height="26" fill="currentColor" class="bi bi-shield-exclamation" viewBox="0 0 18 18">
+                    <path d="M5.338 1.59a61 61 0 0 0-2.837.856.48.48 0 0 0-.328.39c-.554 4.157.726 7.19 2.253 9.188a10.7 10.7 0 0 0 2.287 2.233c.346.244.652.42.893.533q.18.085.293.118a1 1 0 0 0 .101.025 1 1 0 0 0 .1-.025q.114-.034.294-.118c.24-.113.547-.29.893-.533a10.7 10.7 0 0 0 2.287-2.233c1.527-1.997 2.807-5.031 2.253-9.188a.48.48 0 0 0-.328-.39c-.651-.213-1.75-.56-2.837-.855C9.552 1.29 8.531 1.067 8 1.067c-.53 0-1.552.223-2.662.524zM5.072.56C6.157.265 7.31 0 8 0s1.843.265 2.928.56c1.11.3 2.229.655 2.887.87a1.54 1.54 0 0 1 1.044 1.262c.596 4.477-.787 7.795-2.465 9.99a11.8 11.8 0 0 1-2.517 2.453 7 7 0 0 1-1.048.625c-.28.132-.581.24-.829.24s-.548-.108-.829-.24a7 7 0 0 1-1.048-.625 11.8 11.8 0 0 1-2.517-2.453C1.928 10.487.545 7.169 1.141 2.692A1.54 1.54 0 0 1 2.185 1.43 63 63 0 0 1 5.072.56"/>
+                    <path d="M7.001 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0M7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.553.553 0 0 1-1.1 0z"/>
+                </svg>`;
+    }
+
+
     // HTML 메시지를 그대로 삽입
-    const htmlMessage = `<a href="${url}" target="_blank">${message}</a>`; // 게시글 링크와 메시지 결합
+    const htmlMessage = `<a href="${url}" target="_blank">
+            ${icon}
+            ${message}
+            </a>`; // 게시글 링크와 메시지 결합
     newNotification.innerHTML = htmlMessage; // HTML 메시지 삽입
 
      // 알림 클릭 시 읽음 처리 및 URL로 이동
@@ -112,7 +138,12 @@ function handleNotification(message,url,notificationId,isWebsocket, type) {
         }
     });
 
-    notificationList.insertBefore(newNotification, notificationList.firstChild);
+       // 웹소켓 알림일 경우, 맨 위에 추가
+       if (isWebsocket) {
+        notificationList.insertBefore(newNotification, notificationList.firstChild); // 맨 위에 추가
+    } else {
+        notificationList.appendChild(newNotification); // 기존의 알림들은 아래에 추가
+    }
 
     // 알림 배지 업데이트 (읽지 않은 알림 개수)
 
@@ -210,6 +241,7 @@ function fetchNotifications() {
             console.log("Initial notifications:", data);
             notifications = data;  // 받은 알림 데이터를 저장
             dbNotificationsCount = notifications.length; 
+
             if (dbNotificationsCount === 0) {
                 showNoNotificationsMessage(); // 알림이 없으면 "새로운 알림이 없습니다." 메시지 표시
             } else {

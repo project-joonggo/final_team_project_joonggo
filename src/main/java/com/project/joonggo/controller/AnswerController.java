@@ -34,7 +34,7 @@ public class AnswerController {
         log.info(">>>> post userId >>> {}" ,userId);
 
         // 알림 메시지 생성
-        String notificationMessage = "질문에 대한 답변이 등록되었습니다. 확인해보세요!!." ;
+        String notificationMessage = "<span>문의</span><br>질문에 대한 답변이 등록되었습니다.<br> 확인해보세요!!.";
 
         // 알림을 관리자에게 보내기
         notificationService.saveNotification(userId, notificationMessage, answerVO.getQnaId(), "ANSWER");

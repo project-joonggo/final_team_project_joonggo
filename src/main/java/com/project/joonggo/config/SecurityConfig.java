@@ -37,7 +37,7 @@ public class SecurityConfig {
                                         "/user/naver/**","/chat/**", "/chat/unread/**", "/user/phoneCheck", "/user/findId", "/user/findIdResult",
                                         "/user/mailSend", "/user/mailCheck", "/board/report", "/board/fraud",
                                         "/user/findPassword", "/user/updatePassword","/qna/**","/answer/**").permitAll()
-    /*                    .requestMatchers("/**").permitAll()*/
+//                      .requestMatchers("/**").permitAll()
                                 .requestMatchers("/ws/**", "/notifications/**","/notice/**").permitAll() // WebSocket 경로 허용
                                 .requestMatchers("/chat/unread/**").authenticated()
                                 .requestMatchers("/user/list").hasAnyRole("ADMIN")
