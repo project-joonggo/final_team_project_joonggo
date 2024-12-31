@@ -707,6 +707,10 @@ a {
     background-color: #f8f9fa;
 }
 
+#notification-list {
+    display: none;  /* 초기 상태로 숨김 */
+}
+
 /* 이벤트 페이지 */
 .eventListContainer{
     padding: 0 40px;
@@ -1191,4 +1195,69 @@ a {
 }
 .cBox .replyArea{
     width: 100%;
+}
+
+
+
+/* 알림 리스트 스타일 */
+#notification-list {
+    width: 400px;
+    max-height: 500px;
+    position: absolute;
+    top: 90px;
+    right: 300px;
+    z-index: 9999;
+    box-sizing: border-box;
+    background-color: #ccc;
+}
+
+/* 알림 창 헤더 스타일 */
+.notification-header {
+    width: 100%;
+    text-align: left;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    background-color: white;
+    padding-top: 25px;
+}
+
+/* 구분선 */
+.notification-header hr {
+    margin: 10px 0;
+    border: 1px solid #ccc;
+}
+
+/* 카테고리 버튼 스타일 */
+.notification-category-buttons {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+    padding: 10px;
+}
+
+.notification-item {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    list-style-type: none;
+}
+
+.notification-title {
+    margin-left : 25px;
+}
+
+.notification-category-buttons .filter-button {
+    border: none;
+    padding: 15px 20px;
+    border-radius: 10px;
+    color: gray;
+}
+
+/* 선택된 버튼(Active 상태) 스타일 */
+.notification-category-buttons .active {
+    background-color: #A4C6F9; /* 선택된 버튼 배경색 */
+    color: #4173F5;
 }

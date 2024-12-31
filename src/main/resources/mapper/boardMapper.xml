@@ -21,6 +21,7 @@
         order by board_id desc
         limit #{startIndex}, #{qty}
     </select>
+
     <select id="getDetail" resultType="com.project.joonggo.domain.BoardVO">
         select * from sellbuy_board where board_id = #{boardId}
     </select>
@@ -56,9 +57,36 @@
     <select id="getBoardList" resultType="com.project.joonggo.domain.BoardVO">
         select * from sellbuy_board
         WHERE is_del = 'N'
+        <if test="includeSoldOut == false">
+            AND trade_flag = 0 <!-- 판매완료된 상품은 제외 -->
+        </if>
+        <if test="includeSoldOut == true">
+            AND (trade_flag = 0 OR trade_flag = 1) <!-- 판매완료된 상품도 포함 -->
+        </if>
         <include refid="search"/>
         <include refid="categorySearch"/>
-        order by board_id desc
+        <include refid="priceSearch"/> <!-- 가격 조건 추가 -->
+
+        <!-- sort 파라미터에 따라 동적으로 ORDER BY 설정 -->
+        <choose>
+            <when test="sort == 'latest'">
+                order by board_id desc <!-- 최신순 -->
+            </when>
+            <when test="sort == 'recommend'">
+                order by like_count desc <!-- 추천순 (예시, 추천수가 많은 순으로 정렬) -->
+            </when>
+            <when test="sort == 'low-price'">
+                order by trade_price asc <!-- 낮은 가격순 (오름차순으로 정렬) -->
+            </when>
+            <when test="sort == 'high-price'">
+                order by trade_price desc <!-- 높은 가격순 (내림차순으로 정렬) -->
+            </when>
+            <otherwise>
+                order by board_id desc <!-- 기본적으로 최신순 (최신순을 기본값으로 설정) -->
+            </otherwise>
+        </choose>
+
+
         LIMIT #{startIndex}, #{qty}
     </select>
 
@@ -88,8 +116,15 @@
     <select id="getTotal" resultType="int">
         select count(board_id) from sellbuy_board
         where is_del = 'N'
+        <if test="includeSoldOut == false">
+            AND trade_flag = 0 <!-- 판매완료된 상품은 제외 -->
+        </if>
+        <if test="includeSoldOut == true">
+            AND (trade_flag = 0 OR trade_flag = 1) <!-- 판매완료된 상품도 포함 -->
+        </if>
         <include refid="search"/>
         <include refid="categorySearch"/>
+        <include refid="priceSearch"/> <!-- 가격 조건 추가 -->
     </select>
 
     <sql id="search">
@@ -101,6 +136,17 @@
     <sql id="categorySearch">
         <if test="category != null and category != ''">
             AND category LIKE CONCAT('%', #{category}, '%') <!-- 카테고리가 일치하는 게시글만 검색 -->
+        </if>
+    </sql>
+
+    <sql id="priceSearch">
+        <if test="minPrice != null">
+            AND trade_price >= #{minPrice}
+        </if>
+        <if test="maxPrice != null">
+            <![CDATA[
+                AND trade_price <= #{maxPrice}
+                ]]>
         </if>
     </sql>
 

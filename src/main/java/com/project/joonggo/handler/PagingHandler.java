@@ -32,8 +32,13 @@ public class PagingHandler {
             return; // 더 이상 진행하지 않고 종료
         }
 
-        this.endPage = (int)Math.ceil(pgvo.getPageNo() / (double)pgvo.getQty()) * 10;
-        this.startPage = endPage - (pgvo.getQty()-1);
+
+        // 페이지 블록 크기 설정 (보통 10개씩 묶어서 표시)
+        int pageBlock = 10;
+
+        // endPage 계산: pageBlock 기준으로 페이지 블록의 끝 계산
+        this.endPage = (int) Math.ceil(pgvo.getPageNo() / (double) pageBlock) * pageBlock;
+        this.startPage = endPage - (pageBlock - 1);
 
         this.realEndPage = (int)Math.ceil(totalCount / (double)pgvo.getQty());
 

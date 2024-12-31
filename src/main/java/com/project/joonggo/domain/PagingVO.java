@@ -15,6 +15,10 @@ public class PagingVO {
     private int qty; // 한페이지에 출력되는 게시글 개수\
     private String category;
     private String keyword;
+    private Integer minPrice;
+    private Integer maxPrice;
+    private boolean includeSoldOut; // 판매완료 상품 포함 여부
+    private String sort;
 
     public PagingVO(){
         pageNo = 1;
