@@ -1046,3 +1046,14 @@ a {
     background-color: #A4C6F9; /* 선택된 버튼 배경색 */
     color: #4173F5;
 }
+
+.notification-item span {
+    font-size: 18px;
+    font-weight: bold;
+
+}
+
+.notification-item svg {
+   margin-bottom: 2px;
+
+}

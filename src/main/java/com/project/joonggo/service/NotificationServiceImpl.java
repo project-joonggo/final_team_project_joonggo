@@ -129,7 +129,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         // HTML 메시지와 함께 notificationId를 전송
         messagingTemplate.convertAndSendToUser(userId.toString(), "/queue/notifications",
-                "{\"message\": \"" + message + "\", \"url\": \"" + targetUrl + "\", \"notificationId\": \"" + notificationId + "\"}");
+                "{\"message\": \"" + message + "\", \"url\": \"" + targetUrl + "\", \"notificationId\": \"" + notificationId + "\", \"type\": \"" + type + "\"}");
     }
 
 

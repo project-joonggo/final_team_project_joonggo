@@ -384,7 +384,7 @@ public class BoardController {
         Long adminId = loginService.getAdminId();
 
         // 알림 메시지 생성
-        String notificationMessage = "새로운 신고가 접수되었습니다. 신고된 게시글 번호: " + boardId;
+        String notificationMessage = "<span>신고</span><br>새로운 신고가 접수되었습니다.<br> 신고된 게시글 번호: " + boardId;
 
         // 알림을 관리자에게 보내기
         notificationService.saveNotification(adminId, notificationMessage, boardId, "REPORT");
