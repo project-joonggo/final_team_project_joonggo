@@ -16,7 +16,7 @@
 
   <th:block th:with="boardVO=${boardFileDTO.boardVO}">
 
-    <hr>
+  <hr>
 
     <!--중고나라 상품 디테일 기준-->
     <div class="detail-firstContainer">
@@ -185,14 +185,14 @@
 
 
     <form id="reportForm" action="/board/report" method="post">
-      <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="reportModalLabel">신고 사유 선택</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
+    <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="reportModalLabel">신고 사유 선택</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+             <div class="modal-body">
               <div class="mb-3">
                 <label for="reasonSelect" class="form-label">신고 사유</label>
                 <select id="reasonSelect" class="form-select" name="reasonId" required>
@@ -202,20 +202,28 @@
                           th:text="${reason.compContent}">
                   </option>
                 </select>
+                <span>⚠️ 허위 신고는 서비스 이용에 제한을 받을 수 있습니다.</span>
               </div>
               <!-- sellerId (신고 당할 사람), 게시글 번호(리다이렉트용) -->
               <input type="hidden" name="sellerId" th:value="${boardVO.sellerId}">
               <input type="hidden" name="boardId" th:value="${boardVO.boardId}">
-              <input type="hidden" name="reporterId"
-                     th:value="${#authentication.principal != 'anonymousUser' ? #authentication.getPrincipal().userVO.userNum : ''}">
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-              <button type="submit" class="btn btn-danger" id="submitReport">신고하기</button>
-            </div>
+               <input type="hidden" name="reporterId"
+                      th:value="${#authentication.principal != 'anonymousUser' ? #authentication.getPrincipal().userVO.userNum : ''}">
+             </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button type="submit" class="btn btn-danger" id="submitReport">신고하기</button>
+            <th:block th:if="${alertMessage}">
+              <script type="text/javascript">
+                window.onload = function() {
+                  alert('[[${alertMessage}]]');
+                }
+              </script>
+            </th:block>
           </div>
         </div>
       </div>
+    </div>
     </form>
 
     <div id="custom-alert" class="event-modal">

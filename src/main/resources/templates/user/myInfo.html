@@ -5,169 +5,174 @@
       layout:decorate="~{layout/layout}">
 
 <div layout:fragment="content">
-  <div class="container-md d-flex justify-content-between margin-top-30 margin-bot-80" id="myInfo">
+    <div class="container-md d-flex justify-content-between margin-top-30 margin-bot-80" id="myInfo">
 
-          <div class="sideMenu">
-              <h2 class="sideTitle font-weight-bold">마이 페이지</h2>
-              <h3 class="sideSubTitle font-weight-bold">거래 정보</h3>
-              <ul>
-                  <li><a href="/payment/history" class="menuItems">거래 내역</a></li>
-                  <li><a href="/wish/list" class="menuItems">찜한 상품</a></li>
-              </ul>
+        <div class="sideMenu">
+            <h2 class="sideTitle font-weight-bold">마이 페이지</h2>
+            <h3 class="sideSubTitle font-weight-bold">거래 정보</h3>
+            <ul>
+                <li><a href="/payment/history" class="menuItems">거래 내역</a></li>
+                <li><a href="/wish/list" class="menuItems">찜한 상품</a></li>
+            </ul>
 
-              <div class="title-divider"></div>
+            <div class="title-divider"></div>
 
-              <h3 class="sideSubTitle font-weight-bold">내 정보</h3>
-              <ul>
-                  <li><a href="/event/myGiftcon" class="menuItems">당첨 내역</a></li>
-                  <li><a href="/qna/my" class="menuItems">내 문의 내역</a></li>
-                  <li><a href="/user/modify" class="menuItems">내 정보 수정</a></li>
-                  <li><a class="cursor-pointer menuItems" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</a></li>
-              </ul>
+            <h3 class="sideSubTitle font-weight-bold">내 정보</h3>
+            <ul>
+                <li><a href="/event/myGiftcon" class="menuItems">당첨 내역</a></li>
+                <li><a href="/qna/my" class="menuItems">내 문의 내역</a></li>
+                <li><a href="/user/modify" class="menuItems">내 정보 수정</a></li>
+                <li><a class="cursor-pointer menuItems" data-bs-toggle="modal" data-bs-target="#deleteModal">회원탈퇴</a></li>
+            </ul>
 
-              <div class="title-divider"></div>
+            <div class="title-divider"></div>
 
-              <h3 class="sideSubTitle font-weight-bold">내 배송지</h3>
+            <h3 class="sideSubTitle font-weight-bold">내 배송지</h3>
 
-              <div class="map-box">
-                  <script type="text/javascript"
-                          th:src="@{'https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b&libraries=services'}"></script>
+            <div class="map-box">
+                <script type="text/javascript"
+                        th:src="@{'https://dapi.kakao.com/v2/maps/sdk.js?appkey=0fef19877ef5e7f71e4ae9f828a6265b&libraries=services'}"></script>
 
-                  <div id="map3" style="width:180px;height:160px;"></div>
+                <div id="map3" style="width:180px;height:160px;"></div>
 
-                  <script th:inline="javascript">
-                      var streetAddress = sessionStorage.getItem('userStreetAddress');
-                  </script>
+                <script th:inline="javascript">
+                    var streetAddress = sessionStorage.getItem('userStreetAddress');
+                </script>
 
-                  <script th:src="@{/js/myLocationMap.js}"></script>
-              </div>
-          </div>
+                <script th:src="@{/js/myLocationMap.js}"></script>
+            </div>
+        </div>
 
-          <!-- 모달 -->
-          <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                  <div class="modal-content">
-                      <div class="modal-header">
-                          <h5 class="modal-title" id="deleteModalLabel">회원 탈퇴</h5>
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                      </div>
-                      <div class="modal-body">
-                          <div class="deactivate-title">유의 사항을 확인해주세요!</div>
-                          <div class="deactivate-container">
-                              <div class="deactivate-box"><span class="deactivate-num">01</span> <span class="deactivate-content">탈퇴 신청일로부터 30일 이내에 동일한 아이디와 휴대폰 번호로 가입 불가하며 재가입 시, 신규 가입 혜택은 적용되지 않습니다.</span></div>
-                              <div class="deactivate-box"><span class="deactivate-num">02</span> <span class="deactivate-content">회원 탈퇴 시 본인 계정에 등록된 게시물 또는 회원이 작성한 게시물 일체는 삭제됩니다. 다만, 다른 회원에 의해 스크랩되어 게시되거나 공용 게시판에 등록된 게시물은 삭제되지 않으니 삭제를 원하신다면 미리 삭제 후 탈퇴를 진행해주세요.</span></div>
-                              <div class="deactivate-box"><span class="deactivate-num">03</span> <span class="deactivate-content">전자 상거래 등에서의 소비자 보호에 관한 법률 규정에 따라 아래와 같이 기록을 보관하며, 법률 의한 경우 외 다른 목적으로 이용되지 않습니다.</span></div>
-                              <div class="deactivate-margin">
-                                  <div class="deactivate-mainDivider"><span class="deactivate-left">표시 광고에 대한 기록</span> <span class="deactivate-right">6개월</span></div>
-                                  <div class="deactivate-divider"><span class="deactivate-left">계약 또는 청약철회, 대금결제 및 재화 등의 공급에 관한 기록</span> <span class="deactivate-right">5년</span></div>
-                                  <div class="deactivate-divider"><span class="deactivate-left">소비자의 불만 또는 분쟁처리에 관한 기록</span> <span class="deactivate-right">3년</span></div>
-                                  <div class="deactivate-divider"><span class="deactivate-left">전자금융거래기록</span> <span class="deactivate-right">5년</span></div>
-                              </div>
-                              <div class="deactivate-box"><span class="deactivate-num">04</span> <span class="deactivate-content">탈퇴 신청 후 72시간(3일) 이내 철회 가능하며, 그 후에는 복구할 수 없습니다.</span></div>
-                          </div>
-                      </div>
-                      <div class="modal-footer">
-                          <button id="confirmDeleteButton" class="btn cursor-pointer deactivate-button" onclick="showAlert()">탈퇴</button>
-                          <!--<a id="confirmDeleteButton" class="cursor-pointer" onclick="showAlert()">탈퇴</a>
-                          <a class="cursor-pointer" data-bs-dismiss="modal">취소</a>-->
-                      </div>
-                  </div>
-              </div>
-          </div>
+        <!-- 모달 -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">회원 탈퇴</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="deactivate-title">유의 사항을 확인해주세요!</div>
+                        <div class="deactivate-container">
+                            <div class="deactivate-box"><span class="deactivate-num">01</span> <span class="deactivate-content">탈퇴 신청일로부터 30일 이내에 동일한 아이디와 휴대폰 번호로 가입 불가하며 재가입 시, 신규 가입 혜택은 적용되지 않습니다.</span></div>
+                            <div class="deactivate-box"><span class="deactivate-num">02</span> <span class="deactivate-content">회원 탈퇴 시 본인 계정에 등록된 게시물 또는 회원이 작성한 게시물 일체는 삭제됩니다. 다만, 다른 회원에 의해 스크랩되어 게시되거나 공용 게시판에 등록된 게시물은 삭제되지 않으니 삭제를 원하신다면 미리 삭제 후 탈퇴를 진행해주세요.</span></div>
+                            <div class="deactivate-box"><span class="deactivate-num">03</span> <span class="deactivate-content">전자 상거래 등에서의 소비자 보호에 관한 법률 규정에 따라 아래와 같이 기록을 보관하며, 법률 의한 경우 외 다른 목적으로 이용되지 않습니다.</span></div>
+                            <div class="deactivate-margin">
+                                <div class="deactivate-mainDivider"><span class="deactivate-left">표시 광고에 대한 기록</span> <span class="deactivate-right">6개월</span></div>
+                                <div class="deactivate-divider"><span class="deactivate-left">계약 또는 청약철회, 대금결제 및 재화 등의 공급에 관한 기록</span> <span class="deactivate-right">5년</span></div>
+                                <div class="deactivate-divider"><span class="deactivate-left">소비자의 불만 또는 분쟁처리에 관한 기록</span> <span class="deactivate-right">3년</span></div>
+                                <div class="deactivate-divider"><span class="deactivate-left">전자금융거래기록</span> <span class="deactivate-right">5년</span></div>
+                            </div>
+                            <div class="deactivate-box"><span class="deactivate-num">04</span> <span class="deactivate-content">탈퇴 신청 후 72시간(3일) 이내 철회 가능하며, 그 후에는 복구할 수 없습니다.</span></div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="confirmDeleteButton" class="btn cursor-pointer deactivate-button" onclick="showAlert()">탈퇴</button>
+                        <!--<a id="confirmDeleteButton" class="cursor-pointer" onclick="showAlert()">탈퇴</a>
+                        <a class="cursor-pointer" data-bs-dismiss="modal">취소</a>-->
+                    </div>
+                </div>
+            </div>
+        </div>
 
-      <div class="mainContent" th:with="auth=${#authentication.getPrincipal()}">
-          <div class="d-flex justify-content-between">
-              <div class="mainLeft d-flex justify-content-start align-items-center gap-4">
-                  <img class="logoImg" src="/img/popIcon.svg">
-                  <div class="d-flex flex-column gap-2">
-                      <span class="companyName">쓸템</span>
-                      <div class="userName d-flex justify-content-start align-items-end">
-                          <strong>[[${auth.userVO.userName}]]</strong>
-                          <span>님 환영합니다.</span>
-                      </div>
-                  </div>
-              </div>
-              <div class="mainRight d-flex justify-content-between align-items-center">
-                  <div class="scoreArea">
-                      <div class="d-flex justify-content-between align-items-center">
+        <div class="mainContent" th:with="auth=${#authentication.getPrincipal()}">
+            <div class="d-flex justify-content-between">
+                <div class="mainLeft d-flex justify-content-start align-items-center gap-4">
+                    <img class="logoImg" src="/img/popIcon.svg">
+                    <div class="d-flex flex-column gap-2">
+                        <span class="companyName">쓸템</span>
+                        <div class="userName d-flex justify-content-start align-items-end">
+                            <strong>[[${auth.userVO.userName}]]</strong>
+                            <span>님 환영합니다.</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="mainRight d-flex justify-content-between align-items-center">
+                    <div class="scoreArea">
+                        <div class="d-flex justify-content-between align-items-center">
                           <span>
                               <span class="mannerSpan">매너지수</span>
                               <span id="score-value">[[${auth.userVO.score}]]</span>
                           </span>
-                          <span class="maxScore">
+                            <span class="maxScore">
                               100
                           </span>
-                      </div>
-                      <div class="score-bar-container">
-                          <div id="score-bar" class="score-bar"></div>
-                      </div>
-                  </div>
-                  <div>
-                      <img class="profileImg" src="/img/profile.png">
-                  </div>
-              </div>
-          </div>
-          <div class="myProductBox">
-              <h2>내 상품</h2>
-              <div class="tableBox">
-                  <table>
-                      <thead>
-                      <tr>
-                          <th>상품사진</th>
-                          <th>카테고리</th>
-                          <th>상품명</th>
-                          <th>상품가격</th>
-                      </tr>
-                      </thead>
-                      <tbody>
-                      <tr th:each="boardFileDTO : ${list}">
-                          <td>
-                              <!-- 파일이 있을 경우 첫 번째 파일의 이미지 출력 -->
-                              <img th:if="${boardFileDTO.fileVOList != null and boardFileDTO.fileVOList.size() > 0 and boardFileDTO.fileVOList.get(0).fileUrl != null}"
-                                   th:src="@{${boardFileDTO.fileVOList.get(0).fileUrl}}" alt="상품사진" width="100">
-                          </td>
-                          <td th:text="${boardFileDTO.boardVO.category}" class="categoryTd"></td>
-                          <td>
-                              <a th:href="@{/board/detail(boardId=${boardFileDTO.boardVO.boardId})}">
-                                  <span th:text="${boardFileDTO.boardVO.boardName}"></span>
-                              </a>
-                          </td>
-                          <td th:text="${boardFileDTO.boardVO.tradePrice}" class="priceTd"></td>
-                      </tr>
-                      </tbody>
-                  </table>
-                  <!-- 페이지 네이션 라인 -->
-                  <nav aria-label="Page navigation example">
-                      <ul class="pagination justify-content-center">
-                          <!-- 이전 페이지 버튼 -->
-                          <li class="page-item" th:classappend="${ph.prev eq false ? 'disabled' : ''}">
-                              <a class="page-link"
-                                 th:href="@{${'/user/myInfo?pageNo=' + (ph.startPage-1) + '&qty=10'}}"
-                                 aria-label="Previous">
-                                  <span aria-hidden="true">&laquo;</span>
-                              </a>
-                          </li>
-                          <!-- 페이지 번호 -->
-                          <th:block th:each="i:${#numbers.sequence(ph.startPage, ph.endPage)}">
-                              <li class="page-item" th:classappend="${ph.pgvo.pageNo eq i ? 'active' : ''}">
-                                  <a class="page-link"
-                                     th:href="@{${'/user/myInfo?pageNo=' + i + '&qty=10'}}">[[${i}]]</a>
-                              </li>
-                          </th:block>
+                        </div>
+                        <div class="score-bar-container">
+                            <div id="score-bar" class="score-bar"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <img class="profileImg" src="/img/profile.png">
+                    </div>
+                </div>
+            </div>
+            <div class="myProductBox">
+                <h2>내 상품</h2>
+                <div class="tableBox">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>상품사진</th>
+                            <th>카테고리</th>
+                            <th>상품명</th>
+                            <th>상품가격</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:if="${list != null and list.size() > 0}" th:each="boardFileDTO : ${list}">
+                            <td>
+                                <!-- 파일이 있을 경우 첫 번째 파일의 이미지 출력 -->
+                                <img th:if="${boardFileDTO.fileVOList != null and boardFileDTO.fileVOList.size() > 0 and boardFileDTO.fileVOList.get(0).fileUrl != null}"
+                                     th:src="@{${boardFileDTO.fileVOList.get(0).fileUrl}}" alt="상품사진" width="100">
+                            </td>
+                            <td th:text="${boardFileDTO.boardVO.category}" class="categoryTd"></td>
+                            <td>
+                                <a th:href="@{/board/detail(boardId=${boardFileDTO.boardVO.boardId})}">
+                                    <span th:text="${boardFileDTO.boardVO.boardName}"></span>
+                                </a>
+                            </td>
+                            <td th:text="${boardFileDTO.boardVO.tradePrice}" class="priceTd"></td>
+                        </tr>
+                        <tr th:if="${list == null or list.size() == 0}">
+                            <td colspan="4" class="text-center">
+                                <p class="margin-top-30 margin-bot-30">등록된 상품이 없습니다. <a th:href="@{/board/register}" class="font-weight-bold">판매할 상품을 등록</a>해 보세요!</p>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <!-- 페이지 네이션 라인 -->
+                    <nav aria-label="Page navigation example">
+                        <ul class="pagination justify-content-center">
+                            <!-- 이전 페이지 버튼 -->
+                            <li class="page-item" th:classappend="${ph.prev eq false ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${'/user/myInfo?pageNo=' + (ph.startPage-1) + '&qty=10'}}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&laquo;</span>
+                                </a>
+                            </li>
+                            <!-- 페이지 번호 -->
+                            <th:block th:each="i:${#numbers.sequence(ph.startPage, ph.endPage)}">
+                                <li class="page-item" th:classappend="${ph.pgvo.pageNo eq i ? 'active' : ''}">
+                                    <a class="page-link"
+                                       th:href="@{${'/user/myInfo?pageNo=' + i + '&qty=10'}}">[[${i}]]</a>
+                                </li>
+                            </th:block>
 
-                          <!-- 다음 페이지 버튼 -->
-                          <li class="page-item" th:classappend="${ph.next eq false ? 'disabled' : ''}">
-                              <a class="page-link"
-                                 th:href="@{${'/user/myInfo?pageNo=' + (ph.endPage+1) + '&qty=10'}}"
-                                 aria-label="Next">
-                                  <span aria-hidden="true">&raquo;</span>
-                              </a>
-                          </li>
-                      </ul>
-                  </nav>
-              </div>
-          </div>
-      </div>
-  </div>
+                            <!-- 다음 페이지 버튼 -->
+                            <li class="page-item" th:classappend="${ph.next eq false ? 'disabled' : ''}">
+                                <a class="page-link"
+                                   th:href="@{${'/user/myInfo?pageNo=' + (ph.endPage+1) + '&qty=10'}}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
     <script th:src="@{/js/myInfo.js}"></script>
 </div>

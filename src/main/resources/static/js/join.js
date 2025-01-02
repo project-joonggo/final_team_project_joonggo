@@ -83,7 +83,7 @@ document.getElementById("emailChk").addEventListener("click", function () {
                 checkInput.disabled = false;  // 인증번호 입력칸 활성화
                 dupCheck.textContent = "인증번호를 입력한 뒤 인증하기를 눌러주세요.";  // 안내 메시지 표시
                 dupCheck.style.color = "red";  // 안내 메시지 색상 변경
-                emailInput.readOnly = true;  // 이메일 입력칸은 더 이상 수정 불가
+                /*emailInput.readOnly = true; */ // 이메일 입력칸은 더 이상 수정 불가
                 authEmailCode = data;  // 인증번호를 저장
             }
         })
@@ -143,7 +143,7 @@ document.getElementById("phoneChk").addEventListener("click", function () {
                     checkInput.disabled = false;
                     dupCheck.textContent = "인증번호를 입력한 뒤 인증하기를 눌러주십시오.";
                     dupCheck.style.color = "red";
-                    phoneInput.readOnly = true;
+                    /*phoneInput.readOnly = true;*/
                     authCode = data;
                 }
             })
