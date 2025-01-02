@@ -7,13 +7,34 @@
 <body>
 
 <div layout:fragment="content">
-  <hr>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js"></script>
+
+  <link rel="stylesheet" th:href="@{/css/detail.css}">
+  <link rel="stylesheet" th:href="@{/css/detail-swiper.css}">
+
+
   <th:block th:with="boardVO=${boardFileDTO.boardVO}">
-  [[${boardFileDTO}]]
-    <div>
-      <p>조회수: <span th:text="${boardVO.readCount}">0</span></p>
-      <p>찜수: <span id="likeCount">[[${boardVO.likeCount}]]</span></p>
-    </div>
+    [[${boardFileDTO}]]
+
+  <hr>
+
+  <!--중고나라 상품 디테일 기준-->
+  <div class="detail-firstContainer">
+    <!--왼쪽의 상품 이미지(swiper)-->
+    <div class="detail-left">
+      <div id="slide1" class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide"><a href="/event/roulette"><img src="/img/banner_roulette.png"></a></div>
+          <div class="swiper-slide"><a href="/qna/main"><img src="/img/banner_risingCurve.jpg"></a></div>
+          <div class="swiper-slide"><a href="/event/attend"><img src="/img/banner_attendCheck.jpg"></a></div>
+          <div class="swiper-slide"><a href="#"><img src="/img/banner_zero.png"></a></div>
+          <div class="swiper-slide"><a href="/board/fraud"><img src="/img/banner_fraud.jpg"></a></div>
+          <div class="swiper-slide"><a href="/board/price"><img src="/img/banner_price.png"></a></div>
+          <div class="swiper-slide"><a href="https://vtikorea.co.kr/" target="_blank"><img src="/img/banner_ad1.png"></a></div>
+          <div class="swiper-slide"><a href="https://m.freemoney.kr/lms/joongna70.do?_C_=42603670&ib_no=&utm_source=joonggonara&utm_medium=display&utm_campaign=cds_m&utm_content=CDS+%EC%A4%91%EA%B3%A0%EB%82%98%EB%9D%BC+70MAN+%EC%9D%B4%EB%B2%A4%ED%8A%B8-main-12%EC%9B%9470man_1213" target="_blank"><img src="/img/banner_ad2.png"></a></div>
+          <div class="swiper-slide"><a href="https://silbi.goodrichmall.com/?inType=A_jnaB112" target="_blank"><img src="/img/banner_ad3.png"></a></div>
+        </div>
 
     <!-- 찜하기 버튼 상태 설정 -->
     <button type="button" id="wishBtn"
@@ -31,6 +52,130 @@
     <button href="#" id="reportBtn" data-bs-toggle="modal" data-bs-target="#reportModal">
         신고
     </button>
+
+        <!-- 네비게이션 -->
+        <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
+        <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div><!-- 이전 버튼 -->
+
+        <!-- 페이징 -->
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+
+    <!--오른쪽의 상품 정보-->
+    <div class="detail-right">
+      <!--카테고리-->
+      <div class="detail-category">[[${boardVO.category}]]</div>
+
+      <div class="detail-titleBox">
+        <!--판매글 제목-->
+        <span class="detail-title">[[${boardVO.boardName}]]</span>
+
+        <!--url 복사 아이콘-->
+        <span class="detail-url"><img src="/img/banner-url.svg" onclick="clip()"></span>
+      </div>
+
+      <!--상품 가격-->
+      <div class="detail-price">[[${boardVO.tradePrice}]]원</div>
+
+      <div class="detail-atcBox">
+        <div class="detail-atc">
+          <!--등록 시간-->
+          <span>[[${boardVO.regAt}]]</span>
+
+          <!--구분점-->
+          <span class="detail-divider">·</span>
+
+          <!--조회수-->
+          <span>조회 <span th:text="${boardVO.readCount}">0</span></span>
+
+          <!--구분점-->
+          <span class="detail-divider">·</span>
+
+          <!--찜 수-->
+          <span>찜 <span id="likeCount">[[${boardVO.likeCount}]]</span></span>
+        </div>
+
+        <!--시세 조회 href-->
+        <a href="/board/price"><span class="detail-boardPrice">시세조회</span></a>
+      </div>
+
+      <div class="detail-addressBox">
+        <span class="detail-divider">·</span>
+
+        <span>거래희망지역</span>
+
+        <!--지역 동 출력-->
+        <span class="detail-addressName">ex: 구월동</span>
+      </div>
+
+
+  </div>
+
+  <!--왼쪽 상품 정보, 오른쪽 가게 정보-->
+  <div class="detail-secondContainer">
+    <!--판매글 content 가져와서 출력-->
+    <div class="detail-left">
+      <div class="detail-title">상품 정보</div>
+
+      <!--판매글 content-->
+      <div th:utext="${boardVO.boardContent}"></div>
+    </div>
+
+    <!--myInfo 가져와서 출력-->
+    <div class="detail-right">
+      <div class="detail-title">가게 정보</div>
+
+      <div class="detail-user">
+        <!--판매자 유저 이름-->
+        <div class="detail-name">판매자 유저이름</div>
+        <div class="detail-profile"><img src="/img/profile.png"></div>
+      </div>
+
+      <!--매너 지수-->
+      <div>
+        <span>매너지수</span>
+      </div>
+
+    </div>
+  </div>
+
+  <!--같은 카테고리인 상품들을 출력-->
+  <div class="detail-thirdContainer">
+    <div class="detail-title">이런 상품은 어때요?</div>
+
+    <!--swiper-->
+    <div>
+      <div id="slide6" class="swiper-container">
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" th:each="product : ${popularProducts}">
+            <a th:href="@{/board/detail(boardId=${product.boardVO.boardId})}">
+              <img th:src="${product.fileVOList[0].fileUrl}" alt="상품 이미지">
+              <div class="item-title" th:text="${product.boardVO.boardName}"></div>
+              <div class="item-price" th:text="${product.boardVO.formattedPrice} + '원'"></div>
+              <div class="item-atc" th:text="${productTimes[product.boardVO.boardId]} + ' | ' + ${sellerAddresses[product.boardVO.sellerId]}"></div>
+            </a>
+          </div>
+        </div>
+
+        <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div>
+        <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div>
+
+        <div class="swiper-pagination"></div>
+      </div>
+    </div>
+  </div>
+
+  <hr>
+
+    <!-- 찜하기 버튼 상태 설정 -->
+<!--    <button type="button" id="wishBtn"
+            th:data-board-id="${boardVO.boardId}"
+            th:text="${isAlreadyWished != null ? (isAlreadyWished ? '찜 취소' : '찜하기') : '찜하기'}">
+    </button>-->
+
+<!--    <button id="paymentBtn">결제하기</button>-->
+    <button id="cancelBtn" class="detail-atcButton">결제 취소</button>
 
     <form id="reportForm" action="/board/report" method="post">
     <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
@@ -74,7 +219,15 @@
     </div>
     </form>
 
+    <div id="custom-alert" class="event-modal">
+      <div class="event-modalContent">
+        <p id="alert-message"></p>
+        <hr class="event-divider">
+        <button id="alert-ok-button">확인</button>
+      </div>
+    </div>
 
+  </div>
 
     <script th:inline="javascript">
       /*<![CDATA[*/
@@ -115,7 +268,9 @@
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script th:src="@{/js/buy.js}"></script>
     <script th:src="@{/js/productBoardDetail.js}"></script>
-
+    <script th:src="@{/js/event-modal.js}"></script>
+    <script th:src="@{/js/url.js}"></script>
+    <script th:src="@{/js/detail-swiper.js}"></script>
 
   </th:block>
 

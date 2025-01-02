@@ -57,3 +57,7 @@
     border-radius: 10px;
     font-weight: 600px;
 }
+
+.feedback-box .btn:active {
+    background-color: #CE4E6A;
+}

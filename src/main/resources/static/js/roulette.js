@@ -60,7 +60,7 @@ const startRoulette = async () => {
     const alreadyParticipated = await checkParticipation();
 
     if (alreadyParticipated) {
-        alert("하루에 한 번만 참여할 수 있습니다.");
+        alert("하루에 한 번만 이용 가능합니다.");
         return; // 더 이상 진행하지 않음
     }
 
@@ -72,7 +72,8 @@ const rotate = async () => {
     const alreadyParticipated = await checkParticipation();
 
     if (alreadyParticipated) {
-        alert("하루에 한 번만 참여할 수 있습니다.");
+        // alert("하루에 한 번만 이용 가능합니다.");
+        showAlert("하루에 한 번만 이용 가능합니다.");
         return; // 참여했으면 룰렛 돌리지 않고 종료
     }
 
@@ -89,7 +90,7 @@ const rotate = async () => {
 
         setTimeout(() => {
             const result = product[ran];
-            alert(result === "꽝" ? `${result}! 아쉽지만 다음 기회에...` : `${result} 축하드립니다!`);
+            showAlert(result === "꽝" ? `${result}! 아쉽지만 다음 기회에...` : `${result} 축하드립니다!`);
 
             // 서버로 결과 전송
             fetch("/event/roulette", {

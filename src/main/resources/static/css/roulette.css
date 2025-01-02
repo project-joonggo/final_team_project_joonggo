@@ -1,5 +1,4 @@
 .roulette-container {
-  /* background: #f9f9f9; */
   background-image: url('/img/rouletteBackground.svg');
   background-size: cover;  
   background-position: center; 
@@ -9,7 +8,7 @@
   align-items: center; 
   height: 88vh;
   border-radius: 20px;
-  margin: 55px 0 80px 0; 
+  margin: 55px 0 50px 0; 
 }
 
 .roulette-container canvas {
@@ -48,9 +47,12 @@
   color: #A0173B;
 }
 
+.roulette-container button {
+  color: #f9f9f9;
+}
+
 .roulette-container button:hover {
   background: #CE4E6A;
-  color: #f9f9f9;
 }
 
 .roulette-container .roulette-box {
@@ -73,4 +75,14 @@
   left: 50%;
   transform: translate(-1%, 380%);
   z-index: 22;
+}
+
+.event-notes{
+  margin: 0 0 80px 40px;
+  font-size: 18px;
+  color: #A3A3A3;
+}
+
+.event-bold{
+  font-weight: 500;
 }

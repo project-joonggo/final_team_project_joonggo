@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultrap.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout}">
+
+
+<div layout:fragment="content">
+  <div class="container-md">
+    <div class="banner-container">
+      <div class="banner-icon"><a href="/event/eventList"><img src="/img/banner-back.svg"></a></div>
+      <div class="banner-content" id="message"></div>
+      <div class="banner-icon"><img src="/img/banner-url.svg" onclick="clip()"></div>
+    </div>
+
+    <div id="ad-container">
+      <!-- 여기에 이미지를 동적으로 표시함 -->
+    </div>
+
+    <div id="custom-alert" class="event-modal">
+      <div class="event-modalContent">
+        <p id="alert-message"></p>
+        <hr class="event-divider">
+        <button id="alert-ok-button">확인</button>
+      </div>
+    </div>
+
+    <script>
+      // URL의 쿼리 파라미터에서 'ad' 값을 가져옴
+      const urlParams = new URLSearchParams(window.location.search);
+      const adNumber = urlParams.get('ad'); // 예: '11'
+
+      if (adNumber) {
+          // 이미지를 동적으로 생성하여 표시
+          const imgElement = document.createElement('img');
+          imgElement.src = `/img/bannerDetail_ad${adNumber}.png`;  // /img/banner_ad11.png과 같이 생성
+          imgElement.alt = `광고 이미지 ${adNumber}`;  // 동적으로 alt 텍스트 설정
+
+          // #ad-container에 이미지를 추가
+          document.getElementById('ad-container').appendChild(imgElement);
+      } else {
+          console.log('No ad number provided');
+      }
+    </script>
+
+    <script>
+      // URL 쿼리 매개변수 읽기
+      function displayMessage() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const ad = urlParams.get('ad');
+          let message;
+
+          if (ad === '4') {
+              message = '중고거래 피해보상, 후후 쉐이크모바일 요금제';
+          } else if (ad === '5') {
+              message = '12월 하나카드 즉시할인';
+          } else if (ad === '6') {
+              message = '12월 하나카드 특별 할부 수수료';
+          } else if (ad === '7') {
+              message = '12월, 최고가 내폰팔기';
+          } else if (ad === '8') {
+              message = 'CU편의점택배 300원 할인!';
+          } else if (ad === '9') {
+              message = '알뜰 요금제 모음.zip';
+          } else if (ad === '10') {
+              message = 'CU알뜰택배, 300원 할인!';
+          } else if (ad === '11') {
+              message = '12월 하나카드 즉시할인';
+          } else {
+              message = '12월 KB국민카드 특별 할부 수수료';
+          }
+
+          // 결과를 HTML에 표시
+          document.getElementById('message').textContent = message;
+      };
+
+      // DOMContentLoaded 이벤트로 함수 실행
+      document.addEventListener('DOMContentLoaded', displayMessage);
+
+    </script>
+
+    <script th:src="@{/js/event-modal.js}"></script>
+    <script th:src="@{/js/url.js}"></script>
+  </div>
+</div>

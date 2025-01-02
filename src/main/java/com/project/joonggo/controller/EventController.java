@@ -50,6 +50,18 @@ public class EventController {
         return "/event/list";  // 이벤트 리스트 페이지로 이동
     }
 
+    @GetMapping("/eventList")
+    public String showEventList2() {
+
+        return "/event/eventList";  // 이벤트 리스트2 페이지로 이동
+    }
+
+    @GetMapping("/banner")
+    public String showBanner() {
+
+        return "/event/banner";  // 광고 페이지로 이동
+    }
+
     //당첨내역 조회페이지로 이동
     @GetMapping("/myGiftcon")
     public String myGiftcon(Model model, Principal principal, PagingVO pgvo){
