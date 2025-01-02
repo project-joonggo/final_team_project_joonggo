@@ -110,9 +110,9 @@
 }
 
 .detail-likeCountButton{
-    width: 35px;
-    height: 64px;
     display: flex;
+    border: none;
+    background-color: white;
     justify-content: center;
     align-items: center;
 }
@@ -243,7 +243,7 @@
 }
 
 .detail-atcButton-1{
-    width: 10px;
+    width: 120px;
     height: 54px;
     color: white;
     background-color: rgb(20 19 19);
@@ -252,4 +252,9 @@
     margin-left: 16px;
     text-align: center;
     line-height: 24px;
+    border: none;
+}
+
+.detail-atcButton-1:hover{
+    background-color: rgb(50, 50, 50);
 }

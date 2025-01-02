@@ -225,6 +225,25 @@ public class BoardController {
 
         // 신고 사유 목록 전달
         List<ReasonVO> reasonList = boardService.getReasonList();
+        // 최근 등록된 상품에 대해 판매자 주소 및 경과 시간 조회
+        Map<Long, String> sellerAddresses = new HashMap<>();
+        Map<Long, String> productTimes = new HashMap<>();
+
+        long sellerId = boardFileDTO.getBoardVO().getSellerId(); // 판매자 ID 가져오기
+
+        String sellerAddress = loginService.getSellerAddressByUserNum(sellerId);
+
+        sellerAddress = sellerAddress.replace("(", "").replace(")", "");
+
+        // regAt을 ISO 형식의 문자열로 변환
+        String regAtString = boardFileDTO.getBoardVO().getRegAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);  // LocalDateTime -> String
+        String timeAgo = TimeHandler.getTimeAgo(regAtString);  // 경과 시간 계산
+
+        log.info("sellerAddr , timeAgo >>>>> {} , {}  " , sellerAddress, timeAgo);
+
+        // 모델에 sellerAddresses와 productTimes 추가
+        model.addAttribute("sellerAddress", sellerAddress);
+        model.addAttribute("timeAgo", timeAgo);
 
         model.addAttribute("boardFileDTO", boardFileDTO);
         model.addAttribute("isAlreadyWished", isAlreadyWished);
