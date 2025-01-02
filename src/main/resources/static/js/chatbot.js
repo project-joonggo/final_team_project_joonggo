@@ -72,19 +72,26 @@ document.addEventListener('DOMContentLoaded', function() {
     function sendMessage() {
         const message = chatInput.value.trim();
         if (message !== "" && chatbotStompClient && chatbotStompClient.connected) {
-            console.log('Sending message:', message);
+//            console.log('Sending message:', message);
 
+            const userAddress = document.getElementById('userAddress')?.value || null;
+
+            const messageData = {
+                message: message,
+                timestamp: new Date().toISOString(),
+                userAddress: userAddress
+            }
+            console.log('Sending data : ', messageData);
             // 사용자 메시지 표시
             addMessage('사용자', message, 'user');
 
+            console.log(userAddress);
             // 서버로 메시지 전송
-            chatbotStompClient.send("/app/chatbot", {}, JSON.stringify({
-                message: message,
-                timestamp: new Date().toISOString()
-            }));
+            chatbotStompClient.send("/app/chatbot", {}, JSON.stringify(messageData));
 
             chatInput.value = "";
             chatInput.focus();
+
         } else if (!chatbotStompClient || !chatbotStompClient.connected) {
             console.log('Reconnecting STOMP...');
             connectStomp();

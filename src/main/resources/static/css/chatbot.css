@@ -87,6 +87,7 @@
     color: white;
     border: none;
     border-radius: 5px;
+    height: 36px;
   }
 
   #closeChatBtn:hover {

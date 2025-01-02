@@ -10,6 +10,7 @@
         INNER JOIN chat_join cj ON cr.room_id = cj.room_id
         WHERE cj.user_num = #{userNum}
         AND cr.room_status = 'Y'
+        AND cj.is_join = 1
     </select>
 
     <!--  채팅방 중복확인 체크. 있으면 기존 채팅방으로 이동. 없으면 createChatRoom 처리  -->

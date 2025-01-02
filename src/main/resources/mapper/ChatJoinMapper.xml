@@ -35,4 +35,26 @@
         WHERE room_id = #{roomId} AND user_num != #{userNum}
         LIMIT 1
     </select>
+
+    <select id="otherUser" resultType="long">
+        SELECT user_num
+        FROM chat_join
+        WHERE room_id = #{roomId} and user_num != #{userNum}
+    </select>
+
+    <!-- 채팅방 나가기 (사용자 삭제) -->
+    <delete id="deleteUserFromRoom">
+        UPDATE chat_join
+        SET is_join = 0
+        WHERE room_id = #{roomId}
+        AND user_num = #{userNum}
+    </delete>
+
+    <!-- 채팅방의 현재 사용자 수 조회 -->
+    <select id="countRoomUsers" resultType="int">
+        SELECT COUNT(user_num)
+        FROM chat_join
+        WHERE room_id = #{roomId}
+        AND is_join = 1
+    </select>
 </mapper>

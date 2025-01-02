@@ -157,19 +157,32 @@ function updateHeaderBadge() {
 }
 
 // 메시지 표시
-function displayMessage(message) {
-//    console.log(message);
+function displayMessage(message, otherUser) {
+
     const chatMessages = document.getElementById('chatMessages');
     const div = document.createElement('div');
     div.className = 'chat-message';
 
+    // 기존 메시지는 DB 날짜 사용, 새 메시지는 현재 날짜 사용
+    const currentDate = new Date().toISOString().split('T')[0];
+    const displayDate = message.commentWriteDate ? message.commentWriteDate.substring(0,10) : currentDate;
+
     if (message.commentUserNum === userNum) {
         div.className += ' sent-message';
+        div.innerHTML = `
+            <div class='chat-sender'>나</div>
+            <div class='chat-content'>${message.commentContent}</div>
+            <div class='chat-sender-date'>${displayDate}</div>
+        `;
     } else {
         div.className += ' received-message';
+        div.innerHTML = `
+            <div class='chat-sender'>${otherUser.userName}<span class="sender-id"> (${otherUser.userId})</span></div>
+            <div class='chat-content'>${message.commentContent}</div>
+            <div class='chat-receiver-date'>${displayDate}</div>
+        `;
     }
 
-    div.textContent = `${message.commentUserNum} : ${message.commentContent}`;
     chatMessages.appendChild(div);
     chatMessages.scrollTop = chatMessages.scrollHeight;
 }
@@ -182,8 +195,17 @@ document.getElementById('roomList').addEventListener('click', async function(eve
         const roomName = roomListItem.textContent;
 
         try {
+            const inputContainer = document.querySelector('.message-input-container');
+            const messageInput = document.getElementById('messageInput');
+            const sendButton = document.getElementById('sendButton');
+
+            inputContainer.classList.remove('disabled');
+            messageInput.disabled = false;
+            sendButton.disabled = false;
+            messageInput.placeholder = 'Type your message...';
+
             const response = await fetch(`/chat/enterRoom?roomId=${roomId}&userNum=${userNum}`);
-            const commentList = await response.json();
+            const data = await response.json();
 
             await fetch(`/chat/read/${roomId}?userNum=${userNum}`, {
                 method: 'POST'
@@ -200,8 +222,8 @@ document.getElementById('roomList').addEventListener('click', async function(eve
             const chatMessages = document.getElementById('chatMessages');
             chatMessages.innerHTML = '';
 
-            commentList.forEach(comment => {
-                displayMessage(comment);
+            data.comments.forEach(comment => {
+                displayMessage(comment, data.otherUser);
             });
 
             document.getElementById('chatRoom').style.display = 'block';
@@ -213,7 +235,7 @@ document.getElementById('roomList').addEventListener('click', async function(eve
 
             currentRoomId = parseInt(roomId);
             await connectWebSocket();
-
+            await checkRoomUserCount();  // 사용자 수 체크 추가
         } catch (error) {
             console.error('Error:', error);
             alert('채팅방을 불러오는 중 오류가 발생했습니다.');
@@ -268,3 +290,46 @@ document.getElementById('messageInput').addEventListener('keypress', (event) => 
 window.addEventListener('beforeunload', function() {
     leaveChatRoom();
 });
+
+// 채팅방 나가기 버튼 이벤트
+document.getElementById('leaveRoomButton').addEventListener('click', async () => {
+    if (confirm('채팅방을 나가시겠습니까?')) {
+        try {
+            const response = await fetch(`/chat/room/leave?roomId=${currentRoomId}&userNum=${userNum}`, {
+                method: 'POST'
+            });
+
+            if (response.ok) {
+                window.location.href = `/chat/chatRoomList`;
+            } else {
+                throw new Error('채팅방 나가기 실패');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('채팅방 나가기에 실패했습니다.');
+        }
+    }
+});
+
+// 채팅방 사용자 수 체크 및 입력창 비활성화 처리
+async function checkRoomUserCount() {
+    try {
+        const response = await fetch(`/chat/room/userCount/${currentRoomId}`);
+        const count = await response.json();
+
+        const inputContainer = document.querySelector('.message-input-container');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+
+        console.log(count);
+
+        if (count === 1) {
+            inputContainer.classList.add('disabled');
+            messageInput.disabled = true;
+            sendButton.disabled = true;
+            messageInput.placeholder = '상대방이 채팅방을 나가 채팅이 종료되었습니다.';
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

@@ -1,6 +1,7 @@
 package com.project.joonggo.controller;
 
 import com.project.joonggo.domain.ChatMessage;
+import com.project.joonggo.domain.UserVO;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -9,6 +10,8 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.*;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
@@ -24,6 +27,8 @@ import java.util.Map;
 @RequiredArgsConstructor
 //@RequestMapping("/chat/*")          // 안쓰면 template/chat 폴더 내 파일 불러오기 요청 안됨
 public class ChatBotController {
+
+    private final SimpMessagingTemplate messagingTemplate;
 
     RestTemplate restTemplate = new RestTemplate();
 
@@ -50,17 +55,70 @@ public class ChatBotController {
     @MessageMapping("/chatbot")
     @SendTo("/topic/chatbot")
     public ChatMessage handleChatbotMessage(ChatMessage message) {
+
         log.info("Received Message: {}", message.getMessage());
 
-        String preparedResponse = findPreparedResponse(message.getMessage());
+        // 주소 관련 키워드 체크
+        if (message.getMessage().contains("오늘 날씨")
+//                || message.getMessage().contains("주변")
+//                || message.getMessage().contains("근처")
+        ) {
 
+            if (message.getUserAddress() != null && !message.getUserAddress().isEmpty()) {
+
+                // 데이터 잘라넣기 : 인천 미추홀구 ..... => 인천 미추홀구
+                String userAddress = message.getUserAddress();
+                String[] addr = userAddress.split(" ");    // [인천], [미추홀구], [...]
+                String searchAddress = addr[0] + " " + addr[1];   // 인천 미추홀구
+
+                String response = String.format(
+                        "회원님의 주소 '%s' 기준으로 검색하겠습니다.",
+//                        message.getUserAddress()
+                        searchAddress
+                );
+
+                // 웹소켓으로 중간 메시지 전송
+                messagingTemplate.convertAndSend("/topic/chatbot",
+                        new ChatMessage(
+                                message.getMessage(),
+                                message.getTimestamp(),
+                                response,
+                                "bot",
+//                                message.getUserAddress()
+                                searchAddress
+                        )
+                );
+
+                message.setMessage( searchAddress + " " +  message.getMessage() );
+
+//                return new ChatMessage(
+//                        message.getMessage(),
+//                        message.getTimestamp(),
+//                        response,
+//                        "bot",
+////                        message.getUserAddress()
+//                        searchAddress
+//                );
+            } else {
+                return new ChatMessage(
+                        message.getMessage(),
+                        message.getTimestamp(),
+                        "로그인 후 이용 가능한 서비스입니다.",
+                        "bot",
+                        null
+                );
+            }
+        }
+
+        String preparedResponse = findPreparedResponse(message.getMessage());
         if (preparedResponse != null) {
             log.info("Sending prepared response for keyword");
             return new ChatMessage(
                     message.getMessage(),
                     message.getTimestamp(),
                     preparedResponse,
-                    "bot"
+                    "bot",
+                    message.getUserAddress()
             );
         }
 
@@ -127,7 +185,8 @@ public class ChatBotController {
                         message.getMessage(),
                         message.getTimestamp(),
                         botResponse.trim(),
-                        "bot"
+                        "bot",
+                        message.getUserAddress()
                 );
             }
         } catch (HttpClientErrorException.TooManyRequests e) {
@@ -136,7 +195,8 @@ public class ChatBotController {
                     message.getMessage(),
                     message.getTimestamp(),
                     "현재 요청이 많아 잠시 후 다시 시도해주세요.",
-                    "bot"
+                    "bot",
+                    message.getUserAddress()
             );
         } catch (Exception e) {
             log.error("OpenAI API 호출 중 오류 발생:", e);
@@ -146,7 +206,8 @@ public class ChatBotController {
                     message.getMessage(),
                     message.getTimestamp(),
                     "죄송합니다. 응답을 처리하는 중에 오류가 발생했습니다.",
-                    "bot"
+                    "bot",
+                    message.getUserAddress()
             );
         }
 
@@ -154,7 +215,8 @@ public class ChatBotController {
                 message.getMessage(),
                 message.getTimestamp(),
                 "응답을 받지 못했습니다. 잠시 후 다시 시도해주세요.",
-                "bot"
+                "bot",
+                message.getUserAddress()
         );
     }
 
