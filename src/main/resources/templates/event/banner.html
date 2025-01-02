@@ -74,40 +74,12 @@
           document.getElementById('message').textContent = message;
       };
 
-      // 클릭 시 현재 사이트의 url 복사
-      function clip(){
-         var url = '';
-         var textarea = document.createElement("textarea");
-         document.body.appendChild(textarea);
-         url = window.location.href;
-         textarea.value = url;
-         textarea.select();
-         document.execCommand("copy");
-         document.body.removeChild(textarea);
-         showAlert("링크가 복사되었습니다.")
-      };
-
       // DOMContentLoaded 이벤트로 함수 실행
       document.addEventListener('DOMContentLoaded', displayMessage);
 
-      // 모달 DOM 요소
-        const customAlert = document.getElementById("custom-alert");
-        const alertMessage = document.getElementById("alert-message");
-        const alertOkButton = document.getElementById("alert-ok-button");
-
-      // 커스터마이즈된 alert 함수
-        const showAlert = (message) => {
-          alertMessage.textContent = message;
-          customAlert.classList.remove("hidden");
-          customAlert.style.display = "block";
-        };
-
-      // "확인" 버튼 클릭 시 모달 닫기
-        alertOkButton.addEventListener("click", () => {
-          customAlert.classList.add("hidden");
-          customAlert.style.display = "none";
-        });
     </script>
 
+    <script th:src="@{/js/event-modal.js}"></script>
+    <script th:src="@{/js/url.js}"></script>
   </div>
 </div>
