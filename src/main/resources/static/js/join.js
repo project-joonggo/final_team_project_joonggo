@@ -108,7 +108,7 @@ document.getElementById("emailChk2").addEventListener("click", function () {
         checkInput.disabled = true;
         emailCheckNum = true;
     } else {
-        dupCheck.textContent = "인증번호가 일치하지 않습니다. 다시 확인해주세요.";
+        dupCheck.textContent = "인증번호가 일치하지 않습니다.";
         dupCheck.style.color = "red";
         checkInput.focus();
         emailCheckNum = false;
