@@ -36,23 +36,6 @@
           <div class="swiper-slide"><a href="https://silbi.goodrichmall.com/?inType=A_jnaB112" target="_blank"><img src="/img/banner_ad3.png"></a></div>
         </div>
 
-    <!-- 찜하기 버튼 상태 설정 -->
-    <button type="button" id="wishBtn"
-            th:data-board-id="${boardVO.boardId}"
-            th:text="${isAlreadyWished != null ? (isAlreadyWished ? '찜 취소' : '찜하기') : '찜하기'}">
-    </button>
-
-    <button id="paymentBtn">결제하기</button>
-
-    <div th:if="${#authentication.principal != 'anonymousUser' && #authentication.principal.userVO.userNum == boardVO.sellerId}">
-      <button type="button" id="modBtn">수정</button>
-      <a th:href="@{/board/delete(boardId=${boardVO.boardId})}"><button type="button" id="delBtn">글삭제</button></a>
-    </div>
-
-    <button href="#" id="reportBtn" data-bs-toggle="modal" data-bs-target="#reportModal">
-        신고
-    </button>
-
         <!-- 네비게이션 -->
         <div class="swiper-button-next"><img src="/img/next.svg" class="slide-button"></div><!-- 다음 버튼 (오른쪽에 있는 버튼) -->
         <div class="swiper-button-prev"><img src="/img/prev.svg" class="slide-button"></div><!-- 이전 버튼 -->
@@ -109,7 +92,22 @@
         <span class="detail-addressName">ex: 구월동</span>
       </div>
 
+      <!-- 찜하기 버튼 상태 설정 -->
+      <button type="button" id="wishBtn"
+              th:data-board-id="${boardVO.boardId}"
+              th:text="${isAlreadyWished != null ? (isAlreadyWished ? '찜 취소' : '찜하기') : '찜하기'}">
+      </button>
 
+      <button id="paymentBtn">결제하기</button>
+
+      <div th:if="${#authentication.principal != 'anonymousUser' && #authentication.principal.userVO.userNum == boardVO.sellerId}">
+        <button type="button" id="modBtn">수정</button>
+        <a th:href="@{/board/delete(boardId=${boardVO.boardId})}"><button type="button" id="delBtn">글삭제</button></a>
+      </div>
+
+      <button href="#" id="reportBtn" data-bs-toggle="modal" data-bs-target="#reportModal">
+        신고
+      </button>
   </div>
 
   <!--왼쪽 상품 정보, 오른쪽 가게 정보-->
