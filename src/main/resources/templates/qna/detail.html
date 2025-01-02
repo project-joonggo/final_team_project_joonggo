@@ -30,7 +30,7 @@
       <div class="content" th:utext="${qnaVO.qnaContent}"></div>
       <th:block th:if="${#authentication.getPrincipal().userVO.userNum == qnaVO.userId}">
         <div class="userBtn d-flex justify-content-end">
-          <a th:href="@{/qna/delete(qnaId=${qnaVO.qnaId})}"><button type="button" id="delBtn" class="btn joinPostBtn" onclick="return confirm('정말 삭제하시겠습니까?')">문의삭제</button></a>
+          <a th:href="@{/qna/delete(qnaId=${qnaVO.qnaId})}"><button type="button" id="delBtn" class="btn btn-custom" onclick="return confirm('정말 삭제하시겠습니까?')">문의삭제</button></a>
         </div>
       </th:block>
     </th:block>
@@ -70,7 +70,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" id="asModBtn" class="btn joinPostBtn">Save changes</button>
+            <button type="button" id="asModBtn" class="btn btn-custom">Save changes</button>
           </div>
         </div>
       </div>

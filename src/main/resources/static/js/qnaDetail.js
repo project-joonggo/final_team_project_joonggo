@@ -35,8 +35,8 @@ function spreadAnswer(qnaId){
             ul.innerHTML = "";
             for(let avo of result){
                 console.log(avo);
-                let li = `<li class="list-group-item">`;
-                li += `<div class="d-flex align-items-center justify-content-between replyToggle" style="width: 100%;" data-ano=${avo.ano} onclick="toggleReplyForm(${avo.ano})">`;
+                let li = `<li class="list-group-item" data-ano=${avo.ano}>`;
+                li += `<div class="d-flex align-items-center justify-content-between replyToggle" style="width: 100%; height: 36px;" onclick="toggleReplyForm(${avo.ano})">`;
                 li += `<div class="d-flex gap-3">`;
                 li += `<div class="fw-bold">관리자</div>`;
                 li += `${avo.answer}`;
@@ -54,14 +54,14 @@ function spreadAnswer(qnaId){
                 li += `</div>`;
                 li += `<div class="d-flex gap-3 align-items-center">`;
                 li += `<div class="d-flex gap-2 align-items-center"><svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#A3A3A3" class="bi bi-clock-fill" viewBox="0 0 16 16">
-            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
-          </svg>`;
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                      </svg>`;
                 li += `<span class="d-flex answerDate align-items-center">${formattedDate}</span></div>`;
                 // 수정 삭제 버튼 추가
                 if (isAdmin){
                     li += `<div class="d-grid gap-1 d-md-flex justify-content-md-end answerButtons">`;
-                    li += `<button type="button" data-ano=${avo.ano} class="btn joinPostBtn mod" data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`;
-                    li += `<button type="button" data-ano=${avo.ano} class="btn joinPostBtn del" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>`;
+                    li += `<button type="button" data-ano=${avo.ano} class="btn btn-custom mod" data-bs-toggle="modal" data-bs-target="#myModal">수정</button>`;
+                    li += `<button type="button" data-ano=${avo.ano} class="btn btn-custom del" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>`;
                     li += `</div>`;
                 }
                 li += `</div>`;
@@ -97,8 +97,6 @@ function spreadAnswer(qnaId){
 
 
 document.addEventListener('click', (e) => {
-
-
     if(e.target.classList.contains('del')){
         let ano = e.target.closest('li').dataset.ano;
         console.log(ano);
@@ -127,11 +125,11 @@ document.addEventListener('click', (e) => {
     }
 
     if(e.target.id == 'asModBtn'){
+
         let asData = {
             ano: e.target.dataset.ano,
             answer: document.getElementById('asTextMod').value
         }
-        console.log(asData);
         modifyAnswerToServer(asData).then(result => {
             if(result == '1'){
                 alert("답변 수정 성공");
@@ -305,67 +303,43 @@ async function loadReplies(ano) {
 }
 // 추가질문 렌더링
 function renderReplies(repliesList, replies) {
-    repliesList.innerHTML = '';
     replies.forEach(reply => {
         let li = document.createElement('li');
-        li.classList.add('list-group-item');
+        li.classList.add('d-flex', 'justify-content-between', 'ms-3', 'mt-2', 'me-3');
+        const regAtDate = new Date(reply.regAt);
+        const formattedDate = regAtDate.toLocaleString('ko-KR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: false // 24시간 형식
+        });
         li.innerHTML += `
-            <div class="me-auto">
+            <div class="d-flex justify-content-start gap-3 align-items-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#A0173B" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
+                </svg>
                 <div class="fw-bold">${reply.writerName}</div>
                 ${reply.reply}
             </div>
-            <span class="badge text-bg-primary rounded-pill">${reply.regAt}</span>
-        `;
-
-        // 수정/삭제 버튼에 id 추가
-        if (isAdmin || reply.userNum === userVal){
-            li.innerHTML += `
-          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button" id="modify-reply-${reply.replyId}" class="btn btn-outline-warning btn-sm" data-replyId="${reply.replyId}" onclick="modifyReply(${reply.replyId})">수정</button>
-              <button type="button" id="delete-reply-${reply.replyId}" class="btn btn-outline-danger btn-sm" data-replyId="${reply.replyId}" onclick="deleteReply(${reply.replyId})">삭제</button>
-          </div>
-           `;
-        }
+            <div class="d-flex align-items-center gap-3">
+                <div class="d-flex align-items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#A3A3A3" class="bi bi-clock-fill" viewBox="0 0 16 16">
+                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"/>
+                    </svg>
+                    <span class="replyDate">${formattedDate}</span>
+                </div>
+                ${reply.userNum === userVal ? `
+                <div class="d-grid gap-1 d-md-flex justify-content-md-end">
+                    <button type="button" id="modify-reply-${reply.replyId}" class="btn btn-custom btn-sm" data-replyId="${reply.replyId}" onclick="modifyReply(${reply.replyId})">수정</button>
+                    <button type="button" id="delete-reply-${reply.replyId}" class="btn btn-custom btn-sm" data-replyId="${reply.replyId}" onclick="deleteReply(${reply.replyId})">삭제</button>
+                </div>` : ''}
+            </div>`;
         repliesList.appendChild(li);
     });
 }
-// 추가질문 렌더링
-/*function renderReplies(repliesList, replies) {
-    replies.forEach(reply => {
-        let li = document.createElement('li');
-        li.classList.add('list-group-item');
-        li.classList.add('reply-group-item');
-        li.innerHTML = `
-            <div class="ms-3 mt-2 d-flex justify-content-between align-items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="#A0173B" class="bi bi-arrow-return-right" viewBox="0 0 16 16">
-                 <path fill-rule="evenodd" d="M1.5 1.5A.5.5 0 0 0 1 2v4.8a2.5 2.5 0 0 0 2.5 2.5h9.793l-3.347 3.346a.5.5 0 0 0 .708.708l4.2-4.2a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708.708L13.293 8.3H3.5A1.5 1.5 0 0 1 2 6.8V2a.5.5 0 0 0-.5-.5"/>
-                </svg>
-                <div class="fw-bold">${reply.writerName}</div>
-                <div>${reply.reply}</div>
-                <div>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="#A3A3A3" class="bi bi-clock-fill" viewBox="0 0 16 16">
-                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71z"></path>
-                    </svg>
-                    <span class="badge text-bg-primary rounded-pill">${reply.regAt}</span>
-                </div>
-                <div>
-        `;
-
-        // 수정/삭제 버튼에 id 추가
-        if (isAdmin || reply.userNum === userVal){
-            li.innerHTML += `
-          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-              <button type="button" id="modify-reply-${reply.replyId}" class="btn btn-outline-warning btn-sm" data-replyId="${reply.replyId}" onclick="modifyReply(${reply.replyId})">수정</button>
-              <button type="button" id="delete-reply-${reply.replyId}" class="btn btn-outline-danger btn-sm" data-replyId="${reply.replyId}" onclick="deleteReply(${reply.replyId})">삭제</button>
-          </div>
-           `;
-        }
-
-        li.innerHTML = `</div></div>`
-
-        repliesList.appendChild(li);
-    });
-}*/
 
 // 대댓글 수정 함수
 async function modifyReply(replyId) {

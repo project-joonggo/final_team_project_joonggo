@@ -85,13 +85,16 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn joinPostBtn">수정하기</button>
+                    <button type="submit" class="btn joinPostBtn btn-custom" onclick="showAlert()">수정하기</button>
                 </div>
             </form>
 
         </div>
     </div>
     <script>
+        function showAlert(){
+            alert("정보 수정이 완료되었습니다. 다시 로그인해 주세요.");
+        }
         const passwordInput = document.getElementById('password');
         const passwordCheckInput = document.getElementById('passwordCheck');
         const passwordCheckMessage = document.getElementById('passwordCheckMessage');

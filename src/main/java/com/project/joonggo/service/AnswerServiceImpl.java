@@ -41,13 +41,12 @@ public class AnswerServiceImpl implements AnswerService{
 
     @Override
     public int delete(long ano) {
+        int delOk = replyMapper.deleteRepliesByAno(ano);
         return answerMapper.delete(ano);
     }
 
     @Override
     public Long getQnaId(long ano) {
-        int delOk = replyMapper.deleteRepliesByAno(ano);
-
         return answerMapper.getQnaId(ano);
     }
 }
