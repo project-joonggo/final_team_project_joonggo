@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 @Slf4j
@@ -278,6 +279,10 @@ public class BoardServiceImpl implements BoardService{
         return boardFileDTOList;
     }
 
+    @Override
+    public List<Map<String, Object>> getAvgPriceForLast15Days(String keyword) {
+        return boardMapper.getAvgPriceForLast15Days(keyword);
+    }
 
 
 }

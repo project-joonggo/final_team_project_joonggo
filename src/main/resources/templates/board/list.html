@@ -136,6 +136,8 @@
       <div class="sort-buttons">
         <button class="sort-btn" id="sort-latest" data-sort="latest"
                 th:classappend="${sort == 'latest' ? 'active' : ''}">최신순</button>
+        <button class="sort-btn" id="sort-readCount" data-sort="readCount"
+                th:classappend="${sort == 'readCount' ? 'active' : ''}">조회순</button>
         <button class="sort-btn" id="sort-recommend" data-sort="recommend"
                 th:classappend="${sort == 'recommend' ? 'active' : ''}">추천순</button>
         <button class="sort-btn" id="sort-low-price" data-sort="low-price"

@@ -1,6 +1,8 @@
 package com.project.joonggo.controller;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.joonggo.domain.*;
 import com.project.joonggo.handler.*;
 import com.project.joonggo.service.BoardService;
@@ -290,7 +292,7 @@ public class BoardController {
     }
 
     @GetMapping("/price")
-    public String price(Model model, @RequestParam(required = false) String keyword) {
+    public String price(Model model, @RequestParam(required = false) String keyword) throws JsonProcessingException {
 
         // 만약 keyword가 있다면, 해당 keyword로 상품 조회를 실행
         List<BoardFileDTO> productList = boardService.searchPrice(keyword);
@@ -345,6 +347,16 @@ public class BoardController {
                 }
             }
         }
+
+        // 4. 최근 15일의 평균 가격 조회
+        List<Map<String, Object>> avgPriceData = boardService.getAvgPriceForLast15Days(keyword);
+
+        String avgPriceDataJson = new ObjectMapper().writeValueAsString(avgPriceData);
+
+        log.info(">>> avgPriceData >>> {}", avgPriceData);
+        log.info(">>>avgPriceDataJson >>> {}", avgPriceDataJson);
+
+        model.addAttribute("avgPriceDataJson", avgPriceDataJson);
 
         log.info(">>> productList >>> {}", productList);
         log.info(">>> keyword >>>> {}", keyword);
