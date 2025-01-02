@@ -30,10 +30,14 @@
 
     <!-- 전체 읽지 않은 메시지 수 조회 -->
     <select id="countTotalUnreadMessages" resultType="int">
-        SELECT COUNT(*)
-        FROM chat_comment
-        WHERE comment_user_num != #{userNum}
-        AND is_read = 0
+        SELECT COUNT(*) FROM chat_comment AS cc
+        INNER JOIN chat_room AS cr
+        ON cc.room_id = cr.room_id
+        INNER JOIN chat_join AS cj
+        ON cr.room_id = cj.room_id
+        WHERE cj.user_num = #{userNum}
+        AND cc.comment_user_num != #{userNum}
+        AND cc.is_read = 0
     </select>
 
     <!-- 채팅방 메시지 읽음 처리 -->

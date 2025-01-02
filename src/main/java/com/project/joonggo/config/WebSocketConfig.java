@@ -9,6 +9,7 @@ import org.springframework.messaging.support.ChannelInterceptor;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
+import org.springframework.web.socket.server.support.HttpSessionHandshakeInterceptor;
 
 @Configuration
 @EnableWebSocketMessageBroker
@@ -21,7 +22,9 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
                 .withSockJS();  // 실시간 채팅용 WebSocket 엔드포인트 등록
 
         registry.addEndpoint("/notifications").withSockJS();  // 알림용 WebSocket 엔드포인트
-        registry.addEndpoint("/ws/chatbot").withSockJS();  // 챗봇용 WebSocket 엔드포인트
+        registry.addEndpoint("/ws/chatbot")
+                .addInterceptors(new HttpSessionHandshakeInterceptor())
+                .withSockJS();  // 챗봇용 WebSocket 엔드포인트
     }
 
     @Override

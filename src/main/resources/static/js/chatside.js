@@ -16,7 +16,7 @@ openChatBtn.onclick = function() {
 // 대화방 닫기 버튼 클릭 시
 closeChatBtn.onclick = function() {
   chatSidebar.classList.remove("active");
-  
+
 }
 
 // 메시지 전송 버튼 클릭 시 (간단한 메시지 추가)

@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
    // headerBadge 업데이트 함수 정의
    function updateHeaderBadge(count) {
        const headerBadge = document.getElementById('headerUnreadBadge');
-       console.log('headerBadge element:', headerBadge);
+       // console.log('headerBadge element:', headerBadge);
        if (headerBadge) {
            headerBadge.textContent = count > 0 ? count : '';
            headerBadge.style.display = count > 0 ? 'inline' : 'none';
@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
    }
 
 const chatLink = document.querySelector('a[data-user-num]');
-console.log('chatLink:', chatLink);
+// console.log('chatLink:', chatLink);
 
    if (chatLink) {
        const userNum = chatLink.dataset.userNum;
@@ -19,12 +19,12 @@ console.log('chatLink:', chatLink);
 
        fetch(`/chat/unread/total?userNum=${userNum}`)
            .then(res => {
-               console.log('Response status:', res.status);
+               // console.log('Response status:', res.status);
                if (!res.ok) throw new Error('Network response was not ok');
                return res.json();
            })
            .then(count => {
-               console.log('Received count:', count);
+               // console.log('Received count:', count);
                updateHeaderBadge(count);
            })
            .catch(error => {

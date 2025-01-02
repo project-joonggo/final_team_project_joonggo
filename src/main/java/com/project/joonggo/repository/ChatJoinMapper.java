@@ -21,4 +21,10 @@ public interface ChatJoinMapper {
     void joinChatRoom(ChatJoinVO chatJoinVO);
 
     int getReceiverUserNum(@Param("roomId") int roomId, @Param("userNum") long commentUserNum);
+
+    long otherUser(@Param("roomId") int roomId, @Param("userNum") int userNum);
+
+    void deleteUserFromRoom(int roomId, int userNum);
+
+    int countRoomUsers(int roomId);
 }

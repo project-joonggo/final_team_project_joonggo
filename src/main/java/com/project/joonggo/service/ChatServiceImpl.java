@@ -101,4 +101,20 @@ public class ChatServiceImpl implements ChatService {
         return chatJoinMapper.getReceiverUserNum(roomId, userNum);
     }
 
+    // 채팅방 본인 외 다른 사용자
+    @Override
+    public long otherUser(int roomId, int userNum) {
+        return chatJoinMapper.otherUser(roomId, userNum);
+    }
+
+    @Override
+    public void leaveRoom(int roomId, int userNum) {
+        chatJoinMapper.deleteUserFromRoom(roomId, userNum);
+    }
+
+    @Override
+    public int getRoomUserCount(int roomId) {
+        return chatJoinMapper.countRoomUsers(roomId);
+    }
+
 }
