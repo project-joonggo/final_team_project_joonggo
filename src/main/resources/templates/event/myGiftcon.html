@@ -11,7 +11,7 @@
         <div class="price-container">
             <div class="price-title">내 당첨내역</div>
             <div class="price-subTitle">당첨된 기프티콘을 볼 수 있어요.</div>
-            <div class="giftcon-container">
+            <div class="giftcon-container" th:if="${list != null and list.size() > 0}">
                 <div th:each="giftcon : ${list}">
                     <div class="giftcon-item"
                          th:data-giftcon-name="${giftcon.giftconName}"
@@ -27,6 +27,9 @@
 
                     </div>
                 </div>
+            </div>
+            <div th:if="${list == null or list.size() == 0}" class="no-data margin-bot-80 margin-top-30">
+                <p>당첨된 기프티콘이 없습니다. <a th:href="@{/event/list}" class="font-weight-bold">이벤트에 참여</a>해 보세요!</p>
             </div>
 
             <!-- 페이지 네이션 라인 -->

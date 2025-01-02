@@ -21,7 +21,7 @@
               <th class="gap-1"><span>아이디(이메일)</span><strong class="requiredStar thRequiredStar">*</strong></th>
               <td class="d-flex justify-content-start align-items-center gap-2">
                 <input type="email" class="form-control" id="i" name="userId"
-                         th:value="${socialEmail != null ? socialEmail : ''}" th:attr="readonly=${socialEmail != null}">
+                         th:value="${socialEmail != null ? socialEmail : ''}" >
                 <a id="emailChk" class="d-flex align-items-center">인증번호받기</a>
               </td>
             </tr>

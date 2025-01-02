@@ -51,30 +51,35 @@
 
         <div class="container-md" id="payHistoryBase">
             <div class="payHeader">거래 내역</div>
-            <div th:each="paymentDTO : ${payments}" class="buyProduct">
-                <div th:text="${#strings.substring(paymentDTO.payment.paidAt,0,10)}" class="buyDate"></div>
-                <div id="buyProductInfo">
-                    <img class="productImg" th:src="@{${paymentDTO.fileUrl}}" alt="상품 이미지" width="100"/>
-                    <div class="infoArea">
-    <!--                    <p>카테고리</p>-->
-                        <p th:text="${paymentDTO.category}"></p>
-                        <p th:text="${paymentDTO.payment.productName}"></p>
-                        <p th:text="${paymentDTO.payment.amount}">원</p>
-                        <!-- 환불 버튼 추가 -->
-                        <button class="cancelBtn" th:data-impUid="${paymentDTO.payment.impUid}"
-                                th:data-merchantUid="${paymentDTO.payment.merchantUid}"
-                                th:data-paidAmount="${paymentDTO.payment.amount}"
-                                th:data-cancelFlag="${paymentDTO.payment.cancelFlag}">
-                            환불
-                        </button>
-                        <span th:if="${paymentDTO.payment.cancelFlag}" style="color: red; margin-left: 10px; font-weight: bold; font-size: 18px;">
-                                환불 완료
-                        </span>
-                        <span th:unless="${paymentDTO.payment.cancelFlag}" style="color: green; margin-left: 10px; font-weight: bold; font-size: 18px;">
-                                환불 가능
-                        </span>
+            <div th:if="${payments != null and payments.size() > 0}">
+                <div th:each="paymentDTO : ${payments}" class="buyProduct">
+                    <div th:text="${#strings.substring(paymentDTO.payment.paidAt,0,10)}" class="buyDate"></div>
+                    <div id="buyProductInfo">
+                        <img class="productImg" th:src="@{${paymentDTO.fileUrl}}" alt="상품 이미지" width="100"/>
+                        <div class="infoArea">
+        <!--                    <p>카테고리</p>-->
+                            <p th:text="${paymentDTO.category}"></p>
+                            <p th:text="${paymentDTO.payment.productName}"></p>
+                            <p th:text="${paymentDTO.payment.amount}">원</p>
+                            <!-- 환불 버튼 추가 -->
+                            <button class="cancelBtn" th:data-impUid="${paymentDTO.payment.impUid}"
+                                    th:data-merchantUid="${paymentDTO.payment.merchantUid}"
+                                    th:data-paidAmount="${paymentDTO.payment.amount}"
+                                    th:data-cancelFlag="${paymentDTO.payment.cancelFlag}">
+                                환불
+                            </button>
+                            <span th:if="${paymentDTO.payment.cancelFlag}" style="color: red; margin-left: 10px; font-weight: bold; font-size: 18px;">
+                                    환불 완료
+                            </span>
+                            <span th:unless="${paymentDTO.payment.cancelFlag}" style="color: green; margin-left: 10px; font-weight: bold; font-size: 18px;">
+                                    환불 가능
+                            </span>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div th:if="${payments == null or payments.size() == 0}" class="no-data text-center margin-top-80">
+                <p>구매 내역이 없습니다. <a th:href="@{/board/list}" class="font-weight-bold">상품을 구매</a>해 보세요!</p>
             </div>
 
         <!-- Thymeleaf를 사용해 payments 데이터를 JavaScript 변수로 직접 전달 -->
