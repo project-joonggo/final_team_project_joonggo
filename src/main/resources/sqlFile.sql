@@ -300,3 +300,6 @@ ADD COLUMN answer_count INT DEFAULT 0;
 
 -- 241226
 alter table reportlist add column reporter_num bigint;
+
+-- 241231
+alter table chat_join add column is_join int default 1;

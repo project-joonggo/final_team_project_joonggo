@@ -27,7 +27,7 @@
     position: fixed;
     right: -400px; /* 기본적으로 숨김 */
     top: 210px;
-    width: 350px;
+    width: 400px;
     height: 600px;
     background-color: #fff;
     box-shadow: -2px 0px 5px rgba(0, 0, 0, 0.1);
@@ -87,6 +87,7 @@
     color: white;
     border: none;
     border-radius: 5px;
+    height: 36px;
   }
 
   #closeChatBtn:hover {
@@ -97,4 +98,80 @@
   #sendBtn:hover{
        background-color: #A0173B;
        transition: all 0.2s ease;
+  }
+
+  /* 기존 CSS는 유지하고 메시지 관련 스타일만 수정/추가 */
+
+  .chat-messages {
+      flex-grow: 1;
+      margin: 20px 0;
+      overflow-y: auto;
+      height: calc(100% - 160px);
+      padding: 10px;
+  }
+
+  /* 기본 메시지 스타일 제거하고 새로운 스타일 추가 */
+  .message {
+      max-width: 80%;
+      margin-bottom: 15px;
+      clear: both;
+      position: relative;
+  }
+
+  /* 사용자 메시지 스타일 */
+  .message-user {
+      float: right;
+      background-color: #CE4E6A;
+      color: white;
+      border-radius: 15px 15px 0 15px;
+      padding: 10px 15px;
+      margin-left: 20%;
+  }
+
+  /* 봇 메시지 스타일 */
+  .message-bot {
+      float: left;
+      background-color: #f0f0f0;
+      color: #333;
+      border-radius: 15px 15px 15px 0;
+      padding: 10px 15px;
+      margin-right: 20%;
+  }
+
+  /* 시스템 메시지 스타일 */
+  .message-system {
+      text-align: center;
+      margin: 10px auto;
+      color: #666;
+      font-size: 0.9em;
+      background-color: #f8f9fa;
+      padding: 5px 10px;
+      border-radius: 10px;
+      width: fit-content;
+  }
+
+  /* 메시지 발신자 표시 */
+  .message-sender {
+      font-size: 0.8em;
+      margin-bottom: 3px;
+      opacity: 0.7;
+  }
+
+  /* 메시지 컨텐츠 */
+  .message-content {
+      word-break: break-word;
+  }
+
+  /* 메시지 시간 표시 */
+  .message-time {
+      font-size: 0.7em;
+      margin-top: 3px;
+      opacity: 0.7;
+  }
+
+  /* 메시지 컨테이너 clearing */
+  .chat-messages::after {
+      content: '';
+      display: table;
+      clear: both;
   }

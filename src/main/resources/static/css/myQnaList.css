@@ -1,0 +1,39 @@
+.qnaHeader {
+    font-size: 26px;
+    width: 900px;
+    margin: 10px auto;
+    padding: 14px;
+    font-weight: 700;
+}
+
+.qnaList {
+    width: 900px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.qnaListHeader {
+    font-size: 20px;
+    font-weight: 500;
+    border-bottom: 1px solid #ccc;
+}
+
+.qnaListHeader > tr > th {
+    padding: 10px;
+}
+
+.qnaListBody {
+    font-size: 17px;
+}
+
+.qnaListBody > tr {
+    border-bottom : 1px solid #ccc;
+}
+
+.qnaListBody > tr:hover {
+    background-color : #ccc;
+}
+
+.qnaListBody > tr > td {
+    padding: 10px;
+}

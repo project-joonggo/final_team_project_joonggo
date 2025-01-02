@@ -1,11 +1,10 @@
 package com.project.joonggo.controller;
 
 
-import com.project.joonggo.domain.ChatCommentVO;
-import com.project.joonggo.domain.ChatJoinVO;
-import com.project.joonggo.domain.ChatRoomVO;
+import com.project.joonggo.domain.*;
 import com.project.joonggo.security.AuthUser;
 import com.project.joonggo.service.ChatService;
+import com.project.joonggo.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +29,7 @@ import java.util.Map;
 public class ChatController {
 
     private final ChatService chatService;
+    private final LoginService loginService;
 
     // 채팅방 목록을 가져오기
     @GetMapping("/chatRoomList")
@@ -57,15 +57,26 @@ public class ChatController {
     // 채팅방 페이지에 입장하기
     @GetMapping("/enterRoom")
     @ResponseBody
-    public List<ChatCommentVO> enterChatRoom(@RequestParam("roomId") int roomId,
-                                @RequestParam("userNum") int userNum, Model m) {
-        // 사용자가 해당 채팅방에 이미 참여했는지 확인
-        if (!chatService.isUserInRoom(roomId, userNum)) {
-            // 채팅방에 사용자 추가 (입장)
-            chatService.addUserToRoom(roomId, userNum);
-        }
+    public ChatRoomDTO enterChatRoom(@RequestParam("roomId") int roomId,
+                                     @RequestParam("userNum") int userNum) {
+        try {
+            // 사용자가 해당 채팅방에 이미 참여했는지 확인
+            if (!chatService.isUserInRoom(roomId, userNum)) {
+                // 채팅방에 사용자 추가 (입장)
+                chatService.addUserToRoom(roomId, userNum);
+            }
 
-        return chatService.getCommentsByRoomId(roomId);
+            ChatRoomDTO response = new ChatRoomDTO();
+            response.setComments(chatService.getCommentsByRoomId(roomId));
+
+            long otherUserNum = chatService.otherUser(roomId, userNum);
+            response.setOtherUser(loginService.getUserById(otherUserNum));
+
+            return response;
+        } catch (Exception e) {
+            log.error("Error entering chat room: ", e);
+            throw e;
+        }
     }
 
     @PostMapping("/room/create")
@@ -143,4 +154,25 @@ public class ChatController {
         return ResponseEntity.ok(count);
     }
 
+    @PostMapping("/room/leave")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> leaveRoom(@RequestParam int roomId, @RequestParam int userNum) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            chatService.leaveRoom(roomId, userNum);
+            response.put("status", "success");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            response.put("status", "error");
+            response.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
+        }
+    }
+
+    @GetMapping("/room/userCount/{roomId}")
+    @ResponseBody
+    public ResponseEntity<Integer> getRoomUserCount(@PathVariable int roomId) {
+        int count = chatService.getRoomUserCount(roomId);
+        return ResponseEntity.ok(count);
+    }
 }
