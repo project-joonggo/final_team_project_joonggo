@@ -6,6 +6,7 @@
 
 <head>
     <link rel="stylesheet" th:href="@{/css/price.css}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js 라이브러리 추가 -->
 </head>
 
 
@@ -24,6 +25,11 @@
                     <input name="keyword" type="search" placeholder="어떤 시세 정보가 궁금하세요?" class="price-searchBox" th:value="${keyword != null ? keyword : ''}">
                 </div>
             </form>
+        </div>
+
+        <!-- 평균 가격 그래프 -->
+        <div class="price-graph-container" style="width:800px; height:400px; margin-left:238px;">
+            <canvas id="priceChart"></canvas>
         </div>
 
         <div id="price-hiddenBox">
@@ -68,4 +74,13 @@
     </div>
 
     <hr style="visibility: hidden; margin-bottom: 120px;">
+
+
+    <script th:inline="javascript">
+        var averagePriceData = /*[[${avgPriceDataJson}]]*/;
+        console.log(averagePriceData);  // 데이터 확인
+    </script>
+
+    <script th:src="@{/js/priceChart.js}"></script>
+
 </div>

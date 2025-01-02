@@ -68,7 +68,7 @@ public class QnaController {
         Long adminId = loginService.getAdminId();
 
         // 알림 메시지 생성
-        String notificationMessage = "<span>문의</span>새로운 질문이 접수되었습니다.<br> " + qnaVO.getCategory() + " 관련 답변을 남겨주세요." ;
+        String notificationMessage = "<span>문의</span><br>새로운 질문이 접수되었습니다.<br> " + qnaVO.getCategory() + " 관련 답변을 남겨주세요." ;
 
         // 알림을 관리자에게 보내기
         notificationService.saveNotification(adminId, notificationMessage, qnaId, "QUESTION");

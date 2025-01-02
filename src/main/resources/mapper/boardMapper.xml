@@ -72,6 +72,9 @@
             <when test="sort == 'latest'">
                 order by board_id desc <!-- 최신순 -->
             </when>
+            <when test="sort == 'readCount'">
+                order by read_count desc <!-- 조회순 (내림차순으로 정렬) -->
+            </when>
             <when test="sort == 'recommend'">
                 order by like_count desc <!-- 추천순 (예시, 추천수가 많은 순으로 정렬) -->
             </when>
@@ -208,6 +211,22 @@
 
     <select id="getCategory" resultType="String">
         select category from sellbuy_board where board_id = #{boardId}
+    </select>
+
+    <select id="getAvgPriceForLast15Days" resultType="java.util.Map">
+        SELECT
+        AVG(trade_price) AS avg_price,
+        DATE(reg_at) AS date
+        FROM
+        sellbuy_board
+        WHERE
+        reg_at >= CURDATE() - INTERVAL 15 DAY
+        AND is_del = 'N'
+        AND board_name LIKE CONCAT('%', #{keyword}, '%')
+        GROUP BY
+        DATE(reg_at)
+        ORDER BY
+        DATE(reg_at);
     </select>
 
 

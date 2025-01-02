@@ -246,7 +246,7 @@ function addReply(ano) {
     postReplyToServer(replyData)
         .then(result => {
             if (result === "1") {
-                alert("추가질문 등록되었습니다.");
+                alert("추가질문이 등록되었습니다.");
                 loadReplies(ano);  // 추가질문 목록 새로고침
                 document.getElementById("replyText-" + ano).value = "";
             } else {

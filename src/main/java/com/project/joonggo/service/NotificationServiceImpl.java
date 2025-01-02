@@ -84,7 +84,7 @@ public class NotificationServiceImpl implements NotificationService {
             String timeAgo = TimeHandler.getTimeAgo(createAt.toString());
 
             // 경과 시간 추가
-            String messageWithTime = notification.getMessage() + " (" + timeAgo + ")";
+            String messageWithTime = notification.getMessage() + " <br> <b> " + timeAgo + " </b>";
             notification.setMessage(messageWithTime);
 
 

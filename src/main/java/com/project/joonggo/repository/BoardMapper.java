@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface BoardMapper {
@@ -54,4 +55,6 @@ public interface BoardMapper {
                                  @Param("userNum") long userNum);
 
     String getCategory(Long boardId);
+
+    List<Map<String, Object>> getAvgPriceForLast15Days(String keyword);
 }

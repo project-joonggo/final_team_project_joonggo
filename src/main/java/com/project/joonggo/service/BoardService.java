@@ -3,6 +3,7 @@ package com.project.joonggo.service;
 import com.project.joonggo.domain.*;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BoardService {
     long register(BoardVO boardVO);
@@ -58,4 +59,5 @@ public interface BoardService {
 
     List<BoardFileDTO> getMyList(PagingVO pgvo, long userNum);
 
+    List<Map<String, Object>> getAvgPriceForLast15Days(String keyword);
 }
