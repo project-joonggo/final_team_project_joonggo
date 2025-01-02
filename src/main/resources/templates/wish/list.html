@@ -53,52 +53,57 @@
 
     <div class="wishList">
       <div class="wishHeader">찜한 상품 내역</div>
-      <table style="width: 100%;">
-        <tbody>
-        <tr th:each="boardFileDTO : ${wishedProducts}" class="wishProduct">
-          <td class="wishProductInfo">
-            <img th:if="${boardFileDTO.fileVOList != null
-                          and boardFileDTO.fileVOList.size() > 0
-                          and boardFileDTO.fileVOList.get(0).fileUrl != null}"
-                 th:src="@{${boardFileDTO.fileVOList.get(0).fileUrl}}"
-                 alt="상품사진" class="productImg">
-            <div class="infoArea">
-              <a th:href="@{/board/detail(boardId=${boardFileDTO.boardVO.boardId})}">
-                <p th:text="${boardFileDTO.boardVO.boardName}"></p>
-              </a>
-              <p th:text="${boardFileDTO.boardVO.tradePrice}"></p>
-              <p th:text="${boardFileDTO.boardVO.category}"></p>
-            </div>
-          </td>
-          <td class="handleBtn">
-            <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}"
-                    class="pay-btn" th:disabled="${boardFileDTO.boardVO.tradeFlag == 1}" th:text="${boardFileDTO.boardVO.tradeFlag == 1 ? '거래완료 상품' : '결제하기'}" >결제하기</button>
-            <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}" class="remove-wish-btn">찜 취소</button>
-          </td>
+      <div th:if="${wishedProducts != null and wishedProducts.size() > 0}">
+        <table style="width: 100%;">
+          <tbody>
+          <tr th:each="boardFileDTO : ${wishedProducts}" class="wishProduct">
+            <td class="wishProductInfo">
+              <img th:if="${boardFileDTO.fileVOList != null
+                            and boardFileDTO.fileVOList.size() > 0
+                            and boardFileDTO.fileVOList.get(0).fileUrl != null}"
+                   th:src="@{${boardFileDTO.fileVOList.get(0).fileUrl}}"
+                   alt="상품사진" class="productImg">
+              <div class="infoArea">
+                <a th:href="@{/board/detail(boardId=${boardFileDTO.boardVO.boardId})}">
+                  <p th:text="${boardFileDTO.boardVO.boardName}"></p>
+                </a>
+                <p th:text="${boardFileDTO.boardVO.tradePrice}"></p>
+                <p th:text="${boardFileDTO.boardVO.category}"></p>
+              </div>
+            </td>
+            <td class="handleBtn">
+              <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}"
+                      class="pay-btn" th:disabled="${boardFileDTO.boardVO.tradeFlag == 1}" th:text="${boardFileDTO.boardVO.tradeFlag == 1 ? '거래완료 상품' : '결제하기'}" >결제하기</button>
+              <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}" class="remove-wish-btn">찜 취소</button>
+            </td>
 
-          <!-- 결제 모달 -->
-          <div th:id="'paymentModal_' + ${boardFileDTO.boardVO.boardId}" class="modal">
-            <div class="modal-content">
-              <!-- 닫기 버튼 -->
-              <button class="close" id="close" th:data-board-id="${boardFileDTO.boardVO.boardId}">&times;</button>
-              <h2>결제 방법을 선택하세요</h2>
-    <!--          <button id="tradeBtn">직거래</button>-->
-              <button type="button"
-                      class="chat-btn"
-                      th:data-seller-id="${boardFileDTO.boardVO.sellerId}"
-                      th:data-board-name="${boardFileDTO.boardVO.boardName}"
-                      th:data-user-num="${#authentication.getPrincipal().userVO.userNum}">직거래</button>
+            <!-- 결제 모달 -->
+            <div th:id="'paymentModal_' + ${boardFileDTO.boardVO.boardId}" class="modal">
+              <div class="modal-content">
+                <!-- 닫기 버튼 -->
+                <button class="close" id="close" th:data-board-id="${boardFileDTO.boardVO.boardId}">&times;</button>
+                <h2>결제 방법을 선택하세요</h2>
+      <!--          <button id="tradeBtn">직거래</button>-->
+                <button type="button"
+                        class="chat-btn"
+                        th:data-seller-id="${boardFileDTO.boardVO.sellerId}"
+                        th:data-board-name="${boardFileDTO.boardVO.boardName}"
+                        th:data-user-num="${#authentication.getPrincipal().userVO.userNum}">직거래</button>
 
-              <!-- 결제 버튼: data-board-id로 boardId를 전달 -->
-              <button type="button" class="paymentBtn"
-                      th:data-board-id="${boardFileDTO.boardVO.boardId}">
-                바로결제
-              </button>
+                <!-- 결제 버튼: data-board-id로 boardId를 전달 -->
+                <button type="button" class="paymentBtn"
+                        th:data-board-id="${boardFileDTO.boardVO.boardId}">
+                  바로결제
+                </button>
+              </div>
             </div>
-          </div>
-        </tr>
-        </tbody>
-      </table>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div th:if="${wishedProducts == null or wishedProducts.size() == 0}" class="no-data text-center margin-top-80">
+        <p>찜한 상품이 없습니다. <a th:href="@{/board/list}" class="font-weight-bold">마음에 드는 상품을 찾아 찜</a>해보세요!</p>
+      </div>
     </div>
 
     <script th:inline="javascript">
