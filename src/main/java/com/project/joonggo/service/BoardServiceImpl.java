@@ -284,5 +284,23 @@ public class BoardServiceImpl implements BoardService{
         return boardMapper.getAvgPriceForLast15Days(keyword);
     }
 
+    @Override
+    public List<BoardFileDTO> getProductsByCategory(String category, Long boardId) {
+        List<BoardVO> boardList = boardMapper.getProductsByCategory(category,boardId);
+        List<BoardFileDTO> boardFileDTOList = new ArrayList<>();
+        log.info(">>>boardListCategory >> {}",boardList);
+
+        for (BoardVO boardVO : boardList) {
+            // 파일 정보를 가져오고 BoardFileDTO에 넣기
+            log.info(">>> boardVO >>> {} ", boardVO);
+            List<FileVO> files = fileMapper.getFileList(boardVO.getBoardId());
+            log.info(">>> files {}" , files);
+            BoardFileDTO boardFileDTO = new BoardFileDTO(boardVO, files);
+            boardFileDTOList.add(boardFileDTO);
+        }
+
+        return boardFileDTOList;
+    }
+
 
 }

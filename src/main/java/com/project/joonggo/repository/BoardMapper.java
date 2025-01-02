@@ -57,4 +57,6 @@ public interface BoardMapper {
     String getCategory(Long boardId);
 
     List<Map<String, Object>> getAvgPriceForLast15Days(String keyword);
+
+    List<BoardVO> getProductsByCategory(@Param("category") String category, @Param("boardId") Long boardId);
 }

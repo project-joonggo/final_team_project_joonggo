@@ -223,8 +223,41 @@ public class BoardController {
 
         BoardFileDTO boardFileDTO = boardService.getDetail(boardId);
 
+        // 해당 상품의 카테고리 가져오기
+        String category = boardFileDTO.getBoardVO().getCategory();  // 카테고리 정보 가져오기
+        log.info(">>> Category >>> {}", category);
+
+        // 같은 카테고리의 상품 10개를 가져오기
+        List<BoardFileDTO> sameCategoryProducts = boardService.getProductsByCategory(category, boardId);  // 같은 카테고리의 상품 가져오기 (boardId는 제외)
+
+
+
+        // 각 상품에 대해 판매자 주소와 경과 시간을 조회하여 별도로 저장
+        Map<Long, String> getSellerAddr = new HashMap<>();
+        Map<Long, String> SameCategoryProductTime = new HashMap<>();  // 상품별 경과 시간 저장
+
+        // 최근 등록된 상품에 대해 판매자 주소 조회
+        for (BoardFileDTO product : sameCategoryProducts) {
+            long sameCategorySellerId = product.getBoardVO().getSellerId(); // 판매자 ID 가져오기
+            if (!getSellerAddr.containsKey(sameCategorySellerId)) {
+                String sameCategorySellerAddress = loginService.getSellerAddressByUserNum(sameCategorySellerId);
+                // sellerAddress가 null이 아닐 경우에만 처리
+                if (sameCategorySellerAddress != null) {
+                    sameCategorySellerAddress = sameCategorySellerAddress.replace("(", "").replace(")", "");
+                }
+                getSellerAddr.put(sameCategorySellerId, sameCategorySellerAddress); // 판매자 주소를 맵에 저장
+            }
+
+            // regAt을 ISO 형식의 문자열로 변환
+            String regAtString = product.getBoardVO().getRegAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);  // LocalDateTime -> String
+            String timeAgo = TimeHandler.getTimeAgo(regAtString);  // 경과 시간 계산
+            SameCategoryProductTime.put(product.getBoardVO().getBoardId(), timeAgo);  // 상품별 경과 시간 저장
+        }
+
+
         // 신고 사유 목록 전달
         List<ReasonVO> reasonList = boardService.getReasonList();
+
         // 최근 등록된 상품에 대해 판매자 주소 및 경과 시간 조회
         Map<Long, String> sellerAddresses = new HashMap<>();
         Map<Long, String> productTimes = new HashMap<>();
@@ -240,15 +273,20 @@ public class BoardController {
         String timeAgo = TimeHandler.getTimeAgo(regAtString);  // 경과 시간 계산
 
         log.info("sellerAddr , timeAgo >>>>> {} , {}  " , sellerAddress, timeAgo);
+        log.info("getSellerAddr, SameCategoryProductTime >>>  {}, {} " ,getSellerAddr, SameCategoryProductTime);
 
         // 모델에 sellerAddresses와 productTimes 추가
         model.addAttribute("sellerAddress", sellerAddress);
         model.addAttribute("timeAgo", timeAgo);
+        model.addAttribute("getSellerAddr", getSellerAddr);
+        model.addAttribute("SameCategoryProductTime", SameCategoryProductTime);
+        model.addAttribute("sameCategoryProducts", sameCategoryProducts);  // 같은 카테고리 상품 추가
 
         model.addAttribute("boardFileDTO", boardFileDTO);
         model.addAttribute("isAlreadyWished", isAlreadyWished);
         model.addAttribute("reasonList", reasonList);
     }
+
 
 
     @PostMapping("/update")

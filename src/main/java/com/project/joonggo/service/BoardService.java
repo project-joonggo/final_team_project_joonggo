@@ -60,4 +60,6 @@ public interface BoardService {
     List<BoardFileDTO> getMyList(PagingVO pgvo, long userNum);
 
     List<Map<String, Object>> getAvgPriceForLast15Days(String keyword);
+
+    List<BoardFileDTO> getProductsByCategory(String category, Long boardId);
 }

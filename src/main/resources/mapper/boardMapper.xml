@@ -229,5 +229,8 @@
         DATE(reg_at);
     </select>
 
+    <select id="getProductsByCategory" resultType="com.project.joonggo.domain.BoardVO">
+        SELECT * FROM sellbuy_board WHERE category = #{category} AND board_id != #{boardId} LIMIT 10;
+    </select>
 
 </mapper>
