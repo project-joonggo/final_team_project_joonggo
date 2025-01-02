@@ -24,7 +24,7 @@
         <th>문의 날짜</th>
       </tr>
       </thead>
-      <tbody class="qnaListBody">
+      <tbody class="qnaListBody" th:if="${list != null and list.size() > 0}">
       <tr th:each="qnaVO : ${list}">
         <td>
           <span th:if="${qnaVO.answerCount > 0}" style="color: green;">답변완료</span>
@@ -37,6 +37,13 @@
           </a>
         </td>
         <td th:text="${#strings.substring(qnaVO.regAt,0,10)}"></td> <!-- 수정해야해 -->
+      </tr>
+      </tbody>
+      <tbody class="no-data" th:if="${list == null or list.size() == 0}">
+      <tr>
+        <td colspan="4" class="text-center">
+          <p class="margin-top-30 margin-bot-80">문의내역이 없습니다. <a th:href="@{/qna/register}" class="font-weight-bold">문의하기</a></p>
+        </td>
       </tr>
       </tbody>
     </table>
