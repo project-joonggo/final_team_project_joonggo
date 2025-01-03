@@ -20,7 +20,7 @@
       <h3 class="sideSubTitle font-weight-bold">거래 정보</h3>
       <ul>
         <li><a href="/payment/history" class="menuItems">거래내역</a></li>
-        <li><a href="/wish/list" class="menuItems">찜한 상품</a></li>
+        <li><a href="/wish/list" class="menuItems" style="font-weight: 700;">찜한 상품</a></li>
       </ul>
 
       <div class="title-divider"></div>
@@ -72,27 +72,32 @@
           </td>
           <td class="handleBtn">
             <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}"
-                    class="pay-btn" th:disabled="${boardFileDTO.boardVO.tradeFlag == 1}" th:text="${boardFileDTO.boardVO.tradeFlag == 1 ? '거래완료 상품' : '결제하기'}" >결제하기</button>
-            <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}" class="remove-wish-btn">찜 취소</button>
+                    class="pay-btn btn-custom" th:disabled="${boardFileDTO.boardVO.tradeFlag == 1}" th:text="${boardFileDTO.boardVO.tradeFlag == 1 ? '거래완료 상품' : '결제하기'}" >결제하기</button>
+            <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}" class="remove-wish-btn btn-custom">찜 취소</button>
           </td>
 
           <!-- 결제 모달 -->
           <div th:id="'paymentModal_' + ${boardFileDTO.boardVO.boardId}" class="modal">
             <div class="modal-content">
               <!-- 닫기 버튼 -->
-              <button class="close" id="close" th:data-board-id="${boardFileDTO.boardVO.boardId}">&times;</button>
-              <h2>결제 방법을 선택하세요</h2>
+              <button class="close btn-custom" id="close" th:data-board-id="${boardFileDTO.boardVO.boardId}">
+                <img src="/img/x.png">
+              </button>
+              <h2 class="pay-wait-head">잠시만요! 판매자와 대화를 하셨나요?</h2>
+                <br>
+              <p class="pay-wait-body">채팅을 하지 않고 결제하면 거래가 취소될 수 있어요.</p>
+              <p class="pay-wait-body">판매자와의 채팅을 권장드립니다.</p>
     <!--          <button id="tradeBtn">직거래</button>-->
               <button type="button"
-                      class="chat-btn"
+                      class="chat-btn btn-custom"
                       th:data-seller-id="${boardFileDTO.boardVO.sellerId}"
                       th:data-board-name="${boardFileDTO.boardVO.boardName}"
-                      th:data-user-num="${#authentication.getPrincipal().userVO.userNum}">직거래</button>
+                      th:data-user-num="${#authentication.getPrincipal().userVO.userNum}">알겠습니다. 채팅을 진행할게요.</button>
 
               <!-- 결제 버튼: data-board-id로 boardId를 전달 -->
               <button type="button" class="paymentBtn"
                       th:data-board-id="${boardFileDTO.boardVO.boardId}">
-                바로결제
+                괜찮습니다. 바로 결제할게요.
               </button>
             </div>
           </div>
