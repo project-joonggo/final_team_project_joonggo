@@ -134,18 +134,34 @@
 
         <div class="detail-user">
           <!--판매자 유저 이름-->
-          <div class="detail-name">판매자 유저이름</div>
+          <div class="detail-name">판매자 <strong class="font-weight-bold">[[${sellerUserVO.userName}]]</strong></div>
           <div class="detail-profile"><img src="/img/profile.png"></div>
         </div>
 
         <!--매너 지수-->
-        <div>
-          <span>매너지수</span>
+        <div class="scoreArea">
+          <div class="d-flex justify-content-between align-items-center">
+            <span>
+              <span class="mannerSpan">매너지수</span>
+              <span id="score-value">[[${sellerUserVO.score}]]</span>
+            </span>
+            <span class="maxScore">
+              100
+            </span>
+          </div>
+          <div class="score-bar-container">
+            <div id="score-bar" class="score-bar"></div>
+          </div>
         </div>
 
-        <div th:if="${#authentication.principal != 'anonymousUser' && #authentication.principal.userVO.userNum == boardVO.sellerId}">
-          <button type="button" class="btn-custom" id="modBtn">수정</button>
-          <a th:href="@{/board/delete(boardId=${boardVO.boardId})}"><button class="btn-custom" type="button" id="delBtn">글삭제</button></a>
+
+        <div class="margin-top-50 " th:if="${#authentication.principal != 'anonymousUser' && #authentication.principal.userVO.userNum == boardVO.sellerId}">
+          <div class="d-flex justify-content-end gap-1">
+            <button type="button" class="btn btn-custom" id="modBtn">수정</button>
+            <a th:href="@{/board/delete(boardId=${boardVO.boardId})}">
+              <button class="btn btn-custom" type="button" id="delBtn" onclick="return confirm('정말 삭제하시겠습니까?')">글삭제</button>
+            </a>
+          </div>
         </div>
 
       </div>

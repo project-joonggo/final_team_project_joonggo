@@ -258,3 +258,6 @@
 .detail-atcButton-1:hover{
     background-color: rgb(50, 50, 50);
 }
+.detail-secondContainer .scoreArea{
+    width: 100%;
+}

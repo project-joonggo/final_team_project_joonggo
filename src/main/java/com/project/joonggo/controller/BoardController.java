@@ -207,8 +207,11 @@ public class BoardController {
             boardService.incrementReadCount(boardId);  // 조회수 증가
         }
 
-        // 로그인된 사용자 정보 가져오기
+        // 판매자 정보 가져오기
+        long sellerNum = boardService.getSellerIdByBoardId(boardId);
+        UserVO sellerUserVO = loginService.getUserById(sellerNum);
 
+        // 로그인된 사용자 정보 가져오기
         Long userNum = principal != null ?  Long.valueOf(principal.getName()) : null;
 
         log.info(">>> userNum >>> {}", userNum);
@@ -285,6 +288,7 @@ public class BoardController {
         model.addAttribute("boardFileDTO", boardFileDTO);
         model.addAttribute("isAlreadyWished", isAlreadyWished);
         model.addAttribute("reasonList", reasonList);
+        model.addAttribute("sellerUserVO", sellerUserVO);
     }
 
 

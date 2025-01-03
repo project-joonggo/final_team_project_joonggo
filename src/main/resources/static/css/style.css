@@ -83,6 +83,9 @@ a {
 .margin-top-30{
     margin-top: 30px;
 }
+.margin-top-50{
+    margin-top: 50px;
+}
 .margin-top-80{
     margin-top: 80px;
 }
@@ -514,6 +517,7 @@ a {
     height: 100%;
     background: linear-gradient(to right, #A0173B, #4B6F9B);
     transition: background 0.3s ease;
+    border-radius: 10px;
 }
 #myInfo .companyName{
     font-size: 18px;
@@ -525,7 +529,7 @@ a {
     font-size: 27px;
     font-weight: bold;
 }
-#myInfo .mainRight .mannerSpan{
+.mannerSpan{
     font-size: 18px;
     background: linear-gradient(to right, #A0173B, #4B6F9B);
     -webkit-background-clip: text; /* 배경을 텍스트 내부에만 적용 */
@@ -534,7 +538,7 @@ a {
     transition: background 0.3s ease; /* 점진적 변화 효과 */
     padding-left: 10px;
 }
-#myInfo .mainRight .maxScore{
+.maxScore{
     color: #A3A3A3;
 }
 #myInfo .myProductBox{
