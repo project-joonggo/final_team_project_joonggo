@@ -4,6 +4,8 @@
     margin: 10px auto;
     padding: 18px;
     font-weight: 700;
+    margin-top: 0;
+    padding-top: 0;
 }
 
 .wishProductInfo {
@@ -13,6 +15,8 @@
 .wishList {
     width: 900px;
     margin: 20px auto;
+    margin-top: 10px;
+    margin-left: 10px;
 }
 .wishProduct {
     display: flex;
@@ -63,6 +67,7 @@
     border-radius: 8px;
     font-size: 18px;
     width: 130px;
+    margin: 10px auto;
 }
 
 .pay-btn:hover, .remove-wish-btn:hover {
