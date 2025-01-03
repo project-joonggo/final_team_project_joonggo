@@ -197,7 +197,7 @@ public class BoardController {
     }
 
     @GetMapping({"/detail","/modify"})
-    public void detail(Model model, @RequestParam("boardId") Long boardId, HttpServletRequest request, Principal principal){
+    public void detail(Model model, @RequestParam("boardId") Long boardId, HttpServletRequest request, Principal principal) throws JsonProcessingException {
 
         // 현재 요청 URL 확인
         String requestURI = request.getRequestURI();
@@ -234,6 +234,15 @@ public class BoardController {
         List<BoardFileDTO> sameCategoryProducts = boardService.getProductsByCategory(category, boardId);  // 같은 카테고리의 상품 가져오기 (boardId는 제외)
 
 
+        //  최근 15일의 평균 가격 조회
+        List<Map<String, Object>> avgPriceData = boardService.getAvgPriceForLast15Days(boardFileDTO.getBoardVO().getBoardName());
+
+        String avgPriceDataJson = new ObjectMapper().writeValueAsString(avgPriceData);
+
+        log.info(">>> avgPriceData >>> {}", avgPriceData);
+        log.info(">>>avgPriceDataJson >>> {}", avgPriceDataJson);
+
+        model.addAttribute("avgPriceDataJson", avgPriceDataJson);
 
         // 각 상품에 대해 판매자 주소와 경과 시간을 조회하여 별도로 저장
         Map<Long, String> getSellerAddr = new HashMap<>();

@@ -261,3 +261,11 @@
 .detail-secondContainer .scoreArea{
     width: 100%;
 }
+
+#toggleGraphButton {
+    border: none;
+    background-color: white;
+    color: gray;
+    font-size: 14px;
+    margin-top: 30px;
+}

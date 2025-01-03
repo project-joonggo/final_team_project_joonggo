@@ -49,36 +49,6 @@ create table reportlist(
                            report_date datetime default now(),
                            primary key(report_num)
 );
-create table qa_board(
-                         qa_id bigint auto_increment,
-                         qa_name varchar(256),
-                         qa_content varchar(256),
-                         reg_at datetime default now(),
-                         is_del varchar(5) default 'N',
-                         user_num bigint,
-                         comment_count int,
-                         primary key(qa_id)
-);
-
-create table qa_comment(
-                           cno bigint auto_increment,
-                           user_num bigint,
-                           qa_id bigint,
-                           qa_com_content varchar(256),
-                           reg_at datetime default now(),
-                           is_del varchar(5) default 'N',
-                           recomment_count int,
-                           primary key(cno)
-);
-
-create table qa_recomment(
-                             re_cno bigint auto_increment,
-                             cno bigint,
-                             user_num bigint,
-                             re_content varchar(256),
-                             reg_at datetime default now(),
-                             primary key(re_cno)
-);
 
 create table auth(
                      auth_id bigint auto_increment,
@@ -87,11 +57,6 @@ create table auth(
                      primary key(auth_id)
 );
 
-create table locate(
-                       locate_id bigint auto_increment,
-                       user_num bigint,
-                       primary key(locate_id)
-);
 
 create table chat_room(
                          room_id bigint auto_increment,
@@ -121,43 +86,6 @@ create table chat_comment(
                         -- foreign key(comment_user_num) references user(user_num)
 );
 
-create table reviewlist(
-                           review_id bigint auto_increment,
-                           user_num bigint,
-                           primary key(review_id)
-);
-
-create table notifications(
-                              alarm_id bigint auto_increment,
-                              user_num bigint,
-                              msg varchar(256),
-                              type enum('general', 'warning', 'notification'),
-                              reg_at datetime default now(),
-                              read_or_not boolean,
-                              primary key(alarm_id)
-);
-
-create table coupon(
-                       coupon_id bigint auto_increment,
-                       coupon_name varchar(256),
-                       discount int,
-                       primary key(coupon_id)
-);
-
-create table couponlist(
-                           coupon_id bigint,
-                           user_num bigint
-);
-
-
-create table trade(
-                      trade_id bigint auto_increment,
-                      user_num bigint,
-                      trade_category int,
-                      trade_price int,
-                      trade_date timestamp,
-                      primary key(trade_id)
-);
 
 create table payment (
                          payment_id bigint auto_increment,
