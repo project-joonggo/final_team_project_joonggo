@@ -93,3 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
         images[0].parentNode.removeChild(images[0]);
     }
 });
+
+// 계산된 퍼센트를 게이지 바에 반영
+var score = parseFloat(document.getElementById("score-value").textContent);
+var percentage = (score / 100) * 100;
+document.getElementById("score-bar").style.width = percentage + "%";
