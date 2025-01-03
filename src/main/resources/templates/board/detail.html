@@ -24,10 +24,8 @@
           <div class="swiper-wrapper">
             <th:block th:each="file : ${boardFileDTO.fileVOList}">
               <div class="swiper-slide">
-                <a href="/event/roulette">
-                  <!-- 동적으로 이미지 출력 -->
-                  <img th:src="@{${file.fileUrl}}" alt="상품 이미지">
-                </a>
+                <!-- 동적으로 이미지 출력 -->
+                <img th:src="@{${file.fileUrl}}" alt="상품 이미지">
               </div>
             </th:block>
           </div>

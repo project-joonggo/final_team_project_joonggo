@@ -132,6 +132,7 @@ body {
     color: #A0173B;
 }
 .item-title{
+    width: 180px;
     height: 30px;
     font-size: 15px;
     overflow: hidden;
