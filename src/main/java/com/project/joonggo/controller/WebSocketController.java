@@ -139,7 +139,7 @@ public class WebSocketController {
             response.put("message", chatCommentVO);
             response.put("roomUnreadCount", roomUnreadCount);    // 채팅방별 카운트
             response.put("totalUnreadCount", totalUnreadCount);  // 전체 카운트
-            response.put("receiverNum", receiverNum);
+//            response.put("receiverNum", receiverNum);
 
             // 채팅방에 메세지 전송
             messagingTemplate.convertAndSend(
@@ -152,18 +152,6 @@ public class WebSocketController {
                     totalUnreadCount
             );
 
-//            // 채팅방별 읽지 않은 메시지 수 전송 (추가)
-            if (chatCommentVO.getCommentUserNum() != receiverNum) {
-                // 채팅방별 메시지 count 전송
-                Map<String, Object> roomUnreadResponse = new HashMap<>();
-                roomUnreadResponse.put("roomId", chatCommentVO.getRoomId());
-                roomUnreadResponse.put("roomUnreadCount", roomUnreadCount);
-
-                messagingTemplate.convertAndSend(
-                        "/topic/chat/" + chatCommentVO.getRoomId() + "/unread",
-                        roomUnreadResponse
-                );
-            }
             log.info("Sending message to room {}: {}", chatCommentVO.getRoomId(), response);
             log.info("roomUnreadCount: {}", roomUnreadCount);
 

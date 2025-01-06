@@ -65,15 +65,31 @@ class ChatWebSocketManager {
                 if (roomId) {
                     this.stompClient.subscribe(`/topic/chat/${roomId}`, message => {
                         const data = JSON.parse(message.body);
+                        const receivedMessage = data.message;
                         const roomUnreadCount = data.roomUnreadCount;
                         const totalUnreadCount = data.totalUnreadCount;
-
-                        // HTML에 badge span이 있는 경우에만 업데이트 (수신자인 경우만 badge span이 존재)
+                        const receiverNum = data.receiverNum;
                         const badge = room.querySelector('.badge');
-                        if (badge) {
+
+                        // 현재 사용자가 수신자인 경우에만 배지 업데이트
+                        if (badge && receivedMessage &&
+                            userNum === receiverNum) {
+                            this.updateHeaderBadge(totalUnreadCount);
                             badge.textContent = roomUnreadCount > 0 ? roomUnreadCount : '';
                             badge.style.display = roomUnreadCount > 0 ? 'inline' : 'none';
-                            this.updateHeaderBadge(totalUnreadCount);
+                        }
+                    });
+
+                    // 채팅방별 읽지 않은 메시지 카운트 구독 추가
+                    this.stompClient.subscribe(`/topic/chat/${roomId}/unread`, message => {
+                        const data = JSON.parse(message.body);
+                        const roomId = data.roomId;
+                        const count = data.roomUnreadCount;
+
+                        const badge = room.querySelector('.badge');
+                        if (badge) {
+                            badge.textContent = count > 0 ? count : '';
+                            badge.style.display = count > 0 ? 'inline' : 'none';
                         }
                     });
                 }

@@ -41,7 +41,7 @@ public interface ChatService {
 
     int getReceiverUserNum(int roomId, long userNum);
 
-    long otherUser(int roomId, int userNum);
+    Long otherUser(int roomId, int userNum);
 
     void leaveRoom(int roomId, int userNum);
 
