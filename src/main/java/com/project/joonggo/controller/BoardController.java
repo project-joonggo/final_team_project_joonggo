@@ -396,6 +396,10 @@ public class BoardController {
 
         // 3. 최근 등록된 상품 20개 조회
         List<BoardFileDTO> recentProducts = new ArrayList<>();
+        Map<Long, String> sellerAddresses = new HashMap<>();
+        Map<Long, String> productTimes = new HashMap<>();
+
+
         if (productList != null && !productList.isEmpty()) {
             // 상품들을 최근 등록일 순으로 정렬
             productList.sort((p1, p2) -> p2.getBoardVO().getRegAt().compareTo(p1.getBoardVO().getRegAt()));
@@ -414,6 +418,20 @@ public class BoardController {
                 // 이미지가 있는 상품만 recentProducts 리스트에 추가
                 if (fileUrl != null && !fileUrl.isEmpty()) {
                     recentProducts.add(boardFileDTO);
+
+                    long sellerId = boardFileDTO.getBoardVO().getSellerId();
+                    if (!sellerAddresses.containsKey(sellerId)) {
+                        String sellerAddress = loginService.getSellerAddressByUserNum(sellerId);
+                        if (sellerAddress != null) {
+                            sellerAddress = sellerAddress.replace("(", "").replace(")", "");
+                        }
+                        sellerAddresses.put(sellerId, sellerAddress); // 판매자 주소를 맵에 저장
+                    }
+
+                    // 등록 시간 경과 시간 계산
+                    String regAtString = boardFileDTO.getBoardVO().getRegAt().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);  // LocalDateTime -> String
+                    String timeAgo = TimeHandler.getTimeAgo(regAtString);  // 경과 시간 계산
+                    productTimes.put(boardFileDTO.getBoardVO().getBoardId(), timeAgo);  // 상품별 경과 시간 저장
                 }
             }
         }
@@ -448,6 +466,9 @@ public class BoardController {
         model.addAttribute("maxPrice", formattedMaxPrice);          // 최대 가격 (포맷팅된 값)
         model.addAttribute("minPrice", formattedMinPrice);          // 최소 가격 (포맷팅된 값)
         model.addAttribute("recentProducts", recentProducts); // 최근 등록된 상품
+        model.addAttribute("sellerAddresses", sellerAddresses);  // 판매자 주소 추가
+        model.addAttribute("productTimes", productTimes);  // 경과 시간 추가
+
 
         return "/board/price";  // 가격 조회 화면으로 리턴
     }
