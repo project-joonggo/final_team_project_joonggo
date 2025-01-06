@@ -63,29 +63,24 @@ class ChatWebSocketManager {
                 const roomId = room.getAttribute('data-room-id');
 
                 if (roomId) {
-                console.log(`Subscribing to room ${roomId}`); // 구독 확인
                     this.stompClient.subscribe(`/topic/chat/${roomId}`, message => {
                         const data = JSON.parse(message.body);
-                        console.log(`Received update for room ${roomId}:`, data);
-
-                        const receivedMessage = data.message;
                         const roomUnreadCount = data.roomUnreadCount;
                         const totalUnreadCount = data.totalUnreadCount;
 
-                        // receiverNum과 현재 userNum을 비교하여 수신자인 경우에만 업데이트
-                        if (receivedMessage && receivedMessage.commentUserNum !== userNum) {
-                            console.log(`Updating badge for room ${roomId} with count ${roomUnreadCount}`); // 업데이트 시도 확인
-                            const badge = room.querySelector('.badge');
-                            if (badge) {
-                                badge.textContent = roomUnreadCount > 0 ? roomUnreadCount : '';
-                                badge.style.display = roomUnreadCount > 0 ? 'inline' : 'none';
-                            }
+                        // HTML에 badge span이 있는 경우에만 업데이트 (수신자인 경우만 badge span이 존재)
+                        const badge = room.querySelector('.badge');
+                        if (badge) {
+                            badge.textContent = roomUnreadCount > 0 ? roomUnreadCount : '';
+                            badge.style.display = roomUnreadCount > 0 ? 'inline' : 'none';
+                            this.updateHeaderBadge(totalUnreadCount);
                         }
                     });
                 }
             });
         }
     }
+
 
     // 읽지 않은 채팅 메시지 수 구독
     subscribeToUnreadCount(userNum) {
