@@ -65,14 +65,17 @@ public class LoginController {
 
     //로그인 페이지 이동
     @GetMapping("/login")
-    public String login(Model model) {
-        String kakaoLoginPageUrl = socialLoginHandler.getKakaoLoginPageUrl();
-        String naverLoginPageUrl = socialLoginHandler.getNaverLoginPageUrl();
-        String googleLoginPageUrl = socialLoginHandler.getGoogleLoginPageUrl();
+    public String login(@RequestParam(value = "error", required = false) String error,
+                        @RequestParam(value = "errorMessage", required = false) String errorMessage,
+                        Model model) {
+        if (error != null && errorMessage != null) {
+            model.addAttribute("errorMessage", errorMessage);
+        }
 
-        model.addAttribute("kakaoLoginPageUrl", kakaoLoginPageUrl);
-        model.addAttribute("naverLoginPageUrl", naverLoginPageUrl);
-        model.addAttribute("googleLoginPageUrl", googleLoginPageUrl);
+        // 소셜 로그인 URL 추가
+        model.addAttribute("kakaoLoginPageUrl", socialLoginHandler.getKakaoLoginPageUrl());
+        model.addAttribute("naverLoginPageUrl", socialLoginHandler.getNaverLoginPageUrl());
+        model.addAttribute("googleLoginPageUrl", socialLoginHandler.getGoogleLoginPageUrl());
 
         return "/user/login";
     }

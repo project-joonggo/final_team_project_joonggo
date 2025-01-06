@@ -132,7 +132,7 @@
                                     <span th:text="${boardFileDTO.boardVO.boardName}"></span>
                                 </a>
                             </td>
-                            <td th:text="${boardFileDTO.boardVO.tradePrice}" class="priceTd"></td>
+                            <td th:text="${boardFileDTO.boardVO.formattedPrice}" class="priceTd"></td>
                         </tr>
                         <tr th:if="${list == null or list.size() == 0}">
                             <td colspan="4" class="text-center">

@@ -302,5 +302,10 @@ public class BoardServiceImpl implements BoardService{
         return boardFileDTOList;
     }
 
+    @Override
+    public void upScore(Long sellerId) {
+        userMapper.upScore(sellerId);
+    }
+
 
 }

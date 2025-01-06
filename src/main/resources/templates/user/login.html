@@ -20,7 +20,9 @@
                     <div class="mb-3">
                         <input type="password" class="form-control" id="p" name="password" placeholder="비밀번호">
                     </div>
-                    <div th:if="${error}" class="error" th:text="${error}"></div>
+                    <div th:if="${errorMessage}" class="error-message" style="color: red">
+                        <p th:text="${errorMessage}"></p>
+                    </div>
                     <button type="submit" class="btn btn-custom" id="loginBtn">로그인하기</button>
                 </form>
                 <div id="joinBtnArea">

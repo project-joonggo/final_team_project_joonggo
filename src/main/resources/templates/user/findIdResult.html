@@ -9,8 +9,8 @@
         <div id="findIdResult">
             <h2>아이디 찾기 결과</h2>
             <div class="findIdResultWrap">
+                <p th:text="${message}" style="text-align: center"></p>
                 <div class="findIdResultWrapWrap">
-                    <p th:text="${message}"></p>
 
                     <div th:if="${status == 'success'}">
                         <ul>
@@ -26,6 +26,10 @@
                                 </div>
                             </li>
                         </ul>
+                    </div>
+                    <div class="justify-content-center gap-3 d-flex margin-top-50">
+                        <a href="/user/login" class="btn btn-custom">로그인</a>
+                        <a href="/user/findPassword" class="btn btn-custom">비밀번호찾기</a>
                     </div>
                 </div>
             </div>
