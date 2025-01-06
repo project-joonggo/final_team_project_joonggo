@@ -104,10 +104,11 @@ public class ChatServiceImpl implements ChatService {
         return chatJoinMapper.getReceiverUserNum(roomId, userNum);
     }
 
-    // 채팅방 본인 외 다른 사용자
     @Override
     public long otherUser(int roomId, int userNum) {
-        return chatJoinMapper.otherUser(roomId, userNum);
+        // Optional을 사용하여 null을 처리
+        Long otherUserNum = chatJoinMapper.otherUser(roomId, userNum);
+        return (otherUserNum != null) ? otherUserNum : 0L;  // null이면 0을 반환
     }
 
     @Override

@@ -1,5 +1,5 @@
  /* 모달 창 스타일 */
-  .modal {
+  .buyModal {
     display: none; /* 기본적으로 숨겨져 있음 */
     position: fixed;
     z-index: 1;
@@ -10,7 +10,7 @@
     background-color: rgba(0,0,0,0.4); /* 배경색 (반투명) */
   }
 
-  .modal-content {
+  .buyModal-content {
     background-color: #fff;
     margin: 15% auto;
     padding: 20px;

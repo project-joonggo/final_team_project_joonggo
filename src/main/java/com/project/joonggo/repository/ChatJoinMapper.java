@@ -22,7 +22,7 @@ public interface ChatJoinMapper {
 
     int getReceiverUserNum(@Param("roomId") int roomId, @Param("userNum") long commentUserNum);
 
-    long otherUser(@Param("roomId") int roomId, @Param("userNum") int userNum);
+    Long otherUser(@Param("roomId") int roomId, @Param("userNum") int userNum);
 
     void deleteUserFromRoom(int roomId, int userNum);
 

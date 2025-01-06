@@ -36,7 +36,7 @@
         LIMIT 1
     </select>
 
-    <select id="otherUser" resultType="long">
+    <select id="otherUser" resultType="Long">
         SELECT user_num
         FROM chat_join
         WHERE room_id = #{roomId} and user_num != #{userNum}
