@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             } catch (error) {
                 console.error('Error details:', error);  // 에러 상세 로깅
-                alert('채팅방 생성 중 오류가 발생했습니다.');
+                alert('로그인 후 이용해주세요.');
             }
         });
     });

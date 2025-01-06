@@ -71,8 +71,8 @@
             </div>
           </td>
           <td class="handleBtn">
-            <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}"
-                    class="pay-btn btn-custom" th:disabled="${boardFileDTO.boardVO.tradeFlag == 1}" th:text="${boardFileDTO.boardVO.tradeFlag == 1 ? '거래완료 상품' : '결제하기'}" >결제하기</button>
+            <button type="button" id="buyBtn" th:data-board-id="${boardFileDTO.boardVO.boardId}"
+                    class="pay-btn btn-custom" th:disabled="${boardFileDTO.boardVO.tradeFlag == 1}" th:text="${boardFileDTO.boardVO.tradeFlag == 1 ? '거래완료 상품' : '구매하기'}" >구매하기</button>
             <button type="button" th:data-board-id="${boardFileDTO.boardVO.boardId}" class="remove-wish-btn btn-custom">찜 취소</button>
           </td>
 
@@ -110,6 +110,34 @@
       /*<![CDATA[*/
       var boardFileDTO = [[${wishedProducts}]];
       /*]]>*/
+    </script>
+
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+
+       var principal = [[${#authentication.principal}]];
+
+       document.getElementById('buyBtn').addEventListener('click', function() {
+         var principal = [[${#authentication.principal}]];
+         if (principal === 'anonymousUser') {
+           window.location.href = '/user/login';
+         }
+       });
+
+       document.getElementById('chatBtn').addEventListener('click', function() {
+         var principal = [[${#authentication.principal}]];
+         if (principal === 'anonymousUser') {
+           window.location.href = '/user/login';
+         }
+       });
+
+       document.getElementById('reportBtn').addEventListener('click', function() {
+         var principal = [[${#authentication.principal}]];
+         if (principal === 'anonymousUser') {
+           window.location.href = '/user/login';
+         }
+       });
+       /*]]>*/
     </script>
 
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>

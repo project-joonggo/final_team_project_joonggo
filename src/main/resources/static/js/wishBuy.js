@@ -103,7 +103,11 @@ document.addEventListener("DOMContentLoaded", () => {
     function openPaymentModal(boardId) {
         const modal = document.getElementById(`paymentModal_${boardId}`);
         if (modal) {
-            modal.style.display = "block";  // 해당 모달 열기
+            if (principal === 'anonymousUser') {
+               window.location.href = '/user/login';
+             } else {
+                modal.style.display = "block";  // 해당 모달 열기
+             }
         }
     }
 

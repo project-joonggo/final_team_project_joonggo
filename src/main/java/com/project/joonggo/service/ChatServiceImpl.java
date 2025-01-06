@@ -3,9 +3,11 @@ package com.project.joonggo.service;
 import com.project.joonggo.domain.ChatCommentVO;
 import com.project.joonggo.domain.ChatJoinVO;
 import com.project.joonggo.domain.ChatRoomVO;
+import com.project.joonggo.domain.UserVO;
 import com.project.joonggo.repository.ChatCommentMapper;
 import com.project.joonggo.repository.ChatJoinMapper;
 import com.project.joonggo.repository.ChatRoomMapper;
+import com.project.joonggo.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ public class ChatServiceImpl implements ChatService {
     private final ChatRoomMapper chatRoomMapper;
     private final ChatJoinMapper chatJoinMapper;
     private final ChatCommentMapper chatCommentMapper;
+    private final UserMapper userMapper;
 
     @Override
     public List<ChatRoomVO> getChatRoomList(long userNum) {
@@ -115,6 +118,11 @@ public class ChatServiceImpl implements ChatService {
     @Override
     public int getRoomUserCount(int roomId) {
         return chatJoinMapper.countRoomUsers(roomId);
+    }
+
+    @Override
+    public UserVO getUserInfo(int receiverNum) {
+        return userMapper.getUserInfo(receiverNum);
     }
 
 }

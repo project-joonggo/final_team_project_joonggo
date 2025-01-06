@@ -2,6 +2,7 @@ package com.project.joonggo.controller;
 
 import com.project.joonggo.domain.ChatCommentVO;
 import com.project.joonggo.domain.ChatJoinVO;
+import com.project.joonggo.domain.UserVO;
 import com.project.joonggo.service.ChatService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,6 +15,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -32,13 +35,28 @@ public class WebSocketController {
     // 사용자가 채팅방에 입장할 때
     @MessageMapping("/chat/{roomId}/enter")
     public void handleEnter(@DestinationVariable("roomId") int roomId, ChatJoinVO chatJoinVO) {
+        int userNum = (int) chatJoinVO.getUserNum();
         log.info("User {} entered chat room {}", chatJoinVO.getUserNum(), roomId);
+        log.info("Before modification - Complete activeUsers map: {}", activeUsers);
 
-        // 채팅방의 활성 사용자 목록에 추가
+        // 모든 채팅방에서 현재 사용자 제거
+        Set<Integer> roomsToRemove = new HashSet<>();
+        activeUsers.forEach((existingRoomId, users) -> {
+            users.remove(userNum);
+            if (users.isEmpty()) {
+                roomsToRemove.add(existingRoomId);
+            }
+        });
+
+        // 빈 채팅방 제거
+        roomsToRemove.forEach(activeUsers::remove);
+
+        // 새로운 채팅방에 사용자 추가
         activeUsers.computeIfAbsent(roomId, k -> ConcurrentHashMap.newKeySet())
-                .add((int) chatJoinVO.getUserNum());
+                .add(userNum);
 
-        log.info("Current active users in room {}: {}", roomId, activeUsers.get(roomId));  // 로그 추가
+        log.info("After modification - Complete activeUsers map: {}", activeUsers);
+        log.info("Current active users in room {}: {}", roomId, activeUsers.get(roomId));
 
         messagingTemplate.convertAndSend("/topic/chat/" + roomId + "/enter", chatJoinVO);
     }
@@ -46,25 +64,29 @@ public class WebSocketController {
     // 사용자가 채팅방을 나갈 때
     @MessageMapping("/chat/{roomId}/leave")
     public void handleLeave(@DestinationVariable("roomId") int roomId, ChatJoinVO joinInfo) {
+        int userNum = (int) joinInfo.getUserNum();
         log.info("User {} left chat room {}", joinInfo.getUserNum(), roomId);
 
-        Set<Integer> roomUsers = activeUsers.get(roomId);
-
-        if (roomUsers != null) {
-            boolean removed = roomUsers.remove(joinInfo.getUserNum());  // 제거 성공 여부 확인
-            log.info("User {} removal success: {}", joinInfo.getUserNum(), removed);
-
-            if (roomUsers.isEmpty()) {
-                activeUsers.remove(roomId);
+        // 해당 사용자를 모든 채팅방에서 제거
+        Set<Integer> roomsToRemove = new HashSet<>();
+        activeUsers.forEach((existingRoomId, users) -> {
+            users.remove(userNum);
+            if (users.isEmpty()) {
+                roomsToRemove.add(existingRoomId);
             }
-        }
-        log.info("Remaining active users in room {}: {}", roomId, activeUsers.get(roomId));
+        });
+
+        // 빈 채팅방 제거
+        roomsToRemove.forEach(activeUsers::remove);
+
+        log.info("Complete activeUsers map after leave: {}", activeUsers);
 
         messagingTemplate.convertAndSend("/topic/chat/" + roomId + "/leave", joinInfo);
     }
 
     @MessageMapping("/chat/sendMessage")
     public void sendMessage(@Payload ChatCommentVO chatCommentVO) {
+        log.info("Current active users map: {}", activeUsers);
         log.info("Received message Payload : {}", chatCommentVO);
 
         if (chatCommentVO == null
@@ -78,21 +100,16 @@ public class WebSocketController {
         try {
             // 현재 채팅방의 활성 사용자 확인
             Set<Integer> roomUsers = activeUsers.get(chatCommentVO.getRoomId());
-
-            log.info("Current active users map: {}", activeUsers);  // 전체 activeUsers 맵 상태
             log.info("Active users in room {}: {}", chatCommentVO.getRoomId(), roomUsers);
 
-            // 메시지 수신자가 채팅방에 접속해있는지 확인
+            // 메시지 수신자 정보 조회
             int receiverNum = chatService.getReceiverUserNum(
                     chatCommentVO.getRoomId(),
                     chatCommentVO.getCommentUserNum());
 
-            log.info("roomUsers > {}", roomUsers);
-            log.info("Receiver Num: {}", receiverNum);
+            log.info("Receiver user number: {}", receiverNum);
 
             boolean isReceiverActive = roomUsers != null && roomUsers.contains(receiverNum);
-
-            log.info("Is Receiver Active: {}", isReceiverActive);
 
             // 수신자의 접속 상태에 따라 다른 메서드 호출
             if (isReceiverActive) {
@@ -101,22 +118,55 @@ public class WebSocketController {
                         chatCommentVO.getCommentUserNum(),
                         chatCommentVO.getCommentContent()
                 );
-                log.info("Saving message with is_read = 1");  // 로그 추가
             } else {
                 chatService.saveChatComment(
                         chatCommentVO.getRoomId(),
                         chatCommentVO.getCommentUserNum(),
                         chatCommentVO.getCommentContent()
                 );
-                log.info("Saving message with is_read = 0");  // 로그 추가
             }
+            // 수신자의 전체 읽지 않은 메시지 수 조회
+            int totalUnreadCount = chatService.getTotalUnreadCount(receiverNum);
+            // 해당 채팅방의 읽지 않은 메시지 수 조회
+            int roomUnreadCount = chatService.getUnreadCount(chatCommentVO.getRoomId(), receiverNum);
 
-            log.info("Final ChatCommentVO before save: {}", chatCommentVO);
+            // 수신자의 정보를 조회하여 메시지에 포함
+            UserVO receiverInfo = chatService.getUserInfo(receiverNum);
+            chatCommentVO.setOtherUser(receiverInfo);
 
+            // 채팅방에 메시지와 읽지 않은 메시지 수를 함께 전송
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", chatCommentVO);
+            response.put("roomUnreadCount", roomUnreadCount);    // 채팅방별 카운트
+            response.put("totalUnreadCount", totalUnreadCount);  // 전체 카운트
+            response.put("receiverNum", receiverNum);
+
+            // 채팅방에 메세지 전송
             messagingTemplate.convertAndSend(
                     "/topic/chat/" + chatCommentVO.getRoomId(),
-                    chatCommentVO
+                    response
             );
+            // 수신자에게 전체 읽지 않은 메세지 수 전송
+            messagingTemplate.convertAndSend(
+                    "/topic/user/" + receiverNum + "/unread",  // 사용자별 구독 토픽
+                    totalUnreadCount
+            );
+
+//            // 채팅방별 읽지 않은 메시지 수 전송 (추가)
+            if (chatCommentVO.getCommentUserNum() != receiverNum) {
+                // 채팅방별 메시지 count 전송
+                Map<String, Object> roomUnreadResponse = new HashMap<>();
+                roomUnreadResponse.put("roomId", chatCommentVO.getRoomId());
+                roomUnreadResponse.put("roomUnreadCount", roomUnreadCount);
+
+                messagingTemplate.convertAndSend(
+                        "/topic/chat/" + chatCommentVO.getRoomId() + "/unread",
+                        roomUnreadResponse
+                );
+            }
+            log.info("Sending message to room {}: {}", chatCommentVO.getRoomId(), response);
+            log.info("roomUnreadCount: {}", roomUnreadCount);
+
         } catch (Exception e) {
             log.error("Error processing message: ", e);
         }

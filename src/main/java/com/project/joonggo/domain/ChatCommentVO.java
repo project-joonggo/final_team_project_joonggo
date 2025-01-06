@@ -13,5 +13,6 @@ public class ChatCommentVO {
     private long commentUserNum;
     private String commentContent;
     private String commentWriteDate;
+    private UserVO otherUser;
     private int isRead;
 }
