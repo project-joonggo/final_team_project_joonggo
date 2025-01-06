@@ -18,6 +18,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const chatbotSocket = new SockJS('/ws/chatbot');
         chatbotStompClient = Stomp.over(chatbotSocket);
 
+
         // STOMP 디버그 로그 비활성화
         chatbotStompClient.debug = null;
 
@@ -33,6 +34,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 연결 성공 메시지 표시
             addMessage('시스템', '챗봇과 대화를 시작하세요.', 'system');
+
+            // 챗봇 활성화 시 웰컴문자 뜨게 설정.
+            const chatMessages = document.querySelector('.chat-messages');
+            const welcomeCmt = document.createElement('div');
+            welcomeCmt.className = 'message message-bot';
+            const lineBreak = document.createElement('br');     // 줄바꿈
+
+
+            const senderDiv = document.createElement('div');
+            senderDiv.className = 'message-sender';
+            senderDiv.textContent = '챗봇';
+
+            const contentDiv = document.createElement('div');
+            contentDiv.className = 'message-content';
+            contentDiv.append('안녕하세요. 쓸템 : SSeulTem 을 이용해주셔서 감사합니다.');
+            contentDiv.appendChild(document.createElement('br'));
+
+            contentDiv.append('찾고자 하는 키워드를 입력해주세요.');
+            contentDiv.appendChild(document.createElement('br'));
+
+            contentDiv.append('ex) 배송, 위치, 결제, 오늘 날씨, 내 주소, 많은 조회수, 많은 찜');
+
+            welcomeCmt.appendChild(senderDiv);
+            welcomeCmt.appendChild(contentDiv);
+
+            chatMessages.appendChild(welcomeCmt);
+
         }, function(error) {
             console.error('STOMP connection error:', error);
             addMessage('시스템', '연결에 실패했습니다. 잠시 후 다시 시도해주세요.', 'system');
@@ -101,7 +129,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // 대화방 열기 버튼 클릭 이벤트
     if (openChatBtn) {
         openChatBtn.onclick = function() {
-            console.log("Opening chat sidebar");
+//            console.log("Opening chat sidebar");
             chatSidebar.classList.add("active");
             if (!chatbotStompClient || !chatbotStompClient.connected) {
                 connectStomp();
