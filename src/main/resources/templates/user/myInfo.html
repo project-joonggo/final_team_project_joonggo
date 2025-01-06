@@ -117,6 +117,7 @@
                             <th>카테고리</th>
                             <th>상품명</th>
                             <th>상품가격</th>
+                            <th>판매상태</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -133,6 +134,7 @@
                                 </a>
                             </td>
                             <td th:text="${boardFileDTO.boardVO.formattedPrice}" class="priceTd"></td>
+                            <td th:text="${boardFileDTO.boardVO.tradeFlag == 0 ? '판매중' : '판매완료'}"></td>
                         </tr>
                         <tr th:if="${list == null or list.size() == 0}">
                             <td colspan="4" class="text-center">
