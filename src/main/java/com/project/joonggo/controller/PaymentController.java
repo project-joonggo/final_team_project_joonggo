@@ -196,7 +196,7 @@ public class PaymentController {
                     );
                     ResponseEntity<Map<String, String>> webhookResponse = handleWebhook(webhookData);  // 웹훅 메서드 호출
                     if (webhookResponse.getStatusCode().is2xxSuccessful()) {
-                        return ResponseEntity.ok(Map.of("status", "success", "message", "환불 처리 및 웹훅 호출 완료","redirectUrl", "/board/list")); // mypage만들면 거기로가자
+                        return ResponseEntity.ok(Map.of("status", "success", "message", "환불 처리 및 웹훅 호출 완료","redirectUrl", "/payment/history")); // mypage만들면 거기로가자
                     } else {
                         return ResponseEntity.status(500).body(Map.of("status", "failure", "message", "웹훅 호출 실패"));
                     }

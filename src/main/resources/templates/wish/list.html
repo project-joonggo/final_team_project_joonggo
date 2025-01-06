@@ -66,7 +66,7 @@
               <a th:href="@{/board/detail(boardId=${boardFileDTO.boardVO.boardId})}">
                 <p th:text="${boardFileDTO.boardVO.boardName}"></p>
               </a>
-              <p th:text="${boardFileDTO.boardVO.tradePrice}"></p>
+              <p th:text="${boardFileDTO.boardVO.formattedPrice}"></p>
               <p th:text="${boardFileDTO.boardVO.category}"></p>
             </div>
           </td>

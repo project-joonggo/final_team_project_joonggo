@@ -81,18 +81,18 @@
             <button id="show-all-notifications" class="filter-button active">전체</button>
             <button id="show-sale-notifications" class="filter-button">판매</button>
             <button id="show-question-notifications" class="filter-button">문의</button>
-            <button id="show-report-notifications" class="filter-button">신고</button>
+            <button id="show-report-notifications" class="filter-button" sec:authorize="hasRole('ROLE_ADMIN')">신고</button>
         </div>
 
         <!-- 알림 카테고리 별로 나누어짐 -->
-        <div id="SALE-notifications">
-            <!-- 판매 알림들이 여기에 추가됩니다 -->
-        </div>
         <div id="QUESTION-notifications">
             <!-- 문의 알림들이 여기에 추가됩니다 -->
         </div>
-        <div id="REPORT-notifications">
+        <div id="REPORT-notifications" sec:authorize="hasRole('ROLE_ADMIN')">
             <!-- 신고 알림들이 여기에 추가됩니다 -->
+        </div>
+        <div id="SALE-notifications">
+            <!-- 판매 알림들이 여기에 추가됩니다 -->
         </div>
     </div>
 

@@ -98,3 +98,24 @@ document.addEventListener("DOMContentLoaded", function() {
 var score = parseFloat(document.getElementById("score-value").textContent);
 var percentage = (score / 100) * 100;
 document.getElementById("score-bar").style.width = percentage + "%";
+
+
+
+document.getElementById('toggleGraphButton').addEventListener('click', function() {
+    var graphContainer = document.getElementById('priceGraph');
+    var toggleIcon = document.getElementById('toggleIcon');
+    // 현재 그래프가 보이는 상태면 숨기고, 숨겨져 있으면 보이게
+    if (graphContainer.style.display === 'none') {
+        graphContainer.style.display = 'block';
+        // 아이콘을 위쪽 화살표로 변경 (innerHTML을 이용하여 변경)
+        toggleIcon.innerHTML = `
+            <path fill-rule="evenodd" d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708z"/>
+        `;
+    } else {
+        graphContainer.style.display = 'none';
+        // 아이콘을 아래쪽 화살표로 변경 (innerHTML을 이용하여 변경)
+        toggleIcon.innerHTML = `
+            <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+        `;
+    }
+});

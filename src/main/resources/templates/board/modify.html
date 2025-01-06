@@ -6,49 +6,81 @@
 
 
 <div layout:fragment="content">
-  <div class="container-md cBox" style="margin-top : 50px;" >
-    <h1 style="color: white;">Product Modify Page</h1>
-    <hr>
+  <link rel="stylesheet" th:href="@{/css/register.css}">
+  <div class="register-container" >
     <form action="/board/update" method="post"  enctype="multipart/form-data" th:with="boardVO=${boardFileDTO.boardVO}">
       <input type="hidden" th:value="${boardVO.boardId}" name="boardId">
-      <div class="mb-3">
-        <label for="b" class="form-label">상품명</label>
-        <input type="text" class="form-control" id="b" name="boardName" th:value="${boardVO.boardName}">
+      <!--class="mb-3"-->
+      <div class="register-area">
+        <!--class="form-label"-->
+        <label for="b" class="register-name">상품명</label>
+        <!--class="form-control"-->
+        <input type="text" id="b" name="boardName" class="register-input" th:value="${boardVO.boardName}">
       </div>
       <!-- boardFormType 이라는 hidden input 추가 -->
       <input type="hidden" id="formType" value="board">
-      <div class="mb-3">
-        <label for="inputGroupSelect01" class="form-label">카테고리</label>
-        <select class="form-select form-select-sm" id="inputGroupSelect01" name="category" required>
-          <option value="" disabled selected>Choose...</option>
-          <option value="가전제품" th:selected="${boardVO.category == '가전제품'}">가전제품</option>
-          <option value="의류" th:selected="${boardVO.category == '의류'}">의류</option>
-          <option value="노트북/PC" th:selected="${boardVO.category == '노트북/PC'}">노트북/PC</option>
-          <option value="리빙/생활" th:selected="${boardVO.category == '리빙/생활'}">리빙/생활</option>
-          <option value="게임" th:selected="${boardVO.category == '게임'}">게임</option>
-          <option value="도서/음반/문구" th:selected="${boardVO.category == '도서/음반/문구'}">도서/음반/문구</option>
-          <option value="뷰티" th:selected="${boardVO.category == '뷰티'}">뷰티</option>
-          <option value="출산/유아동" th:selected="${boardVO.category == '출산/유아동'}">출산/유아동</option>
-          <option value="모바일/태블릿" th:selected="${boardVO.category == '모바일/태블릿'}">모바일/태블릿</option>
-          <option value="카메라/캠코더" th:selected="${boardVO.category == '카메라/캠코더'}">카메라/캠코더</option>
-          <option value="가구/인테리어" th:selected="${boardVO.category == '가구/인테리어'}">가구/인테리어</option>
-          <option value="레저/여행" th:selected="${boardVO.category == '레저/여행'}">레저/여행</option>
-          <option value="스포츠" th:selected="${boardVO.category == '스포츠'}">스포츠</option>
-          <option value="반려동물/취미" th:selected="${boardVO.category == '반려동물/취미'}">반려동물/취미</option>
-          <option value="중고차" th:selected="${boardVO.category == '중고차'}">중고차</option>
-        </select>
+
+      <!--class="mb-3"-->
+      <div class="register-area">
+        <!--class="form-label"-->
+        <label for="inputGroupSelect01" class="register-name">카테고리</label>
+        <!--class="form-select form-select-sm"-->
+        <div class="selectBox">
+          <select id="inputGroupSelect01" name="category" class="select" required>
+            <option value="" disabled selected>카테고리</option>
+            <option value="가전제품" th:selected="${boardVO.category == '가전제품'}">가전제품</option>
+            <option value="의류" th:selected="${boardVO.category == '의류'}">의류</option>
+            <option value="노트북/PC" th:selected="${boardVO.category == '노트북/PC'}">노트북/PC</option>
+            <option value="리빙/생활" th:selected="${boardVO.category == '리빙/생활'}">리빙/생활</option>
+            <option value="게임" th:selected="${boardVO.category == '게임'}">게임</option>
+            <option value="도서/음반/문구" th:selected="${boardVO.category == '도서/음반/문구'}">도서/음반/문구</option>
+            <option value="뷰티" th:selected="${boardVO.category == '뷰티'}">뷰티</option>
+            <option value="출산/유아동" th:selected="${boardVO.category == '출산/유아동'}">출산/유아동</option>
+            <option value="모바일/태블릿" th:selected="${boardVO.category == '모바일/태블릿'}">모바일/태블릿</option>
+            <option value="카메라/캠코더" th:selected="${boardVO.category == '카메라/캠코더'}">카메라/캠코더</option>
+            <option value="가구/인테리어" th:selected="${boardVO.category == '가구/인테리어'}">가구/인테리어</option>
+            <option value="레저/여행" th:selected="${boardVO.category == '레저/여행'}">레저/여행</option>
+            <option value="스포츠" th:selected="${boardVO.category == '스포츠'}">스포츠</option>
+            <option value="반려동물/취미" th:selected="${boardVO.category == '반려동물/취미'}">반려동물/취미</option>
+            <option value="중고차" th:selected="${boardVO.category == '중고차'}">중고차</option>
+          </select>
+          <span class="icoArrow"><img src="/img/drop-down.svg" class="select-icon"></span>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="p" class="form-label">판매가격</label>
-        <input type="text" class="form-control" id="p" name="tradePrice" th:value="${boardVO.tradePrice}">
+
+      <!--class="mb-3"-->
+      <div class="register-area">
+        <!--class="form-label"-->
+        <label for="p" class="register-name">판매가격</label>
+        <!-- class="form-control" -->
+        <input type="text" id="p" name="tradePrice" class="register-input" th:value="${boardVO.tradePrice}">
       </div>
-      <div id="smarteditor" class="mb-3">
+
+      <!--class="mb-3"-->
+      <div id="smarteditor" class="register-area">
         <label for="c" class="form-label">상품내용</label>
         <textarea class="form-control" id="c" name="boardContent" cols="10" rows="20" placeholder="상품내용" th:text="${boardVO.boardContent}"></textarea>
       </div>
-      <div class="flexBox" style="display: flex; justify-content:end;">
-        <button type="submit" class="btn btn-secondary" id="regBtn">수정</button>
+
+      <div class="register-notes">
+        <div class="register-bold">등록 시 참고사항</div>
+        <br>
+        <div>- 상품명(브랜드)</div>
+        <div>- 구매 시기</div>
+        <div>- 사용 여부</div>
+        <div>- 상품 상태</div>
+        <div>- 선호 거래 방법</div>
+        <div>- 배송비 포함 여부</div>
+        <div class="register-bold">* 실제 촬영한 사진과 함께 상세 정보를 입력해주세요.</div>
+        <div class="register-bold">* 카카오톡 아이디 첨부 시 게시물 삭제 및 이용제재 처리될 수 있어요.</div>
+        <div class="register-bold">안전하고 건전한 거래환경을 위해 과학기술정보통신부, 한국인터넷진흥원, 쓸템이 함께합니다.</div>
       </div>
+
+      <div class="register-area register-center">
+      <button type="submit" class="register-button" id="regBtn">수정</button>
+      </div>
+
+
     </form>
 
     <script th:src="@{/js/productModify.js}" charset="UTF-8"></script>
