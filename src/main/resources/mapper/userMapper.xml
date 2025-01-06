@@ -144,9 +144,14 @@
         WHERE user_num = #{userNum}
     </update>
 
-    
     <select id="getSellerAddressByUserNum" resultType="String">
         select address_3 from user where user_num = #{sellerId}
+    </select>
+
+    <select id="getUserInfo" resultType="com.project.joonggo.domain.UserVO">
+        select * from user
+        where user_num = #{receiverNum}
+
     </select>
 
 </mapper>

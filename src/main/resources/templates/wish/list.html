@@ -117,6 +117,34 @@
       /*]]>*/
     </script>
 
+    <script th:inline="javascript">
+      /*<![CDATA[*/
+
+       var principal = [[${#authentication.principal}]];
+
+       document.getElementById('buyBtn').addEventListener('click', function() {
+         var principal = [[${#authentication.principal}]];
+         if (principal === 'anonymousUser') {
+           window.location.href = '/user/login';
+         }
+       });
+
+       document.getElementById('chatBtn').addEventListener('click', function() {
+         var principal = [[${#authentication.principal}]];
+         if (principal === 'anonymousUser') {
+           window.location.href = '/user/login';
+         }
+       });
+
+       document.getElementById('reportBtn').addEventListener('click', function() {
+         var principal = [[${#authentication.principal}]];
+         if (principal === 'anonymousUser') {
+           window.location.href = '/user/login';
+         }
+       });
+       /*]]>*/
+    </script>
+
     <script src="https://cdn.iamport.kr/v1/iamport.js"></script>
     <script th:src="@{/js/wishList.js}"></script>
     <script th:src="@{/js/wishBuy.js}"></script>

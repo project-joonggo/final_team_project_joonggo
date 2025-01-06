@@ -13,6 +13,7 @@
   <link rel="stylesheet" th:href="@{/css/detail.css}">
   <link rel="stylesheet" th:href="@{/css/detail-swiper.css}">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Chart.js 라이브러리 추가 -->
+  <link rel="stylesheet" th:href="@{/css/modal.css}">
 
   <th:block th:with="boardVO=${boardFileDTO.boardVO}">
 
@@ -99,9 +100,45 @@
             </span>
           </button>
 
-          <button class="detail-chattingButton">채팅하기</button>
+<!--          <button class="detail-chattingButton">채팅하기</button>-->
+          <!--          <button class="detail-buyingButton btn-custom" id="paymentBtn">구매하기</button>-->
 
-          <button class="detail-buyingButton btn-custom" id="paymentBtn">구매하기</button>
+          <button type="button"
+                  id="chatBtn"
+                  class="chat-btn detail-chattingButton"
+                  th:data-seller-id="${boardFileDTO.boardVO.sellerId}"
+                  th:data-board-name="${boardFileDTO.boardVO.boardName}"
+                  th:data-user-num="${#authentication.principal != 'anonymousUser' ? #authentication.principal.userVO.userNum : _}">채팅하기</button>
+
+
+          <button type="button" id="buyBtn" th:data-board-id="${boardFileDTO.boardVO.boardId}"
+                  class="pay-btn detail-buyingButton btn-custom">구매하기</button>
+
+          <div th:id="'paymentModal_' + ${boardFileDTO.boardVO.boardId}" class="modal">
+            <div class="modal-content">
+              <!-- 닫기 버튼 -->
+              <button class="close btn-custom" id="close" th:data-board-id="${boardFileDTO.boardVO.boardId}">
+                <img src="/img/x.png">
+              </button>
+              <h2 class="pay-wait-head">잠시만요! 판매자와 대화를 하셨나요?</h2>
+              <br>
+              <p class="pay-wait-body">채팅을 하지 않고 결제하면 거래가 취소될 수 있어요.</p>
+              <p class="pay-wait-body">판매자와의 채팅을 권장드립니다.</p>
+              <!--          <button id="tradeBtn">직거래</button>-->
+              <button type="button"
+                      class="chat-btn btn-custom"
+                      th:data-seller-id="${boardFileDTO.boardVO.sellerId}"
+                      th:data-board-name="${boardFileDTO.boardVO.boardName}"
+                      th:data-user-num="${#authentication.principal != 'anonymousUser' ? #authentication.principal.userVO.userNum : _}">알겠습니다. 채팅을 진행할게요.</button>
+
+              <!-- 결제 버튼: data-board-id로 boardId를 전달 -->
+              <button type="button" class="paymentBtn" id="paymentBtn"
+                      th:data-board-id="${boardFileDTO.boardVO.boardId}">
+                괜찮습니다. 바로 결제할게요.
+              </button>
+<!--          <button class="detail-buyingButton btn-custom" id="paymentBtn">구매하기</button>-->
+            </div>
+          </div>
 
           <button id="reportBtn" href="#" data-bs-toggle="modal" data-bs-target="#reportModal" class="detail-atcButton-1">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-shield-exclamation" viewBox="0 0 20 20">
@@ -277,7 +314,14 @@
 
        var principal = [[${#authentication.principal}]];
 
-       document.getElementById('paymentBtn').addEventListener('click', function() {
+       document.getElementById('buyBtn').addEventListener('click', function() {
+         var principal = [[${#authentication.principal}]];
+         if (principal === 'anonymousUser') {
+           window.location.href = '/user/login';
+         }
+       });
+
+       document.getElementById('chatBtn').addEventListener('click', function() {
          var principal = [[${#authentication.principal}]];
          if (principal === 'anonymousUser') {
            window.location.href = '/user/login';
@@ -307,6 +351,8 @@
     <script th:src="@{/js/detail-swiper.js}"></script>
     <script th:src="@{/js/priceChart.js}"></script>
 
+    <script th:src="@{/js/wishBuy.js}"></script>
+    <script th:src="@{/js/chatCreate.js}"></script>
   </th:block>
 
 

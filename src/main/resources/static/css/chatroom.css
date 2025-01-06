@@ -167,3 +167,7 @@
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+#leaveRoomButton, #chatRoom, .message-input-container {
+    display: none;
+}

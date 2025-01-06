@@ -11,10 +11,16 @@
     <div id="chatRoomList" class="chat-room-list">
       <h2>Chat Room List</h2>
       <ul id="roomList">
-        <li th:each="room : ${chatRoomList}" class="room-list-item" th:data-room-id="${room.roomId}">
+        <li th:each="room : ${chatRoomList}"
+            class="room-list-item"
+            th:data-room-id="${room.roomId}"
+            th:data-is-receiver="${#authentication.principal.userVO.userNum != room.userNum}">
           <span th:text="${room.roomName}"></span>
-          <span class="badge" th:text="${unreadCounts.get(room.roomId) > 0 ? unreadCounts.get(room.roomId) : ''}"
-                th:style="${unreadCounts.get(room.roomId) > 0 ? 'display: inline' : 'display: none'}"></span>
+          <span class="badge"
+                th:if="${#authentication.principal.userVO.userNum != receivers.get(room.roomId)}"
+                th:text="${unreadCounts.get(room.roomId) > 0 ? unreadCounts.get(room.roomId) : ''}"
+                th:style="${unreadCounts.get(room.roomId) > 0 ? 'display: inline' : 'display: none'}">
+          </span>
         </li>
       </ul>
     </div>
@@ -40,10 +46,6 @@
     const totalUnreadCount = [[${totalUnreadCount}]];
 
     // 헤더의 배지 업데이트
-    const headerBadge = document.getElementById('headerUnreadBadge');
-    if (headerBadge) {
-        headerBadge.textContent = totalUnreadCount > 0 ? totalUnreadCount : '';
-        headerBadge.style.display = totalUnreadCount > 0 ? 'inline' : 'none';
-    }
+
   </script>
 </div>

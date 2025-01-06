@@ -55,4 +55,6 @@ public interface UserMapper {
     void banUser(long userNum);
 
     String getSellerAddressByUserNum(long sellerId);
+
+    UserVO getUserInfo(int receiverNum);
 }

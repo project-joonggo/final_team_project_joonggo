@@ -3,6 +3,7 @@ package com.project.joonggo.service;
 import com.project.joonggo.domain.ChatCommentVO;
 import com.project.joonggo.domain.ChatJoinVO;
 import com.project.joonggo.domain.ChatRoomVO;
+import com.project.joonggo.domain.UserVO;
 
 import java.util.List;
 
@@ -45,4 +46,6 @@ public interface ChatService {
     void leaveRoom(int roomId, int userNum);
 
     int getRoomUserCount(int roomId);
+
+    UserVO getUserInfo(int receiverNum);
 }

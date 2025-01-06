@@ -47,9 +47,10 @@ public class ChatBotController {
         preparedResponses.put("안녕", "안녕하세요! 무엇을 도와드릴까요?");
         preparedResponses.put("환불", "환불 정책은 다음과 같습니다:\n1. 제품 수령 후 7일 이내\n2. 미사용 제품에 한해\n3. 원래 구매처에서만 가능");
         preparedResponses.put("배송", "배송 관련 안내입니다:\n- 배송비: 3,000원 (3만원 이상 구매 시 무료)\n- 배송기간: 2-3일 소요");
-        preparedResponses.put("위치", "서울특별시 강남구 테헤란로 123 OO빌딩 4층");
+        preparedResponses.put("위치", "인천 남동구 인주대로 593 엔타스빌딩 12층 입니다.");
         preparedResponses.put("결제", "신용카드, 무통장입금, 휴대폰 결제를 지원합니다.");
-        // 필요한 키워드와 응답을 추가할 수 있습니다
+//        preparedResponses.put("게시판", "게시판으로 이동하는 링크를 드리겠습니다.\n<a href='/board/list' class='chat-button'>게시판으로 이동하기</a>");
+        // 필요한 키워드와 응답을 추가 가능
     }
 
     @MessageMapping("/chatbot")
@@ -63,7 +64,6 @@ public class ChatBotController {
 //                || message.getMessage().contains("주변")
 //                || message.getMessage().contains("근처")
         ) {
-
             if (message.getUserAddress() != null && !message.getUserAddress().isEmpty()) {
 
                 // 데이터 잘라넣기 : 인천 미추홀구 ..... => 인천 미추홀구
@@ -90,15 +90,6 @@ public class ChatBotController {
                 );
 
                 message.setMessage( searchAddress + " " +  message.getMessage() );
-
-//                return new ChatMessage(
-//                        message.getMessage(),
-//                        message.getTimestamp(),
-//                        response,
-//                        "bot",
-////                        message.getUserAddress()
-//                        searchAddress
-//                );
             } else {
                 return new ChatMessage(
                         message.getMessage(),
@@ -108,6 +99,79 @@ public class ChatBotController {
                         null
                 );
             }
+        }
+
+        if(message.getMessage().contains("내 주소")) {
+            if (message.getUserAddress() != null && !message.getUserAddress().isEmpty()) {
+
+                String userAddress = message.getUserAddress();
+
+                return new ChatMessage(
+                        message.getMessage(),
+                        message.getTimestamp(),
+                        "회원님의 주소는 '" + userAddress + "' 입니다.",
+                        "bot",
+                        userAddress
+                );
+            } else {
+                return new ChatMessage(
+                        message.getMessage(),
+                        message.getTimestamp(),
+                        "로그인 후 이용 가능한 서비스입니다.",
+                        "bot",
+                        null
+                );
+            }
+        }
+
+        if (message.getMessage().contains("관련") && message.getMessage().contains("게시판")) {
+            // 검색어 추출 (예: "고양이에 대한 상품 게시판을 보여줘" -> "고양이")
+            String keyword = extractKeyword(message.getMessage());
+
+            if (keyword != null) {
+                String response = String.format(
+                        "검색어 '%s'에 대한 게시판으로 이동하는 링크입니다.<br><br>" +
+                                "<a href='/board/list?keyword=%s' class='chat-button'>게시판으로 이동하기</a>",
+                        keyword, keyword
+                );
+
+                return new ChatMessage(
+                        message.getMessage(),
+                        message.getTimestamp(),
+                        response,
+                        "bot",
+                        null
+                );
+            }
+        }
+
+        if (message.getMessage().contains("많은")) {
+            if(message.getMessage().contains("조회수")) {
+                String response = String.format(
+                        "조회수 순서에 대한 게시판으로 이동하는 링크입니다.<br><br>"
+                        + "<a href='/board/list?sort=readCnt' class='chat-button'>이동</a>"
+                );
+                return new ChatMessage(
+                        message.getMessage(),
+                        message.getTimestamp(),
+                        response,
+                        "bot",
+                        null
+                );
+            } else if(message.getMessage().contains("찜")) {
+                String response = String.format(
+                        "찜 순서에 대한 게시판으로 이동하는 링크입니다.<br><br>"
+                        + "<a href='/board/list?sort=recommend' class='chat-button'>이동</a>"
+                );
+                return new ChatMessage(
+                        message.getMessage(),
+                        message.getTimestamp(),
+                        response,
+                        "bot",
+                        null
+                );
+            }
+
         }
 
         String preparedResponse = findPreparedResponse(message.getMessage());
@@ -218,6 +282,16 @@ public class ChatBotController {
                 "bot",
                 message.getUserAddress()
         );
+    }
+
+    private String extractKeyword(String message) {
+        // "에 대한", "관련", "상품" 등의 키워드 제거
+
+        String[] extractWord = message.split(" ");
+        String keyword = extractWord[0];
+
+        // 공백 정리 후 첫 번째 단어 반환
+        return keyword;
     }
 
     private String findPreparedResponse(String message) {

@@ -42,12 +42,18 @@ public class ChatController {
 
         // 각 채팅방의 안 읽은 메시지 수
         Map<Integer, Integer> unreadCounts = new HashMap<>();
+        // 각 채팅방의 수신자 정보
+        Map<Integer, Long> receivers = new HashMap<>();
+
         for (ChatRoomVO room : chatRoomList) {
             unreadCounts.put(room.getRoomId(), chatService.getUnreadCount(room.getRoomId(), userNum));
+            // 채팅방의 상대방(수신자) 정보 저장
+            receivers.put(room.getRoomId(), chatService.otherUser(room.getRoomId(), (int) userNum));
         }
 
         m.addAttribute("chatRoomList", chatRoomList);
         m.addAttribute("unreadCounts", unreadCounts);
+        m.addAttribute("receivers", receivers);
         m.addAttribute("totalUnreadCount", chatService.getTotalUnreadCount(userNum));
         m.addAttribute("userNum", userNum);
 
@@ -174,5 +180,23 @@ public class ChatController {
     public ResponseEntity<Integer> getRoomUserCount(@PathVariable int roomId) {
         int count = chatService.getRoomUserCount(roomId);
         return ResponseEntity.ok(count);
+    }
+
+    @GetMapping("/unread/rooms")
+    @ResponseBody
+    public ResponseEntity<Map<Integer, Integer>> getRoomUnreadCounts(@RequestParam("userNum") int userNum) {
+        log.info("Getting unread counts for all rooms for userNum: {}", userNum);
+        Map<Integer, Integer> unreadCounts = new HashMap<>();
+
+        // 사용자의 모든 채팅방 조회
+        List<ChatRoomVO> chatRoomList = chatService.getChatRoomList(userNum);
+
+        // 각 채팅방의 안 읽은 메시지 수 계산
+        for (ChatRoomVO room : chatRoomList) {
+            unreadCounts.put(room.getRoomId(), chatService.getUnreadCount(room.getRoomId(), userNum));
+        }
+
+        log.info("Room unread counts: {}", unreadCounts);
+        return ResponseEntity.ok(unreadCounts);
     }
 }

@@ -138,6 +138,32 @@
       margin-right: 20%;
   }
 
+  .chat-link {
+      color: #CE4E6A;
+      text-decoration: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+  }
+  .chat-link:hover {
+      text-decoration: underline;
+  }
+
+  .chat-button {
+      background-color: #CE4E6A;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 5px;
+      margin-bottom: 5px;
+      display: inline-block;
+  }
+
+  .chat-button:hover {
+      background-color: #A0173B;
+  }
+
   /* 시스템 메시지 스타일 */
   .message-system {
       text-align: center;
