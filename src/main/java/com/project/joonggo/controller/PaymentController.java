@@ -69,6 +69,8 @@ public class PaymentController {
             String notificationMessage = "<span>판매</span><br>귀하의 상품 '" + productName + "'이(가) 판매되었습니다!";
             notificationService.saveNotification(sellerId, notificationMessage, boardId, "SALE");  // 판매자에게 알림 전송
 
+            // 판매자 매너 점수 +1
+            boardService.upScore(sellerId);
 
             response.put("message", "결제 정보 저장 완료");
             response.put("status", "success");

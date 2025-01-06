@@ -62,4 +62,6 @@ public interface BoardService {
     List<Map<String, Object>> getAvgPriceForLast15Days(String keyword);
 
     List<BoardFileDTO> getProductsByCategory(String category, Long boardId);
+
+    void upScore(Long sellerId);
 }

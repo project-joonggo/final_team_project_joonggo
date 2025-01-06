@@ -1,6 +1,7 @@
 package com.project.joonggo.config;
 
 import com.project.joonggo.security.CustomUserService;
+import com.project.joonggo.security.CustomAuthenticationFailureHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -55,6 +56,7 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .loginPage("/user/login")
                         .defaultSuccessUrl("/")
+                        .failureHandler(customAuthenticationFailureHandler())
                         .permitAll()
                 )
                 .oauth2Login(oauth2 -> oauth2
@@ -77,6 +79,11 @@ public class SecurityConfig {
                 )
                 .build();
 
+    }
+
+    @Bean
+    public CustomAuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationFailureHandler();
     }
 
     @Bean
