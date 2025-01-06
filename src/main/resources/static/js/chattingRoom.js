@@ -19,9 +19,8 @@ function subscribeToRoom() {
     // 메시지 구독
     subs.push(chatWebSocketManager.stompClient.subscribe(`/topic/chat/${currentRoomId}`, function(message) {
         const data = JSON.parse(message.body);
-        console.log("Received message data:", data); // 데이터 확인
         const receivedMessage = data.message;
-        const roomUnreadCount = data.roomUnreadCount;
+        const roomUnreadCount = data.unreadCount;
         const totalUnreadCount = data.totalUnreadCount;
 
         // 메시지 표시
