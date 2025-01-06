@@ -21,6 +21,7 @@
                 <li><a href="/wish/list" class="menuItems">찜한 상품</a></li>
             </ul>
 
+
             <div class="title-divider"></div>
 
             <h3 class="sideSubTitle font-weight-bold">내 정보</h3>
@@ -60,7 +61,7 @@
         <!--                    <p>카테고리</p>-->
                             <p th:text="${paymentDTO.category}"></p>
                             <p th:text="${paymentDTO.payment.productName}"></p>
-                            <p th:text="${paymentDTO.payment.amount}">원</p>
+                            <p th:text="${paymentDTO.payment.formattedAmount}">원</p>
                             <!-- 환불 버튼 추가 -->
                             <button class="cancelBtn" th:data-impUid="${paymentDTO.payment.impUid}"
                                     th:data-merchantUid="${paymentDTO.payment.merchantUid}"
@@ -74,6 +75,10 @@
                             <span th:unless="${paymentDTO.payment.cancelFlag}" style="color: green; margin-left: 10px; font-weight: bold; font-size: 18px;">
                                     환불 가능
                             </span>
+                            <!-- 각 상품별로 로딩 인디케이터와 메시지 설정 -->
+                            <div class="loadingIndicator" style="display:none;">
+                                <div class="cancelMessage" style="margin-top: 5px;"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

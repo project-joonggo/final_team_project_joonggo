@@ -20,6 +20,18 @@ document.addEventListener("DOMContentLoaded", () => {
             return;  // 환불 처리 중단
         }
 
+        // 클릭한 버튼의 부모 요소에 있는 로딩 인디케이터 및 메시지 선택
+        const buyProductElement = button.closest('.buyProduct');  // 해당 상품 요소
+        const loadingIndicator = buyProductElement.querySelector('.loadingIndicator');  // 로딩 인디케이터
+        const cancelMessage = buyProductElement.querySelector('.cancelMessage'); // 환불 처리 메시지
+
+        // 로딩 인디케이터 표시
+        loadingIndicator.style.display = 'block';
+        cancelMessage.textContent = '환불 처리 중...';
+        
+        // 버튼 비활성화
+        button.disabled = true;
+
         // 환불 요청을 백엔드로 전송
         fetch('/api/payment/refund', {
             method: 'POST',
@@ -41,6 +53,12 @@ document.addEventListener("DOMContentLoaded", () => {
           })
           .catch(error => {
               console.error("환불 처리 실패", error);
+          })
+          .finally(() => {
+            // 환불 요청 완료 후 로딩 인디케이터 숨기기
+            loadingIndicator.style.display = 'none';
+            cancelMessage.textContent = '';
+            button.disabled = false;  // 버튼 활성화
           });
     };
 
