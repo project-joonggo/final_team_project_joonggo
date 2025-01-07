@@ -166,6 +166,7 @@
         SELECT * FROM sellbuy_board
         WHERE is_del = 'N'
         AND board_content LIKE '%&lt;img%'
+        AND trade_flag = 0
         ORDER BY reg_at DESC
         LIMIT 18;
     </select>
@@ -174,6 +175,7 @@
         SELECT * FROM sellbuy_board
         WHERE is_del = 'N'
         AND board_content LIKE '%&lt;img%'
+        AND trade_flag = 0
         ORDER BY like_count DESC
         LIMIT 18;
     </select>
@@ -183,6 +185,7 @@
         FROM sellbuy_board
         WHERE is_del = 'N'
         AND board_content LIKE '%&lt;img%'
+        AND trade_flag = 0
         ORDER BY read_count DESC
         LIMIT 18;
     </select>
