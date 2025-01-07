@@ -347,7 +347,7 @@ async function modifyReply(replyId) {
     const replyText = replyTextElement ? replyTextElement.innerText : '';
 
     // 수정 폼에 텍스트를 채운다.
-    const modifiedText = prompt("수정할 대댓글을 입력해주세요", replyText);
+    const modifiedText = prompt("수정할 추가질문을 입력해주세요", replyText);
 
     if (modifiedText !== null) {
         const replyData = {
@@ -360,10 +360,10 @@ async function modifyReply(replyId) {
         const result = await modifyReplyToServer(replyData);
 
         if (result === '1') {
-            alert("대댓글 수정 성공");
+            alert("추가질문 수정 성공");
             spreadAnswer(qnaVal); // 대댓글 목록을 다시 불러옴
         } else {
-            alert("대댓글 수정 실패");
+            alert("추가질문 수정 실패");
         }
     }
 }
@@ -390,16 +390,16 @@ async function modifyReplyToServer(replyData) {
 
 // 대댓글 삭제 함수
 async function deleteReply(replyId) {
-    const confirmDelete = confirm("대댓글을 삭제하시겠습니까?");
+    const confirmDelete = confirm("추가질문을 삭제하시겠습니까?");
 
     if (confirmDelete) {
         const result = await deleteReplyToServer(replyId);
 
         if (result === '1') {
-            alert("대댓글 삭제 성공");
+            alert("추가질문 삭제 성공");
             spreadAnswer(qnaVal); // 대댓글 목록을 다시 불러옴
         } else {
-            alert("대댓글 삭제 실패");
+            alert("추가질문 삭제 실패");
         }
     }
 }
