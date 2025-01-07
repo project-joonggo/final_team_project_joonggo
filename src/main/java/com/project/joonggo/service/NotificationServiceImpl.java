@@ -112,7 +112,7 @@ public class NotificationServiceImpl implements NotificationService {
         if ("SALE".equals(type)) {
             targetUrl = "/board/detail?boardId=" + boardId;  // 구매 관련 알림은 /board/detail로 이동
         } else if ("REPORT".equals(type)) {
-            targetUrl = "/user/reportList";  // 신고 관련 알림은 /user/reportList로 이동
+            targetUrl = "/user/admin";
         } else if ("ANSWER".equals(type)){
             targetUrl = "/qna/detail?qnaId=" + boardId;
         } else if ("QUESTION".equals(type)){
