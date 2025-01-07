@@ -75,14 +75,14 @@
             </div>
         </div>
 
-        <div class="mainContent" th:with="auth=${#authentication.getPrincipal()}">
+        <div class="mainContent" >
             <div class="d-flex justify-content-between">
                 <div class="mainLeft d-flex justify-content-start align-items-center gap-4">
                     <img class="logoImg" src="/img/popIcon.svg">
                     <div class="d-flex flex-column gap-2">
                         <span class="companyName">쓸템</span>
                         <div class="userName d-flex justify-content-start align-items-end">
-                            <strong>[[${auth.userVO.userName}]]</strong>
+                            <strong>[[${auth.userName}]]</strong>
                             <span>님 환영합니다.</span>
                         </div>
                     </div>
@@ -92,7 +92,7 @@
                         <div class="d-flex justify-content-between align-items-center">
                           <span>
                               <span class="mannerSpan">매너지수</span>
-                              <span id="score-value">[[${auth.userVO.score}]]</span>
+                              <span id="score-value">[[${auth.score}]]</span>
                           </span>
                             <span class="maxScore">
                               100

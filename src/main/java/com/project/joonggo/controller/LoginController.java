@@ -154,8 +154,12 @@ public class LoginController {
         int totalCount = boardService.getMyTotal(pgvo, Long.parseLong(principal.getName()));
         PagingHandler ph = new PagingHandler(pgvo,totalCount);
 
+        Long userNum = Long.valueOf(principal.getName());
+        UserVO user = loginService.getUserById(userNum);  // 유저 정보를 가져옴
+
         List<BoardFileDTO> list = boardService.getMyList(pgvo, Long.parseLong(principal.getName()));
 
+        model.addAttribute("auth", user);
         model.addAttribute("list", list);
         model.addAttribute("ph", ph);
 
