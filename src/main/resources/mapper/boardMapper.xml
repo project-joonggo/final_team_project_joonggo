@@ -233,4 +233,8 @@
         SELECT * FROM sellbuy_board WHERE category = #{category} AND board_id != #{boardId} LIMIT 10;
     </select>
 
+    <select id="getPopularProduct" resultType="com.project.joonggo.domain.BoardVO">
+        SELECT * FROM sellbuy_board WHERE trade_flag = 0 order by read_count desc LIMIT 1;
+    </select>
+
 </mapper>

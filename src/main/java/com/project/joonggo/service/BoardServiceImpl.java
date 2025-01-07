@@ -307,5 +307,10 @@ public class BoardServiceImpl implements BoardService{
         userMapper.upScore(sellerId);
     }
 
+    @Override
+    public BoardVO getPopularProduct() {
+        return boardMapper.getPopularProduct();
+    }
+
 
 }

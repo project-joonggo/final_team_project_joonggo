@@ -64,4 +64,6 @@ public interface BoardService {
     List<BoardFileDTO> getProductsByCategory(String category, Long boardId);
 
     void upScore(Long sellerId);
+
+    BoardVO getPopularProduct();
 }

@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
             contentDiv.append('찾고자 하는 키워드를 입력해주세요.');
             contentDiv.appendChild(document.createElement('br'));
 
-            contentDiv.append('ex) 배송, 위치, 결제, 오늘 날씨, 내 주소, 많은 조회수, 많은 찜');
+            contentDiv.append('ex) 회사위치, 오늘 날씨, 내 주소, 인기상품');
 
             welcomeCmt.appendChild(senderDiv);
             welcomeCmt.appendChild(contentDiv);

@@ -1,7 +1,9 @@
 package com.project.joonggo.controller;
 
+import com.project.joonggo.domain.BoardVO;
 import com.project.joonggo.domain.ChatMessage;
 import com.project.joonggo.domain.UserVO;
+import com.project.joonggo.service.BoardService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
@@ -32,6 +34,8 @@ public class ChatBotController {
 
     RestTemplate restTemplate = new RestTemplate();
 
+    private final BoardService boardService;
+
     @Value("${openai.api.key}")
     private String apiKey;
 
@@ -44,11 +48,9 @@ public class ChatBotController {
     @PostConstruct
     public void init() {
         // 초기화 시점에 미리 준비된 응답들을 설정
+        preparedResponses.put("회사위치", "인천 남동구 인주대로 593 엔타스빌딩 12층 입니다.");
         preparedResponses.put("안녕", "안녕하세요! 무엇을 도와드릴까요?");
         preparedResponses.put("환불", "환불 정책은 다음과 같습니다:\n1. 제품 수령 후 7일 이내\n2. 미사용 제품에 한해\n3. 원래 구매처에서만 가능");
-        preparedResponses.put("배송", "배송 관련 안내입니다:\n- 배송비: 3,000원 (3만원 이상 구매 시 무료)\n- 배송기간: 2-3일 소요");
-        preparedResponses.put("위치", "인천 남동구 인주대로 593 엔타스빌딩 12층 입니다.");
-        preparedResponses.put("결제", "신용카드, 무통장입금, 휴대폰 결제를 지원합니다.");
 //        preparedResponses.put("게시판", "게시판으로 이동하는 링크를 드리겠습니다.\n<a href='/board/list' class='chat-button'>게시판으로 이동하기</a>");
         // 필요한 키워드와 응답을 추가 가능
     }
@@ -101,7 +103,7 @@ public class ChatBotController {
             }
         }
 
-        if(message.getMessage().contains("내 주소")) {
+        if(message.getMessage().contains("내 주소") || message.getMessage().contains("내 위치")) {
             if (message.getUserAddress() != null && !message.getUserAddress().isEmpty()) {
 
                 String userAddress = message.getUserAddress();
@@ -145,23 +147,17 @@ public class ChatBotController {
             }
         }
 
-        if (message.getMessage().contains("많은")) {
-            if(message.getMessage().contains("조회수")) {
+            if(message.getMessage().contains("인기상품")) {
+                BoardVO popularProduct = boardService.getPopularProduct();
+                String category = popularProduct.getCategory();
+                String boardName = popularProduct.getBoardName();
+                long boardId = popularProduct.getBoardId();
+
                 String response = String.format(
-                        "조회수 순서에 대한 게시판으로 이동하는 링크입니다.<br><br>"
-                        + "<a href='/board/list?sort=readCnt' class='chat-button'>이동</a>"
-                );
-                return new ChatMessage(
-                        message.getMessage(),
-                        message.getTimestamp(),
-                        response,
-                        "bot",
-                        null
-                );
-            } else if(message.getMessage().contains("찜")) {
-                String response = String.format(
-                        "찜 순서에 대한 게시판으로 이동하는 링크입니다.<br><br>"
-                        + "<a href='/board/list?sort=recommend' class='chat-button'>이동</a>"
+                        "오늘의 인기상품은 %s 항목의 '%s' 게시판 입니다.<br>"
+                        + "해당 상품으로 이동하시겠습니까?<br>"
+                        + "<a href='/board/detail?boardId=%d' class='chat-button'>이동</a>",
+                        category, boardName, boardId
                 );
                 return new ChatMessage(
                         message.getMessage(),
@@ -171,8 +167,6 @@ public class ChatBotController {
                         null
                 );
             }
-
-        }
 
         String preparedResponse = findPreparedResponse(message.getMessage());
         if (preparedResponse != null) {
